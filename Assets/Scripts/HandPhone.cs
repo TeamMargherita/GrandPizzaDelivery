@@ -4,9 +4,14 @@ using UnityEngine;
 
 public class HandPhone : SendDeliveryRequest
 {
-    private void Start()
+    public GameObject DeliveryAppButton;
+    public void DeliveryOnClick()
     {
-        
+        DeliveryAppButton.SetActive(false);
     }
-    
+
+    public void HomeButtonOnClick()
+    {
+
+    }
 }

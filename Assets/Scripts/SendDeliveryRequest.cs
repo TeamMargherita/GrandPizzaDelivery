@@ -11,4 +11,5 @@ public class SendDeliveryRequest : MonoBehaviour
         int i = Random.Range(0, GameManager.Instance.PizzaMenu.Count);
         return GameManager.Instance.PizzaMenu[i];
     }
+
 }

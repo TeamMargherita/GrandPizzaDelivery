@@ -12,6 +12,6 @@ public class HandPhone : SendDeliveryRequest
 
     public void HomeButtonOnClick()
     {
-
+        DeliveryAppButton.SetActive(true);
     }
 }

@@ -1562,10 +1562,10 @@ MonoBehaviour:
   BarPrefab: {fileID: 4526945077974961588, guid: 1a301afafd122e24faf6e71875641bef, type: 3}
   BPM: 120
   OneBit: 0
-  CurBit: 0
+  NextBit: 0
   OneBar: 0
-  CurBar: 0
-  Offset: 0.10599999874830246
+  NextBar: 0
+  Offset: 1
 --- !u!114 &1576114439
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2253,7 +2253,7 @@ GameObject:
   - component: {fileID: 1908904675}
   - component: {fileID: 1908904674}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: RhtrhmManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

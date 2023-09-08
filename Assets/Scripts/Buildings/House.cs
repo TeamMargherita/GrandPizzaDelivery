@@ -9,7 +9,7 @@ public class House : MonoBehaviour, IAddress
     public void InitAddress(int number)
     {
         houseNumber = number;
-        Debug.Log($"HouseNumber + {houseNumber}");
+        //Debug.Log($"HouseNumber + {houseNumber}");
     }
     public int GetAddress()
     {

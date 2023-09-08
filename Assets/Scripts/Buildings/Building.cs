@@ -2,15 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using BuildingNS;
-
+using PolicePathNS;
 public class Building : MonoBehaviour, IAddress, IBuilding
 {
     [SerializeField] private BuildingShape buildingShape;
     [SerializeField] private Vector2 compositePos;
-    private int buildingNumber;
-    private bool isPoliceCar;
+    [SerializeField] private float[] policeCarValue;
+    [SerializeField] private int[] policeCarBehaviour;
+
+    private List<PolicePath> pathList = new List<PolicePath>();
+
     private Vector2 policeCarDis; // 경찰차가 스폰될 때 이 건물과 경찰차의 거리입니다.
     private Vector2 buildingPos;
+
+    private int buildingNumber;
+    private bool isPoliceCar;
+
     public void Awake()
     {
 
@@ -32,6 +39,11 @@ public class Building : MonoBehaviour, IAddress, IBuilding
         {
             policeCarDis = compositePos;
         }
+
+        for (int i = 0; i < policeCarBehaviour.Length; i++)
+        {
+            pathList.Add(new PolicePath(policeCarBehaviour[i], policeCarValue[i]));
+        }
     }
 
     public void InitAddress(int number)
@@ -46,7 +58,7 @@ public class Building : MonoBehaviour, IAddress, IBuilding
                 n++;
             }
         }
-        Debug.Log($"BuildingNumber + {buildingNumber}");
+        //Debug.Log($"BuildingNumber + {buildingNumber}");
     }
     public int GetAddress()
     {
@@ -57,6 +69,11 @@ public class Building : MonoBehaviour, IAddress, IBuilding
     {
         return isPoliceCar;
     }
+    public List<PolicePath> GetPolicePath()
+    {
+        return pathList;
+    }
+
 
     public void SetIsPoliceCar(bool b)
     {

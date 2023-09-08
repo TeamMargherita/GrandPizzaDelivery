@@ -50,8 +50,10 @@ public class Map : MonoBehaviour
                 GameObject policeCar = Instantiate(this.policeCar);
                 policeCar.transform.position = buildingList[ran].GetpoliceCarDis() + buildingList[ran].GetBuildingPos();
                 // 각 경찰차에게 건물에 맞는 루트를 짜서 넘겨야한다.
-
-
+                if (buildingList[ran].GetPolicePath().Count != 0);
+                {
+                    policeCar.GetComponent<IPoliceCar>().InitPoliceCarPath(buildingList[ran].GetPolicePath());
+                }
                 // 경찰차가 배정되었으므로 cnt를 하나 내리고, 경찰차가 배정되었음을 건물(Building)에 알립니다.
                 buildingList[ran].SetIsPoliceCar(true);
                 cnt--;

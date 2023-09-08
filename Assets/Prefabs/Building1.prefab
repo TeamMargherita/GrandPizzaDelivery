@@ -110,6 +110,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebc48555a6ba8334dbe1d12ba66838b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buildingShape: 0
+  compositePos: {x: 0, y: 0}
+  policeCarValue:
+  - 3
+  - -90
+  - 5
+  - -90
+  - 5
+  - -90
+  - 5
+  - -90
+  - 2
+  policeCarBehaviour: 010000000200000001000000020000000100000002000000010000000200000001000000
 --- !u!1001 &138015798167137379
 PrefabInstance:
   m_ObjectHideFlags: 0

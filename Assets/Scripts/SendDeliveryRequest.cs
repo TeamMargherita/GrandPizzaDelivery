@@ -6,10 +6,10 @@ public class SendDeliveryRequest : MonoBehaviour
 {
     public bool IsCompleteDelivery = false;
 
-    public GameManager.Pizza RandomCall()
+    /*public GameManager.Pizza RandomCall()
     {
         int i = Random.Range(0, GameManager.Instance.PizzaMenu.Count);
         return GameManager.Instance.PizzaMenu[i];
-    }
+    }*/
 
 }

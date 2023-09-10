@@ -5,20 +5,18 @@ using UnityEngine.UI;
 
 public class DeliveryScreen : MonoBehaviour
 {
-    public List<GameManager.Pizza> RequestList;
-    public List<Text> RequestTextList;
+    
+    public List<Text> RequestTextList = new List<Text>();
 
-    private void Update()
+    public void TextUpdate()
     {
-        if(RequestList.Count > 0)
+        if (GameManager.Instance.RequestList.Count > 0)
         {
-            for(int i = 0; i < 5; i++)
+            for (int i = 0; i < GameManager.Instance.RequestList.Count; i++)
             {
-                if(RequestTextList[i].text == null)
-                {
-                    RequestTextList[i].text = RequestList[0].Name;
-                }
+                RequestTextList[i].text = GameManager.Instance.RequestList[i].Name;
             }
         }
     }
+    
 }

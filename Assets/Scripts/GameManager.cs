@@ -7,6 +7,12 @@ public class GameManager : MonoBehaviour
     private static GameManager _instance;
 
     public List<Pizza> PizzaMenu = new List<Pizza>();
+    public List<Pizza> RequestList = new List<Pizza>();
+    public void RandomCall()//랜덤피자주문 메서드
+    {
+        int i = Random.Range(0, PizzaMenu.Count);
+        RequestList.Add(PizzaMenu[i]);
+    }
     public static GameManager Instance
     {
         get
@@ -23,7 +29,10 @@ public class GameManager : MonoBehaviour
     }
     private void Awake()
     {
-        if(_instance == null)
+        CheesePizza = new Pizza("cheesePizza", 60, 5000, 10000);
+        PizzaMenu.Add(CheesePizza);
+
+        if (_instance == null)
         {
             _instance = this;
         }else if(_instance != this)
@@ -68,13 +77,11 @@ public class GameManager : MonoBehaviour
     public Pizza CheesePizza;
     private void Start()
     {
-        CheesePizza = new Pizza("cheesePizza", 60, 5000, 10000);
-        PizzaMenu.Add(CheesePizza);
+        RandomCall();//테스트용 피자주문
     }
     private void Update()
     {
         time += Time.deltaTime * timeSpeed; //게임기준1분 = 현실시간2초
-        //게임60초 = 현실시간1초 * x
-        Debug.Log((int)time/3600 + " : " + (int)(time % 3600)/60);
+        //게임1초 * timeSpeed = 현실시간1초
     }
 }

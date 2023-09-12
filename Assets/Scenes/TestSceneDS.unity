@@ -696,7 +696,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 879974084}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 958.8432, y: 528.6196, z: -16.806581}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1560,12 +1560,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NotePrefab: {fileID: 4434188616015822274, guid: 8badcbe89307a1145bc5ec9c8af49d1b, type: 3}
   BarPrefab: {fileID: 4526945077974961588, guid: 1a301afafd122e24faf6e71875641bef, type: 3}
-  BPM: 120
-  OneBit: 0
-  NextBit: 0
-  OneBar: 0
-  NextBar: 0
-  Offset: 1
+  IsAuto: 1
+  sound: {fileID: 0}
 --- !u!114 &1576114439
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2144,7 +2140,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1808081406
 RectTransform:
   m_ObjectHideFlags: 0

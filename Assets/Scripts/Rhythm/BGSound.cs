@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BGSound : MonoBehaviour
@@ -8,7 +6,7 @@ public class BGSound : MonoBehaviour
 
     void Update()
     {
-        if (RhythmManager.Instance.CurrentTime() >= 10d && !isPlay)
+        if (RhythmManager.Instance.CurrentTime() >= 6d && !isPlay)
         {
             GetComponent<AudioSource>().Play();
             isPlay = true;

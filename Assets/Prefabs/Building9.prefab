@@ -98,6 +98,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingShape: 3
   compositePos: {x: -2, y: 19}
+  policeCarValue:
+  - 3
+  - -90
+  - 19
+  - -90
+  - 5
+  - -90
+  - 12
+  - 90
+  - -90
+  - 5
+  - -90
+  - 4
+  policeCarBehaviour: 010000000200000001000000020000000100000002000000010000000200000002000000010000000200000001000000
 --- !u!1 &4455786528102356113
 GameObject:
   m_ObjectHideFlags: 0

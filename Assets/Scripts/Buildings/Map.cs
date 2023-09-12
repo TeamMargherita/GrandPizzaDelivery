@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using BuildingNS;
 
+// 한석호 작성
+
+
 //맵에 존재해야할 오브젝트들을 배치하고, 건물마다 주소를 붙여줌으로써 맵을 구현합니다. 
 public class Map : MonoBehaviour
 {
@@ -31,7 +34,7 @@ public class Map : MonoBehaviour
     private void Start()
     {
 
-        MakeAPoliceCar(15);
+        MakeAPoliceCar(45);
     }
     // 경찰차를 랜덤한 건물마다 배정해주는 함수입니다.
     private void MakeAPoliceCar(int cnt)

@@ -125,6 +125,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingShape: 2
   compositePos: {x: 0, y: 0}
+  policeCarValue: []
+  policeCarBehaviour: 
 --- !u!1 &2472589510094893991
 GameObject:
   m_ObjectHideFlags: 0
@@ -280,6 +282,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingShape: 3
   compositePos: {x: -5, y: 7}
+  policeCarValue:
+  - 6
+  - -90
+  - 7
+  - -90
+  - 11
+  - -90
+  - 7
+  - -90
+  - 5
+  policeCarBehaviour: 010000000200000001000000020000000100000002000000010000000200000001000000
 --- !u!1001 &668048143947811269
 PrefabInstance:
   m_ObjectHideFlags: 0

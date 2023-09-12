@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using BuildingNS;
 using PolicePathNS;
+
+// 한석호 작성
+
 public class Building : MonoBehaviour, IAddress, IBuilding
 {
     [SerializeField] private BuildingShape buildingShape;

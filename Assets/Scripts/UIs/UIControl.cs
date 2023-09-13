@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// 한석호 작성
+
 public class UIControl : MonoBehaviour, IInspectingPanelControl
 {
     [SerializeField] private GameObject inspectingPanel;
@@ -18,8 +20,16 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl
 
     public void ControlInspectUI(bool isOn)
     {
-        inspectingPanel.SetActive(true);
-        isInspecting = isOn;
+        if (isOn)
+        {
+            inspectingPanel.SetActive(isOn);
+            isInspecting = isOn;
+        }
+        else if (!isOn && inspectingHeight >= 1080)
+        {
+            isInspecting = false;
+        }
+
     }
 
     void FixedUpdate()

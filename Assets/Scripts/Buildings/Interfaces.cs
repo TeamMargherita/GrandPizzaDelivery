@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using PolicePathNS;
+using PoliceNS.PolicePathNS;
 
 // 한석호 작성
 
@@ -25,7 +25,7 @@ interface IPoliceCar
     public void InitPoliceCarPath(List<PolicePath> policePathList);
 }
 // 경찰차 제어에 관한 인터페이스
-public interface IPoliceCarControl
+public interface IMovingPoliceCarControl
 {
     public void SetIsBehaviour(bool bo);
     public int GetPoliceCarCode();

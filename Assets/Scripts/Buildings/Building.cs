@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using BuildingNS;
-using PolicePathNS;
+using PoliceNS.PolicePathNS;
 
 // 한석호 작성
 

@@ -156,7 +156,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5876407536259758231}
   - component: {fileID: 6562666339497777193}
-  - component: {fileID: 7803567386495466304}
+  - component: {fileID: 9127554563178818835}
   m_Layer: 0
   m_Name: CollisionCheckBox
   m_TagString: Untagged
@@ -190,8 +190,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5778df9b2e262d4aa7f10e68895d36a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!60 &7803567386495466304
-PolygonCollider2D:
+--- !u!61 &9127554563178818835
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -213,8 +213,6 @@ PolygonCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 2, y: 0.8}
-      - {x: -0.883082, y: 0.016727239}
-      - {x: 2, y: -0.8}
+  serializedVersion: 2
+  m_Size: {x: 2.5, y: 0.9}
+  m_EdgeRadius: 0

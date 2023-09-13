@@ -1,15 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using PolicePathNS;
+using PoliceNS.PolicePathNS;
+using PoliceNS.PoliceStateNS;
 
 // 한석호 작성
 
-public class PoliceCar : MonoBehaviour, IPoliceCar, IPoliceCarControl
+public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl
 {
     [SerializeField] private GameObject checkColObj;
 
     private static List<int> policeCarCodeList = new List<int>();
+
+    private PoliceState policeState;
 
     private List<PolicePath> policePathList = new List<PolicePath>();
 
@@ -31,12 +34,17 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IPoliceCarControl
     void Awake()
     {
         trans = this.transform;
-        checkColObj.GetComponent<PoliceCarCollisionCheck>().SetIPoliceCarIsBehaviour(this);
+        if (checkColObj != null)
+        {
+            checkColObj.GetComponent<PoliceCarCollisionCheck>().SetIPoliceCarIsBehaviour(this);
+        }
         InitValue();
     }
 
     private void InitValue()
     {
+        policeState = (PoliceState)Random.Range(1, 3);
+
         isLeft = Random.Range(0, 2) == 0 ? true : false;
         //isLeft = false;
         trans.eulerAngles = new Vector3(0,0, isLeft ? 0 : 180);

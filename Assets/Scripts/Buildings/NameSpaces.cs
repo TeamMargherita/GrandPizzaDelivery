@@ -9,18 +9,28 @@ namespace BuildingNS
 {
     public enum BuildingShape {SQUARE, WIDTHLONG, LENGTHLONG, COMPOSITE };  
 }
-
-namespace PolicePathNS
+namespace PoliceNS
 {
-    public struct PolicePath
+    namespace PolicePathNS
     {
-        public int Behaviour;
-        public float Value;
-
-        public PolicePath(int behaviour, float value)
+        public struct PolicePath
         {
-            this.Behaviour = behaviour;
-            this.Value = value;
+            public int Behaviour;
+            public float Value;
+
+            public PolicePath(int behaviour, float value)
+            {
+                this.Behaviour = behaviour;
+                this.Value = value;
+            }
         }
+    }
+
+    namespace PoliceStateNS
+    {
+        public enum PoliceState
+        {
+            NONE, MOVING, STOP
+        };
     }
 }

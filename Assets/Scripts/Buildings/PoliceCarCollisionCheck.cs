@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class PoliceCarCollisionCheck : MonoBehaviour
 {
-    private IPoliceCarControl iPoliceCarControl;
-    private List<IPoliceCarControl> otherIPoliceCarIsBehaviourList = new List<IPoliceCarControl>();
+    private IMovingPoliceCarControl iPoliceCarControl;
+    private List<IMovingPoliceCarControl> otherIPoliceCarIsBehaviourList = new List<IMovingPoliceCarControl>();
     //경찰차가 다른 경찰차끼리 충돌할 우려가 있는지 체크한다.
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //충돌할 우려가 있다면 자동차의 행동을 제어한다.
-        if (collision.gameObject.GetComponent<IPoliceCarControl>() != null)
+        if (collision.gameObject.GetComponent<IMovingPoliceCarControl>() != null)
         {
-            otherIPoliceCarIsBehaviourList.Add(collision.gameObject.GetComponent<IPoliceCarControl>());
+            otherIPoliceCarIsBehaviourList.Add(collision.gameObject.GetComponent<IMovingPoliceCarControl>());
             CheckPriority();
         }
     }
@@ -35,14 +35,14 @@ public class PoliceCarCollisionCheck : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.GetComponent<IPoliceCarControl>() != null)
+        if (collision.gameObject.GetComponent<IMovingPoliceCarControl>() != null)
         {
-            otherIPoliceCarIsBehaviourList.Remove(collision.gameObject.GetComponent<IPoliceCarControl>());
+            otherIPoliceCarIsBehaviourList.Remove(collision.gameObject.GetComponent<IMovingPoliceCarControl>());
             Invoke("CheckPriority", 1f);
         }
     }
 
-    public void SetIPoliceCarIsBehaviour(IPoliceCarControl iPoliceCarIsBehaviour)
+    public void SetIPoliceCarIsBehaviour(IMovingPoliceCarControl iPoliceCarIsBehaviour)
     {
         this.iPoliceCarControl = iPoliceCarIsBehaviour;
     }

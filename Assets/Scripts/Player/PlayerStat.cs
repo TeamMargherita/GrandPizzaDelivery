@@ -5,7 +5,8 @@ using UnityEngine;
 public class PlayerStat : MonoBehaviour
 {
     private int hp = Mathf.Clamp(200, 1, 200);
-    public float Braking = 0.97f;
+    public float Braking = 0.99f;
+    [SerializeField]
     private float speed;
     public float MaxSpeed;
     public float acceleration = 10;

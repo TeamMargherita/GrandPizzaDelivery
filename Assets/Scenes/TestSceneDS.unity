@@ -1558,10 +1558,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1f2addb4c0e53944a412aec4e4b74c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NotePrefab: {fileID: 4434188616015822274, guid: 8badcbe89307a1145bc5ec9c8af49d1b, type: 3}
-  BarPrefab: {fileID: 4526945077974961588, guid: 1a301afafd122e24faf6e71875641bef, type: 3}
-  IsAuto: 1
-  sound: {fileID: 0}
+  Offset: 0.12500999867916107
+  IsAuto: 0
+  sound: {fileID: 879974085}
 --- !u!114 &1576114439
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2267,6 +2266,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e81b14744490cd74fb17974d3a334350, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sound: {fileID: 879974085}
+  NotePrefab: {fileID: 4434188616015822274, guid: 8badcbe89307a1145bc5ec9c8af49d1b, type: 3}
+  BarPrefab: {fileID: 4526945077974961588, guid: 1a301afafd122e24faf6e71875641bef, type: 3}
 --- !u!4 &1908904675
 Transform:
   m_ObjectHideFlags: 0

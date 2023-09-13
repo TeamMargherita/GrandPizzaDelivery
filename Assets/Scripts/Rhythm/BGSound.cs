@@ -6,7 +6,8 @@ public class BGSound : MonoBehaviour
 
     void Update()
     {
-        if (RhythmManager.Instance.CurrentTime() >= 6m && !isPlay)
+        //if (RhythmManager.Instance.CurrentTime() >= 6m && !isPlay)
+        if (!isPlay)
         {
             GetComponent<AudioSource>().Play();
             isPlay = true;

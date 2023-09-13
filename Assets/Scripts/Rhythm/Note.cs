@@ -16,7 +16,6 @@ public class Note : MonoBehaviour
     void Start()
     {
         Speed = 2m;
-        
     }
 
     void Update()
@@ -28,7 +27,10 @@ public class Note : MonoBehaviour
             pos.anchoredPosition = Vector2.Lerp(end, -(start - end) * (float)Speed, (float)(-Timing / 10 * Speed));
 
         if (Timing < -5m)
+        {
+            Debug.Log("Delete Note");
             gameObject.SetActive(false);
+        }
     }
 
     public void Init(decimal arriveTime)

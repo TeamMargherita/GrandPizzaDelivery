@@ -13,10 +13,12 @@ public class PoliceCarCollisionCheck : MonoBehaviour
         if (collision.gameObject.GetComponent<IMovingPoliceCarControl>() != null)
         {
             otherIPoliceCarIsBehaviourList.Add(collision.gameObject.GetComponent<IMovingPoliceCarControl>());
+            // 즉시 우선수위를 고려한다.
             CheckPriority();
         }
     }
 
+    // 근처에 있는 경찰차들과 충돌하지 않게끔하기 위해 우선순위에 따라 먼저 움직일 자동차를 정해주는 함수이다.
     private void CheckPriority()
     {
         if (iPoliceCarControl == null) { return; }
@@ -24,12 +26,10 @@ public class PoliceCarCollisionCheck : MonoBehaviour
         if (otherIPoliceCarIsBehaviourList.FindIndex(a => a.GetPoliceCarCode() > iPoliceCarControl.GetPoliceCarCode()) != -1)
         {
             iPoliceCarControl.SetIsBehaviour(false);
-            Debug.Log("작동1");
         }
         else
         {
             iPoliceCarControl.SetIsBehaviour(true);
-            Debug.Log("작동2");
         }
     }
 

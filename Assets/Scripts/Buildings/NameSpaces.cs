@@ -28,9 +28,10 @@ namespace PoliceNS
 
     namespace PoliceStateNS
     {
+        // 차례로 없음, 이동중, 불심검문을 위한 멈춤, 불심검문중 이다.
         public enum PoliceState
         {
-            NONE, MOVING, STOP
+            NONE, MOVING, STOP, INSPECTING
         };
     }
 }

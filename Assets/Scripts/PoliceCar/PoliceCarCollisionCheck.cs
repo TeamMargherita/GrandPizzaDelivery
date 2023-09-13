@@ -38,6 +38,7 @@ public class PoliceCarCollisionCheck : MonoBehaviour
         if (collision.gameObject.GetComponent<IMovingPoliceCarControl>() != null)
         {
             otherIPoliceCarIsBehaviourList.Remove(collision.gameObject.GetComponent<IMovingPoliceCarControl>());
+            // 1초 후에 우선순위를 고려한다.
             Invoke("CheckPriority", 1f);
         }
     }

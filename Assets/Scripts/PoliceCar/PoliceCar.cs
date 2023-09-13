@@ -6,7 +6,7 @@ using PoliceNS.PoliceStateNS;
 
 // 한석호 작성
 
-public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl
+public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IInspectingPoliceCarControl
 {
     [SerializeField] private GameObject checkColObj;
     [SerializeField] private GameObject stopCheckColObj;
@@ -40,12 +40,16 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl
         {
             checkColObj.GetComponent<PoliceCarCollisionCheck>().SetIPoliceCarIsBehaviour(this);
         }
+        if (stopCheckColObj != null)
+        {
+            stopCheckColObj.GetComponent<StopPoliceCarCollisionCheck>().SetIInspectingPoliceCarControl(this);
+        }
         InitValue();
     }
 
     private void InitValue()
     {
-        InitState();
+        InitState(true);
 
         isRight = Random.Range(0, 2) == 0 ? true : false;
         //isLeft = false;
@@ -67,11 +71,13 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl
         isBehaviour = true;
     }
     // 상태를 초기화해준다.
-    private void InitState()
+    private void InitState(bool bo)
     {
-        // 경찰차의 상태를 랜덤으로 정해준다.
-        policeState = (PoliceState)Random.Range(1, 3);
-
+        if (bo)
+        {
+            // 경찰차의 상태를 랜덤으로 정해준다.
+            policeState = (PoliceState)Random.Range(1, 3);
+        }
         // 경찰차에 상태에 따라 켜줘야할 콜라이더가 다르다.
         if (policeState == PoliceState.MOVING)
         {
@@ -82,6 +88,11 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl
         {
             stopCheckColObj.SetActive(true);    // 켜준다.
             checkColObj.SetActive(false);   // 꺼준다.
+        }
+        else if (policeState == PoliceState.INSPECTING)
+        {
+            stopCheckColObj.SetActive(false);
+            checkColObj.SetActive(false);
         }
     }
 
@@ -107,7 +118,7 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl
             case 1:
                 Straight(value);
                 // 직진 중 일정확률로 불심검문(STOP) 상태로 바뀝니다.
-                if (Random.Range(0,1000) < 2) { InitState(); }
+                if (Random.Range(0,1000) < 2) { InitState(true); }
                 break;
             case 2:
                 Turn(value);
@@ -227,7 +238,7 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl
         }
         else if (policeState == PoliceState.STOP)
         {
-            if (Random.Range(0,10000) < 10) { InitState(); }
+            if (Random.Range(0,10000) < 10) { InitState(true); }
         }
     }
     public void SetIsBehaviour(bool bo)
@@ -239,4 +250,16 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl
     {
         return policeCarCode;
     }
+
+    public void SetPoliceState(PoliceState policeState)
+    {
+        this.policeState = policeState;
+        InitState(false);
+        //Debug.Log(this.policeState);
+    }
+
+    public void SetIInspectingPanelControl(IInspectingPanelControl iInspectingPanelControl)
+    {
+        stopCheckColObj.GetComponent<StopPoliceCarCollisionCheck>().SetIInspectingPanelControl(iInspectingPanelControl);
+    }    
 }

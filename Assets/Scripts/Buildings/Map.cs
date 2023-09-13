@@ -9,6 +9,7 @@ using BuildingNS;
 //맵에 존재해야할 오브젝트들을 배치하고, 건물마다 주소를 붙여줌으로써 맵을 구현합니다. 
 public class Map : MonoBehaviour
 {
+    [SerializeField] private GameObject uiControlObj;
     [SerializeField] private GameObject policeCar;
 
     // addressList를 통해 빌딩의 주소를 초기화하거나 받아올 수 있습니다.
@@ -52,10 +53,14 @@ public class Map : MonoBehaviour
                 // 건물의 모양에 따라 경찰차의 위치도 달라진다.
                 GameObject policeCar = Instantiate(this.policeCar);
                 policeCar.transform.position = buildingList[ran].GetpoliceCarDis() + buildingList[ran].GetBuildingPos();
-                // 각 경찰차에게 건물에 맞는 루트를 짜서 넘겨야한다.
-                if (buildingList[ran].GetPolicePath().Count != 0);
+                if (policeCar.GetComponent<IPoliceCar>() != null)
                 {
-                    policeCar.GetComponent<IPoliceCar>().InitPoliceCarPath(buildingList[ran].GetPolicePath());
+                    // 각 경찰차에게 건물에 맞는 루트를 짜서 넘겨야한다.
+                    if (buildingList[ran].GetPolicePath().Count != 0)
+                    {
+                        policeCar.GetComponent<IPoliceCar>().InitPoliceCarPath(buildingList[ran].GetPolicePath());
+                    }
+                    policeCar.GetComponent<IPoliceCar>().SetIInspectingPanelControl(uiControlObj.GetComponent<IInspectingPanelControl>());
                 }
                 // 경찰차가 배정되었으므로 cnt를 하나 내리고, 경찰차가 배정되었음을 건물(Building)에 알립니다.
                 buildingList[ran].SetIsPoliceCar(true);

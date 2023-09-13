@@ -11,6 +11,10 @@ public class CameraMoveTest : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.None))
+        {
+            Debug.Log("¿€µø4");
+        }
         this.gameObject.transform.Translate(new Vector3(Input.GetAxis("Horizontal") * 0.3f, Input.GetAxis("Vertical") * 0.3f));
     }
 }

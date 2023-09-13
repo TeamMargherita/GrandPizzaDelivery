@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using PoliceNS.PolicePathNS;
+using PoliceNS.PoliceStateNS;
 
 // 한석호 작성
 
@@ -23,10 +24,22 @@ interface IBuilding
 interface IPoliceCar
 {
     public void InitPoliceCarPath(List<PolicePath> policePathList);
+    public void SetIInspectingPanelControl(IInspectingPanelControl iInspectingPanelControl);
+
 }
 // 경찰차 제어에 관한 인터페이스
 public interface IMovingPoliceCarControl
 {
     public void SetIsBehaviour(bool bo);
     public int GetPoliceCarCode();
+}
+
+public interface IInspectingPoliceCarControl
+{
+    public void SetPoliceState(PoliceState policeState);
+}
+
+public interface IInspectingPanelControl
+{
+    public void ControlInspectUI(bool isOn);
 }

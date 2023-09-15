@@ -26261,6 +26261,7 @@ MonoBehaviour:
   - {fileID: -859201023514753851, guid: b7094093a4d57724b8e05752b2a3242b, type: 3}
   - {fileID: -6627360711329164231, guid: b7094093a4d57724b8e05752b2a3242b, type: 3}
   uiControl: {fileID: 1930384846}
+  scrollContents: {fileID: 633216447}
   diceSuccessText: {fileID: 1630007663}
   policeText: {fileID: 2082767975}
 --- !u!1001 &921517030

@@ -12,6 +12,7 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText
     [SerializeField] private Sprite[] diceSprArr;
 
     [SerializeField] private GameObject uiControl;
+    [SerializeField] private RectTransform scrollContents;
     [SerializeField] private Text diceSuccessText;
     [SerializeField] private Text policeText;
 
@@ -96,6 +97,7 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText
                 break;
 		}
 
+        scrollContents.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 200);
         SetPlayerText(0, 3, 1000);  // 무슨일인가요?
         SetPlayerText(1, 4, 1001);  // 무시한다.
     }
@@ -148,7 +150,8 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText
                 if (r == 0) { SetPoliceText(5); }
                 else if (r == 1) { SetPoliceText(6); }
                 else if (r == 2) { SetPoliceText(7); }
-
+                
+                scrollContents.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 400);
                 SetPlayerText(0, 8, 1002);  // 한 번 살펴보세요 ~
                 SetPlayerText(1, 9, 1003);  // 설마 이상한 거라도 ~
                 SetPlayerText(2, 10, 1004);  // 흠.. 그만 가봐도 ~
@@ -157,12 +160,14 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText
             case 1001:  // 무시한다.
                 SetPoliceText(20);
 
+                scrollContents.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 100);
                 SetPlayerText(0, 19, 1005);
                 break;
             case 1002:  // 한 번 살펴보세요 ~, (검문을 받는다.)
                 // 일단 파인애플 피자가 없다고 가정
                 SetPoliceText(12);
 
+                scrollContents.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 100);
                 SetPlayerText(0, 21, 1006);
                 break;
             case 1003:  // 설마 이상한 거라도 ~        
@@ -177,6 +182,7 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText
                 {
                     SetPoliceText(16);
 
+                    scrollContents.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 200);
                     SetPlayerText(0, 17, 1004);
                     SetPlayerText(1, 18, 1005);
                 }
@@ -184,6 +190,7 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText
 				{
                     SetPoliceText(15);
 
+                    scrollContents.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 100);
                     SetPlayerText(0, 21, 1006);
 				}
                 break;
@@ -250,6 +257,7 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText
                     diceSuccessText.text = "설득 성공 !";
                     SetPoliceText(13);
 
+                    scrollContents.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 100);
                     SetPlayerText(0, 21, 1006);
                 }
                 else
@@ -257,6 +265,7 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText
                     diceSuccessText.text = "설득 실패..";
                     SetPoliceText(14);
 
+                    scrollContents.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 100);
                     SetPlayerText(0, 22, 1002);
                 }
 

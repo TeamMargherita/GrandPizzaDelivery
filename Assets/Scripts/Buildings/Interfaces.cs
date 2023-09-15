@@ -25,6 +25,7 @@ interface IPoliceCar
 {
     public void InitPoliceCarPath(List<PolicePath> policePathList);
     public void SetIInspectingPanelControl(IInspectingPanelControl iInspectingPanelControl);
+    public void SetPlayerMove(PlayerMove playerMove);
 
 }
 // 경찰차 제어에 관한 인터페이스
@@ -41,10 +42,16 @@ public interface IInspectingPoliceCarControl
 
 public interface IInspectingPanelControl
 {
-    public void ControlInspectUI(bool isOn);
+    public void ControlInspectUI(bool isOn, IEndInspecting iEndInspecting);
 }
 
 public interface IInspectingUIText
 {
     public void ChoiceText(int num);
+}
+
+public interface IEndInspecting
+{
+    public void EndInspecting();
+
 }

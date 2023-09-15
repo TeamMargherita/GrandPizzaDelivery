@@ -6,19 +6,20 @@ using PoliceNS.PoliceStateNS;
 
 // 한석호 작성
 
-public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IInspectingPoliceCarControl
+public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IInspectingPoliceCarControl, IEndInspecting
 {
     [SerializeField] private GameObject checkColObj;
     [SerializeField] private GameObject stopCheckColObj;
+    public static bool IsInspecting { get; private set; }
 
     private static List<int> policeCarCodeList = new List<int>();
-    public static bool IsInspecting { get; private set; }
 
     private PoliceState policeState;
 
     // 경로를 차례대로 들고 있다.
     private List<PolicePath> policePathList = new List<PolicePath>();
 
+    private PlayerMove playerMove;
     private Transform trans;
 
     private Vector3 temRotate;
@@ -45,10 +46,16 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
         {
             stopCheckColObj.GetComponent<StopPoliceCarCollisionCheck>().SetIInspectingPoliceCarControl(this);
             stopCheckColObj.GetComponent<StopPoliceCarCollisionCheck>().SetIPoliceCarIsBehaviour(this);
+            stopCheckColObj.GetComponent<StopPoliceCarCollisionCheck>().SetIEndInspecting(this);
 
         }
         InitValue();
     }
+
+    public void SetPlayerMove(PlayerMove playerMove)
+	{
+        this.playerMove = playerMove;
+	}
 
     private void InitValue()
     {
@@ -76,8 +83,6 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
     // 상태를 초기화해준다.
     private void InitState(bool bo)
     {
-        IsInspecting = false;
-
         if (bo)
         {
             // 경찰차의 상태를 랜덤으로 정해준다.
@@ -97,6 +102,10 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
         else if (policeState == PoliceState.INSPECTING)
         {
             IsInspecting = true;
+            if (playerMove != null)
+            {
+                playerMove.Stop = true;
+            }
             stopCheckColObj.SetActive(false);
             checkColObj.SetActive(false);
         }
@@ -262,7 +271,11 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
         this.policeState = policeState;
         InitState(false);
     }
-
+    public void EndInspecting()
+	{
+        playerMove.Stop = false;
+        IsInspecting = false;
+	}
     public void SetIInspectingPanelControl(IInspectingPanelControl iInspectingPanelControl)
     {
         stopCheckColObj.GetComponent<StopPoliceCarCollisionCheck>().SetIInspectingPanelControl(iInspectingPanelControl);

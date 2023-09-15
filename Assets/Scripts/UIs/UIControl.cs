@@ -9,6 +9,8 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl
     [SerializeField] private GameObject inspectingPanel;
     [SerializeField] private GameObject inspectingMaskPanel;
 
+    private IEndInspecting iEndInspecting;
+
     private RectTransform inspectTrans;
 
     private int inspectingHeight = 0;
@@ -18,8 +20,13 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl
         inspectTrans = inspectingMaskPanel.GetComponent<RectTransform>();
     }
 
-    public void ControlInspectUI(bool isOn)
+    public void ControlInspectUI(bool isOn, IEndInspecting iEndInspecting)
     {
+        if (iEndInspecting != null)
+		{
+            this.iEndInspecting = iEndInspecting; 
+		}
+
         if (isOn)
         {
             inspectingPanel.SetActive(isOn);
@@ -28,6 +35,8 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl
         else if (!isOn && inspectingHeight >= 1080)
         {
             isInspecting = false;
+            this.iEndInspecting.EndInspecting();
+            this.iEndInspecting = null;
         }
 
     }

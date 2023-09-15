@@ -11,7 +11,7 @@ public class Map : MonoBehaviour
 {
     [SerializeField] private GameObject uiControlObj;
     [SerializeField] private GameObject policeCar;
-
+    [SerializeField] private PlayerMove playerMove;
     // addressList를 통해 빌딩의 주소를 초기화하거나 받아올 수 있습니다.
     private List<IAddress> addressList = new List<IAddress>();
     private List<IBuilding> buildingList = new List<IBuilding>();
@@ -53,8 +53,10 @@ public class Map : MonoBehaviour
                 // 건물의 모양에 따라 경찰차의 위치도 달라진다.
                 GameObject policeCar = Instantiate(this.policeCar);
                 policeCar.transform.position = buildingList[ran].GetpoliceCarDis() + buildingList[ran].GetBuildingPos();
+
                 if (policeCar.GetComponent<IPoliceCar>() != null)
                 {
+                    policeCar.GetComponent<IPoliceCar>().SetPlayerMove(playerMove);
                     // 각 경찰차에게 건물에 맞는 루트를 짜서 넘겨야한다.
                     if (buildingList[ran].GetPolicePath().Count != 0)
                     {

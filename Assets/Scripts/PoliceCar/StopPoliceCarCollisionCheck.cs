@@ -11,6 +11,7 @@ public class StopPoliceCarCollisionCheck : MonoBehaviour
     private IMovingPoliceCarControl iPoliceCarControl;
     private IInspectingPanelControl iInspectingPanelControl;
     private IInspectingPoliceCarControl iInspectingPoliceCarControl;
+    private IEndInspecting iEndInspecting;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -36,7 +37,7 @@ public class StopPoliceCarCollisionCheck : MonoBehaviour
                 // 플레이어를 멈춘다.
 
                 // 카메라를 해당 경찰차쪽으로 확대 및 이동시키고, 불심검문중 창을 띄운다.
-                iInspectingPanelControl.ControlInspectUI(true);
+                iInspectingPanelControl.ControlInspectUI(true, iEndInspecting);
             }
         }
     }
@@ -80,4 +81,9 @@ public class StopPoliceCarCollisionCheck : MonoBehaviour
     {
         this.iPoliceCarControl = iPoliceCarIsBehaviour;
     }
+    
+    public void SetIEndInspecting(IEndInspecting iEndInspecting)
+	{
+        this.iEndInspecting = iEndInspecting;
+	}
 }

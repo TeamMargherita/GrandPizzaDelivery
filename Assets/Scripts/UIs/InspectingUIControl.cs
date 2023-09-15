@@ -189,13 +189,13 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText
                 break;
             case 1005:  // 도망간다.
                 InitPoliceText();
-                iInspectingPanelControl.ControlInspectUI(false);
+                iInspectingPanelControl.ControlInspectUI(false, null);
                 // 경찰 추적
 
                 break;
             case 1006:  // (간다.)
                 InitPoliceText();
-                iInspectingPanelControl.ControlInspectUI(false); 
+                iInspectingPanelControl.ControlInspectUI(false, null); 
                 break;
 		}
 	}

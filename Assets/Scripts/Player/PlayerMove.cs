@@ -47,7 +47,9 @@ public class PlayerMove : PlayerStat
             {
                 this.transform.Rotate(-angle * angleRatio * Time.deltaTime);
             }
-            this.transform.Translate(Vector3.up * Speed * Time.deltaTime);
+            //this.transform.Translate(Vector3.up * Speed * Time.deltaTime);
+            this.GetComponent<Rigidbody2D>().velocity = transform.rotation * new Vector2(0, Speed);
+            
         }
         else
         {

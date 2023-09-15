@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class InspectingUIControl : MonoBehaviour, IInspectingUIText
 {
+    [Range(0, 100)] public int PoliceHp;
+
     [SerializeField] private GameObject[] diceObjArr;
     [SerializeField] private GameObject[] playerTextObjArr;
     [SerializeField] private Sprite[] diceSprArr;
@@ -59,6 +61,8 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText
 
     private void Awake()
     {
+        PoliceHp = 100;
+
         playerTextArr = new Text[playerTextObjArr.Length];
         playerTextsArr = new PlayerTexts[playerTextObjArr.Length];
 

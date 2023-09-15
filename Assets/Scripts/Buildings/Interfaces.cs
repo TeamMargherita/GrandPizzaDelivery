@@ -43,3 +43,8 @@ public interface IInspectingPanelControl
 {
     public void ControlInspectUI(bool isOn);
 }
+
+public interface IInspectingUIText
+{
+    public void ChoiceText(int num);
+}

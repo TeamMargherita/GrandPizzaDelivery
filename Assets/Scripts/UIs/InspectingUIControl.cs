@@ -10,9 +10,13 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText
     [SerializeField] private GameObject[] diceObjArr;
     [SerializeField] private GameObject[] playerTextObjArr;
     [SerializeField] private Sprite[] diceSprArr;
+    [SerializeField] private Sprite[] policeSprArr; // 0 : 기분좋음 1 : 기분 안좋음 2 : 화남 3 : 극대노
+    [SerializeField] private Sprite[] playerSprArr; // 0 : 보통 1 : 설득중 2 : 개무시 3 : 쩔쩔맴
 
     [SerializeField] private GameObject uiControl;
     [SerializeField] private RectTransform scrollContents;
+    [SerializeField] private Image policeFace;
+    [SerializeField] private Image playerFace;
     [SerializeField] private Text diceSuccessText;
     [SerializeField] private Text policeText;
 
@@ -83,6 +87,7 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText
         InitPoliceText();
         InitPlayerText();
         InitDice();
+        InitFace();
 
         switch (Random.Range(0,3))
 		{
@@ -100,7 +105,18 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText
         scrollContents.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 200);
         SetPlayerText(0, 3, 1000);  // 무슨일인가요?
         SetPlayerText(1, 4, 1001);  // 무시한다.
+
+        policeFace.sprite = policeSprArr[1];
+        playerFace.sprite = playerSprArr[0];
+
     }
+    // 초상화 초기화
+    private void InitFace()
+    {
+        policeFace.sprite = policeSprArr[0];
+        playerFace.sprite = playerSprArr[0];
+    }
+
     // 주사위 초기화
     private void InitDice()
     {
@@ -156,19 +172,28 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText
                 SetPlayerText(1, 9, 1003);  // 설마 이상한 거라도 ~
                 SetPlayerText(2, 10, 1004);  // 흠.. 그만 가봐도 ~
                 SetPlayerText(3, 4, 1001);  // 무시한다.
+
+                policeFace.sprite = policeSprArr[2];
+                playerFace.sprite = playerSprArr[3];
                 break;
             case 1001:  // 무시한다.
-                SetPoliceText(20);
+                SetPoliceText(20);  // 시간을 낭비했군 ~
 
                 scrollContents.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 100);
                 SetPlayerText(0, 19, 1005);
+
+                policeFace.sprite = policeSprArr[3];
+                playerFace.sprite = playerSprArr[2];
                 break;
             case 1002:  // 한 번 살펴보세요 ~, (검문을 받는다.)
                 // 일단 파인애플 피자가 없다고 가정
-                SetPoliceText(12);
+                SetPoliceText(12);  // 가봐도 좋다 ~
 
                 scrollContents.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 100);
                 SetPlayerText(0, 21, 1006);
+
+                policeFace.sprite = policeSprArr[0];
+                playerFace.sprite = playerSprArr[0];
                 break;
             case 1003:  // 설마 이상한 거라도 ~        
                 // 설득 여부에 따라 경찰의 말이 달라짐
@@ -180,29 +205,41 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText
                 int r1 = Random.Range(0, 100);
                 if (r1 < 5) 
                 {
-                    SetPoliceText(16);
+                    SetPoliceText(16);  // 이 일은 참 ~
 
                     scrollContents.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 200);
                     SetPlayerText(0, 17, 1004);
                     SetPlayerText(1, 18, 1005);
+
+                    policeFace.sprite = policeSprArr[1];
+                    playerFace.sprite = playerSprArr[3];
+
                 }
                 else
 				{
-                    SetPoliceText(15);
+                    SetPoliceText(15);  // 이번엔 눈감아 ~
 
                     scrollContents.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 100);
                     SetPlayerText(0, 21, 1006);
-				}
+
+                    policeFace.sprite = policeSprArr[0];
+                    playerFace.sprite = playerSprArr[3];
+                }
                 break;
             case 1005:  // 도망간다.
                 InitPoliceText();
                 iInspectingPanelControl.ControlInspectUI(false, null);
-                // 경찰 추적
 
+                policeFace.sprite = policeSprArr[3];
+                playerFace.sprite = playerSprArr[2];
+                // 경찰 추적
                 break;
             case 1006:  // (간다.)
                 InitPoliceText();
-                iInspectingPanelControl.ControlInspectUI(false, null); 
+                iInspectingPanelControl.ControlInspectUI(false, null);
+
+                policeFace.sprite = policeSprArr[0];
+                playerFace.sprite = playerSprArr[0];
                 break;
 		}
 	}
@@ -255,18 +292,24 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText
                 if (rand >= 7)
                 {
                     diceSuccessText.text = "설득 성공 !";
-                    SetPoliceText(13);
+                    SetPoliceText(13);  // 확실히 그 말이 ~
 
                     scrollContents.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 100);
                     SetPlayerText(0, 21, 1006);
+
+                    policeFace.sprite = policeSprArr[0];
+                    playerFace.sprite = playerSprArr[1];
                 }
                 else
                 {
                     diceSuccessText.text = "설득 실패..";
-                    SetPoliceText(14);
+                    SetPoliceText(14);  // 혀가 너무 길어 ~
 
                     scrollContents.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 100);
                     SetPlayerText(0, 22, 1002);
+
+                    policeFace.sprite = policeSprArr[2];
+                    playerFace.sprite = playerSprArr[3];
                 }
 
                 isDiceRoll = false;

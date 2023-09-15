@@ -6,20 +6,38 @@ using PoliceNS.PoliceStateNS;
 
 public class StopPoliceCarCollisionCheck : MonoBehaviour
 {
+    private List<IMovingPoliceCarControl> otherIPoliceCarIsBehaviourList = new List<IMovingPoliceCarControl>();
+
+    private IMovingPoliceCarControl iPoliceCarControl;
     private IInspectingPanelControl iInspectingPanelControl;
     private IInspectingPoliceCarControl iInspectingPoliceCarControl;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        // 경찰차들의 불심검문 범위가 중복되었을 때 한 곳에서만 불심검문을 발동시키도록 한다. 
+        if (collision.gameObject.GetComponent<IMovingPoliceCarControl>() != null)
+        {
+            otherIPoliceCarIsBehaviourList.Add(collision.gameObject.GetComponent<IMovingPoliceCarControl>());
+            // 우선수위를 고려하여 가장 우선순위가 높은 경찰차를 제외한 나머지는 불심검문을 막는다.
+            if (!CheckPriority())
+			{
+                return;
+			}
+        }
+
         // 태그가 플레이어라면 경찰차는 불심검문중 상태에 들어간다.
         if (collision.tag == "Player")
         {
-            // 상태를 불심검문중으로 바꾼다.
-            iInspectingPoliceCarControl.SetPoliceState(PoliceState.INSPECTING);
-            // 플레이어를 멈춘다.
+            // 불심검문 중일 때 다른 경찰차에게 중복해서 불심검문을 받지 못하도록 한다.
+            if (!PoliceCar.IsInspecting)
+            {
+                // 상태를 불심검문중으로 바꾼다.
+                iInspectingPoliceCarControl.SetPoliceState(PoliceState.INSPECTING);
+                // 플레이어를 멈춘다.
 
-            // 카메라를 해당 경찰차쪽으로 확대 및 이동시키고, 불심검문중 창을 띄운다.
-            iInspectingPanelControl.ControlInspectUI(true);
+                // 카메라를 해당 경찰차쪽으로 확대 및 이동시키고, 불심검문중 창을 띄운다.
+                iInspectingPanelControl.ControlInspectUI(true);
+            }
         }
     }
 
@@ -31,5 +49,35 @@ public class StopPoliceCarCollisionCheck : MonoBehaviour
     public void SetIInspectingPanelControl(IInspectingPanelControl iInspectingPanelControl)
     {
         this.iInspectingPanelControl = iInspectingPanelControl;
+    }
+
+    // 근처에 있는 경찰차들의 불심검문 범위가 중복되었을 때 어느 차에서 불심검문을 해야할지 정해주는 함수이다.
+    private bool CheckPriority()
+    {
+        if (iPoliceCarControl == null) { return false; }
+
+        if (otherIPoliceCarIsBehaviourList.FindIndex(a => a.GetPoliceCarCode() > iPoliceCarControl.GetPoliceCarCode()) != -1)
+        {
+            // 이 경찰차는 불심검문을 할 수 없다.
+            return false;
+        }
+        else
+        {
+            // 이 경찰차는 불심검문을 할 수 있다.
+            return true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.GetComponent<IMovingPoliceCarControl>() != null)
+        {
+            otherIPoliceCarIsBehaviourList.Remove(collision.gameObject.GetComponent<IMovingPoliceCarControl>());
+        }
+    }
+
+    public void SetIPoliceCarIsBehaviour(IMovingPoliceCarControl iPoliceCarIsBehaviour)
+    {
+        this.iPoliceCarControl = iPoliceCarIsBehaviour;
     }
 }

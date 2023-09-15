@@ -231,7 +231,7 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText
 
                     for (int j = 0; j < diceRectArr.Length; j++)
 					{
-                        diceRectArr[j].anchoredPosition = originVec[j] + Vector3.Normalize(new Vector3(Random.Range(0, 100), 0, Random.Range(0, 100))) * 3f;
+                        diceRectArr[j].anchoredPosition = originVec[j] + Vector3.Normalize(new Vector3(Random.Range(0, 100), 0, Random.Range(0, 100))) * 10f;
 					}
                     
                     rand = dice1 + dice2;

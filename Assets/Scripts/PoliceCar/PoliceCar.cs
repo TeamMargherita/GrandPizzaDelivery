@@ -275,6 +275,8 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
 	{
         playerMove.Stop = false;
         IsInspecting = false;
+        this.policeState = PoliceState.MOVING;
+        InitState(false);
 	}
     public void SetIInspectingPanelControl(IInspectingPanelControl iInspectingPanelControl)
     {

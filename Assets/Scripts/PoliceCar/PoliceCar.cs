@@ -39,7 +39,7 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
     private bool isBehaviour;   // 주변에 차가 있는지 여부에 따라 행동을 제어할 수 있게 해준다.
     private bool isLock = false;
     private bool isRight = false;   // 경찰차의 방향이 왼쪽인지 오른쪽인지를 확인해준다. 
-
+    private bool isExplosion = false;
     void Awake()
     {
         PoliceHp = 100;
@@ -118,6 +118,11 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
             {
                 playerMove.Stop = true;
             }
+            stopCheckColObj.SetActive(false);
+            checkColObj.SetActive(false);
+        }
+        else if (policeState == PoliceState.DESTROY)
+        {
             stopCheckColObj.SetActive(false);
             checkColObj.SetActive(false);
         }
@@ -230,16 +235,48 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
         while(true)
         {
             r = Random.Range(5, 15);
-            if (PoliceHp < 70)
+
+            if (PoliceHp < 70f)
             {
                 iPoliceSmokeEffect.InsPoliceSmokeEfectObj(this.transform);
             }
+
+            if (PoliceHp <= 0f && policeState != PoliceState.DESTROY)
+            {
+                this.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
+                // 파괴 상태로 변경
+                policeState = PoliceState.DESTROY;
+                // 상태에 따른 콜라이더 초기화
+                InitState(false);
+                // 파괴
+                //Destroy(this.gameObject, 10f);
+                //StopCoroutine(smokeEffectCoroutine);
+                Invoke("AddForceCar", 9f);
+            }
+            
+            // 경찰차 체력이 0이 되면 rigidbody-constrait을 해제하고 10초 후 제거하도록함.
+             
 
             for (int i = 0; i < r; i++)
             {
                 yield return time;
             }
         }
+    }
+
+    private void AddForceCar()
+    {
+        // 폭발 이미지 넣기
+        isExplosion = true;
+
+        this.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(0, 10f), Random.Range(0, 10f)), ForceMode2D.Impulse);
+        Invoke("DestroyCar", 5f);
+    }
+
+    private void DestroyCar()
+    {
+        StopCoroutine(smokeEffectCoroutine);
+        Destroy(this.gameObject);
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -257,6 +294,13 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
 
     void FixedUpdate()
     {
+        if (policeState == PoliceState.DESTROY && isExplosion)
+        {
+
+        }
+
+        if (policeState == PoliceState.DESTROY) { return; }
+
         // 경찰차의 상태가 MOVING이여야만 조건을 만족한다.
         if (policeState == PoliceState.MOVING)
         {

@@ -38,7 +38,16 @@ public class PlayerMove : PlayerStat
                 }
             }
 
-            float angleRatio = Speed / (Speed + (MaxSpeed / 2));
+            float angleRatio;
+            if(Speed > 0)
+            {
+                angleRatio = Speed / (Speed + (MaxSpeed / 2));
+            }
+            else
+            {
+                angleRatio = -(Speed / (Speed + (-MaxSpeed / 2)));
+            }
+
             if (Input.GetKey(KeyCode.A))
             {
                 this.transform.Rotate(angle * angleRatio * Time.deltaTime);
@@ -47,9 +56,7 @@ public class PlayerMove : PlayerStat
             {
                 this.transform.Rotate(-angle * angleRatio * Time.deltaTime);
             }
-            //this.transform.Translate(Vector3.up * Speed * Time.deltaTime);
             this.GetComponent<Rigidbody2D>().velocity = transform.rotation * new Vector2(0, Speed);
-            
         }
         else
         {

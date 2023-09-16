@@ -8,6 +8,8 @@ using PoliceNS.PoliceStateNS;
 
 public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IInspectingPoliceCarControl, IEndInspecting
 {
+    [Range(0, 100)] public int PoliceHp;
+
     [SerializeField] private GameObject checkColObj;
     [SerializeField] private GameObject stopCheckColObj;
     public static bool IsInspecting { get; private set; }
@@ -15,6 +17,8 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
     private static List<int> policeCarCodeList = new List<int>();
 
     private PoliceState policeState;
+
+    private IPoliceSmokeEffect iPoliceSmokeEffect;
 
     // 경로를 차례대로 들고 있다.
     private List<PolicePath> policePathList = new List<PolicePath>();
@@ -37,6 +41,8 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
 
     void Awake()
     {
+        PoliceHp = 100;
+
         trans = this.transform;
         if (checkColObj != null)
         {
@@ -255,6 +261,12 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
         {
             if (Random.Range(0,10000) < 10) { InitState(true); }
         }
+
+        if (PoliceHp < 70)
+		{
+            iPoliceSmokeEffect.InsPoliceSmokeEfectObj(this.transform.position);
+        }
+
     }
     public void SetIsBehaviour(bool bo)
     {
@@ -281,5 +293,11 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
     public void SetIInspectingPanelControl(IInspectingPanelControl iInspectingPanelControl)
     {
         stopCheckColObj.GetComponent<StopPoliceCarCollisionCheck>().SetIInspectingPanelControl(iInspectingPanelControl);
-    }    
+    }
+
+    public void SetPoliceSmokeEffect(IPoliceSmokeEffect iPoliceSmokeEffect)
+	{
+        this.iPoliceSmokeEffect = iPoliceSmokeEffect;
+
+    }
 }

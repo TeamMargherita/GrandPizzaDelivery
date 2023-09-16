@@ -26,6 +26,7 @@ interface IPoliceCar
     public void InitPoliceCarPath(List<PolicePath> policePathList);
     public void SetIInspectingPanelControl(IInspectingPanelControl iInspectingPanelControl);
     public void SetPlayerMove(PlayerMove playerMove);
+    public void SetPoliceSmokeEffect(IPoliceSmokeEffect iPoliceSmokeEffect);
 
 }
 // 경찰차 제어에 관한 인터페이스
@@ -53,5 +54,9 @@ public interface IInspectingUIText
 public interface IEndInspecting
 {
     public void EndInspecting();
+}
 
+public interface IPoliceSmokeEffect
+{
+    public void InsPoliceSmokeEfectObj(Vector3 pos);
 }

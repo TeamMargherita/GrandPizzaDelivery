@@ -25,6 +25,7 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
 
     private PlayerMove playerMove;
     private Transform trans;
+    private Coroutine smokeEffectCoroutine;
 
     private Vector3 temRotate;
     private Vector3 temPosition;
@@ -56,6 +57,11 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
 
         }
         InitValue();
+    }
+
+    private void Start()
+    {
+        smokeEffectCoroutine = StartCoroutine(PoliceSmokeCoroutine());
     }
 
     public void SetPlayerMove(PlayerMove playerMove)
@@ -216,6 +222,26 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
             nextBehaviour = true;
         }
     }
+
+    private IEnumerator PoliceSmokeCoroutine()
+    {
+        var time = new WaitForSeconds(0.01f);
+        int r = 0;
+        while(true)
+        {
+            r = Random.Range(5, 15);
+            if (PoliceHp < 70)
+            {
+                iPoliceSmokeEffect.InsPoliceSmokeEfectObj(this.transform);
+            }
+
+            for (int i = 0; i < r; i++)
+            {
+                yield return time;
+            }
+        }
+    }
+
     void FixedUpdate()
     {
         // 경찰차의 상태가 MOVING이여야만 조건을 만족한다.
@@ -262,10 +288,6 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
             if (Random.Range(0,10000) < 10) { InitState(true); }
         }
 
-        if (PoliceHp < 70)
-		{
-            iPoliceSmokeEffect.InsPoliceSmokeEfectObj(this.transform.position);
-        }
 
     }
     public void SetIsBehaviour(bool bo)

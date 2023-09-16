@@ -58,5 +58,5 @@ public interface IEndInspecting
 
 public interface IPoliceSmokeEffect
 {
-    public void InsPoliceSmokeEfectObj(Vector3 pos);
+    public void InsPoliceSmokeEfectObj(Transform trans);
 }

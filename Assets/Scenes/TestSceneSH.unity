@@ -635,7 +635,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiControlObj: {fileID: 1930384846}
   policeCar: {fileID: 1366888274956266218, guid: 6d93a9b558fa5e54bbcad402433017fd, type: 3}
-  effectControl: {fileID: 0}
+  effectControl: {fileID: 1646063386}
   playerMove: {fileID: 5465525691940280721}
 --- !u!1 &295211999
 GameObject:

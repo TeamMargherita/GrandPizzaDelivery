@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// 한석호 작성
+
 public class EffectControl : MonoBehaviour, IPoliceSmokeEffect
 {
     [SerializeField] private GameObject policeSmokeEffectObj;
@@ -15,14 +17,17 @@ public class EffectControl : MonoBehaviour, IPoliceSmokeEffect
         
     }
 
-    public void InsPoliceSmokeEfectObj(Vector3 pos)
+    public void InsPoliceSmokeEfectObj(Transform trans)
 	{
         for (int i = 0; i < policeSmokeEffectList.Count; i++)
 		{
             if (!policeSmokeEffectList[i].activeSelf)
 			{
                 policeSmokeEffectList[i].SetActive(true);
-                policeSmokeEffectList[i].transform.position = pos;
+                policeSmokeEffectList[i].transform.position = trans.position
+                    + new Vector3(Random.Range(-2, 3), Random.Range(-2, 3), 0).normalized * 0.2f
+                    + trans.right * 0.5f;
+                    
 
                 return;
 			}
@@ -32,7 +37,9 @@ public class EffectControl : MonoBehaviour, IPoliceSmokeEffect
         obj.transform.parent = policeSmokeEffect.transform;
         policeSmokeEffectList.Add(obj);
         obj.SetActive(true);
-        obj.transform.position = pos;
+        obj.transform.position = trans.position
+            + new Vector3(Random.Range(-2, 3),Random.Range(-2, 3),0).normalized * 0.2f
+            + trans.right * 0.5f;
 
-	}
+    }
 }

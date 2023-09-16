@@ -12,7 +12,7 @@ public class HandPhone : SendDeliveryRequest
     {
         DSscript = DeliveryScreen.GetComponent<DeliveryScreen>();
     }
-    public void DeliveryOnClick()
+    public void DeliveryOnClick()//¹è´Þ¾Û ¹öÆ° ´­·¶À»½Ã
     {
         DeliveryAppButton.SetActive(false);
         DeliveryScreen.SetActive(true);

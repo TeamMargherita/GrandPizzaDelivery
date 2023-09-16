@@ -14,6 +14,8 @@ public class DeliveryScreen : MonoBehaviour
         {
             for (int i = 0; i < SDR.RequestList.Count; i++)
             {
+                if (i == 5)
+                    break;
                 RequestTextList[i].text = SDR.RequestList[i].Name;
             }
         }

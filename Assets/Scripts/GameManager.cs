@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     private static GameManager _instance;
 
     public List<Pizza> PizzaMenu = new List<Pizza>();
-    
+    public GameObject TimeText;
     
     public static GameManager Instance
     {
@@ -62,5 +63,6 @@ public class GameManager : MonoBehaviour
     {
         time += Time.deltaTime * timeSpeed; //게임기준1분 = 현실시간2초
         //게임1초 * timeSpeed = 현실시간1초
+        TimeText.GetComponent<Text>().text = (int)time/3600 + " : " + (int)(time / 60 % 60);
     }
 }

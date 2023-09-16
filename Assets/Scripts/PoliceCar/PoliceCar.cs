@@ -8,7 +8,7 @@ using PoliceNS.PoliceStateNS;
 
 public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IInspectingPoliceCarControl, IEndInspecting
 {
-    [Range(0, 100)] public int PoliceHp;
+    [Range(0f, 100f)] public float PoliceHp;
 
     [SerializeField] private GameObject checkColObj;
     [SerializeField] private GameObject stopCheckColObj;
@@ -241,6 +241,19 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
             }
         }
     }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        // 태그가 플레이어면 조건 참
+        if (collision.gameObject.tag.Equals("Player"))
+        {
+            // 크리티컬 1.5배
+            PoliceHp -= Mathf.Abs(collision.gameObject.GetComponent<PlayerMove>().Speed) * 7f * Random.Range(1.0f, 1.5f);
+
+            if (PoliceHp < 0f) { PoliceHp = 0f; }
+            
+        }
+    }
+
 
     void FixedUpdate()
     {
@@ -287,19 +300,15 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
         {
             if (Random.Range(0,10000) < 10) { InitState(true); }
         }
-
-
     }
     public void SetIsBehaviour(bool bo)
     {
         isBehaviour = bo;
     }
-
     public int GetPoliceCarCode()
     {
         return policeCarCode;
     }
-
     public void SetPoliceState(PoliceState policeState)
     {
         this.policeState = policeState;
@@ -316,10 +325,8 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
     {
         stopCheckColObj.GetComponent<StopPoliceCarCollisionCheck>().SetIInspectingPanelControl(iInspectingPanelControl);
     }
-
     public void SetPoliceSmokeEffect(IPoliceSmokeEffect iPoliceSmokeEffect)
 	{
         this.iPoliceSmokeEffect = iPoliceSmokeEffect;
-
     }
 }

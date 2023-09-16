@@ -23,7 +23,6 @@ public class PoliceSmokeEffect : MonoBehaviour
     {
         if (colorA > 0)
         {
-            Debug.Log("??");
             colorA -= 2 / 255f;
             sprR.color = new Color(1, 1, 1, colorA);
 

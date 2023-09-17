@@ -139,6 +139,7 @@ GameObject:
   - component: {fileID: 633258878}
   - component: {fileID: 633258879}
   - component: {fileID: 633258880}
+  - component: {fileID: 633258881}
   m_Layer: 0
   m_Name: EmployeeParent
   m_TagString: Untagged
@@ -191,6 +192,18 @@ MonoBehaviour:
   EmployeeMother: {fileID: 633258878}
   EmployeePrefab: {fileID: 6957774581517818754, guid: 6158badd0939af640b5c688be13c4068, type: 3}
   EmployeeRecruitMother: {fileID: 1808833191}
+--- !u!114 &633258881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 633258877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f936f40c5b24624e90ad9a90bae8f9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &656658087
 GameObject:
   m_ObjectHideFlags: 0

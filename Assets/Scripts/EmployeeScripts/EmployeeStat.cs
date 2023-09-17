@@ -21,16 +21,16 @@ public class EmployeeStat : MonoBehaviour
 
     private void Start()
     {
+        EmployeeStartStat();
+    }
+
+    // ½ºÅÝ ÃÊ±â°ª
+    void EmployeeStartStat()
+    {
         handy = 20;
         agility = -1;
         creativity = -1;
         career = -1;
         pay = handy + agility + creativity + career + Random.Range(-10, 11);
-
-        Debug.Log(handy);
-        Debug.Log(agility);
-        Debug.Log(creativity);
-        Debug.Log(career);
-        Debug.Log(pay);
     }
 }

@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using PoliceNS.PolicePathNS;
 using PoliceNS.PoliceStateNS;
+using BuildingAddressNS;
 
 // 한석호 작성
 
-interface IAddress
+public interface IAddress
 {
-    public void InitAddress(int number);
+    public void InitAddress(int number, List<AddressS> addressSList);
     public int GetAddress();
+    public void SetIMap(IMap iMap);
 }
 
-interface IBuilding
+public interface IBuilding
 {
     public bool GetIsPoliceCar();
     public void SetIsPoliceCar(bool b);
@@ -21,12 +23,15 @@ interface IBuilding
     public List<PolicePath> GetPolicePath();
 }
 
-interface IPoliceCar
+public interface IPoliceCar
 {
     public void InitPoliceCarPath(List<PolicePath> policePathList);
     public void SetIInspectingPanelControl(IInspectingPanelControl iInspectingPanelControl);
     public void SetPlayerMove(PlayerMove playerMove);
     public void SetPoliceSmokeEffect(IPoliceSmokeEffect iPoliceSmokeEffect);
+    public Rigidbody2D GetRigidBody2D();
+    public float GetSpeed();
+    public PoliceState GetPoliceState();
 
 }
 // 경찰차 제어에 관한 인터페이스
@@ -59,4 +64,15 @@ public interface IEndInspecting
 public interface IPoliceSmokeEffect
 {
     public void InsPoliceSmokeEfectObj(Transform trans);
+}
+
+public interface IHouse
+{
+    public void EnableHouse();
+    public void DisableHouse();
+}
+
+public interface IMap
+{
+
 }

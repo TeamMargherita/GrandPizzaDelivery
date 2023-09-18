@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using BuildingNS;
 using PoliceNS.PolicePathNS;
+using BuildingAddressNS;
 
 // 한석호 작성
 
@@ -49,7 +50,7 @@ public class Building : MonoBehaviour, IAddress, IBuilding
         }
     }
 
-    public void InitAddress(int number)
+    public void InitAddress(int number, List<AddressS> addressSList)
     {
         buildingNumber = number;
         int n = 0;
@@ -57,11 +58,20 @@ public class Building : MonoBehaviour, IAddress, IBuilding
         {
             if (this.transform.GetChild(i).GetComponent<IAddress>() != null)
             {
-                this.transform.GetChild(i).GetComponent<IAddress>().InitAddress(number * 1000 + n);
+                this.transform.GetChild(i).GetComponent<IAddress>().InitAddress(number * 1000 + n, addressSList);
                 n++;
             }
         }
-        //Debug.Log($"BuildingNumber + {buildingNumber}");
+    }
+    public void SetIMap(IMap iMap)
+    {
+        for (int i = 0; i < this.transform.childCount; i++)
+        {
+            if (this.transform.GetChild(i).GetComponent<IAddress>() != null)
+            {
+                this.transform.GetChild(i).GetComponent<IAddress>().SetIMap(iMap);
+            }
+        }
     }
     public int GetAddress()
     {

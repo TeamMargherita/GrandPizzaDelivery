@@ -1,13 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using BuildingNS;
+using BuildingAddressNS;
 
 // 한석호 작성
 
 
 //맵에 존재해야할 오브젝트들을 배치하고, 건물마다 주소를 붙여줌으로써 맵을 구현합니다. 
-public class Map : MonoBehaviour
+public class Map : MonoBehaviour, IMap
 {
     [SerializeField] private GameObject uiControlObj;
     [SerializeField] private GameObject policeCar;
@@ -15,7 +15,11 @@ public class Map : MonoBehaviour
     [SerializeField] private PlayerMove playerMove;
     // addressList를 통해 빌딩의 주소를 초기화하거나 받아올 수 있습니다.
     private List<IAddress> addressList = new List<IAddress>();
+    // 각 건물에 경찰차를 배정하기 위한 리스트입니다.
     private List<IBuilding> buildingList = new List<IBuilding>();
+    private List<AddressS> houseAddressList = new List<AddressS>();
+    private List<AddressS> temHouseAddressList = new List<AddressS>();
+
     void Awake()
     {
         // 건물에 주소를 붙여줍니다.
@@ -26,7 +30,8 @@ public class Map : MonoBehaviour
             {
                 GameObject ob = this.transform.GetChild(i).gameObject;
                 addressList.Add(ob.GetComponent<IAddress>());
-                addressList[n].InitAddress(n);
+                addressList[n].InitAddress(n, houseAddressList);
+                addressList[n].SetIMap(this);
                 buildingList.Add(ob.GetComponent<IBuilding>());
                 n++;
             }
@@ -35,7 +40,6 @@ public class Map : MonoBehaviour
 
     private void Start()
     {
-
         MakeAPoliceCar(45);
     }
     // 경찰차를 랜덤한 건물마다 배정해주는 함수입니다.
@@ -72,4 +76,44 @@ public class Map : MonoBehaviour
             }
         }
     }
+
+	public void Update()
+	{
+		
+	}
+
+	/// <summary>
+	/// 랜덤한 집주소 여러 개를  알려준다.
+	/// </summary>
+	/// <param name="n">집주소들의 개수이다.</param>
+	/// <returns>반환형식은 List<AddressS> 형식이다. </returns>
+	public List<AddressS> GetRandAddressSList(int n)
+	{
+        if (houseAddressList.Count == 0) { return null; }
+
+        temHouseAddressList.Clear();
+        for (int i = 0; i < houseAddressList.Count; i++)
+		{
+            temHouseAddressList.Add(houseAddressList[i]);
+		}
+
+        List<AddressS> list = new List<AddressS>();
+        int r = 0;
+        for (int i = 0; i < n; i++)
+		{
+            r = Random.Range(0, temHouseAddressList.Count);
+            list.Add(temHouseAddressList[r]);
+            temHouseAddressList.RemoveAt(r);
+		}
+
+        return list;
+	}
+    /// <summary>
+    /// 랜덤한 집 주소 1개를 알려준다.
+    /// </summary>
+    /// <returns>반환 형식은 AddressS이다.</returns>
+    public AddressS GetRandAddressS()
+	{
+        return houseAddressList[Random.Range(0, houseAddressList.Count)];
+	}
 }

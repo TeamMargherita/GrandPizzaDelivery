@@ -26,6 +26,7 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
     private PlayerMove playerMove;
     private Transform trans;
     private Coroutine smokeEffectCoroutine;
+    private Rigidbody2D rigid2D;
 
     private Vector3 temRotate;
     private Vector3 temPosition;
@@ -54,8 +55,12 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
             stopCheckColObj.GetComponent<StopPoliceCarCollisionCheck>().SetIInspectingPoliceCarControl(this);
             stopCheckColObj.GetComponent<StopPoliceCarCollisionCheck>().SetIPoliceCarIsBehaviour(this);
             stopCheckColObj.GetComponent<StopPoliceCarCollisionCheck>().SetIEndInspecting(this);
-
         }
+        if (this.GetComponent<Rigidbody2D>() != null)
+		{
+            rigid2D = this.GetComponent<Rigidbody2D>();
+        }
+
         InitValue();
     }
 
@@ -199,6 +204,7 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
             // 방향을 바꾸기전 경찰차의 z축 rotation값을 temRotate에 저장합니다.
             temRotate = trans.eulerAngles;
         }
+
         if (rotate * (isRight ? 1 : -1) > 0)
         {
             this.rotate += (-1) * speed;
@@ -240,7 +246,7 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
             {
                 iPoliceSmokeEffect.InsPoliceSmokeEfectObj(this.transform);
             }
-
+            // 경찰차 체력이 0이 되면 rigidbody-constrait을 해제하고 10초 후 제거하도록함.
             if (PoliceHp <= 0f && policeState != PoliceState.DESTROY)
             {
                 this.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
@@ -254,9 +260,6 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
                 Invoke("AddForceCar", 9f);
             }
             
-            // 경찰차 체력이 0이 되면 rigidbody-constrait을 해제하고 10초 후 제거하도록함.
-             
-
             for (int i = 0; i < r; i++)
             {
                 yield return time;
@@ -266,7 +269,7 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
 
     private void AddForceCar()
     {
-        // 폭발 이미지 넣기
+        // 폭발 이미지 넣기(안 넣어도됨)
         isExplosion = true;
 
         this.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(0, 10f), Random.Range(0, 10f)), ForceMode2D.Impulse);
@@ -278,8 +281,10 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
         StopCoroutine(smokeEffectCoroutine);
         Destroy(this.gameObject);
     }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        // 플레이어와 충돌하면 경찰차는 대미지를 입음.
         // 태그가 플레이어면 조건 참
         if (collision.gameObject.tag.Equals("Player"))
         {
@@ -287,18 +292,33 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
             PoliceHp -= Mathf.Abs(collision.gameObject.GetComponent<PlayerMove>().Speed) * 7f * Random.Range(1.0f, 1.5f);
 
             if (PoliceHp < 0f) { PoliceHp = 0f; }
-            
+        }
+        // 경찰차끼리 충돌해도 대미지를 입음.
+        else if (collision.gameObject.GetComponent<IPoliceCar>() != null)
+        {
+            // 경찰차가 전부 자기 경로를 찾아 달리고 있는 경우일 때 부딪힌다면 피해를 입지 않음. 그렇지 않을 경우에만 피해를 입음.
+            if (!(collision.gameObject.GetComponent<IPoliceCar>().GetPoliceState() == PoliceState.MOVING
+                && collision.gameObject.GetComponent<IPoliceCar>().GetPoliceState() == policeState))
+            {
+                // 부딪힌 경찰차가 MOVING상태가 아니라면 경찰차의 velocity를 따른다.
+                if (collision.gameObject.GetComponent<IPoliceCar>().GetPoliceState() != PoliceState.MOVING)
+                {
+                    PoliceHp -= Mathf.Sqrt(Mathf.Pow(collision.gameObject.GetComponent<IPoliceCar>().GetRigidBody2D().velocity.x, 2)
+                        + Mathf.Pow(collision.gameObject.GetComponent<IPoliceCar>().GetRigidBody2D().velocity.x, 2)) * 7f;
+
+                }
+                // 부딪힌 경찰차가 MOVING상태라면 경찰차의 speed를 따른다.
+                else
+                {
+                    PoliceHp -= collision.gameObject.GetComponent<IPoliceCar>().GetSpeed() * 7f;
+                }
+            }
         }
     }
 
 
     void FixedUpdate()
     {
-        if (policeState == PoliceState.DESTROY && isExplosion)
-        {
-
-        }
-
         if (policeState == PoliceState.DESTROY) { return; }
 
         // 경찰차의 상태가 MOVING이여야만 조건을 만족한다.
@@ -373,4 +393,16 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
 	{
         this.iPoliceSmokeEffect = iPoliceSmokeEffect;
     }
+    public Rigidbody2D GetRigidBody2D()
+	{
+        return rigid2D;
+	}
+    public float GetSpeed()
+	{
+        return speed;
+	}
+    public PoliceState GetPoliceState()
+	{
+        return policeState;
+	}
 }

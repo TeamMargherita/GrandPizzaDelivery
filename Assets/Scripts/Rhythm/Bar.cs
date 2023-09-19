@@ -12,7 +12,7 @@ public class Bar : MonoBehaviour
     public decimal Arrive;
     public decimal Timing;
 
-    private RectTransform pos;
+    private Transform pos;
 
     void Start()
     {
@@ -21,11 +21,11 @@ public class Bar : MonoBehaviour
 
     void Update()
     {
-        Timing = Arrive - RhythmManager.Instance.CurrentTime();
+        Timing = Arrive - RhythmManager.Instance.GetCurrentTime();
         if (Timing > 0m)
-            pos.anchoredPosition = Vector2.Lerp(end, start * (float)Speed, (float)(Timing / 10 * Speed));
+            pos.position = Vector2.Lerp(end, start * (float)Speed, (float)(Timing / 10 * Speed));
         else
-            pos.anchoredPosition = Vector2.Lerp(end, -(start - end) * (float)Speed, (float)(-Timing / 10 * Speed));
+            pos.position = Vector2.Lerp(end, (end - start) * (float)Speed, (float)(-Timing / 10 * Speed));
 
         if (Timing < -5m)
         {
@@ -38,12 +38,12 @@ public class Bar : MonoBehaviour
         Arrive = arriveTime;
 
         if (end == Vector2.zero)
-            end = GameObject.Find("Judgement").GetComponent<RectTransform>().anchoredPosition;
+            end = GameObject.Find("Judgement").GetComponent<Transform>().position;
         if (pos == null)
-            pos = GetComponent<RectTransform>();
+            pos = GetComponent<Transform>();
         if (spawner == null)
             spawner = transform.parent.GetComponent<NoteSpawner>();
 
-        start = new Vector2(3840f, 0);
+        start = new Vector2(10f, 0);
     }
 }

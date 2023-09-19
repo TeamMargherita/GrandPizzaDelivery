@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class RhythmManager : MonoBehaviour
 {
@@ -12,9 +9,8 @@ public class RhythmManager : MonoBehaviour
     public Note NotePrefab;        // 노트
     public Bar BarPrefab;          // 마디
     public AudioData Data;         // 곡 데이터
+    public decimal CurrentTime;
 
-    private decimal StartTime = 0m;
-    private decimal currentTime;
     private void Awake()
     {
         if (Instance != null)
@@ -24,30 +20,13 @@ public class RhythmManager : MonoBehaviour
         DontDestroyOnLoad(Instance);
     }
 
-    private void Update()
+    public void SaveData(string fileName)
     {
-        
+        JsonManager<AudioData>.Save(Data, fileName);
     }
 
-    public void SetStartTime()
+    public void LoadData(string fileName)
     {
-        // 시작 시간 설정
-        StartTime = (decimal)AudioSettings.dspTime;
-    }
-
-    public decimal GetCurrentTime()
-    {
-        currentTime = (decimal)AudioSettings.dspTime - StartTime;
-        return currentTime;
-    }
-
-    public void LoadData(string path)
-    {
-        Data = new AudioData(path);
-    }
-
-    public void SaveData(string path)
-    {
-        JsonManager<AudioData>.Save(Data, path);
+        Data = new AudioData(fileName);
     }
 }

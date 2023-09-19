@@ -5,16 +5,18 @@ using UnityEngine;
 // 한석호 작성
 
 public class PoliceCarCollisionCheck : MonoBehaviour
-{
+{    
+    private List<IPriorityCode> priorityList = new List<IPriorityCode>();
+
     private IMovingPoliceCarControl iPoliceCarControl;
-    private List<IMovingPoliceCarControl> otherIPoliceCarIsBehaviourList = new List<IMovingPoliceCarControl>();
+    private IPriorityCode iPriorityCode;
     //경찰차가 다른 경찰차끼리 충돌할 우려가 있는지 체크한다.
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //충돌할 우려가 있다면 자동차의 행동을 제어한다.
-        if (collision.gameObject.GetComponent<IMovingPoliceCarControl>() != null)
+        if (collision.gameObject.GetComponent<IPriorityCode>() != null)
         {
-            otherIPoliceCarIsBehaviourList.Add(collision.gameObject.GetComponent<IMovingPoliceCarControl>());
+            priorityList.Add(collision.gameObject.GetComponent<IPriorityCode>());
             // 즉시 우선수위를 고려한다.
             CheckPriority();
         }
@@ -24,8 +26,9 @@ public class PoliceCarCollisionCheck : MonoBehaviour
     private void CheckPriority()
     {
         if (iPoliceCarControl == null) { return; }
+        if (priorityList == null) { return; }
 
-        if (otherIPoliceCarIsBehaviourList.FindIndex(a => a.GetPoliceCarCode() > iPoliceCarControl.GetPoliceCarCode()) != -1)
+        if (priorityList.FindIndex(a => a.GetPriorityCode() > iPriorityCode.GetPriorityCode()) != -1)
         {
             iPoliceCarControl.SetIsBehaviour(false);
         }
@@ -39,7 +42,7 @@ public class PoliceCarCollisionCheck : MonoBehaviour
     {
         if (collision.gameObject.GetComponent<IMovingPoliceCarControl>() != null)
         {
-            otherIPoliceCarIsBehaviourList.Remove(collision.gameObject.GetComponent<IMovingPoliceCarControl>());
+            priorityList.Remove(collision.gameObject.GetComponent<IPriorityCode>());
             // 1초 후에 우선순위를 고려한다.
             Invoke("CheckPriority", 1f);
         }
@@ -48,5 +51,10 @@ public class PoliceCarCollisionCheck : MonoBehaviour
     public void SetIPoliceCarIsBehaviour(IMovingPoliceCarControl iPoliceCarIsBehaviour)
     {
         this.iPoliceCarControl = iPoliceCarIsBehaviour;
+    }
+
+    public void SetIPriority(IPriorityCode iPriorityCode)
+    {
+        this.iPriorityCode = iPriorityCode;
     }
 }

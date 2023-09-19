@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BuildingAddressNS;
 
 public struct Pizza
 {
@@ -24,6 +25,7 @@ public class Request
 {
     public Pizza Pizza;
     public bool Accept;
+    public AddressS AddressS;
     public Request(Pizza pizza, bool accept)
     {
         this.Pizza = pizza;

@@ -415,6 +415,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8614957128058744984, guid: 728651f9986f688489c77c55ba4a58f4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 728651f9986f688489c77c55ba4a58f4, type: 3}
 --- !u!4 &128244900 stripped
@@ -26304,7 +26308,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 559978707}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0.37, y: -2.5, z: -49.51}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -28582,6 +28586,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1232639671345604970, guid: 924657db66813a54080377e7f494ef1e, type: 3}
+      propertyPath: Map
+      value: 
+      objectReference: {fileID: 1677633551}
+    - target: {fileID: 1232639671345604970, guid: 924657db66813a54080377e7f494ef1e, type: 3}
       propertyPath: SDR
       value: 
       objectReference: {fileID: 383333709147265050}
@@ -29464,6 +29472,14 @@ PrefabInstance:
     - target: {fileID: 5465525691103057134, guid: c0ff3983511065544918d55a8b1cd68e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5465525691103057136, guid: c0ff3983511065544918d55a8b1cd68e, type: 3}
+      propertyPath: MaxSpeed
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5465525691103057136, guid: c0ff3983511065544918d55a8b1cd68e, type: 3}
+      propertyPath: acceleration
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c0ff3983511065544918d55a8b1cd68e, type: 3}
@@ -31541,6 +31557,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2017886344865767937, guid: 9e6ee34fe0009f74e884fe01a5409c77, type: 3}
+      propertyPath: map
+      value: 
+      objectReference: {fileID: 1677633551}
     - target: {fileID: 3311770647134295775, guid: 9e6ee34fe0009f74e884fe01a5409c77, type: 3}
       propertyPath: m_Name
       value: DeliveryManager

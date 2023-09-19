@@ -9,23 +9,26 @@ public class DeliveryScreen : MonoBehaviour
     public SendDeliveryRequest SDR;
     public List<GameObject> AcceptB;
     public List<GameObject> CancleB;
+    public Map Map;
+    public House House;
 
-    private float time = 0;
     public void TextUpdate()
     {
-        time += Time.deltaTime;
-        if (time > 5)
+        
+        if(SDR.RequestList.Count > 0)
         {
-            time = 0;
-            if (SDR.RandomCall())
+            for (int i = 0; i < 5; i++)
             {
-                for (int i = 0; i < SDR.RequestList.Count; i++)
+                if (i < SDR.RequestList.Count)
                 {
-                    if (i == 5)
-                        break;
                     RequestTextList[i].text = SDR.RequestList[i].Pizza.Name;
                     if (!SDR.RequestList[i].Accept)
                         AcceptB[i].SetActive(true);
+                }
+                else
+                {
+                    RequestTextList[i].text = "";
+                    AcceptB[i].SetActive(false);
                 }
             }
         }
@@ -38,6 +41,8 @@ public class DeliveryScreen : MonoBehaviour
     {
         AcceptB[i].SetActive(false);
         SDR.RequestList[i].Accept = true;
+        SDR.RequestList[i].AddressS = Map.GetRandAddressS();
+        SDR.RequestList[i].AddressS.iHouse.EnableHouse();
     }
     
     public void OnClickCancle(int i)

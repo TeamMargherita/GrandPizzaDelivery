@@ -19,7 +19,7 @@ public class Map : MonoBehaviour, IMap
     private List<IBuilding> buildingList = new List<IBuilding>();
     private List<AddressS> houseAddressList = new List<AddressS>();
     private List<AddressS> temHouseAddressList = new List<AddressS>();
-
+    private Dictionary<AddressS, float> deliveryTimeDic = new Dictionary<AddressS, float>();
     void Awake()
     {
         // 건물에 주소를 붙여줍니다.
@@ -76,12 +76,34 @@ public class Map : MonoBehaviour, IMap
             }
         }
     }
-
+    // 배달이 들어온 후 각각 지난 시간을 체크한다.
 	public void Update()
 	{
-		
+		foreach (var addr in deliveryTimeDic.Keys)
+        {
+            deliveryTimeDic[addr] += Time.deltaTime;
+        }
 	}
-
+    public void AddAddress(AddressS addressS)
+    {
+        deliveryTimeDic.Add(addressS, 0f);
+    }
+    // 배달이 끝나 해당 주소에서의 시간재기를 끝내고 소요한 배달시간을 반환합니다.
+    public float RemoveAddress(AddressS addressS)
+    {
+        foreach (var addr in deliveryTimeDic.Keys)
+        {
+            if (addr.BuildingAddress == addressS.BuildingAddress 
+                && addr.HouseAddress == addressS.HouseAddress
+                && addr.iHouse == addressS.iHouse)
+            {
+                float f = deliveryTimeDic[addr]; 
+                deliveryTimeDic.Remove(addr);
+                return f;
+            }
+        }
+        return -1f;
+    }
 	/// <summary>
 	/// 랜덤한 집주소 여러 개를  알려준다.
 	/// </summary>

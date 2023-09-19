@@ -74,5 +74,6 @@ public interface IHouse
 
 public interface IMap
 {
-
+    public void AddAddress(AddressS addressS);
+    public float RemoveAddress(AddressS addressS);
 }

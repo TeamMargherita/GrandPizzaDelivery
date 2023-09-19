@@ -5,26 +5,40 @@ using BuildingAddressNS;
 
 // 한석호 작성
 
+// 집마다 한명의 손님이 존재하며, 손님의 취향은 전부 제각각이다. 단, 한번 정해진 취향은 바뀌지 않는다.
 public class House : MonoBehaviour, IAddress, IHouse
 {
-    static private Color activeColor = new Color(248, 70, 6);
+    // 0 = 상, 1 = 하, 2 = 좌, 3 = 우
+    [SerializeField] private int direction = 0;
+    [SerializeField] private GameObject goalObj;
+    static private Color activeColor = new Color(248, 70, 6);   // 활성화 색(배달해야 하는 곳임을 알림)
 
     private SpriteRenderer spriteRenderer;
+    private Transform goalTrans;
+
     private IMap iMap;
+    private AddressS houseAddress;  // 집주소
 
-    private int houseNumber;
+    private float spendingTime; // 배달에 소요한 시간
+    private int houseNumber;    // 건물 내에서 집 번호
     private bool isEnable = false;
-
+    
 	private void Awake()
 	{
         spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
+        goalTrans = goalObj.transform;
+        if (direction == 0) { goalTrans.position += new Vector3(0, 1); }
+        else if (direction == 1) { goalTrans.position += new Vector3(0, -1); }
+        else if (direction == 2) { goalTrans.position += new Vector3(-1, 0); }
+        else if (direction == 3) { goalTrans.position += new Vector3(1, 0); }
 	}
 
 	public void InitAddress(int number, List<AddressS> addressSList)
     {
         houseNumber = number % 1000;
+        houseAddress = new AddressS(number / 1000, houseNumber, this);
 
-        addressSList.Add(new AddressS(number / 1000, houseNumber, this));
+        addressSList.Add(houseAddress);
     }
     public void SetIMap(IMap iMap)
 	{
@@ -41,12 +55,17 @@ public class House : MonoBehaviour, IAddress, IHouse
 	{
         spriteRenderer.color = activeColor;
         isEnable = true;
+        goalObj.SetActive(true);
+        iMap.AddAddress(houseAddress);
 	}
 
+    // 피자 배달을 끝마쳤을 때
     public void DisableHouse()
 	{
         spriteRenderer.color = Color.white;
         isEnable = false;
+        goalObj.SetActive(false);
+        spendingTime = iMap.RemoveAddress(houseAddress);
 	}
 
 }

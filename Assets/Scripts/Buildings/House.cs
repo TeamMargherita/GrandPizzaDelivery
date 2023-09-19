@@ -11,12 +11,15 @@ public class House : MonoBehaviour, IAddress, IHouse
     // 0 = 상, 1 = 하, 2 = 좌, 3 = 우
     [SerializeField] private int direction = 0;
     [SerializeField] private GameObject goalObj;
-    static private Color activeColor = new Color(248, 70, 6);   // 활성화 색(배달해야 하는 곳임을 알림)
+
+    static private Color activeColor = new Color(248/255f, 70/255f, 6/255f);   // 활성화 색(배달해야 하는 곳임을 알림)
 
     private SpriteRenderer spriteRenderer;
     private Transform goalTrans;
 
     private IMap iMap;
+    private IDeliveryPanelControl iDeliveryPanelControl;
+
     private AddressS houseAddress;  // 집주소
 
     private float spendingTime; // 배달에 소요한 시간
@@ -27,6 +30,7 @@ public class House : MonoBehaviour, IAddress, IHouse
 	{
         spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
         goalTrans = goalObj.transform;
+
         if (direction == 0) { goalTrans.position += new Vector3(0, 1); }
         else if (direction == 1) { goalTrans.position += new Vector3(0, -1); }
         else if (direction == 2) { goalTrans.position += new Vector3(-1, 0); }
@@ -60,12 +64,20 @@ public class House : MonoBehaviour, IAddress, IHouse
 	}
 
     // 피자 배달을 끝마쳤을 때
+    // 배달이 끝난 후 걸린 시간, 평점 등을 구조체 형식으로 묶어서 전달한다.
     public void DisableHouse()
 	{
         spriteRenderer.color = Color.white;
         isEnable = false;
         goalObj.SetActive(false);
         spendingTime = iMap.RemoveAddress(houseAddress);
+
+        
 	}
 
+    public void SetIDeliveryPanelControl(IDeliveryPanelControl iDeliveryPanelControl)
+    {
+        this.iDeliveryPanelControl = iDeliveryPanelControl;
+        goalObj.GetComponent<GoalCheckCollider>().SetIDeliveryPanelControl(iDeliveryPanelControl, this);
+    }
 }

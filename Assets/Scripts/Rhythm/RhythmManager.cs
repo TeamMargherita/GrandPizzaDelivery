@@ -24,6 +24,11 @@ public class RhythmManager : MonoBehaviour
         DontDestroyOnLoad(Instance);
     }
 
+    private void Update()
+    {
+        
+    }
+
     public void SetStartTime()
     {
         // 시작 시간 설정

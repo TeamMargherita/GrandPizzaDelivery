@@ -7,7 +7,7 @@ public class DeliveryScreen : MonoBehaviour
 {
     public List<Text> RequestTextList = new List<Text>();
     public SendDeliveryRequest SDR;
-
+    public List<GameObject> Accept;
     public void TextUpdate()
     {
         if (SDR.RequestList.Count > 0)
@@ -23,5 +23,9 @@ public class DeliveryScreen : MonoBehaviour
     private void Update()
     {
         TextUpdate();
+    }
+    public void OnClickAccept(int i)
+    {
+        Accept[i].SetActive(false);
     }
 }

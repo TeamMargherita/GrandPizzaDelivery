@@ -61,6 +61,7 @@ public class PlayerMove : PlayerStat
         else
         {
             Speed = 0;
+            this.GetComponent<Rigidbody2D>().velocity = transform.rotation * new Vector2(0, Speed);
         }
     }
 }

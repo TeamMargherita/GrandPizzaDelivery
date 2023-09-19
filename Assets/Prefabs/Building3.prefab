@@ -63,6 +63,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7035245244509662241}
+  - component: {fileID: -1210438941159371942}
   m_Layer: 0
   m_Name: Building3
   m_TagString: Untagged
@@ -109,6 +110,31 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-1210438941159371942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7715536234219940296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebc48555a6ba8334dbe1d12ba66838b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildingShape: 2
+  compositePos: {x: 0, y: 0}
+  policeCarValue:
+  - 3
+  - -90
+  - 7
+  - -90
+  - 5
+  - -90
+  - 7
+  - -90
+  - 2
+  policeCarBehaviour: 010000000200000001000000020000000100000002000000010000000200000001000000
 --- !u!1001 &30833961193424933
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -116,6 +142,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7035245244509662241}
     m_Modifications:
+    - target: {fileID: -9006757310018235896, guid: f81b2e0550dc39a40a25046043878e61, type: 3}
+      propertyPath: direction
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2098984641680168357, guid: f81b2e0550dc39a40a25046043878e61, type: 3}
       propertyPath: m_Name
       value: House (7)
@@ -178,6 +208,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7035245244509662241}
     m_Modifications:
+    - target: {fileID: -9006757310018235896, guid: f81b2e0550dc39a40a25046043878e61, type: 3}
+      propertyPath: direction
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2098984641680168357, guid: f81b2e0550dc39a40a25046043878e61, type: 3}
       propertyPath: m_Name
       value: House (2)
@@ -426,6 +460,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7035245244509662241}
     m_Modifications:
+    - target: {fileID: -9006757310018235896, guid: f81b2e0550dc39a40a25046043878e61, type: 3}
+      propertyPath: direction
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2098984641680168357, guid: f81b2e0550dc39a40a25046043878e61, type: 3}
       propertyPath: m_Name
       value: House (6)
@@ -736,6 +774,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7035245244509662241}
     m_Modifications:
+    - target: {fileID: -9006757310018235896, guid: f81b2e0550dc39a40a25046043878e61, type: 3}
+      propertyPath: direction
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2098984641680168357, guid: f81b2e0550dc39a40a25046043878e61, type: 3}
       propertyPath: m_Name
       value: House (11)
@@ -1046,6 +1088,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7035245244509662241}
     m_Modifications:
+    - target: {fileID: -9006757310018235896, guid: f81b2e0550dc39a40a25046043878e61, type: 3}
+      propertyPath: direction
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2098984641680168357, guid: f81b2e0550dc39a40a25046043878e61, type: 3}
       propertyPath: m_Name
       value: House (8)
@@ -1170,6 +1216,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7035245244509662241}
     m_Modifications:
+    - target: {fileID: -9006757310018235896, guid: f81b2e0550dc39a40a25046043878e61, type: 3}
+      propertyPath: direction
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2098984641680168357, guid: f81b2e0550dc39a40a25046043878e61, type: 3}
       propertyPath: m_Name
       value: House (5)
@@ -1666,6 +1716,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7035245244509662241}
     m_Modifications:
+    - target: {fileID: -9006757310018235896, guid: f81b2e0550dc39a40a25046043878e61, type: 3}
+      propertyPath: direction
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2098984641680168357, guid: f81b2e0550dc39a40a25046043878e61, type: 3}
       propertyPath: m_Name
       value: House (10)
@@ -1852,6 +1906,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7035245244509662241}
     m_Modifications:
+    - target: {fileID: -9006757310018235896, guid: f81b2e0550dc39a40a25046043878e61, type: 3}
+      propertyPath: direction
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2098984641680168357, guid: f81b2e0550dc39a40a25046043878e61, type: 3}
       propertyPath: m_Name
       value: House (1)
@@ -2100,6 +2158,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7035245244509662241}
     m_Modifications:
+    - target: {fileID: -9006757310018235896, guid: f81b2e0550dc39a40a25046043878e61, type: 3}
+      propertyPath: direction
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2098984641680168357, guid: f81b2e0550dc39a40a25046043878e61, type: 3}
       propertyPath: m_Name
       value: House (9)
@@ -2286,6 +2348,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7035245244509662241}
     m_Modifications:
+    - target: {fileID: -9006757310018235896, guid: f81b2e0550dc39a40a25046043878e61, type: 3}
+      propertyPath: direction
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2098984641680168357, guid: f81b2e0550dc39a40a25046043878e61, type: 3}
       propertyPath: m_Name
       value: House
@@ -2720,6 +2786,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7035245244509662241}
     m_Modifications:
+    - target: {fileID: -9006757310018235896, guid: f81b2e0550dc39a40a25046043878e61, type: 3}
+      propertyPath: direction
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2098984641680168357, guid: f81b2e0550dc39a40a25046043878e61, type: 3}
       propertyPath: m_Name
       value: House (13)
@@ -2782,6 +2852,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7035245244509662241}
     m_Modifications:
+    - target: {fileID: -9006757310018235896, guid: f81b2e0550dc39a40a25046043878e61, type: 3}
+      propertyPath: direction
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2098984641680168357, guid: f81b2e0550dc39a40a25046043878e61, type: 3}
       propertyPath: m_Name
       value: House (12)

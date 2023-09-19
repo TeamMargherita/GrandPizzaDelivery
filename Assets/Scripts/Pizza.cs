@@ -19,3 +19,14 @@ public struct Pizza
         this.Charisma = charisma;
     }
 }
+
+public class Request
+{
+    public Pizza Pizza;
+    public bool Accept;
+    public Request(Pizza pizza, bool accept)
+    {
+        this.Pizza = pizza;
+        this.Accept = accept;
+    }
+}

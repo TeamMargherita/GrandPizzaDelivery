@@ -19,7 +19,7 @@ public class Map : MonoBehaviour, IMap
     private List<IBuilding> buildingList = new List<IBuilding>();
     private List<AddressS> houseAddressList = new List<AddressS>();
     private List<AddressS> temHouseAddressList = new List<AddressS>();
-
+    private Dictionary<AddressS, float> deliveryTimeDic = new Dictionary<AddressS, float>();
     void Awake()
     {
         // 건물에 주소를 붙여줍니다.
@@ -32,6 +32,7 @@ public class Map : MonoBehaviour, IMap
                 addressList.Add(ob.GetComponent<IAddress>());
                 addressList[n].InitAddress(n, houseAddressList);
                 addressList[n].SetIMap(this);
+                addressList[n].SetIDeliveryPanelControl(uiControlObj.GetComponent<IDeliveryPanelControl>());
                 buildingList.Add(ob.GetComponent<IBuilding>());
                 n++;
             }
@@ -41,7 +42,17 @@ public class Map : MonoBehaviour, IMap
     private void Start()
     {
         MakeAPoliceCar(45);
+        //test();
     }
+    private void test()
+    {
+        List<AddressS> ad = GetRandAddressSList(5);
+        for (int i = 0; i < ad.Count; i++)
+        {
+            ad[i].iHouse.EnableHouse();
+        }
+    }
+
     // 경찰차를 랜덤한 건물마다 배정해주는 함수입니다.
     private void MakeAPoliceCar(int cnt)
     {
@@ -76,12 +87,26 @@ public class Map : MonoBehaviour, IMap
             }
         }
     }
-
-	public void Update()
-	{
-		
-	}
-
+    public void AddAddress(AddressS addressS)
+    {
+        deliveryTimeDic.Add(addressS, GameManager.Instance.time);
+    }
+    // 배달이 끝나 해당 주소에서의 시간재기를 끝내고 소요한 배달시간을 반환합니다.
+    public float RemoveAddress(AddressS addressS)
+    {
+        foreach (var addr in deliveryTimeDic.Keys)
+        {
+            if (addr.BuildingAddress == addressS.BuildingAddress 
+                && addr.HouseAddress == addressS.HouseAddress
+                && addr.iHouse == addressS.iHouse)
+            {
+                float f = GameManager.Instance.time - deliveryTimeDic[addr]; 
+                deliveryTimeDic.Remove(addr);
+                return f;
+            }
+        }
+        return -1f;
+    }
 	/// <summary>
 	/// 랜덤한 집주소 여러 개를  알려준다.
 	/// </summary>

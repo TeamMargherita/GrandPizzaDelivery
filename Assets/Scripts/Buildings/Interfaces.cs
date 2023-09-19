@@ -12,6 +12,7 @@ public interface IAddress
     public void InitAddress(int number, List<AddressS> addressSList);
     public int GetAddress();
     public void SetIMap(IMap iMap);
+    public void SetIDeliveryPanelControl(IDeliveryPanelControl iDeliveryPanelControl);
 }
 
 public interface IBuilding
@@ -38,8 +39,13 @@ public interface IPoliceCar
 public interface IMovingPoliceCarControl
 {
     public void SetIsBehaviour(bool bo);
-    public int GetPoliceCarCode();
+    //public int GetPoliceCarCode();
 }
+public interface IPriorityCode
+{
+    public int GetPriorityCode();
+}
+
 
 public interface IInspectingPoliceCarControl
 {
@@ -50,7 +56,11 @@ public interface IInspectingPanelControl
 {
     public void ControlInspectUI(bool isOn, IEndInspecting iEndInspecting);
 }
-
+public interface IDeliveryPanelControl
+{
+    public void ControlDeliveryUI(bool isOn);
+    public void SetIHouseDeliveryUI(IHouse iHouse);
+}
 public interface IInspectingUIText
 {
     public void ChoiceText(int num);
@@ -74,5 +84,6 @@ public interface IHouse
 
 public interface IMap
 {
-
+    public void AddAddress(AddressS addressS);
+    public float RemoveAddress(AddressS addressS);
 }

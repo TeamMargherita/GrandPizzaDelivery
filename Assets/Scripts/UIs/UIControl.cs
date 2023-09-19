@@ -4,13 +4,14 @@ using UnityEngine;
 
 // 한석호 작성
 
-public class UIControl : MonoBehaviour, IInspectingPanelControl
+public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelControl
 {
     [SerializeField] private GameObject inspectingPanel;
     [SerializeField] private GameObject inspectingMaskPanel;
+    [SerializeField] private GameObject deliveryPanel;
 
     private IEndInspecting iEndInspecting;
-
+    private IHouse iHouse;
     private RectTransform inspectTrans;
 
     private int inspectingHeight = 0;
@@ -39,6 +40,26 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl
             this.iEndInspecting = null;
         }
 
+    }
+
+    public void ControlDeliveryUI(bool isOn)
+    {
+        deliveryPanel.SetActive(isOn);
+    }
+    public void SetIHouseDeliveryUI(IHouse iHouse)
+    {
+        this.iHouse = iHouse;
+    }
+    public void OKDeliveryUI()
+    {
+        if (iHouse == null) { return; }
+
+        iHouse.DisableHouse();
+        deliveryPanel.SetActive(false);
+    }
+    public void NODeliveryUI()
+    {
+        deliveryPanel.SetActive(false);
     }
 
     void FixedUpdate()

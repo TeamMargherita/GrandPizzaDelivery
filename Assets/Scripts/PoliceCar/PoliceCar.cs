@@ -6,7 +6,7 @@ using PoliceNS.PoliceStateNS;
 
 // 한석호 작성
 
-public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IInspectingPoliceCarControl, IEndInspecting
+public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IInspectingPoliceCarControl, IEndInspecting, IPriorityCode
 {
     [Range(0f, 100f)] public float PoliceHp;
 
@@ -40,7 +40,6 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
     private bool isBehaviour;   // 주변에 차가 있는지 여부에 따라 행동을 제어할 수 있게 해준다.
     private bool isLock = false;
     private bool isRight = false;   // 경찰차의 방향이 왼쪽인지 오른쪽인지를 확인해준다. 
-    private bool isExplosion = false;
     void Awake()
     {
         PoliceHp = 100;
@@ -49,12 +48,14 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
         if (checkColObj != null)
         {
             checkColObj.GetComponent<PoliceCarCollisionCheck>().SetIPoliceCarIsBehaviour(this);
+            checkColObj.GetComponent<PoliceCarCollisionCheck>().SetIPriority(this);
         }
         if (stopCheckColObj != null)
         {
             stopCheckColObj.GetComponent<StopPoliceCarCollisionCheck>().SetIInspectingPoliceCarControl(this);
             stopCheckColObj.GetComponent<StopPoliceCarCollisionCheck>().SetIPoliceCarIsBehaviour(this);
             stopCheckColObj.GetComponent<StopPoliceCarCollisionCheck>().SetIEndInspecting(this);
+            stopCheckColObj.GetComponent<StopPoliceCarCollisionCheck>().SetIPriority(this);
         }
         if (this.GetComponent<Rigidbody2D>() != null)
 		{
@@ -87,7 +88,7 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
         index = 0;
         while(true)
         {
-            policeCarCode = Random.Range(0, 1000);
+            policeCarCode = Random.Range(0, 1000) + 100000000;
             if (policeCarCodeList.FindIndex(a => a.Equals(policeCarCode)) == -1)
             {
                 policeCarCodeList.Add(policeCarCode);
@@ -269,9 +270,6 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
 
     private void AddForceCar()
     {
-        // 폭발 이미지 넣기(안 넣어도됨)
-        isExplosion = true;
-
         this.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(0, 10f), Random.Range(0, 10f)), ForceMode2D.Impulse);
         Invoke("DestroyCar", 5f);
     }
@@ -369,7 +367,7 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
     {
         isBehaviour = bo;
     }
-    public int GetPoliceCarCode()
+    public int GetPriorityCode()
     {
         return policeCarCode;
     }

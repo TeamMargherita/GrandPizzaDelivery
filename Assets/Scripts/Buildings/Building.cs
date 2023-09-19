@@ -102,4 +102,15 @@ public class Building : MonoBehaviour, IAddress, IBuilding
     {
         return buildingPos;
     }
+
+    public void SetIDeliveryPanelControl(IDeliveryPanelControl iDeliveryPanelControl)
+    {
+        for (int i = 0; i < this.transform.childCount; i++)
+        {
+            if (this.transform.GetChild(i).GetComponent<IAddress>() != null)
+            {
+                this.transform.GetChild(i).GetComponent<IAddress>().SetIDeliveryPanelControl(iDeliveryPanelControl);
+            }
+        }
+    }
 }

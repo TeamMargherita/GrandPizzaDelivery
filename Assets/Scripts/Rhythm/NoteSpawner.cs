@@ -3,26 +3,24 @@ using UnityEngine;
 
 public class NoteSpawner : MonoBehaviour
 {
-    public string FilePath;
-
     [Range(-1f, 1f)]
-    public double Offset;
+    public static float Offset;
+    public static decimal bitSlice;
     public bool IsAuto;
-    public AudioSource sound;
+    public static AudioSource sound;
 
     private decimal oneBar;         // 1 마디 = 4비트
     private decimal nextBar;        // 현재 마디
-    private decimal bitSlice;
     private int barCycle = 0;
 
     private Note notePrefab;        // 노트
     private Bar barPrefab;          // 마디
 
-    private static Queue<Bar> Bars = new Queue<Bar>();
-    private static Queue<Note> Notes = new Queue<Note>();
+    public static Queue<Bar> Bars = new Queue<Bar>();
+    public static Queue<Note> Notes = new Queue<Note>();
 
-    private Queue<Bar> BarLoad = new Queue<Bar>();
-    private Queue<Note> NoteLoad = new Queue<Note>();
+    public static Queue<Bar> BarLoad = new Queue<Bar>();
+    public static Queue<Note> NoteLoad = new Queue<Note>();
 
     private AudioData data;
     void Start()
@@ -47,29 +45,15 @@ public class NoteSpawner : MonoBehaviour
                 Bars.Enqueue(b);
             }
         }
-
+        
         //Init();
     }
 
     void Update()
     {
-        // 마디 바 생성
+        if (data != null)
+            data.Sync = Offset;
 
-
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            int index = (int)((RhythmManager.Instance.CurrentTime - (decimal)Offset) / bitSlice);
-            data.IsNote[index] = true;
-        }
-        if (Input.GetKey(KeyCode.V))
-        {
-            int index = (int)((RhythmManager.Instance.CurrentTime - (decimal)Offset) / bitSlice);
-            if (data.IsNote[index])
-            {
-                NoteClear();
-                data.IsNote[index] = false;
-            }
-        }
         if (NoteLoad.Count > 0)
         {
             if (Input.anyKeyDown
@@ -78,14 +62,14 @@ public class NoteSpawner : MonoBehaviour
                 && !Input.GetKeyDown(KeyCode.V))
             {
                 // 노트 클리어
-                if (NoteLoad.Peek().SendJudge() != Judge.None)
+                if (NoteLoad.Peek().SendJudge() != Judge.NONE)
                     NoteClear();
             }
 
             // 오토 클리어
             if (IsAuto)
             {
-                if (NoteLoad.Count > 0 && NoteLoad.Peek().SendJudge() == Judge.Perfect)
+                if (NoteLoad.Count > 0 && NoteLoad.Peek().SendJudge() == Judge.PERFECT)
                     NoteClear();
             }
         }
@@ -101,29 +85,38 @@ public class NoteSpawner : MonoBehaviour
     {
         if (sound == null)
             sound = GameObject.Find("Metronome").GetComponent<AudioSource>();
-
+        
         data = RhythmManager.Instance.Data;
 
-        // OneBar 연산
-        oneBar = 60m / (decimal)data.BPM * 4m;
-
-        nextBar = 0;
-        bitSlice = oneBar / 32m;    // 1/32
+        // 데이터 값 연산
+        DataCalculator();
 
         // 노트 생성
         CreateNote();
+
         // 바 생성
         CreateBar();
-        barCycle = 0;
+        
     }
-
-    public void CreateNote()
+    public static void NoteClear()
     {
-        while (NoteLoad.Count > 0)
-            NoteLoadReset();
-        int index = (int)((RhythmManager.Instance.CurrentTime - (decimal)Offset) / bitSlice);
+        Note n = NoteLoad.Peek();
+        n.gameObject.SetActive(false);
+        Debug.Log(n.SendJudge());
+        QueueSwaping(NoteLoad, Notes);
+        sound.PlayOneShot(sound.clip);
+    }
+    private void CreateNote()
+    {
+        // Reset
+        NoteLoadReset();
+
+        // Create
+        int index = (int)((RhythmManager.Instance.CurrentTime + (decimal)Offset) / bitSlice);
         for (int i = index; i < data.IsNote.Length; i++)
         {
+            if (i < 0) continue;
+
             if (data.IsNote[i])
             {
                 Note n;
@@ -138,59 +131,60 @@ public class NoteSpawner : MonoBehaviour
             }
         }
     }
-
     private void CreateBar()
     {
-        while (BarLoad.Count > 0)
-            BarLoadReset();
-
+        // Reset
+        BarLoadReset();
+        // Create
+        barCycle = 0;
         for (int i = 0; i < 5000; i++)
         {
-            Bar b;
+            Bar bar;
             if (Bars.Count > 0)
-                b = Bars.Dequeue();
+                bar = Bars.Dequeue();
             else
-                b = Instantiate(barPrefab, transform);
-            b.Init(nextBar + oneBar);
-            b.gameObject.SetActive(true);
+                bar = Instantiate(barPrefab, transform);
+            bar.Init(nextBar);
+            bar.gameObject.SetActive(true);
             if (barCycle % 4 == 0)
             {
-                b.GetComponent<SpriteRenderer>().color = new Color(0, 1, 1, 0.2f);
+                bar.GetComponent<SpriteRenderer>().color = new Color(0, 1, 1, 0.5f);
             }
             else
-                b.GetComponent<SpriteRenderer>().color = new Color(0, 1, 0, 0.2f);
-            BarLoad.Enqueue(b);
-            //nextBar += oneBar;
-            nextBar += (oneBar / 32);
-            barCycle++;
+                bar.GetComponent<SpriteRenderer>().color = new Color(0, 1, 0, 0.5f);
+            BarLoad.Enqueue(bar);
+            nextBar += oneBar;
+            //nextBar += (oneBar / 32);
+            //barCycle++;
         }
     }
-
     private void NoteLoadReset()
     {
-        Note n = NoteLoad.Peek();
-        n.gameObject.SetActive(false);
-        QueueSwaping(NoteLoad, Notes);
+        while (NoteLoad.Count > 0)
+        {
+            Note note = NoteLoad.Peek();
+            note.gameObject.SetActive(false);
+            QueueSwaping(NoteLoad, Notes);
+        }
     }
-
     private void BarLoadReset()
     {
-        Bar n = BarLoad.Peek();
-        n.gameObject.SetActive(false);
-        QueueSwaping(BarLoad, Bars);
+        while (BarLoad.Count > 0)
+        {
+            Bar bar = BarLoad.Peek();
+            bar.gameObject.SetActive(false);
+            QueueSwaping(BarLoad, Bars);
+        }
     }
-
-    private void NoteClear()
-    {
-        Note n = NoteLoad.Peek();
-        n.gameObject.SetActive(false);
-        Debug.Log(n.SendJudge());
-        QueueSwaping(NoteLoad, Notes);
-        sound.PlayOneShot(sound.clip);
-    }
-
-    private void QueueSwaping<T>(Queue<T> start, Queue<T> end)
+    private static void QueueSwaping<T>(Queue<T> start, Queue<T> end)
     {
         end.Enqueue(start.Dequeue());
+    }
+    private void DataCalculator()
+    {
+        oneBar = 60m / (decimal)data.BPM * 4m;
+        Offset = data.Sync;
+        nextBar = (decimal)Offset;
+        bitSlice = oneBar / 32m;
     }
 }

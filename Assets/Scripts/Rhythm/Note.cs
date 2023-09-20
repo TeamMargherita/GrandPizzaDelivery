@@ -1,61 +1,68 @@
 using UnityEngine;
 
-public enum Judge { None = 0, Perfect, Great, Good, Miss }
+public enum Judge { NONE = 0, PERFECT, GREAT, GOOD, MISS }
 
 public class Note : MonoBehaviour
 {
-    [Range(1f, 3f)]
+    public decimal Timing { get { return timing; } }
+
     public float Speed;
-    public Vector2 start;
-    public Vector2 end;
-    public NoteSpawner spawner;
-    public decimal Arrive;
-    public decimal Timing = 10m;
-    public double see;
-
-    private Transform pos;
-
+    private decimal arrive;
+    private decimal timing;
+    private Vector2 start;
+    private Vector2 end;
+    private NoteSpawner spawner;
+    private Transform trans;
     void Update()
     {
-        Timing = Arrive - RhythmManager.Instance.CurrentTime;
-        see = (double)Timing;
-        if (Timing > 0m)
-            pos.position = Vector2.Lerp(end, start * Speed, (float)Timing / 10 * Speed);
-        else
-            pos.position = Vector2.Lerp(end, (end - start) * Speed, (float)-Timing / 10 * Speed);
-
-        if (Timing < -5m)
-        {
-            Debug.Log("Delete Note");
-            gameObject.SetActive(false);
-        }
+        timing = arrive - RhythmManager.Instance.CurrentTime;
+        NoteMove();
+        NoteDrop();
     }
 
     public void Init(decimal arriveTime)
     {
-        Arrive = arriveTime;
-
-        if (end == Vector2.zero)
-            end = GameObject.Find("Judgement").GetComponent<Transform>().position;
-        if (pos == null)
-            pos = GetComponent<Transform>();
-        if (spawner == null)
-            spawner = transform.parent.GetComponent<NoteSpawner>();
-        Timing = Arrive - RhythmManager.Instance.CurrentTime;
+        FindCompnent();
+        arrive = arriveTime;
         start = new Vector2(10f, 0);
     }
 
     public Judge SendJudge()
     {
-        if (Mathf.Abs((float)Timing) > 0.12501f)
-            return Judge.None;
-        //else if (Mathf.Abs((float)Timing) <= 0.04167f)
-        //    return Judge.Perfect;
-        else if ((float)Timing <= 0f)
-            return Judge.Perfect;
-        else if (Mathf.Abs((float)Timing) <= 0.08334f)
-            return Judge.Great;
+        if (Mathf.Abs((float)timing) > 0.12501f)
+            return Judge.NONE;
+        else if (Mathf.Abs((float)timing) <= 0.04167f)
+            return Judge.PERFECT;
+        else if (Mathf.Abs((float)timing) <= 0.08334f)
+            return Judge.GREAT;
         else
-            return Judge.Good;
+            return Judge.GOOD;
+    }
+
+    private void FindCompnent()
+    {
+        if (end == Vector2.zero)
+            end = GameObject.Find("Judgement").GetComponent<Transform>().position;
+        if (trans == null)
+            trans = GetComponent<Transform>();
+        if (spawner == null)
+            spawner = transform.parent.GetComponent<NoteSpawner>();
+    }
+
+    private void NoteMove()
+    {
+        if (timing > 0m)
+            trans.position = Vector2.Lerp(end, start * Speed, (float)timing / 10 * Speed);
+        else
+            trans.position = Vector2.Lerp(end, (end - start) * Speed, (float)-timing / 10 * Speed);
+    }
+
+    private void NoteDrop()
+    {
+        if (timing < -0.12501m)
+        {
+            Debug.Log("Delete Note");
+            gameObject.SetActive(false);
+        }
     }
 }

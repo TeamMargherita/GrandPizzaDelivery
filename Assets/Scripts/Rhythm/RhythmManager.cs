@@ -1,15 +1,16 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class RhythmManager : MonoBehaviour
 {
     public static RhythmManager Instance = null;
-    [Range(0f, 1f)]
-    public decimal Offset;
-    public AudioSource sound;
+    public decimal CurrentTime;
+    public string Title;
+    public float Offset;
+    public AudioSource Metronome;
+    public AudioData Data;         // 곡 데이터
     public Note NotePrefab;        // 노트
     public Bar BarPrefab;          // 마디
-    public AudioData Data;         // 곡 데이터
-    public decimal CurrentTime;
 
     private void Awake()
     {
@@ -20,13 +21,13 @@ public class RhythmManager : MonoBehaviour
         DontDestroyOnLoad(Instance);
     }
 
-    public void SaveData(string fileName)
+    public void SaveData()
     {
-        JsonManager<AudioData>.Save(Data, fileName);
+        JsonManager<AudioData>.Save(Data, Title);
     }
 
-    public void LoadData(string fileName)
+    public void LoadData()
     {
-        Data = new AudioData(fileName);
+        Data = new AudioData(Title);
     }
 }

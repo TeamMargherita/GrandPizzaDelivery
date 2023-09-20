@@ -2,43 +2,43 @@ using UnityEngine;
 
 public class Bar : MonoBehaviour
 {
-    [Range(-1f, 1f)]
-    public float Offset;
-    [Range(1f, 3f)]
-    public float Speed;
-    public Vector2 start;
-    public Vector2 end;
-    public NoteSpawner spawner;
-    public decimal Arrive;
-    public decimal Timing;
+    public decimal Timing { get { return timing; } }
 
-    private Transform pos;
+    private float speed;
+    private decimal arrive;
+    private decimal timing;
+    private Vector2 start;
+    private Vector2 end;
+    private NoteSpawner spawner;
+    private Transform trans;
 
     void Update()
     {
-        Timing = Arrive - RhythmManager.Instance.CurrentTime;
-        if (Timing > 0m)
-            pos.position = Vector2.Lerp(end, start * Speed, (float)Timing / 10 * Speed);
-        else
-            pos.position = Vector2.Lerp(end, (end - start) * Speed, (float)-Timing / 10 * Speed);
-
-        //if (Timing < -5m)
-        //{
-        //    gameObject.SetActive(false);
-        //}
+        timing = arrive - RhythmManager.Instance.CurrentTime;
+        BarMove();
     }
 
     public void Init(decimal arriveTime)
     {
-        Arrive = arriveTime;
-
+        FindCompnent();
+        arrive = arriveTime;
+        start = new Vector2(10f, 0);
+    }
+    private void FindCompnent()
+    {
         if (end == Vector2.zero)
             end = GameObject.Find("Judgement").GetComponent<Transform>().position;
-        if (pos == null)
-            pos = GetComponent<Transform>();
+        if (trans == null)
+            trans = GetComponent<Transform>();
         if (spawner == null)
             spawner = transform.parent.GetComponent<NoteSpawner>();
+    }
 
-        start = new Vector2(10f, 0);
+    private void BarMove()
+    {
+        if (timing > 0m)
+            trans.position = Vector2.Lerp(end, start * speed, (float)timing / 10 * speed);
+        else
+            trans.position = Vector2.Lerp(end, (end - start) * speed, (float)-timing / 10 * speed);
     }
 }

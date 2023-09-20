@@ -8,7 +8,7 @@ public class HouseActiveCheck : MonoBehaviour
 {
     private IActiveHouse iActiveHouse;
     private IHouseActiveUIControl iHouseActiveUIControl;
-    private bool isIn = false;
+    //private bool isIn = false;
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!collision.tag.Equals("Player")) { return; }
@@ -19,18 +19,19 @@ public class HouseActiveCheck : MonoBehaviour
             iHouseActiveUIControl.ActiveTrueKeyExplainPanel(true);
             // House타입을 UIControl에 전달한다.
             iActiveHouse.IntoHouse(true);
-            isIn = true;
+            //isIn = true;
         }
     }
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (!collision.tag.Equals("Player")) { return; }
-
-        if (isIn)
-        {
-            iActiveHouse.IntoHouse(true);
-        }
-    }
+    //private void OnTriggerStay2D(Collider2D collision)
+    //{
+    //    //Debug.Log("작동을 안하는가?");
+    //    if (!collision.tag.Equals("Player")) { return; }
+    //    //Debug.Log(isIn);
+    //    if (isIn)
+    //    {
+    //        iActiveHouse.IntoHouse(true);
+    //    }
+    //}
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (!collision.tag.Equals("Player")) { return; }
@@ -41,7 +42,7 @@ public class HouseActiveCheck : MonoBehaviour
             iHouseActiveUIControl.ActiveTrueKeyExplainPanel(false);
             // UIContorl의 houseType을 초기화해준다.
             iActiveHouse.IntoHouse(false);
-            isIn = false;
+            //isIn = false;
         }
     }
 

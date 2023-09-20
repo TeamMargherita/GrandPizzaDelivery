@@ -3,9 +3,9 @@ using UnityEngine;
 public class Bar : MonoBehaviour
 {
     [Range(-1f, 1f)]
-    public double Offset = 0f;
+    public float Offset;
     [Range(1f, 3f)]
-    public decimal Speed = 1m;
+    public float Speed;
     public Vector2 start;
     public Vector2 end;
     public NoteSpawner spawner;
@@ -14,23 +14,18 @@ public class Bar : MonoBehaviour
 
     private Transform pos;
 
-    void Start()
-    {
-        Speed = 2m;
-    }
-
     void Update()
     {
-        Timing = Arrive - RhythmManager.Instance.GetCurrentTime();
+        Timing = Arrive - RhythmManager.Instance.CurrentTime;
         if (Timing > 0m)
-            pos.position = Vector2.Lerp(end, start * (float)Speed, (float)(Timing / 10 * Speed));
+            pos.position = Vector2.Lerp(end, start * Speed, (float)Timing / 10 * Speed);
         else
-            pos.position = Vector2.Lerp(end, (end - start) * (float)Speed, (float)(-Timing / 10 * Speed));
+            pos.position = Vector2.Lerp(end, (end - start) * Speed, (float)-Timing / 10 * Speed);
 
-        if (Timing < -5m)
-        {
-            gameObject.SetActive(false);
-        }
+        //if (Timing < -5m)
+        //{
+        //    gameObject.SetActive(false);
+        //}
     }
 
     public void Init(decimal arriveTime)

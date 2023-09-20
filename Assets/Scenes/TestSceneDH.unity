@@ -421,7 +421,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1808833192}
         m_TargetAssemblyTypeName: EmployeeRecruit, Assembly-CSharp
-        m_MethodName: test
+        m_MethodName: EmployeeDataReset
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -494,7 +494,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4253424143309184507, guid: 78fc0e42ac2a66f4b8471663e8b36025, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4253424143309184507, guid: 78fc0e42ac2a66f4b8471663e8b36025, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -510,7 +510,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4253424143390321804, guid: 78fc0e42ac2a66f4b8471663e8b36025, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4253424143390321804, guid: 78fc0e42ac2a66f4b8471663e8b36025, type: 3}
       propertyPath: m_AnchorMax.x
@@ -700,11 +700,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!1 &926419830 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6957774581517818754, guid: 6158badd0939af640b5c688be13c4068, type: 3}
-  m_PrefabInstance: {fileID: 6957774580629147892}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &926419831 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6957774581517818755, guid: 6158badd0939af640b5c688be13c4068, type: 3}
@@ -735,7 +730,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4253424143309184507, guid: 78fc0e42ac2a66f4b8471663e8b36025, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4253424143309184507, guid: 78fc0e42ac2a66f4b8471663e8b36025, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -751,7 +746,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4253424143390321804, guid: 78fc0e42ac2a66f4b8471663e8b36025, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4253424143390321804, guid: 78fc0e42ac2a66f4b8471663e8b36025, type: 3}
       propertyPath: m_AnchorMax.x
@@ -969,10 +964,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1956549979}
     m_Modifications:
-    - target: {fileID: 320634241029933861, guid: 2a88ce79766c0fd49ac103c2c3eb4dbe, type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1522667785187609944, guid: 2a88ce79766c0fd49ac103c2c3eb4dbe, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -1021,34 +1012,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Aplicant (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 5210179365565305441, guid: 2a88ce79766c0fd49ac103c2c3eb4dbe, type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5564603302441850575, guid: 2a88ce79766c0fd49ac103c2c3eb4dbe, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 5564603302441850575, guid: 2a88ce79766c0fd49ac103c2c3eb4dbe, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 633258880}
-    - target: {fileID: 5564603302441850575, guid: 2a88ce79766c0fd49ac103c2c3eb4dbe, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SpawnEmployee
-      objectReference: {fileID: 0}
-    - target: {fileID: 5564603302441850575, guid: 2a88ce79766c0fd49ac103c2c3eb4dbe, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: CreateEmployee, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 5564603302441850575, guid: 2a88ce79766c0fd49ac103c2c3eb4dbe, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5564603302441850575, guid: 2a88ce79766c0fd49ac103c2c3eb4dbe, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2a88ce79766c0fd49ac103c2c3eb4dbe, type: 3}
 --- !u!1 &1171555635
@@ -1083,8 +1050,8 @@ RectTransform:
   - {fileID: 1537088086}
   - {fileID: 1044187950}
   - {fileID: 1666563637}
-  - {fileID: 915962170}
   - {fileID: 1030717189}
+  - {fileID: 915962170}
   m_Father: {fileID: 1723484932}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1275,33 +1242,9 @@ PrefabInstance:
       value: Aplicant (2)
       objectReference: {fileID: 0}
     - target: {fileID: 5564603302441850575, guid: 2a88ce79766c0fd49ac103c2c3eb4dbe, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5564603302441850575, guid: 2a88ce79766c0fd49ac103c2c3eb4dbe, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 633258880}
-    - target: {fileID: 5564603302441850575, guid: 2a88ce79766c0fd49ac103c2c3eb4dbe, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SpawnEmployee
-      objectReference: {fileID: 0}
-    - target: {fileID: 5564603302441850575, guid: 2a88ce79766c0fd49ac103c2c3eb4dbe, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: CreateEmployee, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 5564603302441850575, guid: 2a88ce79766c0fd49ac103c2c3eb4dbe, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5564603302441850575, guid: 2a88ce79766c0fd49ac103c2c3eb4dbe, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 8963551981714399677, guid: 2a88ce79766c0fd49ac103c2c3eb4dbe, type: 3}
-      propertyPath: Employee
-      value: 
-      objectReference: {fileID: 926419830}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2a88ce79766c0fd49ac103c2c3eb4dbe, type: 3}
 --- !u!1001 &1666563636
@@ -1479,10 +1422,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e097e7f2b0c34534382b97de7562e823, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pizzaQuality: 0
-  EmployeeParent: {fileID: 633258878}
-  Employees: []
   FireWinParent: {fileID: 1171555636}
+  EmployeeParent: {fileID: 633258878}
 --- !u!4 &1775448708 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1522667785187609944, guid: 2a88ce79766c0fd49ac103c2c3eb4dbe, type: 3}
@@ -1544,7 +1485,11 @@ MonoBehaviour:
   - "\uACBD\uB825 : "
   - "\uCC3D\uC758\uB825 : "
   - "\uC8FC\uAE09 : "
-  IsMondayMorning: 0
+  handy: 000000000000000000000000
+  career: 000000000000000000000000
+  creativity: 000000000000000000000000
+  agility: 000000000000000000000000
+  pay: 000000000000000000000000
 --- !u!4 &1809748701 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1522667785187609944, guid: 2a88ce79766c0fd49ac103c2c3eb4dbe, type: 3}

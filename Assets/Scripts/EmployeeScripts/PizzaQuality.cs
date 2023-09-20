@@ -72,6 +72,6 @@ public class PizzaQuality : MonoBehaviour
 
         result = result / EmployeesCount;
 
-        return result;
+        return -result;
     }
 }

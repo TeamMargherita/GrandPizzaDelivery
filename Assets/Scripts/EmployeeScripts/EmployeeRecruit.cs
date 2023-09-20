@@ -17,7 +17,7 @@ public class EmployeeRecruit : MonoBehaviour
     public int[] agility = new int[3];
     public int[] pay = new int[3];
 
-    public bool IsMondayMorning = false;
+    private bool IsMondayMorning = false;
 
     private void Start()
     {
@@ -62,8 +62,10 @@ public class EmployeeRecruit : MonoBehaviour
             {
                 for (int j = 0; j < Stat.Length; j++)
                 {
-                    RecruitWin.transform.GetChild(i).GetChild(j).GetComponent<Text>().text
-                        = Stat[j] + State(i, j, RecruitWin.transform.GetChild(i).gameObject);
+                    RecruitWin.transform.GetChild(i).GetChild(j).
+                        GetComponent<Text>().text = Stat[j] +
+                        State(i, j, RecruitWin.transform.GetChild(i).
+                        gameObject);
                 }
 
                 RecruitWin.transform.GetChild(i).GetChild(Stat.Length).GetComponent<Button>().interactable
@@ -76,7 +78,7 @@ public class EmployeeRecruit : MonoBehaviour
 
     string State(int index, int statValue, GameObject employee)
     {
-        string result = "";
+        string result = null;
 
         switch (statValue)
         {
@@ -175,7 +177,7 @@ public class EmployeeRecruit : MonoBehaviour
         return RanCount;
     }
 
-    public void test()
+    public void EmployeeDataReset()
     {
         IsMondayMorning = true;
     }// 나중에 시간 설정되면 날짜 바뀔때마다 설정되게 바꾸기~

@@ -22,6 +22,9 @@ public class CreateEmployee : MonoBehaviour
             employee.transform.SetParent(EmployeeMother.transform);
 
             GetStat(value, EmployeeCount);
+
+            EmployeeMother.GetComponent<PizzaQuality>().
+                Employees.Add(employee);
         }
         else
         {

@@ -4,9 +4,10 @@ using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EmployeeFire : PizzaQuality
+public class EmployeeFire : MonoBehaviour
 {
     [SerializeField] Transform FireWinParent;
+    [SerializeField] Transform EmployeeParent;
 
     private void Start()
     {
@@ -40,19 +41,28 @@ public class EmployeeFire : PizzaQuality
         {
             FireWinParent.gameObject.SetActive(true);
 
-            FindEmployees();
-
             FindEmployeeData();
         }
         else
         {
             FireWinParent.gameObject.SetActive(false);
+
+            for (int i = 0; i < FireWinParent.childCount; i++)
+            {
+                FireWinParent.GetChild(i).gameObject.SetActive(false);
+
+                FireWinParent.GetChild(i).GetChild(5).
+                   GetComponent<Button>().interactable = true;
+
+                FireWinParent.GetChild(i).GetChild(5).GetChild(0).
+                    GetComponent<Text>().text = "해고하기";
+            }
         }
     }
 
     void FindEmployeeData()
     {
-        for (int i = 0; i < Employees.Count; i++)
+        for (int i = 0; i < EmployeeParent.childCount; i++)
         {
             FireWinParent.GetChild(i).gameObject.SetActive(true);
 
@@ -99,15 +109,22 @@ public class EmployeeFire : PizzaQuality
 
     public void FireButtonOn(int value)
     {
-        if (Employees.Count > 1)
+        if (EmployeeParent.childCount > 1)
         {
-            Destroy(Employees[value].gameObject);
+            EmployeeParent.GetComponent<PizzaQuality>().Employees.Remove
+                (EmployeeParent.GetChild(value).gameObject);
+
+            Destroy(EmployeeParent.GetChild(value).gameObject);
 
             FireWinParent.GetChild(value).GetChild(5).
                 GetComponent<Button>().interactable = false;
 
             FireWinParent.GetChild(value).GetChild(5).GetChild(0).
                 GetComponent<Text>().text = "해고완료";
+        }
+        else
+        {
+            Debug.Log("사장님 나빠요");
         }
     }
 }

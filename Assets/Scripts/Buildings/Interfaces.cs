@@ -80,6 +80,7 @@ public interface IHouse
 {
     public void EnableHouse();
     public void DisableHouse();
+    public bool GetIsEnable();
 }
 
 public interface IMap

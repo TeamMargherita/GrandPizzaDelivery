@@ -31,6 +31,26 @@ namespace BuildingAddressNS
 		}
 	}
 }
+/*
+집마다 성향이 제각각인 손님들이 존재한다. 한번 성향이 정해진 손님들은 쭉 유지된다.
+경찰차가 플레이어를 추격한다.(미정)
+속도계를 만든다.
+재료들을 만든다.
+가게 내부 화면을 만든다.
+경찰차 리젠(추격이벤트때는 리젠 안됨)
+경찰차 바나나
+손님 리뷰
+*/
+namespace CustomerNS
+{
+    public struct CustomerS
+	{
+        //선호 재료
+        //피자 완성도 커트라인
+
+	}
+}
+
 namespace PoliceNS
 {
     namespace PolicePathNS

@@ -134,11 +134,21 @@ public class Map : MonoBehaviour, IMap
         return list;
 	}
     /// <summary>
-    /// 랜덤한 집 주소 1개를 알려준다.
+    /// 랜덤한 집 주소 1개를 알려준다. 주소는 비활성화된 것들중에서 고른다.
     /// </summary>
     /// <returns>반환 형식은 AddressS이다.</returns>
     public AddressS GetRandAddressS()
 	{
-        return houseAddressList[Random.Range(0, houseAddressList.Count)];
-	}
+        int r = 0;
+        while (true)
+        {
+            r = Random.Range(0, houseAddressList.Count);
+
+            if (!houseAddressList[r].iHouse.GetIsEnable())
+            {
+                return houseAddressList[r];
+            }
+        }
+
+    }
 }

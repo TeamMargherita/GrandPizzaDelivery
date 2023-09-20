@@ -71,8 +71,11 @@ public class House : MonoBehaviour, IAddress, IHouse
         isEnable = false;
         goalObj.SetActive(false);
         spendingTime = iMap.RemoveAddress(houseAddress);
+	}
 
-        
+    public bool GetIsEnable()
+	{
+        return isEnable;
 	}
 
     public void SetIDeliveryPanelControl(IDeliveryPanelControl iDeliveryPanelControl)

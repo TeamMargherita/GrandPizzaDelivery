@@ -19,6 +19,7 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
     private PoliceState policeState;
 
     private IPoliceSmokeEffect iPoliceSmokeEffect;
+    private IStop iStop;
 
     // 경로를 차례대로 들고 있다.
     private List<PolicePath> policePathList = new List<PolicePath>();
@@ -39,7 +40,8 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
     private bool nextBehaviour;
     private bool isBehaviour;   // 주변에 차가 있는지 여부에 따라 행동을 제어할 수 있게 해준다.
     private bool isLock = false;
-    private bool isRight = false;   // 경찰차의 방향이 왼쪽인지 오른쪽인지를 확인해준다. 
+    private bool isRight = false;   // 경찰차의 방향이 왼쪽인지 오른쪽인지를 확인해준다.
+    private bool isStop = false;    // 경찰차 멈춤 여부
     void Awake()
     {
         PoliceHp = 100;
@@ -270,14 +272,20 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
 
     private void AddForceCar()
     {
-        this.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(0, 10f), Random.Range(0, 10f)), ForceMode2D.Impulse);
+        if (policeState == PoliceState.DESTROY)
+        {
+            this.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(0, 10f), Random.Range(0, 10f)), ForceMode2D.Impulse);
+        }
+
         Invoke("DestroyCar", 5f);
     }
 
     private void DestroyCar()
     {
         StopCoroutine(smokeEffectCoroutine);
+        iStop.RemovePoliceList(this);
         Destroy(this.gameObject);
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -313,10 +321,14 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
             }
         }
     }
-
+    public void SetIsStop(bool bo)
+    {
+        isStop = bo;
+    }
 
     void FixedUpdate()
     {
+        if (isStop) { return; }
         if (policeState == PoliceState.DESTROY) { return; }
 
         // 경찰차의 상태가 MOVING이여야만 조건을 만족한다.
@@ -403,4 +415,8 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
 	{
         return policeState;
 	}
+    public void SetMap(IStop iStop)
+    {
+        this.iStop = iStop;
+    }
 }

@@ -1,19 +1,19 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class NoteSpawner : MonoBehaviour
 {
     public string FilePath;
 
-    [Range(0f, 1f)]
+    [Range(-1f, 1f)]
     public double Offset;
     public bool IsAuto;
     public AudioSource sound;
 
-    private decimal bpm;            // 곡 BPM
     private decimal oneBar;         // 1 마디 = 4비트
     private decimal nextBar;        // 현재 마디
+    private decimal bitSlice;
+    private int barCycle = 0;
 
     private Note notePrefab;        // 노트
     private Bar barPrefab;          // 마디
@@ -25,52 +25,67 @@ public class NoteSpawner : MonoBehaviour
     private Queue<Note> NoteLoad = new Queue<Note>();
 
     private AudioData data;
-    private decimal bitSlice;
     void Start()
     {
+        notePrefab = RhythmManager.Instance.NotePrefab;
+        barPrefab = RhythmManager.Instance.BarPrefab;
+
         // Object Initialize
         if (Bars.Count == 0 && Notes.Count == 0)
         {
             for (int i = 0; i < 30; i++)
             {
-                Bar b = Instantiate(barPrefab, transform);
-                b.gameObject.SetActive(false);
-                Bars.Enqueue(b);
-
                 Note n = Instantiate(notePrefab, transform);
                 n.gameObject.SetActive(false);
                 Notes.Enqueue(n);
             }
+
+            for (int i = 0; i < 30; i++)
+            {
+                Bar b = Instantiate(barPrefab, transform);
+                b.gameObject.SetActive(false);
+                Bars.Enqueue(b);
+            }
         }
 
         //Init();
-        //for(int i = 0; i < times.Count; i++)
-        //{
-        //    int divide = (int)(times[i] / bitSlice);
-        //    if (times[i] % bitSlice < bitSlice / 2m)
-        //        times[i] = bitSlice * divide;
-        //    else
-        //        times[i] = bitSlice * (divide + 1);
-        //}
     }
 
     void Update()
     {
         // 마디 바 생성
-        CreateBar();
 
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            int index = (int)((RhythmManager.Instance.CurrentTime - (decimal)Offset) / bitSlice);
+            data.IsNote[index] = true;
+        }
+        if (Input.GetKey(KeyCode.V))
+        {
+            int index = (int)((RhythmManager.Instance.CurrentTime - (decimal)Offset) / bitSlice);
+            if (data.IsNote[index])
+            {
+                NoteClear();
+                data.IsNote[index] = false;
+            }
+        }
         if (NoteLoad.Count > 0)
         {
-            if (Input.anyKeyDown && !Input.GetKeyDown(KeyCode.Escape) && !Input.GetKeyDown(KeyCode.C))
+            if (Input.anyKeyDown
+                && !Input.GetKeyDown(KeyCode.Escape)
+                && !Input.GetKeyDown(KeyCode.C)
+                && !Input.GetKeyDown(KeyCode.V))
             {
                 // 노트 클리어
                 if (NoteLoad.Peek().SendJudge() != Judge.None)
                     NoteClear();
             }
+
             // 오토 클리어
             if (IsAuto)
             {
-                if (NoteLoad.Peek().SendJudge() == Judge.Perfect)
+                if (NoteLoad.Count > 0 && NoteLoad.Peek().SendJudge() == Judge.Perfect)
                     NoteClear();
             }
         }
@@ -87,17 +102,27 @@ public class NoteSpawner : MonoBehaviour
         if (sound == null)
             sound = GameObject.Find("Metronome").GetComponent<AudioSource>();
 
-        notePrefab = RhythmManager.Instance.NotePrefab;
-        barPrefab = RhythmManager.Instance.BarPrefab;
         data = RhythmManager.Instance.Data;
 
         // OneBar 연산
-        oneBar = 60m / bpm * 4m;
-            
-        nextBar = (decimal)Offset;
+        oneBar = 60m / (decimal)data.BPM * 4m;
+
+        nextBar = 0;
         bitSlice = oneBar / 32m;    // 1/32
+
         // 노트 생성
-        for (int i = 0; i < data.IsNote.Length; i++)
+        CreateNote();
+        // 바 생성
+        CreateBar();
+        barCycle = 0;
+    }
+
+    public void CreateNote()
+    {
+        while (NoteLoad.Count > 0)
+            NoteLoadReset();
+        int index = (int)((RhythmManager.Instance.CurrentTime - (decimal)Offset) / bitSlice);
+        for (int i = index; i < data.IsNote.Length; i++)
         {
             if (data.IsNote[i])
             {
@@ -112,23 +137,47 @@ public class NoteSpawner : MonoBehaviour
                 NoteLoad.Enqueue(n);
             }
         }
-        RhythmManager.Instance.SetStartTime();
     }
+
     private void CreateBar()
     {
-        if (nextBar <= RhythmManager.Instance.GetCurrentTime())
+        while (BarLoad.Count > 0)
+            BarLoadReset();
+
+        for (int i = 0; i < 5000; i++)
         {
             Bar b;
             if (Bars.Count > 0)
                 b = Bars.Dequeue();
             else
                 b = Instantiate(barPrefab, transform);
-            b.Init(nextBar + 6m);
+            b.Init(nextBar + oneBar);
             b.gameObject.SetActive(true);
-            b.GetComponent<SpriteRenderer>().color = Color.cyan;
+            if (barCycle % 4 == 0)
+            {
+                b.GetComponent<SpriteRenderer>().color = new Color(0, 1, 1, 0.2f);
+            }
+            else
+                b.GetComponent<SpriteRenderer>().color = new Color(0, 1, 0, 0.2f);
             BarLoad.Enqueue(b);
-            nextBar += oneBar;
+            //nextBar += oneBar;
+            nextBar += (oneBar / 32);
+            barCycle++;
         }
+    }
+
+    private void NoteLoadReset()
+    {
+        Note n = NoteLoad.Peek();
+        n.gameObject.SetActive(false);
+        QueueSwaping(NoteLoad, Notes);
+    }
+
+    private void BarLoadReset()
+    {
+        Bar n = BarLoad.Peek();
+        n.gameObject.SetActive(false);
+        QueueSwaping(BarLoad, Bars);
     }
 
     private void NoteClear()

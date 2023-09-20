@@ -1577,7 +1577,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27af791db551884abec2f985961a598, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  map: {fileID: 0}
   DeliveryAppButton: {fileID: 1232639671490668043}
   DeliveryScreen: {fileID: 1232639671345604971}
 --- !u!1 &1232639671901560985

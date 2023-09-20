@@ -1,3 +1,6 @@
+/// <summary>
+/// 곡 데이터를 담고 있는 클래스
+/// </summary>
 public class AudioData
 {
     public string Name;         // 곡 이름

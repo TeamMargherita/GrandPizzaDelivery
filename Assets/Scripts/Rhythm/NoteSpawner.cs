@@ -1,65 +1,46 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 노트 와 바를 생성시키는 클래스
+/// </summary>
 public class NoteSpawner : MonoBehaviour
 {
     [Range(-1f, 1f)]
-    public static float Offset;
-    public static decimal bitSlice;
-    public bool IsAuto;
-    public static AudioSource sound;
+    public float Sync;                      // 곡 싱크 (추후 로직 수정 필요)
+    public static decimal BitSlice;         // 1 비트를 8 등분
+    public bool IsAuto;                     // 노트 자동 클리어
 
-    private decimal oneBar;         // 1 마디 = 4비트
-    private decimal nextBar;        // 현재 마디
-    private int barCycle = 0;
+    public static Queue<Bar> Bars = new Queue<Bar>();       // 마디 오브젝트 풀
+    public static Queue<Note> Notes = new Queue<Note>();    // 노트 오브젝트 풀
 
-    private Note notePrefab;        // 노트
-    private Bar barPrefab;          // 마디
+    public static Queue<Bar> BarLoad = new Queue<Bar>();    // 나와있는 마디
+    public static Queue<Note> NoteLoad = new Queue<Note>(); // 나와있는 노트
 
-    public static Queue<Bar> Bars = new Queue<Bar>();
-    public static Queue<Note> Notes = new Queue<Note>();
+    private decimal oneBar;                 // 4 비트당 1 마디
+    private decimal nextBar;                // 현재 마디
+    private int barCycle = 0;               // 마디 색 변경을 위한 임시 변수
 
-    public static Queue<Bar> BarLoad = new Queue<Bar>();
-    public static Queue<Note> NoteLoad = new Queue<Note>();
+    private Note notePrefab;                // 노트
+    private Bar barPrefab;                  // 마디
 
-    private AudioData data;
+
     void Start()
     {
         notePrefab = RhythmManager.Instance.NotePrefab;
         barPrefab = RhythmManager.Instance.BarPrefab;
-
-        // Object Initialize
-        if (Bars.Count == 0 && Notes.Count == 0)
-        {
-            for (int i = 0; i < 30; i++)
-            {
-                Note n = Instantiate(notePrefab, transform);
-                n.gameObject.SetActive(false);
-                Notes.Enqueue(n);
-            }
-
-            for (int i = 0; i < 30; i++)
-            {
-                Bar b = Instantiate(barPrefab, transform);
-                b.gameObject.SetActive(false);
-                Bars.Enqueue(b);
-            }
-        }
-        
-        //Init();
     }
 
     void Update()
     {
-        if (data != null)
-            data.Sync = Offset;
+        if (RhythmManager.Instance.Data != null)
+            RhythmManager.Instance.Data.Sync = Sync;
 
+        // 나와있는 노트가 존재
         if (NoteLoad.Count > 0)
         {
-            if (Input.anyKeyDown
-                && !Input.GetKeyDown(KeyCode.Escape)
-                && !Input.GetKeyDown(KeyCode.C)
-                && !Input.GetKeyDown(KeyCode.V))
+            // 노트 클리어용 키 바인딩
+            if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S))
             {
                 // 노트 클리어
                 if (NoteLoad.Peek().SendJudge() != Judge.NONE)
@@ -75,19 +56,10 @@ public class NoteSpawner : MonoBehaviour
         }
 
         // 나와있는 노트와 바를 다시 오브젝트 풀에 저장
-        if (BarLoad.Count > 0 && BarLoad.Peek().Timing < -0.12501m)
-            QueueSwaping(BarLoad, Bars);
-
-        if (NoteLoad.Count > 0 && NoteLoad.Peek().Timing < -0.12501m)
-            QueueSwaping(NoteLoad, Notes);
+        ReturnNote();
     }
     public void Init()
     {
-        if (sound == null)
-            sound = GameObject.Find("Metronome").GetComponent<AudioSource>();
-        
-        data = RhythmManager.Instance.Data;
-
         // 데이터 값 연산
         DataCalculator();
 
@@ -96,68 +68,109 @@ public class NoteSpawner : MonoBehaviour
 
         // 바 생성
         CreateBar();
-        
     }
+
+    /// <summary>
+    /// 노트 클리어 함수 (추후에 다른 클래스로 이동)
+    /// </summary>
     public static void NoteClear()
     {
         Note n = NoteLoad.Peek();
         n.gameObject.SetActive(false);
         Debug.Log(n.SendJudge());
         QueueSwaping(NoteLoad, Notes);
-        sound.PlayOneShot(sound.clip);
+        RhythmManager.Instance.NoteSound.PlayOneShot(RhythmManager.Instance.NoteSound.clip);
     }
-    private void CreateNote()
+
+    /// <summary>
+    /// 노트를 생성하는 함수
+    /// </summary>
+    public void CreateNote()
     {
-        // Reset
+        // 리셋
         NoteLoadReset();
 
-        // Create
-        int index = (int)((RhythmManager.Instance.CurrentTime + (decimal)Offset) / bitSlice);
-        for (int i = index; i < data.IsNote.Length; i++)
+        // 생성
+        // 현재시간 + 오프셋 = 실제 시간
+        // 실제 시간 / BitSlice = 생성할 노트 인덱스
+        int index = (int)((RhythmManager.Instance.CurrentTime + (decimal)Sync) / BitSlice);
+        for (int i = index; i < RhythmManager.Instance.Data.IsNote.Length; i++)
         {
+            // 0보다 작는 인덱스는 생성하지 않음
             if (i < 0) continue;
 
-            if (data.IsNote[i])
+            // 노트가 존재함
+            if (RhythmManager.Instance.Data.IsNote[i])
             {
                 Note n;
+
+                // 오브젝트 풀에 노트가 존재 (재사용)
                 if (Notes.Count > 0)
                     n = Notes.Dequeue();
+
+                // 오브젝트 풀에 노트가 존재하지 않음 (새로 생성)
                 else
                     n = Instantiate(notePrefab, transform);
-                n.Init(bitSlice * i + (decimal)Offset);
+
+                // 노트 초기화
+                n.Init(BitSlice * i + (decimal)Sync);
                 n.gameObject.SetActive(true);
                 n.GetComponent<SpriteRenderer>().color = Color.red;
+
+                // 노트를 NoteLoad(나와있는 노트 모음)에 추가
                 NoteLoad.Enqueue(n);
             }
         }
     }
+
+    /// <summary>
+    /// 마디를 생성하는 함수
+    /// </summary>
     private void CreateBar()
     {
-        // Reset
+        // 리셋
         BarLoadReset();
-        // Create
+
+        // 생성
         barCycle = 0;
+        // 5000개의 마디를 생성(추후에 곡 길이에 따른 마디로 변경)
         for (int i = 0; i < 5000; i++)
         {
             Bar bar;
+
+            // 오브젝트 풀에 마디가 존재 (재사용)
             if (Bars.Count > 0)
                 bar = Bars.Dequeue();
+
+            // 오브젝트 풀에 마디가 존재하지 않음 (새로 생성)
             else
                 bar = Instantiate(barPrefab, transform);
+
+            // 마디 초기화
             bar.Init(nextBar);
             bar.gameObject.SetActive(true);
+
+            // 마디를 BarLoad(나와있는 마디 모음)에 추가
+            BarLoad.Enqueue(bar);
+
+            // 다음 마디로 넘어감
+            //nextBar += oneBar;
+
+            // 에디터 용 마디 생성 구문
             if (barCycle % 4 == 0)
             {
                 bar.GetComponent<SpriteRenderer>().color = new Color(0, 1, 1, 0.5f);
             }
             else
                 bar.GetComponent<SpriteRenderer>().color = new Color(0, 1, 0, 0.5f);
-            BarLoad.Enqueue(bar);
-            nextBar += oneBar;
-            //nextBar += (oneBar / 32);
-            //barCycle++;
+            nextBar += (oneBar / 32m);
+            barCycle++;
         }
     }
+
+    /// <summary>
+    /// 나와있는 모든 노트들을 풀에 돌려놓는 함수
+    /// </summary>
     private void NoteLoadReset()
     {
         while (NoteLoad.Count > 0)
@@ -167,6 +180,10 @@ public class NoteSpawner : MonoBehaviour
             QueueSwaping(NoteLoad, Notes);
         }
     }
+
+    /// <summary>
+    /// 나와있는 모든 마디들을 풀에 돌려놓는 함수
+    /// </summary>
     private void BarLoadReset()
     {
         while (BarLoad.Count > 0)
@@ -176,15 +193,39 @@ public class NoteSpawner : MonoBehaviour
             QueueSwaping(BarLoad, Bars);
         }
     }
+
+    /// <summary>
+    /// 지나간 노트를 돌려놓는 함수
+    /// </summary>
+    private void ReturnNote()
+    {
+        if (NoteLoad.Count > 0 && NoteLoad.Peek().Timing < -0.12501m)
+            QueueSwaping(NoteLoad, Notes);
+    }
+
+    /// <summary>
+    /// 큐 끼리 교환하는 함수
+    /// </summary>
+    /// <typeparam name="T">제네릭 타입</typeparam>
+    /// <param name="start">뽑아낼 큐</param>
+    /// <param name="end">넣어줄 큐</param>
     private static void QueueSwaping<T>(Queue<T> start, Queue<T> end)
     {
         end.Enqueue(start.Dequeue());
     }
+
+    /// <summary>
+    /// 데이터를 기반으로 변수 값 연산하는 함수
+    /// </summary>
     private void DataCalculator()
     {
-        oneBar = 60m / (decimal)data.BPM * 4m;
-        Offset = data.Sync;
-        nextBar = (decimal)Offset;
-        bitSlice = oneBar / 32m;
+        // 60m / (decimal)data.BPM = 1 비트
+        // 1 마디 = 4 비트
+        oneBar = 60m / (decimal)RhythmManager.Instance.Data.BPM * 4m;
+        Sync = RhythmManager.Instance.Data.Sync;
+        nextBar = 0;
+
+        // BitSlice = 비트 / 8 = 마디 / 32
+        BitSlice = oneBar / 32m;
     }
 }

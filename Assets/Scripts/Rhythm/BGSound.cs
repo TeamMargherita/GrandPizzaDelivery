@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// 배경 노래와 관련된 클래스
+/// </summary>
 public class BGSound : MonoBehaviour
 {
     private AudioSource source;
@@ -11,7 +14,7 @@ public class BGSound : MonoBehaviour
 
     private void Update()
     {
-        if (source.isPlaying)
-            RhythmManager.Instance.CurrentTime = (decimal)source.time;
+        // 노래 재생 시간 동기화
+        RhythmManager.Instance.CurrentTime = (decimal)source.time;
     }
 }

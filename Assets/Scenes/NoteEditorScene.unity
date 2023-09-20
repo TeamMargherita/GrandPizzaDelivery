@@ -449,8 +449,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1345620795}
-        m_TargetAssemblyTypeName: BGSound, Assembly-CSharp
+      - m_Target: {fileID: 657417182}
+        m_TargetAssemblyTypeName: NoteEditor, Assembly-CSharp
         m_MethodName: Front
         m_Mode: 3
         m_Arguments:
@@ -885,8 +885,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1345620795}
-        m_TargetAssemblyTypeName: BGSound, Assembly-CSharp
+      - m_Target: {fileID: 657417182}
+        m_TargetAssemblyTypeName: NoteEditor, Assembly-CSharp
         m_MethodName: Pause
         m_Mode: 1
         m_Arguments:
@@ -1043,6 +1043,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa5f33453240ddf4a8c70d3ffccca425, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  FrontButton: {fileID: 220164248}
+  BackButton: {fileID: 1684592777}
+  BgSound: {fileID: 1345620793}
 --- !u!4 &657417183
 Transform:
   m_ObjectHideFlags: 0
@@ -1279,7 +1282,7 @@ GameObject:
   - component: {fileID: 879974086}
   - component: {fileID: 879974085}
   m_Layer: 0
-  m_Name: Metronome
+  m_Name: NoteSound
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1807,8 +1810,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1345620795}
-        m_TargetAssemblyTypeName: BGSound, Assembly-CSharp
+      - m_Target: {fileID: 657417182}
+        m_TargetAssemblyTypeName: NoteEditor, Assembly-CSharp
         m_MethodName: Play
         m_Mode: 1
         m_Arguments:
@@ -1997,9 +2000,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 665c0a2dabe212e428a0fdedc509a01e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bgSound: {fileID: 0}
-  FButton: {fileID: 220164248}
-  BButton: {fileID: 1684592777}
 --- !u!1 &1347711896
 GameObject:
   m_ObjectHideFlags: 0
@@ -2083,9 +2083,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1345620795}
-        m_TargetAssemblyTypeName: BGSound, Assembly-CSharp
+      - m_Target: {fileID: 657417182}
+        m_TargetAssemblyTypeName: NoteEditor, Assembly-CSharp
         m_MethodName: Stop
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1881414668}
+        m_TargetAssemblyTypeName: NoteSpawner, Assembly-CSharp
+        m_MethodName: CreateNote
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3035,8 +3047,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1345620795}
-        m_TargetAssemblyTypeName: BGSound, Assembly-CSharp
+      - m_Target: {fileID: 657417182}
+        m_TargetAssemblyTypeName: NoteEditor, Assembly-CSharp
         m_MethodName: Back
         m_Mode: 3
         m_Arguments:
@@ -3505,7 +3517,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1f2addb4c0e53944a412aec4e4b74c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FilePath: 
+  Sync: 0
   IsAuto: 0
 --- !u!4 &1881414670
 Transform:
@@ -3588,9 +3600,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Title: "\uC624\uB298\uC758 \uC5EC\uD589"
-  sound: {fileID: 879974085}
+  NoteSound: {fileID: 879974085}
   NotePrefab: {fileID: 3912432625341133289, guid: 8badcbe89307a1145bc5ec9c8af49d1b, type: 3}
   BarPrefab: {fileID: 5823794955170759125, guid: 1a301afafd122e24faf6e71875641bef, type: 3}
+  Speed: 3
 --- !u!4 &1908904675
 Transform:
   m_ObjectHideFlags: 0

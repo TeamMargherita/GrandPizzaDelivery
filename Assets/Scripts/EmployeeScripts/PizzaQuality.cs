@@ -6,11 +6,11 @@ public class PizzaQuality : MonoBehaviour
 {
     public int pizzaQuality;
 
-    [SerializeField] Transform EmployeeParent;
+    public Transform EmployeeParent;
 
     int EmployeesCount = 0;
 
-    [SerializeField]List<GameObject> Employees = new List<GameObject>();
+    public List<GameObject> Employees = new List<GameObject>();
 
     int QualityMinValue = -8;
     int QualityMaxValue = 8;
@@ -39,10 +39,10 @@ public class PizzaQuality : MonoBehaviour
 
         for (int i = 0; i < EmployeesCount; i++)
         {
-            pizzaQuality += Employees[i].GetComponent<EmployeeStat>().handy;
+            pizzaQuality += Employees[i].GetComponent<EmployeeStat>().Handy;
 
-            min += Employees[i].GetComponent<EmployeeStat>().career;
-            max += Employees[i].GetComponent<EmployeeStat>().creativity;
+            min += Employees[i].GetComponent<EmployeeStat>().Career;
+            max += Employees[i].GetComponent<EmployeeStat>().Creativity;
         }
 
         min /= EmployeesCount;
@@ -61,16 +61,16 @@ public class PizzaQuality : MonoBehaviour
         }
     }
 
-    public int AgilityAverage()
+    public int AgilityAverage() // 순발력은 * -1
     {
         int result = 0;
 
         for (int i = 0; i < EmployeesCount; i++)
         {
-            result += Employees[i].GetComponent<EmployeeStat>().agility;
+            result += Employees[i].GetComponent<EmployeeStat>().Agility;
         }
 
-        result /= EmployeesCount;
+        result = result / EmployeesCount;
 
         return result;
     }

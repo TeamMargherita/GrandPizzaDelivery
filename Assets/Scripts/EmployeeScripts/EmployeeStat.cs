@@ -4,33 +4,33 @@ using UnityEngine;
 
 public class EmployeeStat : MonoBehaviour
 {
-    public int career { get; set; }// 경력. 피자의 완성도가 낮아질 확률을 줄여준다.
-    public int handy { get; set; } // 기본 손재주
-    public int creativity { get; set; } // 창의력. 피자의 완성도가 높아질 확률을 높여준다.
-    public int agility { get; set; } // 순발력. 피자의 완성 속도를 높여준다.
-    public int pay { get; set; } // 주급.
+    public int Career { get; set; } = -1;// 경력. 피자의 완성도가 낮아질 확률을 줄여준다.
+    public int Handy { get; set; } = 20; // 기본 손재주
+    public int Creativity { get; set; } = -1;// 창의력. 피자의 완성도가 높아질 확률을 높여준다.
+    public int Agility { get; set; } = -1; // 순발력. 피자의 완성 속도를 높여준다.
+    public int Pay { get; set; } // 주급.
 
-    // 스텟 수치(경력, 창의력)
+    // 스텟 단계별 수치(경력, 창의력)
     public int bad { get; } = -1;
     public int normal { get; } = 1;
     public int good { get; } = 3;
     public int perfect { get; } = 6;
 
-    public string[] creativityStat { get; } = new string[4] { "낮음", "보통", "높음", "천재" };
-    public string[] careerStat { get; } = new string[4] { "신입", "경력직", "베테랑", "달인" };
+    public string[] CreativityStat { get; } = new string[4] { "낮음", "보통", "높음", "천재" };
+    public string[] CareerStat { get; } = new string[4] { "신입", "경력직", "베테랑", "달인" };
+    public string[] AgilityStat { get; } = new string[4] { "느림", "보통", "조금 빠름", "빠름" };
 
-    private void Start()
+    private void Awake()
     {
-        EmployeeStartStat();
+        Pay = Handy - Agility + Creativity + Career + Random.Range(-10, 11);
     }
 
-    // 스텟 초기값
-    void EmployeeStartStat()
+    private void Update()
     {
-        handy = 20;
-        agility = -1;
-        creativity = -1;
-        career = -1;
-        pay = handy + agility + creativity + career + Random.Range(-10, 11);
+        Debug.Log(Agility);
+        Debug.Log(Career);
+        Debug.Log(Handy);
+        Debug.Log(Creativity);
+        Debug.Log(Pay);
     }
 }

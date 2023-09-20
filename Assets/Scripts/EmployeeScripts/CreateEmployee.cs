@@ -11,6 +11,7 @@ public class CreateEmployee : MonoBehaviour
     public void SpawnEmployee(int value)
     {
         int EmployeeCount = 0;
+
         EmployeeCount = EmployeeMother.transform.childCount;
 
         if(EmployeeCount < 5 )
@@ -18,9 +19,9 @@ public class CreateEmployee : MonoBehaviour
             GameObject employee;
 
             employee = Instantiate(EmployeePrefab);
-            employee.transform.SetParent( EmployeeMother.transform);
+            employee.transform.SetParent(EmployeeMother.transform);
 
-            GetStat(employee, value);
+            GetStat(value, EmployeeCount);
         }
         else
         {
@@ -28,17 +29,17 @@ public class CreateEmployee : MonoBehaviour
         }
     }
 
-    public void GetStat(GameObject employee, int value)
+    public void GetStat(int SValue, int Gvalue)
     {
-        employee.GetComponent<EmployeeStat>().handy 
-            = EmployeeRecruitMother.GetChild(0).GetChild(value).GetComponent<EmployeeStat>().handy;
-        employee.GetComponent<EmployeeStat>().agility
-            = EmployeeRecruitMother.GetChild(0).GetChild(value).GetComponent<EmployeeStat>().agility;
-        employee.GetComponent<EmployeeStat>().career
-            = EmployeeRecruitMother.GetChild(0).GetChild(value).GetComponent<EmployeeStat>().career;
-        employee.GetComponent<EmployeeStat>().creativity
-            = EmployeeRecruitMother.GetChild(0).GetChild(value).GetComponent<EmployeeStat>().creativity;
-        employee.GetComponent<EmployeeStat>().pay
-            = EmployeeRecruitMother.GetChild(0).GetChild(value).GetComponent<EmployeeStat>().pay;
+        EmployeeMother.GetChild(Gvalue).GetComponent<EmployeeStat>().Handy 
+            = EmployeeRecruitMother.GetComponent<EmployeeRecruit>().handy[SValue];
+        EmployeeMother.GetChild(Gvalue).GetComponent<EmployeeStat>().Agility
+            = EmployeeRecruitMother.GetComponent<EmployeeRecruit>().agility[SValue];
+        EmployeeMother.GetChild(Gvalue).GetComponent<EmployeeStat>().Career
+            = EmployeeRecruitMother.GetComponent<EmployeeRecruit>().career[SValue];
+        EmployeeMother.GetChild(Gvalue).GetComponent<EmployeeStat>().Creativity
+            = EmployeeRecruitMother.GetComponent<EmployeeRecruit>().creativity[SValue];
+        EmployeeMother.GetChild(Gvalue).GetComponent<EmployeeStat>().Pay
+            = EmployeeRecruitMother.GetComponent<EmployeeRecruit>().pay[SValue];
     }
 }

@@ -11,11 +11,11 @@ public class EmployeeRecruit : MonoBehaviour
 
     [SerializeField] string[] Stat = new string[5];
 
-    private int[] handy = new int[3];
-    private int[] career = new int[3];
-    private int[] creativity = new int[3];
-    private int[] agility = new int[3];
-    private int[] pay = new int[3];
+    public int[] handy = new int[3];
+    public int[] career = new int[3];
+    public int[] creativity = new int[3];
+    public int[] agility = new int[3];
+    public int[] pay = new int[3];
 
     public bool IsMondayMorning = false;
 
@@ -88,7 +88,21 @@ public class EmployeeRecruit : MonoBehaviour
             case 1:
                 agility[index] = RandomStat(employee);
 
-                result = agility[index].ToString();
+                switch (agility[index])
+                {
+                    case -1:
+                        result = employee.GetComponent<EmployeeStat>().AgilityStat[0].ToString();
+                        break;
+                    case 1:
+                        result = employee.GetComponent<EmployeeStat>().AgilityStat[1].ToString();
+                        break;
+                    case 3:
+                        result = employee.GetComponent<EmployeeStat>().AgilityStat[2].ToString();
+                        break;
+                    case 6:
+                        result = employee.GetComponent<EmployeeStat>().AgilityStat[3].ToString();
+                        break;
+                }
                 break;
             case 2:
                 career[index] = RandomStat(employee);
@@ -96,16 +110,16 @@ public class EmployeeRecruit : MonoBehaviour
                 switch (career[index])
                 {
                     case -1:
-                        result = employee.GetComponent<EmployeeStat>().careerStat[0].ToString();
+                        result = employee.GetComponent<EmployeeStat>().CareerStat[0].ToString();
                         break;
                     case 1:
-                        result = employee.GetComponent<EmployeeStat>().careerStat[1].ToString();
+                        result = employee.GetComponent<EmployeeStat>().CareerStat[1].ToString();
                         break;
                     case 3:
-                        result = employee.GetComponent<EmployeeStat>().careerStat[2].ToString();
+                        result = employee.GetComponent<EmployeeStat>().CareerStat[2].ToString();
                         break;
                     case 6:
-                        result = employee.GetComponent<EmployeeStat>().careerStat[3].ToString();
+                        result = employee.GetComponent<EmployeeStat>().CareerStat[3].ToString();
                         break;
                 }
                 break;
@@ -115,16 +129,16 @@ public class EmployeeRecruit : MonoBehaviour
                 switch (creativity[index])
                 {
                     case -1:
-                        result = employee.GetComponent<EmployeeStat>().creativityStat[0].ToString();
+                        result = employee.GetComponent<EmployeeStat>().CreativityStat[0].ToString();
                         break;
                     case 1:
-                        result = employee.GetComponent<EmployeeStat>().creativityStat[1].ToString();
+                        result = employee.GetComponent<EmployeeStat>().CreativityStat[1].ToString();
                         break;
                     case 3:
-                        result = employee.GetComponent<EmployeeStat>().creativityStat[2].ToString();
+                        result = employee.GetComponent<EmployeeStat>().CreativityStat[2].ToString();
                         break;
                     case 6:
-                        result = employee.GetComponent<EmployeeStat>().creativityStat[3].ToString();
+                        result = employee.GetComponent<EmployeeStat>().CreativityStat[3].ToString();
                         break;
                 }
                 break;

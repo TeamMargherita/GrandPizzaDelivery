@@ -113,4 +113,15 @@ public class Building : MonoBehaviour, IAddress, IBuilding
             }
         }
     }
+
+    public void SetIHouseActiveUIControl(IHouseActiveUIControl iHouseActiveControl)
+    {
+        for (int i = 0; i < this.transform.childCount; i++)
+        {
+            if (this.transform.GetChild(i).GetComponent<IAddress>() != null)
+            {
+                this.transform.GetChild(i).GetComponent<IAddress>().SetIHouseActiveUIControl(iHouseActiveControl);
+            }
+        }
+    }
 }

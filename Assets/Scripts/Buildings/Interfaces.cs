@@ -4,6 +4,7 @@ using UnityEngine;
 using PoliceNS.PolicePathNS;
 using PoliceNS.PoliceStateNS;
 using BuildingAddressNS;
+using BuildingNS.HouseNS;
 
 // 한석호 작성
 
@@ -13,6 +14,7 @@ public interface IAddress
     public int GetAddress();
     public void SetIMap(IMap iMap);
     public void SetIDeliveryPanelControl(IDeliveryPanelControl iDeliveryPanelControl);
+    public void SetIHouseActiveUIControl(IHouseActiveUIControl iHouseActiveControl);
 }
 
 public interface IBuilding
@@ -33,6 +35,8 @@ public interface IPoliceCar
     public Rigidbody2D GetRigidBody2D();
     public float GetSpeed();
     public PoliceState GetPoliceState();
+    public void SetMap(IStop iStop);
+    public void SetIsStop(bool bo);
 
 }
 // 경찰차 제어에 관한 인터페이스
@@ -61,6 +65,12 @@ public interface IDeliveryPanelControl
     public void ControlDeliveryUI(bool isOn);
     public void SetIHouseDeliveryUI(IHouse iHouse);
 }
+public interface IHouseActiveUIControl
+{
+    public void ActiveTrueKeyExplainPanel(bool bo);
+    public void SetHouseType(HouseType houseType);
+
+}
 public interface IInspectingUIText
 {
     public void ChoiceText(int num);
@@ -81,10 +91,21 @@ public interface IHouse
     public void EnableHouse();
     public void DisableHouse();
     public bool GetIsEnable();
+    public void SetHouseType(Sprite mark, HouseType houseType);
+    public HouseType GetHouseType();
 }
-
+public interface IActiveHouse
+{ 
+    public bool ActiveHouse(bool bo);
+    public void IntoHouse(bool bo);
+}
 public interface IMap
 {
     public void AddAddress(AddressS addressS);
     public float RemoveAddress(AddressS addressS);
+}
+public interface IStop
+{
+    public void StopMap(bool bo);
+    public void RemovePoliceList(IPoliceCar iPoliceCar);
 }

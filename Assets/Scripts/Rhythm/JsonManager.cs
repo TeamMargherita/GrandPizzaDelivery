@@ -3,7 +3,6 @@ using UnityEngine;
 
 public static class JsonManager<T>
 {
-    //private static string path = Application.persistentDataPath;
     private static string path = Application.dataPath + "/Json";
 
     public static void Save(T userData, string fileName)

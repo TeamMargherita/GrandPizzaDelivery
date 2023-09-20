@@ -21,10 +21,10 @@ public class CreateEmployee : MonoBehaviour
             employee = Instantiate(EmployeePrefab);
             employee.transform.SetParent(EmployeeMother.transform);
 
-            GetStat(value, EmployeeCount);
-
             EmployeeMother.GetComponent<PizzaQuality>().
                 Employees.Add(employee);
+
+            GetStat(value, EmployeeCount);
         }
         else
         {

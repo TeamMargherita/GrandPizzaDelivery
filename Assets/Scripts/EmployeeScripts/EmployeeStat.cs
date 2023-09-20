@@ -24,4 +24,9 @@ public class EmployeeStat : MonoBehaviour
     {
         Pay = Handy - Agility + Creativity + Career + Random.Range(-10, 11);
     }
+
+    private void Update()
+    {
+        Debug.Log(Handy);
+    }
 }

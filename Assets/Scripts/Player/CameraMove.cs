@@ -9,5 +9,6 @@ public class CameraMove : MonoBehaviour
     void Update()
     {
         transform.position = player.transform.position + (Vector3.forward  * -20);
+        Camera.main.orthographicSize = 5 + Math.Abs(player.GetComponent<PlayerMove>().Speed / 15);
     }
 }

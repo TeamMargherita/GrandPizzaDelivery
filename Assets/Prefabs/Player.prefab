@@ -99,8 +99,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Braking: 0.98
   speed: 0
-  MaxSpeed: 20
-  acceleration: 1
+  MaxSpeed: 10
+  acceleration: 3
   Stop: 0
 --- !u!50 &5465525692732688135
 Rigidbody2D:
@@ -122,7 +122,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &5465525692732688134
 BoxCollider2D:
   m_ObjectHideFlags: 0

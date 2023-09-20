@@ -119,7 +119,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1224567788}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1232639671345604970}
+        m_TargetAssemblyTypeName: DeliveryScreen, Assembly-CSharp
+        m_MethodName: OnClickCancle
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 3
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1692634860
 GameObject:
   m_ObjectHideFlags: 0
@@ -239,7 +251,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1692634863}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1232639671345604970}
+        m_TargetAssemblyTypeName: DeliveryScreen, Assembly-CSharp
+        m_MethodName: OnClickCancle
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 4
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1701781056
 GameObject:
   m_ObjectHideFlags: 0
@@ -258,7 +282,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1701781057
 RectTransform:
   m_ObjectHideFlags: 0
@@ -492,7 +516,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1717149749}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1232639671345604970}
+        m_TargetAssemblyTypeName: DeliveryScreen, Assembly-CSharp
+        m_MethodName: OnClickCancle
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2102314828
 GameObject:
   m_ObjectHideFlags: 0
@@ -511,7 +547,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2102314829
 RectTransform:
   m_ObjectHideFlags: 0
@@ -644,7 +680,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2142957458
 RectTransform:
   m_ObjectHideFlags: 0
@@ -777,7 +813,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1232639671033642611
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1184,12 +1220,20 @@ MonoBehaviour:
   - {fileID: 1232639672465134271}
   - {fileID: 1232639672179960098}
   SDR: {fileID: 0}
-  Accept:
+  AcceptB:
   - {fileID: 1232639672346218766}
   - {fileID: 1232639671033642612}
   - {fileID: 2142957457}
   - {fileID: 2102314828}
   - {fileID: 1701781056}
+  CancleB:
+  - {fileID: 1232639671901560985}
+  - {fileID: 1232639672034533389}
+  - {fileID: 1717149746}
+  - {fileID: 1224567785}
+  - {fileID: 1692634860}
+  Map: {fileID: 0}
+  House: {fileID: 0}
 --- !u!1 &1232639671490668043
 GameObject:
   m_ObjectHideFlags: 0
@@ -1533,6 +1577,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27af791db551884abec2f985961a598, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  map: {fileID: 0}
   DeliveryAppButton: {fileID: 1232639671490668043}
   DeliveryScreen: {fileID: 1232639671345604971}
 --- !u!1 &1232639671901560985
@@ -1654,7 +1699,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1232639671901560966}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1232639671345604970}
+        m_TargetAssemblyTypeName: DeliveryScreen, Assembly-CSharp
+        m_MethodName: OnClickCancle
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1232639672034533389
 GameObject:
   m_ObjectHideFlags: 0
@@ -1774,7 +1831,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1232639672034533386}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1232639671345604970}
+        m_TargetAssemblyTypeName: DeliveryScreen, Assembly-CSharp
+        m_MethodName: OnClickCancle
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1232639672179960099
 GameObject:
   m_ObjectHideFlags: 0
@@ -1873,7 +1942,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1232639672346218765
 RectTransform:
   m_ObjectHideFlags: 0

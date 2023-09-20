@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HandPhone : SendDeliveryRequest
+public class HandPhone : MonoBehaviour
 {
     public GameObject DeliveryAppButton;
     public GameObject DeliveryScreen;
@@ -19,7 +19,7 @@ public class HandPhone : SendDeliveryRequest
         DSscript.TextUpdate();
     }
 
-    public void HomeButtonOnClick()
+    public void HomeButtonOnClick()//홈버튼 눌렀을시
     {
         DeliveryAppButton.SetActive(true);
         DeliveryScreen.SetActive(false);

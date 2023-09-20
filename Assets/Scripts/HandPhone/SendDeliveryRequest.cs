@@ -5,7 +5,6 @@ using UnityEngine;
 public class SendDeliveryRequest : MonoBehaviour
 {
     public List<Request> RequestList = new List<Request>();
-    public Map map;
 
     private float time = 0;
     public void RandomCall()//랜덤피자주문 메서드

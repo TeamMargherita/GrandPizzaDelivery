@@ -37,7 +37,7 @@ public class DeliveryScreen : MonoBehaviour
     {
         TextUpdate();
     }
-    public void OnClickAccept(int i)
+    public void OnClickAccept(int i)//피자주문수락버튼클릭
     {
         AcceptB[i].SetActive(false);
         SDR.RequestList[i].Accept = true;
@@ -45,7 +45,7 @@ public class DeliveryScreen : MonoBehaviour
         SDR.RequestList[i].AddressS.iHouse.EnableHouse();
     }
     
-    public void OnClickCancle(int i)
+    public void OnClickCancle(int i)//피자주문취소버튼클릭
     {
         AcceptB[i].SetActive(false);
         RequestTextList[i].text = "";

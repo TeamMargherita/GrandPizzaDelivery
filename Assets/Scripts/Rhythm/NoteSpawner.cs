@@ -24,17 +24,18 @@ public class NoteSpawner : MonoBehaviour
     private Note notePrefab;                // 노트
     private Bar barPrefab;                  // 마디
 
-
+    private RhythmManager manager;
     void Start()
     {
-        notePrefab = RhythmManager.Instance.NotePrefab;
-        barPrefab = RhythmManager.Instance.BarPrefab;
+        manager = RhythmManager.Instance;
+        notePrefab = manager.NotePrefab;
+        barPrefab = manager.BarPrefab;
     }
 
     void Update()
     {
-        if (RhythmManager.Instance.Data != null)
-            RhythmManager.Instance.Data.Sync = Sync;
+        if (manager.Data != null)
+            manager.Data.Sync = Sync;
 
         // 나와있는 노트가 존재
         if (NoteLoad.Count > 0)
@@ -91,35 +92,27 @@ public class NoteSpawner : MonoBehaviour
         NoteLoadReset();
 
         // 생성
-        // 현재시간 + 오프셋 = 실제 시간
-        // 실제 시간 / BitSlice = 생성할 노트 인덱스
-        int index = (int)((RhythmManager.Instance.CurrentTime + (decimal)Sync) / BitSlice);
-        for (int i = index; i < RhythmManager.Instance.Data.IsNote.Length; i++)
+
+        foreach (var v in manager.Data.IsNote)
         {
-            // 0보다 작는 인덱스는 생성하지 않음
-            if (i < 0) continue;
-
             // 노트가 존재함
-            if (RhythmManager.Instance.Data.IsNote[i])
-            {
-                Note n;
+            Note n;
 
-                // 오브젝트 풀에 노트가 존재 (재사용)
-                if (Notes.Count > 0)
-                    n = Notes.Dequeue();
+            // 오브젝트 풀에 노트가 존재 (재사용)
+            if (Notes.Count > 0)
+                n = Notes.Dequeue();
 
-                // 오브젝트 풀에 노트가 존재하지 않음 (새로 생성)
-                else
-                    n = Instantiate(notePrefab, transform);
+            // 오브젝트 풀에 노트가 존재하지 않음 (새로 생성)
+            else
+                n = Instantiate(notePrefab, transform);
 
-                // 노트 초기화
-                n.Init(BitSlice * i + (decimal)Sync);
-                n.gameObject.SetActive(true);
-                n.GetComponent<SpriteRenderer>().color = Color.red;
+            // 노트 초기화
+            n.Init(BitSlice * v.Key + (decimal)Sync);
+            n.gameObject.SetActive(true);
+            n.GetComponent<SpriteRenderer>().color = Color.red;
 
-                // 노트를 NoteLoad(나와있는 노트 모음)에 추가
-                NoteLoad.Enqueue(n);
-            }
+            // 노트를 NoteLoad(나와있는 노트 모음)에 추가
+            NoteLoad.Enqueue(n);
         }
     }
 
@@ -221,8 +214,8 @@ public class NoteSpawner : MonoBehaviour
     {
         // 60m / (decimal)data.BPM = 1 비트
         // 1 마디 = 4 비트
-        oneBar = 60m / (decimal)RhythmManager.Instance.Data.BPM * 4m;
-        Sync = RhythmManager.Instance.Data.Sync;
+        oneBar = 60m / (decimal)manager.Data.BPM * 4m;
+        Sync = manager.Data.Sync;
         nextBar = 0;
 
         // BitSlice = 비트 / 8 = 마디 / 32

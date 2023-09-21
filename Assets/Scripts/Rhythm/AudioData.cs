@@ -1,13 +1,15 @@
+using System.Collections.Generic;
+
 /// <summary>
 /// ∞Ó µ•¿Ã≈Õ∏¶ ¥„∞Ì ¿÷¥¬ ≈¨∑°Ω∫
 /// </summary>
 public class AudioData
 {
-    public string Name;         // ∞Ó ¿Ã∏ß
-    public float BPM;           // ∞Ó BPM
-    public float Length;        // ∞Ó ±Ê¿Ã
-    public float Sync;          // ∞Ó ΩÃ≈©
-    public bool[] IsNote;       // ≥Î∆Æ ª˝º∫ Ω√∞£
+    public string Name;                         // ∞Ó ¿Ã∏ß
+    public float BPM;                           // ∞Ó BPM
+    public float Length;                        // ∞Ó ±Ê¿Ã
+    public float Sync;                          // ∞Ó ΩÃ≈©
+    public SortedList<int, float> IsNote;       // ≥Î∆Æ ª˝º∫ Ω√∞£
 
     public AudioData()
     {
@@ -15,7 +17,7 @@ public class AudioData
         BPM = 60f;
         Length = 0f;
         Sync = 0f;
-        IsNote = new bool[5000];
+        IsNote = new SortedList<int, float>();
     }
 
     public AudioData(string fileName)

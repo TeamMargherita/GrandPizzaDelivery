@@ -10,18 +10,21 @@ public class PizzaStoreUI : MonoBehaviour
 	[SerializeField] private GameObject[] slotObjArr;
 
 	private Sprite[] pizzaIngredientSprArr;
+	private PizzaIngredientSlots[] pizzaIngredientSlotsArr;
 	private int nowPage;
 	private void Awake()
 	{
 		pizzaIngredientSprArr = Resources.LoadAll<Sprite>("UI/Ingredients_120_120");
-
+		pizzaIngredientSlotsArr = new PizzaIngredientSlots[slotObjArr.Length];
 		for (int i = 0; i < slotObjArr.Length; i++)
 		{
-			slotObjArr[i].GetComponent<PizzaIngredientSlots>().SlotNumber = i;
+			pizzaIngredientSlotsArr[i] = slotObjArr[i].GetComponent<PizzaIngredientSlots>();
+			pizzaIngredientSlotsArr[i].SlotNumber = i;
+			pizzaIngredientSlotsArr[i].InitCompo();
 		}
 
 		nowPage = 0;
-
+		Debug.Log("abc");
 
 	}
 	
@@ -37,28 +40,18 @@ public class PizzaStoreUI : MonoBehaviour
 	{
 		nowPage = page;
 
-		for (int i =0; i < slotObjArr.Length; i++)
+		for (int i = 0; i < slotObjArr.Length; i++)
 		{
-			IngredientS ing;
-			if (i + (nowPage * slotObjArr.Length) + 1 >= Constant.IngredientsArray.GetLength(0))
+			if (i + (nowPage * slotObjArr.Length) + 1 > Constant.IngredientsArray.GetLength(0))
 			{
-				ing = new IngredientS
-				((Ingredient)int.Parse(Constant.IngredientsArray[0, 0]),
-				int.Parse(Constant.IngredientsArray[0, 1]),
-				int.Parse(Constant.IngredientsArray[0, 2]),
-				int.Parse(Constant.IngredientsArray[0, 3]));
-
+				pizzaIngredientSlotsArr[i].IngredientNumber = 0;
+				pizzaIngredientSlotsArr[i].SetIngredientsSpr(pizzaIngredientSprArr[0]);
 			}
 			else
 			{
-				ing = new IngredientS
-					((Ingredient)int.Parse(Constant.IngredientsArray[i + (nowPage * slotObjArr.Length) + 1, 0]),
-					int.Parse(Constant.IngredientsArray[i + (nowPage * slotObjArr.Length) + 1, 1]),
-					int.Parse(Constant.IngredientsArray[i + (nowPage * slotObjArr.Length) + 1, 2]),
-					int.Parse(Constant.IngredientsArray[i + (nowPage * slotObjArr.Length) + 1, 3]));
+				pizzaIngredientSlotsArr[i].IngredientNumber = i + (nowPage * slotObjArr.Length) + 1;
+				pizzaIngredientSlotsArr[i].SetIngredientsSpr(pizzaIngredientSprArr[i + (nowPage * slotObjArr.Length) + 1]);
 			}
-
-			slotObjArr[i].GetComponent<PizzaIngredientSlots>().SetIngredients(ing);
 		}
 	}
 }

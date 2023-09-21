@@ -11,6 +11,12 @@ public class NoteEditor : MonoBehaviour
     public AudioSource BgSound;     // 배경 음악
 
     private decimal calculator;     // 노트 배열 인덱스 계산용
+    private RhythmManager manager;
+
+    private void Start()
+    {
+        manager = RhythmManager.Instance;
+    }
 
     void Update()
     {
@@ -49,9 +55,10 @@ public class NoteEditor : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.C) || Input.GetKeyDown(KeyCode.D))
         {
-            calculator = (RhythmManager.Instance.CurrentTime - (decimal)RhythmManager.Instance.Data.Sync) / NoteSpawner.BitSlice;
+            calculator = (manager.CurrentTime - (decimal)manager.Data.Sync) / NoteSpawner.BitSlice;
             int index = calculator % NoteSpawner.BitSlice < NoteSpawner.BitSlice / 2 ? (int)calculator : (int)calculator + 1;
-            RhythmManager.Instance.Data.IsNote[index] = true;
+            if (!manager.Data.IsNote.ContainsKey(index))
+                manager.Data.IsNote.Add(index, index * (float)NoteSpawner.BitSlice);
         }
     }
 
@@ -62,13 +69,13 @@ public class NoteEditor : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.V))
         {
-            calculator = (RhythmManager.Instance.CurrentTime - (decimal)RhythmManager.Instance.Data.Sync) / NoteSpawner.BitSlice;
+            calculator = (manager.CurrentTime - (decimal)manager.Data.Sync) / NoteSpawner.BitSlice;
             int index = calculator % NoteSpawner.BitSlice < NoteSpawner.BitSlice / 2 ? (int)calculator : (int)calculator + 1;
-            if (RhythmManager.Instance.Data.IsNote[index])
+            if (manager.Data.IsNote.ContainsKey(index))
             {
                 if (NoteSpawner.NoteLoad.Count > 0)
                     NoteSpawner.NoteClear();
-                RhythmManager.Instance.Data.IsNote[index] = false;
+                manager.Data.IsNote.Remove(index);
             }
         }
     }

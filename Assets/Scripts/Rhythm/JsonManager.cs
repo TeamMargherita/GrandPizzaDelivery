@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System.IO;
 using UnityEngine;
 
@@ -11,7 +12,7 @@ public static class JsonManager<T>
         {
             Directory.CreateDirectory(path);
         }
-        string _saveJson = JsonUtility.ToJson(userData);
+        string _saveJson = JsonConvert.SerializeObject(userData);
         string _filePath = path + "/" + fileName + ".json";
 
         File.WriteAllText(_filePath, _saveJson);
@@ -28,7 +29,7 @@ public static class JsonManager<T>
         }
 
         string saveFile = File.ReadAllText(_filePath);
-        T _userData = JsonUtility.FromJson<T>(saveFile);
+        T _userData = JsonConvert.DeserializeObject<T>(saveFile);
         return _userData;
     }
 

@@ -11,20 +11,24 @@ public class PizzaIngredientSlots : MonoBehaviour, IPointerEnterHandler, IPointe
 	public int SlotNumber { get; set; }	// 슬롯 번호
 	public int IngredientNumber { get; set; }   // 재료번호
 
+	private IPizzaStore iPizzaStore;
+
 	private Color grayColor = new Color(150 / 255f, 150 / 255f, 150 / 255f, 1f);
 	private Color darkColor = new Color(100 / 255f, 100 / 255f, 100 / 255f, 1f);
+
 	private Image childImg;
 	private Image img;
 	private RectTransform childRect;
 	private Sprite IngredientSprtie;    // 재료 스프라이트
-	private void Awake()
-	{
-	}
 	public void InitCompo()
 	{
 		img = this.GetComponent<Image>();
 		childImg = this.transform.GetChild(0).GetComponent<Image>();
 		childRect = this.transform.GetChild(0).GetComponent<RectTransform>();
+	}
+	public void InitInterface(IPizzaStore iPizzaStore)
+	{
+		this.iPizzaStore = iPizzaStore;
 	}
 	public void SetIngredientsSpr(Sprite spr)
 	{
@@ -34,6 +38,7 @@ public class PizzaIngredientSlots : MonoBehaviour, IPointerEnterHandler, IPointe
 	public void OnPointerEnter(PointerEventData eventData)
 	{
 		img.color = grayColor;
+		iPizzaStore.IngredientExplain(IngredientNumber);
 	}
 
 	public void OnPointerDown(PointerEventData eventData)

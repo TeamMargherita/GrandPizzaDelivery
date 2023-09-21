@@ -5,9 +5,10 @@ using UnityEngine.UI;
 using PizzaNS;
 
 // 한석호 작성
-public class PizzaStoreUI : MonoBehaviour
+public class PizzaStoreUI : MonoBehaviour, IPizzaStore
 {
 	[SerializeField] private GameObject[] slotObjArr;
+	[SerializeField] private Text ingredientExplainText;
 
 	private Sprite[] pizzaIngredientSprArr;
 	private PizzaIngredientSlots[] pizzaIngredientSlotsArr;
@@ -21,6 +22,7 @@ public class PizzaStoreUI : MonoBehaviour
 			pizzaIngredientSlotsArr[i] = slotObjArr[i].GetComponent<PizzaIngredientSlots>();
 			pizzaIngredientSlotsArr[i].SlotNumber = i;
 			pizzaIngredientSlotsArr[i].InitCompo();
+			pizzaIngredientSlotsArr[i].InitInterface(this);
 		}
 
 		nowPage = 0;
@@ -34,7 +36,7 @@ public class PizzaStoreUI : MonoBehaviour
 		// 스프라이트가 재료 슬롯에 들어가야됨
 		InitPage(0);
 	}
-
+	// 재료 페이지 넘김
 	public void Page(bool next)
 	{
 		if (next)
@@ -77,6 +79,29 @@ public class PizzaStoreUI : MonoBehaviour
 				pizzaIngredientSlotsArr[i].IngredientNumber = i + (nowPage * slotObjArr.Length) + 1;
 				pizzaIngredientSlotsArr[i].SetIngredientsSpr(pizzaIngredientSprArr[i + (nowPage * slotObjArr.Length) + 1]);
 			}
+		}
+	}
+
+	public void IngredientExplain(int ingNum)
+	{
+		if (ingNum == 0)
+		{
+			ingredientExplainText.text 
+				= "매력도 : " + Constant.IngredientsArray[0, 1] + "\n"
+				+ "매력하락도 : " + Constant.IngredientsArray[0,2] + "\n"
+				+ "재료값 : " + Constant.IngredientsArray[0,3];
+		}
+		else if (ingNum == -1)
+		{
+			ingredientExplainText.text = "";
+		}
+		else
+		{
+			ingredientExplainText.text
+			= "매력도 : " + Constant.IngredientsArray[ingNum, 1] + "\n"
+			+ "매력하락도 : " + Constant.IngredientsArray[ingNum, 2] + "\n"
+			+ "재료값 : " + Constant.IngredientsArray[ingNum, 3];
+
 		}
 	}
 }

@@ -109,7 +109,8 @@ public interface IStop
     public void StopMap(bool bo);
     public void RemovePoliceList(IPoliceCar iPoliceCar);
 }
-public interface IPizzaStore
+public interface IIngredientSlot
 {
     public void IngredientExplain(int ingNum);
+    public void ChoiceIngredient(int ingNum, int index);
 }

@@ -22,16 +22,6 @@ public class HouseActiveCheck : MonoBehaviour
             //isIn = true;
         }
     }
-    //private void OnTriggerStay2D(Collider2D collision)
-    //{
-    //    //Debug.Log("작동을 안하는가?");
-    //    if (!collision.tag.Equals("Player")) { return; }
-    //    //Debug.Log(isIn);
-    //    if (isIn)
-    //    {
-    //        iActiveHouse.IntoHouse(true);
-    //    }
-    //}
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (!collision.tag.Equals("Player")) { return; }

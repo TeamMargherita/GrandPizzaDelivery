@@ -48,13 +48,22 @@ namespace BuildingAddressNS
 */
 namespace PizzaNS
 {
-    public enum Ingredient { TOMATO, CHEESE, BASIL, POTATO, BACON, CORN, JALAPENO, CHICKEN };
+    public enum Ingredient { NONE, TOMATO, CHEESE, BASIL, POTATO, BACON, CORN, JALAPENO, CHICKEN, MEAT };
 
     public struct IngredientS
     {
         public Ingredient Ingred;   // 재료
         public int Attractiveness;  // 매력도
         public int DeclineAt;    // 매력 하락도
+        public int IngredientPrice; // 재료값
+
+        public IngredientS(Ingredient ingred, int attractiveness, int declineAt, int ingredientPrice)
+		{
+            this.Ingred = ingred;
+            this.Attractiveness = attractiveness;
+            this.DeclineAt = declineAt;
+            this.IngredientPrice = ingredientPrice;
+		}
     }
 
     namespace CustomerNS

@@ -57,7 +57,7 @@ public class House : MonoBehaviour, IAddress, IHouse, IActiveHouse
         while (ing.Count < 2)
         {
             r = Random.Range(0, System.Enum.GetValues(typeof(Ingredient)).Length);
-            if (ing.FindIndex(a => a.Equals((Ingredient)r)) == -1)
+            if (ing.FindIndex(a => a.Equals((Ingredient)r)) == -1 && r != 0)
             {
                 ing.Add((Ingredient)r);
             }

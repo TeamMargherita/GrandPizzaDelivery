@@ -24,7 +24,6 @@ public class PizzaStoreUI : MonoBehaviour
 		}
 
 		nowPage = 0;
-		Debug.Log("abc");
 
 	}
 	
@@ -36,13 +35,39 @@ public class PizzaStoreUI : MonoBehaviour
 		InitPage(0);
 	}
 
+	public void Page(bool next)
+	{
+		if (next)
+		{
+			if (Constant.IngredientsArray.GetLength(0) / slotObjArr.Length <= nowPage)
+			{
+				return;
+			}
+			else
+			{
+				InitPage(++nowPage);
+			}
+		}
+		else
+		{
+			if (nowPage <= 0)
+			{
+				return;
+			}
+			else
+			{
+				InitPage(0);
+			}
+		}
+	}
+
 	private void InitPage(int page)
 	{
 		nowPage = page;
 
 		for (int i = 0; i < slotObjArr.Length; i++)
 		{
-			if (i + (nowPage * slotObjArr.Length) + 1 > Constant.IngredientsArray.GetLength(0))
+			if (i + (nowPage * slotObjArr.Length) + 1 >= Constant.IngredientsArray.GetLength(0))
 			{
 				pizzaIngredientSlotsArr[i].IngredientNumber = 0;
 				pizzaIngredientSlotsArr[i].SetIngredientsSpr(pizzaIngredientSprArr[0]);

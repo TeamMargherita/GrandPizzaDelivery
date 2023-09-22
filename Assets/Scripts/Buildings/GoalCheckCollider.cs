@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using BuildingAddressNS;
 
+// 한석호 작성
+
 public class GoalCheckCollider : MonoBehaviour, IPriorityCode
 {
     private List<IPriorityCode> priorityList = new List<IPriorityCode>();

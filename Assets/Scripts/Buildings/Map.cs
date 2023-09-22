@@ -2,21 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using BuildingAddressNS;
+using BuildingNS.HouseNS;
 
 // 한석호 작성
 
 
 //맵에 존재해야할 오브젝트들을 배치하고, 건물마다 주소를 붙여줌으로써 맵을 구현합니다. 
-public class Map : MonoBehaviour, IMap
+public class Map : MonoBehaviour, IMap, IStop
 {
     [SerializeField] private GameObject uiControlObj;
     [SerializeField] private GameObject policeCar;
     [SerializeField] private GameObject effectControl;
     [SerializeField] private PlayerMove playerMove;
+    [SerializeField] private Sprite[] houseMarkArr;
+
     // addressList를 통해 빌딩의 주소를 초기화하거나 받아올 수 있습니다.
     private List<IAddress> addressList = new List<IAddress>();
     // 각 건물에 경찰차를 배정하기 위한 리스트입니다.
     private List<IBuilding> buildingList = new List<IBuilding>();
+    private List<IPoliceCar> policeList = new List<IPoliceCar>();
+
     private List<AddressS> houseAddressList = new List<AddressS>();
     private List<AddressS> temHouseAddressList = new List<AddressS>();
     private Dictionary<AddressS, float> deliveryTimeDic = new Dictionary<AddressS, float>();
@@ -33,14 +38,20 @@ public class Map : MonoBehaviour, IMap
                 addressList[n].InitAddress(n, houseAddressList);
                 addressList[n].SetIMap(this);
                 addressList[n].SetIDeliveryPanelControl(uiControlObj.GetComponent<IDeliveryPanelControl>());
+                addressList[n].SetIHouseActiveUIControl(uiControlObj.GetComponent<IHouseActiveUIControl>());
                 buildingList.Add(ob.GetComponent<IBuilding>());
                 n++;
             }
         }
+        uiControlObj.GetComponent<UIControl>().SetIStop(this);
+
     }
 
     private void Start()
-    {
+    {   
+        // 피자집에 마크를 붙인다.
+        houseAddressList[36].IHouse.SetHouseType(houseMarkArr[0], HouseType.PIZZASTORE);
+
         MakeAPoliceCar(45);
         //test();
     }
@@ -49,7 +60,7 @@ public class Map : MonoBehaviour, IMap
         List<AddressS> ad = GetRandAddressSList(5);
         for (int i = 0; i < ad.Count; i++)
         {
-            ad[i].iHouse.EnableHouse();
+            ad[i].IHouse.EnableHouse();
         }
     }
 
@@ -72,8 +83,10 @@ public class Map : MonoBehaviour, IMap
 
                 if (policeCar.GetComponent<IPoliceCar>() != null)
                 {
+                    policeList.Add(policeCar.GetComponent<IPoliceCar>());
                     policeCar.GetComponent<IPoliceCar>().SetPlayerMove(playerMove);
                     policeCar.GetComponent<IPoliceCar>().SetPoliceSmokeEffect(effectControl.GetComponent<IPoliceSmokeEffect>());
+                    policeCar.GetComponent<IPoliceCar>().SetMap(this);
                     // 각 경찰차에게 건물에 맞는 루트를 짜서 넘겨야한다.
                     if (buildingList[ran].GetPolicePath().Count != 0)
                     {
@@ -98,7 +111,7 @@ public class Map : MonoBehaviour, IMap
         {
             if (addr.BuildingAddress == addressS.BuildingAddress 
                 && addr.HouseAddress == addressS.HouseAddress
-                && addr.iHouse == addressS.iHouse)
+                && addr.IHouse == addressS.IHouse)
             {
                 float f = GameManager.Instance.time - deliveryTimeDic[addr]; 
                 deliveryTimeDic.Remove(addr);
@@ -126,7 +139,14 @@ public class Map : MonoBehaviour, IMap
         int r = 0;
         for (int i = 0; i < n; i++)
 		{
-            r = Random.Range(0, temHouseAddressList.Count);
+            while (true)
+            {
+                r = Random.Range(0, temHouseAddressList.Count);
+                if (temHouseAddressList[r].IHouse.GetHouseType() == HouseType.HOUSE)
+                {
+                    break;
+                }
+            }
             list.Add(temHouseAddressList[r]);
             temHouseAddressList.RemoveAt(r);
 		}
@@ -134,11 +154,59 @@ public class Map : MonoBehaviour, IMap
         return list;
 	}
     /// <summary>
-    /// 랜덤한 집 주소 1개를 알려준다.
+    /// 랜덤한 집 주소 1개를 알려준다. 주소는 비활성화된 것들중에서 고른다.
     /// </summary>
     /// <returns>반환 형식은 AddressS이다.</returns>
     public AddressS GetRandAddressS()
 	{
-        return houseAddressList[Random.Range(0, houseAddressList.Count)];
-	}
+        int r = 0;
+        while (true)
+        {
+            r = Random.Range(0, houseAddressList.Count);
+
+            if (!houseAddressList[r].IHouse.GetIsEnable() && houseAddressList[r].IHouse.GetHouseType() == HouseType.HOUSE)
+            {
+                return houseAddressList[r];
+            }
+        }
+    }
+
+    public void StopMap(bool bo) 
+    {
+        int n = 0;
+
+        if (bo)
+        {
+            while(true)
+            {
+                n = policeList.Count;
+                for (int i = 0; i < n; i++)
+                {
+                    if (n != policeList.Count) { break; }
+                    policeList[i].SetIsStop(true);
+                }
+                break;
+            }
+            playerMove.Stop = true;
+        }
+        else
+        {
+            while (true)
+            {
+                n = policeList.Count;
+                for (int i = 0; i < n; i++)
+                {
+                    if (n != policeList.Count) { break; }
+                    policeList[i].SetIsStop(false);
+                }
+                break;
+            }
+            playerMove.Stop = false;
+        }
+    }
+
+    public void RemovePoliceList(IPoliceCar iPoliceCar)
+    {
+        policeList.Remove(iPoliceCar);
+    }
 }

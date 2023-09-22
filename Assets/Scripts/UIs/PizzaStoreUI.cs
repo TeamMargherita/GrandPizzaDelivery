@@ -12,7 +12,7 @@ public class PizzaStoreUI : MonoBehaviour, IIngredientSlot
 	[SerializeField] private Text ingredientExplainText;
 	[SerializeField] private Text choiceIngredientExplainText;
 
-	private List<int> choiceIngredientList = new List<int>();
+	//private List<int> choiceIngredientList = new List<int>();
 
 	private Sprite[] pizzaIngredientSprArr;
 	private PizzaIngredientSlots[] pizzaIngredientSlotsArr;
@@ -59,6 +59,7 @@ public class PizzaStoreUI : MonoBehaviour, IIngredientSlot
 		InitPage(0);
 		SetChoiceText(false);
 		InitChoiceIngredient();
+		Constant.PizzaAttractiveness = 0;
 	}
 	private void InitValue()
 	{
@@ -129,7 +130,7 @@ public class PizzaStoreUI : MonoBehaviour, IIngredientSlot
 	}
 	public void InitChoiceIngredient()
 	{
-		choiceIngredientList.Clear();
+		Constant.ChoiceIngredientList.Clear();
 		for (int i = 0; i < choiceSlotArr.Length; i++)
 		{
 			choiceIngredientSlotArr[i].SetIngredientsSpr(pizzaIngredientSprArr[0]);
@@ -141,38 +142,40 @@ public class PizzaStoreUI : MonoBehaviour, IIngredientSlot
 		// 재료를 추가
 		if (index == -1)
 		{
-			if (choiceIngredientList.Count >= 10) { return; }
+			if (Constant.ChoiceIngredientList.Count >= 10) { return; }
 
-			choiceIngredientList.Add(ingNum);
+			Constant.ChoiceIngredientList.Add(ingNum);
 		}
 		// 재료를 제거
 		else
 		{
-			if (choiceIngredientList.Count - 1 < index) { return; }
+			if (Constant.ChoiceIngredientList.Count - 1 < index) { return; }
 
-			choiceIngredientList.RemoveAt(index);
+			Constant.ChoiceIngredientList.RemoveAt(index);
 		}
 
 		InitValue();
 
 		for (int i = 0; i < choiceSlotArr.Length; i++)
 		{
-			if (choiceIngredientList.Count - 1 < i)
+			if (Constant.ChoiceIngredientList.Count - 1 < i)
 			{
 				choiceIngredientSlotArr[i].SetIngredientsSpr(pizzaIngredientSprArr[0]);
 				choiceIngredientSlotArr[i].IngredientNumber = 0;
 			}
 			else
 			{
-				choiceIngredientSlotArr[i].SetIngredientsSpr(pizzaIngredientSprArr[choiceIngredientList[i]]);
-				choiceIngredientSlotArr[i].IngredientNumber = choiceIngredientList[i];
+				choiceIngredientSlotArr[i].SetIngredientsSpr(pizzaIngredientSprArr[Constant.ChoiceIngredientList[i]]);
+				choiceIngredientSlotArr[i].IngredientNumber = Constant.ChoiceIngredientList[i];
 
-				attractiveness += int.Parse(Constant.IngredientsArray[choiceIngredientList[i], 1]);
-				declineAt += int.Parse(Constant.IngredientsArray[choiceIngredientList[i], 2]);
-				ingredientPrice += int.Parse(Constant.IngredientsArray[choiceIngredientList[i], 3]);
+				attractiveness += int.Parse(Constant.IngredientsArray[Constant.ChoiceIngredientList[i], 1]);
+				declineAt += int.Parse(Constant.IngredientsArray[Constant.ChoiceIngredientList[i], 2]);
+				ingredientPrice += int.Parse(Constant.IngredientsArray[Constant.ChoiceIngredientList[i], 3]);
 			}
 		}
 
+		Constant.PizzaAttractiveness = attractiveness;
+		
 		SetChoiceText(true);
 	}
 
@@ -190,4 +193,5 @@ public class PizzaStoreUI : MonoBehaviour, IIngredientSlot
 			choiceIngredientExplainText.text = "";
 		}
 	}
+	
 }

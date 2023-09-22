@@ -63,6 +63,6 @@ public class GameManager : MonoBehaviour
     {
         time += Time.deltaTime * timeSpeed; //게임기준1분 = 현실시간2초
         //게임1초 * timeSpeed = 현실시간1초
-        TimeText.GetComponent<Text>().text = (int)time/3600 + " : " + (int)(time / 60 % 60);
+        //TimeText.GetComponent<Text>().text = (int)time/3600 + " : " + (int)(time / 60 % 60);
     }
 }

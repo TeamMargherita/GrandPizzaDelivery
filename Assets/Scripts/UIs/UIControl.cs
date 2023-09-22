@@ -168,7 +168,7 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
             switch(houseType)
             {
                 case HouseType.PIZZASTORE:
-                    Debug.Log("됏다 안됏다");
+                    //Debug.Log("됏다 안됏다");
                     //houseType = HouseType.NONE;
                     //플레이어 멈추고, 경찰차 멈춰야함.
                     iStop.StopMap(true);

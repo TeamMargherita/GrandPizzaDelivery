@@ -10,11 +10,17 @@ public class PizzaStoreUI : MonoBehaviour, IIngredientSlot
 	[SerializeField] private GameObject[] slotObjArr;
 	[SerializeField] private GameObject[] choiceSlotArr;
 	[SerializeField] private Text ingredientExplainText;
+	[SerializeField] private Text choiceIngredientExplainText;
 
 	private List<int> choiceIngredientList = new List<int>();
+
 	private Sprite[] pizzaIngredientSprArr;
 	private PizzaIngredientSlots[] pizzaIngredientSlotsArr;
 	private ChoiceIngredientSlot[] choiceIngredientSlotArr;
+
+	private int attractiveness;
+	private int declineAt;
+	private int ingredientPrice;
 	private int nowPage;
 	private void Awake()
 	{
@@ -40,16 +46,27 @@ public class PizzaStoreUI : MonoBehaviour, IIngredientSlot
 		}
 
 		nowPage = 0;
-
+		InitValue();
 	}
-	
-
 	private void OnEnable()
 	{
 		// 재료슬롯은 켜질때 0페이지 고정
 		// 스프라이트가 재료 슬롯에 들어가야됨
-		InitPage(0);
+		BackMakePizza();
 	}
+	public void BackMakePizza()
+	{
+		InitPage(0);
+		SetChoiceText(false);
+		InitChoiceIngredient();
+	}
+	private void InitValue()
+	{
+		attractiveness = 0;
+		declineAt = 0;
+		ingredientPrice = 0;
+	}
+
 	// 재료 페이지 넘김
 	public void Page(bool next)
 	{
@@ -108,10 +125,17 @@ public class PizzaStoreUI : MonoBehaviour, IIngredientSlot
 			= "매력도 : " + Constant.IngredientsArray[ingNum, 1] + "\n"
 			+ "매력하락도 : " + Constant.IngredientsArray[ingNum, 2] + "\n"
 			+ "재료값 : " + Constant.IngredientsArray[ingNum, 3];
-
 		}
 	}
-
+	public void InitChoiceIngredient()
+	{
+		choiceIngredientList.Clear();
+		for (int i = 0; i < choiceSlotArr.Length; i++)
+		{
+			choiceIngredientSlotArr[i].SetIngredientsSpr(pizzaIngredientSprArr[0]);
+			choiceIngredientSlotArr[i].IngredientNumber = 0;
+		}
+	}
 	public void ChoiceIngredient(int ingNum, int index)
 	{
 		// 재료를 추가
@@ -129,6 +153,8 @@ public class PizzaStoreUI : MonoBehaviour, IIngredientSlot
 			choiceIngredientList.RemoveAt(index);
 		}
 
+		InitValue();
+
 		for (int i = 0; i < choiceSlotArr.Length; i++)
 		{
 			if (choiceIngredientList.Count - 1 < i)
@@ -140,7 +166,28 @@ public class PizzaStoreUI : MonoBehaviour, IIngredientSlot
 			{
 				choiceIngredientSlotArr[i].SetIngredientsSpr(pizzaIngredientSprArr[choiceIngredientList[i]]);
 				choiceIngredientSlotArr[i].IngredientNumber = choiceIngredientList[i];
+
+				attractiveness += int.Parse(Constant.IngredientsArray[choiceIngredientList[i], 1]);
+				declineAt += int.Parse(Constant.IngredientsArray[choiceIngredientList[i], 2]);
+				ingredientPrice += int.Parse(Constant.IngredientsArray[choiceIngredientList[i], 3]);
 			}
+		}
+
+		SetChoiceText(true);
+	}
+
+	private void SetChoiceText(bool bo)
+	{
+		if (bo)
+		{
+			choiceIngredientExplainText.text
+			  = "총 매력도 : " + attractiveness + "\n"
+			  + "총 매력하락도 : " + declineAt + "\n"
+			  + "총 재료값 : " + ingredientPrice;
+		}
+		else
+		{
+			choiceIngredientExplainText.text = "";
 		}
 	}
 }

@@ -11,8 +11,25 @@ public class Minimap : MonoBehaviour
 
     void Update()
     {
+        Vector2 distince = destination.position - player.position;
+        Vector2 change = new Vector2(player.position.x, player.position.y) + distince * 10;
         // 플레이어와 목적지 위치를 MiniMap의 스케일에 맞게 조정하여 아이콘의 위치를 업데이트합니다.
-        playerIcon.anchoredPosition = new Vector2(player.position.x, player.position.y) * 5;
-        destinationIcon.anchoredPosition = new Vector2(destination.position.x, destination.position.y) * 5;
+        //playerIcon.anchoredPosition = new Vector2(player.position.x, player.position.y) * 6;
+        if (change.x < -200)
+        {
+            destinationIcon.anchoredPosition = new Vector2(-200, change.y);
+        }else if (change.x > 200)
+        {
+            destinationIcon.anchoredPosition = new Vector2(200, change.y);
+        }else if(change.y < -200)
+        {
+            destinationIcon.anchoredPosition = new Vector2(change.x, -200);
+        }else if (change.y > 200)
+        {
+            destinationIcon.anchoredPosition = new Vector2(change.x, 200);
+        }else
+        {
+            destinationIcon.anchoredPosition = change;
+        }
     }
 }

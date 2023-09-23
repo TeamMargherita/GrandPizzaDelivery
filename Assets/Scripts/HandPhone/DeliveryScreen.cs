@@ -12,6 +12,7 @@ public class DeliveryScreen : MonoBehaviour
     public Map Map;
     public House House;
 
+    //배달앱 텍스트 업데이트
     public void TextUpdate()
     {
         

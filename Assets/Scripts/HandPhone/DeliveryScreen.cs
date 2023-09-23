@@ -11,7 +11,7 @@ public class DeliveryScreen : MonoBehaviour
     public List<GameObject> CancleB;
     public Map Map;
     public House House;
-
+    public Minimap Minimap;
     //배달앱 텍스트 업데이트
     public void TextUpdate()
     {
@@ -44,6 +44,7 @@ public class DeliveryScreen : MonoBehaviour
         SDR.RequestList[i].Accept = true;
         SDR.RequestList[i].AddressS = Map.GetRandAddressS();
         SDR.RequestList[i].AddressS.IHouse.EnableHouse();
+        Minimap.CreateDestination(SDR.RequestList[i]);
     }
     
     public void OnClickCancle(int i)//피자주문취소버튼클릭

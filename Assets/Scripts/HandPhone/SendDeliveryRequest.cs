@@ -6,7 +6,6 @@ public class SendDeliveryRequest : MonoBehaviour
 {
     //주문리스트
     public List<Request> RequestList = new List<Request>();
-
     private float time = 0;
     public void RandomCall()//랜덤피자주문 메서드
     {

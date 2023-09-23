@@ -1,33 +1,36 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+
+/// <summary>
+/// ∞Ó µ•¿Ã≈Õ∏¶ ¥„∞Ì ¿÷¥¬ ≈¨∑°Ω∫
+/// </summary>
 public class AudioData
 {
-    public string Name;         // ∞Ó ¿Ã∏ß
-    public decimal BPM;         // ∞Ó BPM
-    public decimal Length;      // ∞Ó ±Ê¿Ã
-    public bool[] IsNote;     // ≥Î∆Æ ª˝º∫ Ω√∞£
+    public string Name;                         // ∞Ó ¿Ã∏ß
+    public float BPM;                           // ∞Ó BPM
+    public float Length;                        // ∞Ó ±Ê¿Ã
+    public float Sync;                          // ∞Ó ΩÃ≈©
+    public SortedList<int, float> IsNote;       // ≥Î∆Æ ª˝º∫ Ω√∞£
 
     public AudioData()
     {
-        IsNote = new bool[100];
-        for (int i = 0; i < IsNote.Length; i++)
-            IsNote[i] = true;
+        Name = "no title";
+        BPM = 60f;
+        Length = 0f;
+        Sync = 0f;
+        IsNote = new SortedList<int, float>();
     }
 
-    public AudioData(string path)
+    public AudioData(string fileName)
     {
-        AudioData data = JsonManager<AudioData>.Load(path);
+        AudioData data = JsonManager<AudioData>.Load(fileName);
+        if (data == null)
+        {
+            data = new AudioData();
+        }
         Name = data.Name;
         BPM = data.BPM;
         Length = data.Length;
-        IsNote = data.IsNote;
-    }
-    public AudioData(AudioData data)
-    {
-        Name = data.Name;
-        BPM = data.BPM;
-        Length = data.Length;
+        Sync = data.Sync;
         IsNote = data.IsNote;
     }
 }

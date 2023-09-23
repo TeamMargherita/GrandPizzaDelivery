@@ -1,20 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
+/// <summary>
+/// 리듬 게임 관련된 데이터를 관리하는 싱글톤 클래스
+/// </summary>
 public class RhythmManager : MonoBehaviour
 {
-    public static RhythmManager Instance = null;
-    [Range(0f, 1f)]
-    public decimal Offset;
-    public AudioSource sound;
-    public Note NotePrefab;        // 노트
-    public Bar BarPrefab;          // 마디
-    public AudioData Data;         // 곡 데이터
+    public static RhythmManager Instance = null;    // 싱글톤 인스턴싱
+    public string Title;                            // 관리 할 곡 제목
+    public decimal CurrentTime;                     // 현재 시간
+    public AudioSource NoteSound;                   // 노트 소리
+    public AudioData Data;                          // 곡 데이터
+    public Note NotePrefab;                         // 노트
+    public Bar BarPrefab;                           // 마디
+    public float Speed;                             // 속도
 
-    private decimal StartTime = 0m;
-    private decimal currentTime;
     private void Awake()
     {
         if (Instance != null)
@@ -24,25 +23,19 @@ public class RhythmManager : MonoBehaviour
         DontDestroyOnLoad(Instance);
     }
 
-    public void SetStartTime()
+    /// <summary>
+    /// 곡 데이터를 Json 파일로 저장
+    /// </summary>
+    public void SaveData()
     {
-        // 시작 시간 설정
-        StartTime = (decimal)AudioSettings.dspTime;
+        JsonManager<AudioData>.Save(Data, Title);
     }
 
-    public decimal GetCurrentTime()
+    /// <summary>
+    /// Json 파일인 곡 데이터 불러오기
+    /// </summary>
+    public void LoadData()
     {
-        currentTime = (decimal)AudioSettings.dspTime - StartTime;
-        return currentTime;
-    }
-
-    public void LoadData(string path)
-    {
-        Data = new AudioData(path);
-    }
-
-    public void SaveData(string path)
-    {
-        JsonManager<AudioData>.Save(Data, path);
+        Data = new AudioData(Title);
     }
 }

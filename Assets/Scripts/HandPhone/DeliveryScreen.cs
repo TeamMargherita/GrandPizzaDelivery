@@ -43,7 +43,7 @@ public class DeliveryScreen : MonoBehaviour
         AcceptB[i].SetActive(false);
         SDR.RequestList[i].Accept = true;
         SDR.RequestList[i].AddressS = Map.GetRandAddressS();
-        SDR.RequestList[i].AddressS.iHouse.EnableHouse();
+        SDR.RequestList[i].AddressS.IHouse.EnableHouse();
     }
     
     public void OnClickCancle(int i)//피자주문취소버튼클릭

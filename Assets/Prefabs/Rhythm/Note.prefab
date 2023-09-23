@@ -95,6 +95,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be33d8985cee27b4190a0af22c176105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Speed: 2.5
   start: {x: 0, y: 0}
   end: {x: 0, y: 0}
   spawner: {fileID: 0}
+  see: 0

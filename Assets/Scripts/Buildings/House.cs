@@ -173,4 +173,9 @@ public class House : MonoBehaviour, IAddress, IHouse, IActiveHouse
             }
         }
     }
+
+	public Vector3 GetLocation()
+	{
+        return this.transform.position;
+	}
 }

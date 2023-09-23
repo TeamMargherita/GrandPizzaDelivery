@@ -53,7 +53,6 @@ public class Map : MonoBehaviour, IMap, IStop
         houseAddressList[36].IHouse.SetHouseType(houseMarkArr[0], HouseType.PIZZASTORE);
 
         MakeAPoliceCar(45);
-        //test();
     }
     private void test()
     {
@@ -166,9 +165,11 @@ public class Map : MonoBehaviour, IMap, IStop
 
             if (!houseAddressList[r].IHouse.GetIsEnable() && houseAddressList[r].IHouse.GetHouseType() == HouseType.HOUSE)
             {
+                Debug.Log(houseAddressList[r].IHouse.GetLocation());
                 return houseAddressList[r];
             }
         }
+
     }
 
     public void StopMap(bool bo) 

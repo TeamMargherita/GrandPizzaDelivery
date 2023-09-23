@@ -93,6 +93,8 @@ public interface IHouse
     public bool GetIsEnable();
     public void SetHouseType(Sprite mark, HouseType houseType);
     public HouseType GetHouseType();
+    public Vector3 GetLocation();
+
 }
 public interface IActiveHouse
 { 

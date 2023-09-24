@@ -38,7 +38,7 @@ public class Bar : MonoBehaviour
     private void FindCompnent()
     {
         if (end == Vector2.zero)
-            end = GameObject.Find("Judgement").GetComponent<Transform>().position;
+            end = GameObject.Find("Judgement").GetComponent<Transform>().localPosition;
         if (trans == null)
             trans = GetComponent<Transform>();
         if (spawner == null)
@@ -52,8 +52,8 @@ public class Bar : MonoBehaviour
     {
         speed = RhythmManager.Instance.Speed;
         if (timing > 0m)
-            trans.position = Vector2.Lerp(end, start * speed, (float)timing / 10f * speed);
+            trans.localPosition = Vector2.Lerp(end, start * speed, (float)timing / 10f * speed);
         else
-            trans.position = Vector2.Lerp(end, (end - start) * speed, (float)-timing / 10f * speed);
+            trans.localPosition = Vector2.Lerp(end, (end - start) * speed, (float)-timing / 10f * speed);
     }
 }

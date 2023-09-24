@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Inventory;
-
+using PizzaNS;
 public class GameManager : MonoBehaviour
 {
     private static GameManager _instance;
@@ -28,6 +28,12 @@ public class GameManager : MonoBehaviour
     }
     private void Awake()
     {
+        for (int i = 0; i < 5; i++)
+        {
+            List<Ingredient> ing = new List<Ingredient>();
+            ing.Add(Ingredient.CHEESE);
+            GameManager.Instance.PizzaMenu.Add(new Pizza("CheesePizza5", 60, 5000, 10000, Random.Range(0, 500) + 500, ing, Random.Range(0, 100) + 200));
+        }
         if (_instance == null)
         {
             _instance = this;

@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Inventory;
 
 public class GameManager : MonoBehaviour
 {
     private static GameManager _instance;
 
     public List<Pizza> PizzaMenu = new List<Pizza>();
+    public List<Slot> InventorySlotList = new List<Slot>();
     public GameObject TimeText;
     
     public static GameManager Instance

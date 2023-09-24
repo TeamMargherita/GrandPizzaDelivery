@@ -19,11 +19,23 @@ public class Note : MonoBehaviour
     private Vector2 end;            // 도착 위치
     private NoteSpawner spawner;
     private Transform trans;
+    private bool Effect;
+    private float fade = 1f;
     void Update()
     {
-        timing = arrive - RhythmManager.Instance.CurrentTime;
-        NoteMove();
-        NoteDrop();
+        if (Effect)
+        {
+            GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, fade);
+            fade -= Time.deltaTime * 5f;
+            if (fade <= 0f)
+                gameObject.SetActive(false);
+        }
+        else
+        {
+            timing = arrive - RhythmManager.Instance.CurrentTime;
+            NoteMove();
+            NoteDrop();
+        }
     }
 
     /// <summary>
@@ -33,7 +45,10 @@ public class Note : MonoBehaviour
     public void Init(decimal arriveTime)
     {
         FindCompnent();
+        GetComponent<SpriteRenderer>().color = Color.white;
+        Effect = false;
         arrive = arriveTime;
+        fade = 1f;
         start = new Vector2(10f, 0);
     }
 
@@ -52,7 +67,10 @@ public class Note : MonoBehaviour
         else
             return Judge.GOOD;
     }
-
+    public void ActiveEffect()
+    {
+        Effect = true;
+    }
     /// <summary>
     /// 할당받지 못한 컴포넌트 찾아서 할당
     /// </summary>

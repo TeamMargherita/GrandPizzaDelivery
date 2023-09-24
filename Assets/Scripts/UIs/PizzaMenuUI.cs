@@ -22,17 +22,11 @@ public class PizzaMenuUI : MonoBehaviour
 	private int temIndex = -1;
 	private void Awake()
 	{
-		Constant.PizzaMenuList.Add(new Pizza("CheesePizza1", 60, 5000, 10000, 1300));
-		Constant.PizzaMenuList.Add(new Pizza("CheesePizza2", 60, 5000, 10000, 1200));
-		Constant.PizzaMenuList.Add(new Pizza("CheesePizza3", 60, 5000, 10000, 1170));
-		Constant.PizzaMenuList.Add(new Pizza("CheesePizza4", 60, 5000, 10000, 1070));
-		Constant.PizzaMenuList.Add(new Pizza("CheesePizza5", 60, 5000, 10000, 970));
-
-		for (int i = 0; i < Constant.PizzaMenuList.Count; i++)
+		for (int i = 0; i < 5; i++)
 		{
 			List<Ingredient> ing = new List<Ingredient>();
 			ing.Add(Ingredient.CHEESE);
-			Constant.PizzaExplainMenuList.Add(new PizzaExplain(ing, Random.Range(0,100) + 200));
+			GameManager.Instance.PizzaMenu.Add(new Pizza("CheesePizza5", 60, 5000, 10000, Random.Range(0, 500) + 500, ing, Random.Range(0, 100) + 200));
 		}
 
 		pizzaMenuSlot = new GameObject[pizzaMenuListObj.transform.childCount];
@@ -49,11 +43,11 @@ public class PizzaMenuUI : MonoBehaviour
 			explainMenuSlotText[i] = pizzaMenuSlot[i].transform.GetChild(1).GetChild(0).GetComponent<Text>();
 		}
 		InitSlot();
-		for (int i = 0; i < Constant.PizzaMenuList.Count; i++)
+		for (int i = 0; i < GameManager.Instance.PizzaMenu.Count; i++)
 		{
 			if (i < pizzaMenuSlotText.Length)
 			{
-				SetSlot(Constant.PizzaMenuList[i], i);
+				SetSlot(GameManager.Instance.PizzaMenu[i], i);
 			}
 		}
 		ReSize();
@@ -61,7 +55,7 @@ public class PizzaMenuUI : MonoBehaviour
 
 	private void ReSize()
 	{
-		int n = Constant.PizzaMenuList.Count * 160 + openExplainList.Count * 400;
+		int n = GameManager.Instance.PizzaMenu.Count * 160 + openExplainList.Count * 400;
 		if (n > 1080)
 		{
 			pizzaMenuListRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, n);
@@ -85,15 +79,15 @@ public class PizzaMenuUI : MonoBehaviour
 	private void SetSlot(Pizza pizza, int index)
 	{
 		pizzaMenuSlot[index].SetActive(true);
-		pizzaMenuSlotText[index].text = $"<size=50>{Constant.PizzaMenuList[index].Name}</size>\n<size=40>{Constant.PizzaMenuList[index].SellCost} 원</size>";
+		pizzaMenuSlotText[index].text = $"<size=50>{pizza.Name}</size>\n<size=40>{pizza.SellCost} 원</size>";
 
 		string str = "";
-		for (int i = 0; i < Constant.PizzaExplainMenuList[index].Ingreds.Count; i++)
+		for (int i = 0; i < pizza.Ingreds.Count; i++)
 		{
-			str += Constant.PizzaExplainMenuList[index].Ingreds[i].ToString() + " ,";
+			str += pizza.Ingreds[i].ToString() + " ,";
 		}
 		explainMenuSlotText[index].text
-			= $"<size=35>매력도 : {Constant.PizzaMenuList[index].Charisma}\n매력하락도 : {Constant.PizzaExplainMenuList[index].TotalDeclineAt}\n생산비용 : {Constant.PizzaMenuList[index].ProductionCost}\n</size>"
+			= $"<size=35>매력도 : {pizza.Charisma}\n매력하락도 : {pizza.TotalDeclineAt}\n생산비용 : {pizza.ProductionCost}\n</size>"
 			+ $"<size=30>들어간 재료 : {str}</size>";
 
 	}
@@ -109,15 +103,14 @@ public class PizzaMenuUI : MonoBehaviour
 	}
 	public void ReMovePizza()
 	{
-		Constant.PizzaExplainMenuList.RemoveAt(temIndex);
-		Constant.PizzaMenuList.RemoveAt(temIndex);
+		GameManager.Instance.PizzaMenu.RemoveAt(temIndex);
 		InitSlot();
 
-		for (int i = 0; i < Constant.PizzaMenuList.Count; i++)
+		for (int i = 0; i < GameManager.Instance.PizzaMenu.Count; i++)
 		{
 			if (i < pizzaMenuSlotText.Length)
 			{
-				SetSlot(Constant.PizzaMenuList[i], i);
+				SetSlot(GameManager.Instance.PizzaMenu[i], i);
 			}
 		}
 		ReSize();

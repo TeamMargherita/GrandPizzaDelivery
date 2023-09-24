@@ -47,7 +47,7 @@ public class NoteSpawner : MonoBehaviour
         {
             // 노트 클리어용 키 바인딩
             if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) ||
-                Input.GetKeyDown(KeyCode.Colon) || Input.GetKeyDown(KeyCode.Quote))
+                Input.GetKeyDown(KeyCode.Semicolon) || Input.GetKeyDown(KeyCode.Quote))
             {
                 // 노트 클리어
                 if (NoteLoad.Peek().SendJudge() != Judge.NONE)
@@ -92,7 +92,7 @@ public class NoteSpawner : MonoBehaviour
     public static void NoteClear()
     {
         Note n = NoteLoad.Peek();
-        n.gameObject.SetActive(false);
+        n.ActiveEffect();
         QueueSwaping(NoteLoad, Notes);
         RhythmManager.Instance.NoteSound.PlayOneShot(RhythmManager.Instance.NoteSound.clip);
     }

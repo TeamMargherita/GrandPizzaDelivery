@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// 리듬 게임 관련된 데이터를 관리하는 싱글톤 클래스
@@ -44,7 +45,7 @@ public class RhythmManager : MonoBehaviour
             Constant.PizzaAttractiveness = Attractive;
             SceneChange = true;
         }
-        if (Input.GetKeyDown(KeyCode.F5))
+        if (Input.GetKeyDown(KeyCode.F5) && SceneManager.GetActiveScene().name == "RhythmScene")
         {
             LoadScene.Instance.ActiveTrueFade("InGameScene");
             Constant.PizzaAttractiveness = Attractive;

@@ -10,6 +10,7 @@ public class NoteSpawner : MonoBehaviour
     public float Sync;                      // 곡 싱크 (추후 로직 수정 필요)
     public static decimal BitSlice;         // 1 비트를 8 등분
     public bool IsAuto;                     // 노트 자동 클리어
+    public float BarInterval = 1f;          // 바 간격
 
     public static Queue<Bar> Bars = new Queue<Bar>();       // 마디 오브젝트 풀
     public static Queue<Note> Notes = new Queue<Note>();    // 노트 오브젝트 풀
@@ -23,6 +24,7 @@ public class NoteSpawner : MonoBehaviour
 
     private Note notePrefab;                // 노트
     private Bar barPrefab;                  // 마디
+    private Sprite[] pizzaIngredientSprArr;
 
     private RhythmManager manager;
     void Start()
@@ -30,6 +32,9 @@ public class NoteSpawner : MonoBehaviour
         manager = RhythmManager.Instance;
         notePrefab = manager.NotePrefab;
         barPrefab = manager.BarPrefab;
+        pizzaIngredientSprArr = Resources.LoadAll<Sprite>("UI/Ingredients_120_120");
+
+        Init();
     }
 
     void Update()
@@ -41,18 +46,25 @@ public class NoteSpawner : MonoBehaviour
         if (NoteLoad.Count > 0)
         {
             // 노트 클리어용 키 바인딩
-            if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S))
+            if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) ||
+                Input.GetKeyDown(KeyCode.Colon) || Input.GetKeyDown(KeyCode.Quote))
             {
                 // 노트 클리어
                 if (NoteLoad.Peek().SendJudge() != Judge.NONE)
+                {
+                    JudgeCount();
                     NoteClear();
+                }
             }
 
             // 오토 클리어
             if (IsAuto)
             {
                 if (NoteLoad.Count > 0 && NoteLoad.Peek().SendJudge() == Judge.PERFECT)
+                {
+                    JudgeCount();
                     NoteClear();
+                }
             }
         }
 
@@ -61,6 +73,9 @@ public class NoteSpawner : MonoBehaviour
     }
     public void Init()
     {
+        // 판정 초기화
+        manager.Init();
+
         // 데이터 값 연산
         DataCalculator();
 
@@ -78,7 +93,6 @@ public class NoteSpawner : MonoBehaviour
     {
         Note n = NoteLoad.Peek();
         n.gameObject.SetActive(false);
-        Debug.Log(n.SendJudge());
         QueueSwaping(NoteLoad, Notes);
         RhythmManager.Instance.NoteSound.PlayOneShot(RhythmManager.Instance.NoteSound.clip);
     }
@@ -90,9 +104,10 @@ public class NoteSpawner : MonoBehaviour
     {
         // 리셋
         NoteLoadReset();
-
         // 생성
-
+        int ratio = Constant.ChoiceIngredientList.Count;
+        int curList = 0;
+        float nextList = manager.Data.Length / ratio;
         foreach (var v in manager.Data.IsNote)
         {
             // 노트가 존재함
@@ -108,8 +123,14 @@ public class NoteSpawner : MonoBehaviour
 
             // 노트 초기화
             n.Init(BitSlice * v.Key + (decimal)Sync);
+            if ((curList + 1) * nextList < (float)(BitSlice * v.Key + (decimal)Sync))
+                curList++;
+
+            if (Constant.ChoiceIngredientList.Count > 0)
+                n.GetComponent<SpriteRenderer>().sprite =
+                pizzaIngredientSprArr[Constant.ChoiceIngredientList[curList]];
+
             n.gameObject.SetActive(true);
-            n.GetComponent<SpriteRenderer>().color = Color.red;
 
             // 노트를 NoteLoad(나와있는 노트 모음)에 추가
             NoteLoad.Enqueue(n);
@@ -146,17 +167,8 @@ public class NoteSpawner : MonoBehaviour
             // 마디를 BarLoad(나와있는 마디 모음)에 추가
             BarLoad.Enqueue(bar);
 
-            // 다음 마디로 넘어감
-            //nextBar += oneBar;
 
-            // 에디터 용 마디 생성 구문
-            if (barCycle % 4 == 0)
-            {
-                bar.GetComponent<SpriteRenderer>().color = new Color(0, 1, 1, 0.5f);
-            }
-            else
-                bar.GetComponent<SpriteRenderer>().color = new Color(0, 1, 0, 0.5f);
-            nextBar += (oneBar / 32m);
+            nextBar += (oneBar / (decimal)BarInterval);
             barCycle++;
         }
     }
@@ -193,7 +205,10 @@ public class NoteSpawner : MonoBehaviour
     private void ReturnNote()
     {
         if (NoteLoad.Count > 0 && NoteLoad.Peek().Timing < -0.12501m)
+        {
             QueueSwaping(NoteLoad, Notes);
+            RhythmManager.Instance.Miss++;
+        }
     }
 
     /// <summary>
@@ -220,5 +235,30 @@ public class NoteSpawner : MonoBehaviour
 
         // BitSlice = 비트 / 8 = 마디 / 32
         BitSlice = oneBar / 32m;
+    }
+
+    /// <summary>
+    /// 받은 판정을 카운트 해주는 함수
+    /// </summary>
+    private void JudgeCount()
+    {
+        switch (NoteLoad.Peek().SendJudge())
+        {
+            case Judge.PERFECT:
+                manager.Perfect++;
+                break;
+            case Judge.GREAT:
+                manager.Great++;
+                break;
+            case Judge.GOOD:
+                manager.Good++;
+                break;
+            case Judge.MISS:
+                manager.Miss++;
+                break;
+            default:
+                Debug.LogError("잘못된 정보 (Judge)");
+                return;
+        }
     }
 }

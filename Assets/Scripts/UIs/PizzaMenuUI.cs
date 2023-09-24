@@ -6,28 +6,36 @@ using PizzaNS;
 
 // 한석호 작성
 
-public class PizzaMenuUI : MonoBehaviour
+public class PizzaMenuUI : MonoBehaviour, IAddPizza
 {
+	[SerializeField] private GameObject[] addPizzaSlot;
+
 	[SerializeField] private GameObject pizzaMenuListObj;
 	[SerializeField] private GameObject menuObj;
 	[SerializeField] private GameObject questionPanel;
-
+	[SerializeField] private GameObject addPizzaPanel;
+	[SerializeField] private Text addPizzaExplainText;
+	
 	private List<int> openExplainList = new List<int>();
+	private AddPizzaSlot[] addPizzaSlots;
 	private GameObject[] pizzaMenuSlot;
 	private Text[] pizzaMenuSlotText;
 	private Text[] explainMenuSlotText;
+	private Text[] addPizzaSlotText;
 
 	private GridLayoutGroup gridLayoutGroup;
 	private RectTransform pizzaMenuListRect;
 	private int temIndex = -1;
-	private void Awake()
+	private int temSlotNumber = -1;
+	private int nowPage = 0;
+	private void Start()
 	{
-		for (int i = 0; i < 5; i++)
-		{
-			List<Ingredient> ing = new List<Ingredient>();
-			ing.Add(Ingredient.CHEESE);
-			GameManager.Instance.PizzaMenu.Add(new Pizza("CheesePizza5", 60, 5000, 10000, Random.Range(0, 500) + 500, ing, Random.Range(0, 100) + 200));
-		}
+		//for (int i = 0; i < 5; i++)
+		//{
+		//	List<Ingredient> ing = new List<Ingredient>();
+		//	ing.Add(Ingredient.CHEESE);
+		//	GameManager.Instance.PizzaMenu.Add(new Pizza("CheesePizza5", 60, 5000, 10000, Random.Range(0, 500) + 500, ing, Random.Range(0, 100) + 200));
+		//}
 
 		pizzaMenuSlot = new GameObject[pizzaMenuListObj.transform.childCount];
 		pizzaMenuSlotText = new Text[pizzaMenuSlot.Length];
@@ -47,10 +55,19 @@ public class PizzaMenuUI : MonoBehaviour
 		{
 			if (i < pizzaMenuSlotText.Length)
 			{
-				SetSlot(GameManager.Instance.PizzaMenu[i], i);
+				SetSlot(GameManager.Instance.PizzaMenu[i], -1);
 			}
 		}
 		ReSize();
+
+		addPizzaSlotText = new Text[addPizzaSlot.Length];
+		addPizzaSlots = new AddPizzaSlot[addPizzaSlot.Length];
+		for (int i = 0; i < addPizzaSlotText.Length; i++)
+		{
+			addPizzaSlotText[i] = addPizzaSlot[i].transform.GetChild(0).GetComponent<Text>();
+			addPizzaSlots[i] = addPizzaSlot[i].GetComponent<AddPizzaSlot>();
+			addPizzaSlots[i].InitAddPizzaSlot(this);
+		}
 	}
 
 	private void ReSize()
@@ -152,6 +169,83 @@ public class PizzaMenuUI : MonoBehaviour
 		{
 			pizzaMenuListRect.localPosition = new Vector3(0, pizzaMenuListRect.rect.height - 540);
 		}
+	}
+
+	public void AddMenu()
+	{
+		if (GameManager.Instance.PizzaMenu.Count >= 30) { return; }
+
+		addPizzaPanel.SetActive(true);
+
+		InitAddPizzaPage(0);
+		SetTemSlotNumber(-1);
+	}
+	public void NextAddMenuList()
+	{
+		if (nowPage >= Constant.DevelopPizza.Count / addPizzaSlot.Length)
+		{
+			return;
+		}
+		else
+		{
+			nowPage++;
+			InitAddPizzaPage(nowPage);
+		}
+	}
+	public void BackAddMenuList()
+	{
+		if (nowPage <= 0)
+		{
+			return;
+		}
+		else
+		{
+			nowPage--;
+			InitAddPizzaPage(nowPage);
+		}
+	}
+	private void InitAddPizzaPage(int page)
+	{
+		nowPage = page;
+
+		for (int i = 0 + page * addPizzaSlot.Length; i < addPizzaSlot.Length + page * addPizzaSlot.Length; i++)
+		{
+			if (i < Constant.DevelopPizza.Count)
+			{
+				addPizzaSlotText[i % addPizzaSlot.Length].text = Constant.DevelopPizza[i].Name;
+				addPizzaSlots[i % addPizzaSlot.Length].SlotNumber = i;
+			}
+			else
+			{
+				addPizzaSlotText[i % addPizzaSlot.Length].text = "없음";
+				addPizzaSlots[i % addPizzaSlot.Length].SlotNumber = -1;
+			}
+		}
+	}
+	public void CloseMenu()
+	{
+		SetTemSlotNumber(-1);
+		addPizzaPanel.SetActive(false);
+	}
+	public void SetAddPizzaExplain(int num)
+	{
+		if (num == - 1) { addPizzaExplainText.text = "";  return; }
+
+		string str = "";
+		for (int i = 0; i < Constant.DevelopPizza[num].Ingreds.Count; i++)
+		{
+			str += Constant.DevelopPizza[num].Ingreds[i].ToString() + ", ";
+		}
+		addPizzaExplainText.text = "피자이름 : " + Constant.DevelopPizza[num].Name 
+								+ "\n피자매력도 : " + Constant.DevelopPizza[num].Charisma
+								+ "\n피자가격 : " + Constant.DevelopPizza[num].SellCost
+								+ "\n피자생산비용 : " + Constant.DevelopPizza[num].ProductionCost
+								+ "\n피자 재료 : " + str;
+	}
+
+	public void SetTemSlotNumber(int num)
+	{
+		temSlotNumber = num;
 	}
 
 }

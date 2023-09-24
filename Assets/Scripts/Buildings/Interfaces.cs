@@ -116,3 +116,9 @@ public interface IIngredientSlot
     public void IngredientExplain(int ingNum);
     public void ChoiceIngredient(int ingNum, int index);
 }
+
+public interface IAddPizza
+{
+    public void SetAddPizzaExplain(int num);
+    public void SetTemSlotNumber(int num);
+}

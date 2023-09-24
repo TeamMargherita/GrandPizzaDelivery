@@ -30,4 +30,8 @@ public static class Constant
 		{"8","65","12","960" },
 		{"9","78","20","1350" }
 	};
+	/// <summary>
+	/// 개발한 피자 리스트
+	/// </summary>
+	public static List<Pizza> DevelopPizza = new List<Pizza>();
 }

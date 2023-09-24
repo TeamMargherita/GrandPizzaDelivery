@@ -15,6 +15,8 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
     [SerializeField] private GameObject pizzaStoreMaskPanel;
     [SerializeField] private GameObject pizzaMakePanel;
     [SerializeField] private GameObject pizzaMenuPanel;
+    [SerializeField] private GameObject employeeRecruitPanel;
+
     [SerializeField] private UnityEngine.UI.Image addPizzaImg;
 
     private IEndInspecting iEndInspecting;
@@ -27,6 +29,7 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
     private RectTransform pizzaStoreTrans;
     private RectTransform pizzaMakeTrans;
     private RectTransform pizzaMenuTrans;
+    private RectTransform employeeRecruitTrans;
 
     private int inspectingHeight = 0;   // 불심검문 패널창 높이
     private int pizzaStoreHeight = 0;   // 피자집 패널창 높이
@@ -45,6 +48,7 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
         pizzaStoreTrans = pizzaStoreMaskPanel.GetComponent<RectTransform>();
         pizzaMakeTrans = pizzaMakePanel.GetComponent<RectTransform>();
         pizzaMenuTrans = pizzaMenuPanel.GetComponent<RectTransform>();
+        employeeRecruitTrans = employeeRecruitPanel.GetComponent<RectTransform>();
 
         houseType = HouseType.NONE;
 
@@ -124,10 +128,15 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
             isPizzaMenu = isOn;
             isPizzaAddButtonBlank = false;
             addPizzaImg.color = Color.white;
-        }
-    }
+		}
+	}
 
-    public void ControlDeliveryUI(bool isOn)
+	public void ControlEmployeeRecruit(bool isOn)
+	{
+		employeeRecruitPanel.SetActive(isOn);
+	}
+
+	public void ControlDeliveryUI(bool isOn)
     {
         deliveryPanel.SetActive(isOn);
     }

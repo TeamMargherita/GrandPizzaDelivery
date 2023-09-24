@@ -46,4 +46,10 @@ public class LoadScene : MonoBehaviour
             ActiveTrueFade("RhythmScene");
 		}
 	}
+
+    public void LoadPizzaMenu()
+	{
+        ActiveTrueFade("InGameScene");
+
+	}
 }

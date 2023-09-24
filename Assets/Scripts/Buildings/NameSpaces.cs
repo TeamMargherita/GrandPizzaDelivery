@@ -66,7 +66,23 @@ namespace PizzaNS
 		}
     }
 
-    namespace CustomerNS
+    public struct PizzaExplain
+	{
+        public List<Ingredient> Ingreds;
+        public int TotalDeclineAt;
+
+		public PizzaExplain(List<Ingredient> Ingreds, int TotalDeclineAt)
+		{
+			this.Ingreds = new List<Ingredient>();
+			for (int i = 0; i < Ingreds.Count; i++)
+			{
+				this.Ingreds.Add(Ingreds[i]);
+			}
+            this.TotalDeclineAt = TotalDeclineAt; 
+		}
+	}
+
+	namespace CustomerNS
     {
         public struct CustomerS
         {

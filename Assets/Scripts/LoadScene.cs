@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+// «—ºÆ»£ ¿€º∫
 public class LoadScene : MonoBehaviour
 {
     /* // ΩÃ±€≈Ê //

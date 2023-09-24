@@ -51,7 +51,5 @@ public class LoadScene : MonoBehaviour
 	{
         ActiveTrueFade("InGameScene");
 
-
-
 	}
 }

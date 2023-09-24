@@ -24,12 +24,8 @@ public class GameManager : MonoBehaviour
             return _instance;
         }
     }
-    public Pizza CheesePizza;
     private void Awake()
     {
-        CheesePizza = new Pizza("cheesePizza", 60, 5000, 10000, 70);
-        PizzaMenu.Add(CheesePizza);
-
         if (_instance == null)
         {
             _instance = this;

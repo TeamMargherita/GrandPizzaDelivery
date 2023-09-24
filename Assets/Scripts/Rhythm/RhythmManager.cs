@@ -41,13 +41,13 @@ public class RhythmManager : MonoBehaviour
         Attractive = (int)(Constant.PizzaAttractiveness * (Accuracy / 100));
         if ((float)CurrentTime >= Data.Length && !SceneChange)
         {
-            LoadScene.Instance.ActiveTrueFade("InGameScene");
+            LoadScene.Instance.LoadPizzaMenu();
             Constant.PizzaAttractiveness = Attractive;
             SceneChange = true;
         }
         if (Input.GetKeyDown(KeyCode.F5) && SceneManager.GetActiveScene().name == "RhythmScene")
         {
-            LoadScene.Instance.ActiveTrueFade("InGameScene");
+            LoadScene.Instance.LoadPizzaMenu();
             Constant.PizzaAttractiveness = Attractive;
             SceneChange = true;
         }

@@ -35,6 +35,7 @@ public class Request//피자주문
 }
 namespace Inventory
 {
+    //인벤토리 슬롯
     public class Slot
     {
         public GameObject InventorySlot;

@@ -14,6 +14,8 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
     [SerializeField] private GameObject pizzaStorePanel;
     [SerializeField] private GameObject pizzaStoreMaskPanel;
     [SerializeField] private GameObject pizzaMakePanel;
+    [SerializeField] private GameObject pizzaMenuPanel;
+
 
     private IEndInspecting iEndInspecting;
     private IHouse iHouse;
@@ -24,19 +26,24 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
     private RectTransform inspectTrans;
     private RectTransform pizzaStoreTrans;
     private RectTransform pizzaMakeTrans;
+    private RectTransform pizzaMenuTrans;
 
     private int inspectingHeight = 0;   // 불심검문 패널창 높이
     private int pizzaStoreHeight = 0;   // 피자집 패널창 높이
     private int pizzaMakeWitdh = 0; // 피자만들기 패널창 너비
+    private int pizzaMenuHeight = 0;    // 피자메뉴 패널창 높이;
 
     private bool isInspecting = false;  // 불심검문중 창이 떠야하는지 여부
     private bool isPizzaStore = false;  // 피자집 창이 떠야하는지 여부
     private bool isPizzaMake = false;
+    private bool isPizzaMenu = false;
     void Awake()
     {
         inspectTrans = inspectingMaskPanel.GetComponent<RectTransform>();
         pizzaStoreTrans = pizzaStoreMaskPanel.GetComponent<RectTransform>();
         pizzaMakeTrans = pizzaMakePanel.GetComponent<RectTransform>();
+        pizzaMenuTrans = pizzaMenuPanel.GetComponent<RectTransform>();
+
         houseType = HouseType.NONE;
     }
 
@@ -84,6 +91,20 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
             isPizzaMake = isOn;
         }
     }
+
+    public void ControlPizzaMenu(bool isOn)
+	{
+        if (isOn)
+		{
+            pizzaMenuPanel.SetActive(isOn);
+            isPizzaMenu = isOn;
+		}
+        else
+		{
+            isPizzaMenu = isOn;
+		}
+	}
+
     public void ControlDeliveryUI(bool isOn)
     {
         deliveryPanel.SetActive(isOn);
@@ -156,6 +177,18 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
             pizzaMakeWitdh = 0;
             pizzaMakeTrans.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, pizzaMakeWitdh);
             pizzaMakePanel.SetActive(false);
+        }
+
+        if (isPizzaMenu && pizzaMenuHeight < 1080)
+        {
+            pizzaMenuHeight += 40;
+            pizzaMenuTrans.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, pizzaMenuHeight);
+        }
+        else if (!isPizzaMenu && pizzaMenuHeight >= 1080)
+        {
+            pizzaMenuHeight = 0;
+            pizzaMenuTrans.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, pizzaMenuHeight);
+            pizzaMenuPanel.SetActive(false);
         }
     }
 

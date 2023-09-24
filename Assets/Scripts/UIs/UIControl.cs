@@ -15,7 +15,7 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
     [SerializeField] private GameObject pizzaStoreMaskPanel;
     [SerializeField] private GameObject pizzaMakePanel;
     [SerializeField] private GameObject pizzaMenuPanel;
-
+    [SerializeField] private UnityEngine.UI.Image addPizzaImg;
 
     private IEndInspecting iEndInspecting;
     private IHouse iHouse;
@@ -37,6 +37,8 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
     private bool isPizzaStore = false;  // 피자집 창이 떠야하는지 여부
     private bool isPizzaMake = false;
     private bool isPizzaMenu = false;
+    private bool isPizzaAddButtonBlank = false;
+    private bool isColor = false;
     void Awake()
     {
         inspectTrans = inspectingMaskPanel.GetComponent<RectTransform>();
@@ -45,8 +47,26 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
         pizzaMenuTrans = pizzaMenuPanel.GetComponent<RectTransform>();
 
         houseType = HouseType.NONE;
-    }
 
+        if (Constant.isMakePizza)
+		{
+            DirectADdPizzaMenu();
+        }
+    }
+    private void DirectADdPizzaMenu()
+	{
+        pizzaStorePanel.SetActive(true);
+        isPizzaStore = true;
+        pizzaStoreHeight = 1080;
+        pizzaStoreTrans.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, pizzaStoreHeight);
+
+        pizzaMenuPanel.SetActive(true);
+        isPizzaMenu = true;
+        pizzaMenuHeight = 1080;
+        pizzaMenuTrans.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, pizzaMenuHeight);
+
+        isPizzaAddButtonBlank = true;
+    }
     public void ControlInspectUI(bool isOn, IEndInspecting iEndInspecting)
     {
         if (iEndInspecting != null)
@@ -102,8 +122,10 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
         else
 		{
             isPizzaMenu = isOn;
-		}
-	}
+            isPizzaAddButtonBlank = false;
+            addPizzaImg.color = Color.white;
+        }
+    }
 
     public void ControlDeliveryUI(bool isOn)
     {
@@ -189,6 +211,20 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
             pizzaMenuHeight = 0;
             pizzaMenuTrans.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, pizzaMenuHeight);
             pizzaMenuPanel.SetActive(false);
+        }
+
+        if (isPizzaAddButtonBlank)
+        {
+            if (isColor)
+            {
+                addPizzaImg.color += new Color(5 / 255f, 0, 0, 0);
+                if (addPizzaImg.color.r >= 1) { isColor = false; }
+            }
+            else
+			{
+                addPizzaImg.color -= new Color(5 / 255f, 0, 0, 0);
+                if (addPizzaImg.color.r <= 0) { isColor = true; }
+            }
         }
     }
 

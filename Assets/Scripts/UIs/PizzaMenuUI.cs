@@ -14,6 +14,7 @@ public class PizzaMenuUI : MonoBehaviour, IAddPizza
 	[SerializeField] private GameObject menuObj;
 	[SerializeField] private GameObject questionPanel;
 	[SerializeField] private GameObject addPizzaPanel;
+	[SerializeField] private GameObject changePizzaNamePanel;
 	[SerializeField] private Text addPizzaExplainText;
 	
 	private List<int> openExplainList = new List<int>();
@@ -28,13 +29,15 @@ public class PizzaMenuUI : MonoBehaviour, IAddPizza
 	private int temIndex = -1;
 	private int temSlotNumber = -1;
 	private int nowPage = 0;
-	private void Start()
+	private void Awake()
 	{
-		//for (int i = 0; i < 5; i++)
+		//for (int i = 0; i < 7; i++)
 		//{
 		//	List<Ingredient> ing = new List<Ingredient>();
+		//	ing.Add(Ingredient.BACON);
+		//	ing.Add(Ingredient.TOMATO);
 		//	ing.Add(Ingredient.CHEESE);
-		//	GameManager.Instance.PizzaMenu.Add(new Pizza("CheesePizza5", 60, 5000, 10000, Random.Range(0, 500) + 500, ing, Random.Range(0, 100) + 200));
+		//	Constant.DevelopPizza.Add(new Pizza("SuperPizza", 60, 5000, 10000, Random.Range(0, 1500) + 500, ing, Random.Range(0, 1500) + 200));
 		//}
 
 		pizzaMenuSlot = new GameObject[pizzaMenuListObj.transform.childCount];
@@ -50,17 +53,9 @@ public class PizzaMenuUI : MonoBehaviour, IAddPizza
 			pizzaMenuSlotText[i] = pizzaMenuSlot[i].transform.GetChild(0).GetComponent<Text>();
 			explainMenuSlotText[i] = pizzaMenuSlot[i].transform.GetChild(1).GetChild(0).GetComponent<Text>();
 		}
-		InitSlot();
-		for (int i = 0; i < GameManager.Instance.PizzaMenu.Count; i++)
-		{
-			if (i < pizzaMenuSlotText.Length)
-			{
-				SetSlot(GameManager.Instance.PizzaMenu[i], -1);
-			}
-		}
-		ReSize();
+		RefreshAllSlot();
 
-		addPizzaSlotText = new Text[addPizzaSlot.Length];
+				addPizzaSlotText = new Text[addPizzaSlot.Length];
 		addPizzaSlots = new AddPizzaSlot[addPizzaSlot.Length];
 		for (int i = 0; i < addPizzaSlotText.Length; i++)
 		{
@@ -69,7 +64,31 @@ public class PizzaMenuUI : MonoBehaviour, IAddPizza
 			addPizzaSlots[i].InitAddPizzaSlot(this);
 		}
 	}
+	private void OnEnable()
+	{
+		RefreshAllSlot();
+	}
+	private void RefreshAllSlot()
+	{
+		InitSlot();
+		for (int i = 0; i < GameManager.Instance.PizzaMenu.Count; i++)
+		{
+			if (i < pizzaMenuSlotText.Length)
+			{
+				SetSlot(GameManager.Instance.PizzaMenu[i], i);
+			}
+		}
+		ReSize();
 
+		if (openExplainList.Count == 0)
+		{
+			gridLayoutGroup.enabled = true;
+		}
+		if (menuObj.GetComponent<RectTransform>().localPosition.y >= 0)
+		{
+			pizzaMenuListRect.localPosition = new Vector3(0, pizzaMenuListRect.rect.height - 540);
+		}
+	}
 	private void ReSize()
 	{
 		int n = GameManager.Instance.PizzaMenu.Count * 160 + openExplainList.Count * 400;
@@ -120,20 +139,12 @@ public class PizzaMenuUI : MonoBehaviour, IAddPizza
 	}
 	public void ReMovePizza()
 	{
+		explainMenuSlotText[temIndex].gameObject.transform.parent.gameObject.SetActive(false);
+		openExplainList.Remove(temIndex);
+
 		GameManager.Instance.PizzaMenu.RemoveAt(temIndex);
-		InitSlot();
-
-		for (int i = 0; i < GameManager.Instance.PizzaMenu.Count; i++)
-		{
-			if (i < pizzaMenuSlotText.Length)
-			{
-				SetSlot(GameManager.Instance.PizzaMenu[i], i);
-			}
-		}
-		ReSize();
-
+		RefreshAllSlot();
 		temIndex = -1;
-
 		questionPanel.SetActive(false);
 	}
 	public void OnOffExplainPizza(int index)
@@ -224,8 +235,14 @@ public class PizzaMenuUI : MonoBehaviour, IAddPizza
 	}
 	public void CloseMenu()
 	{
+		for (int i = 0; i < addPizzaSlots.Length; i++)
+		{
+			addPizzaSlots[i].InitColor();
+		}
+
 		SetTemSlotNumber(-1);
 		addPizzaPanel.SetActive(false);
+
 	}
 	public void SetAddPizzaExplain(int num)
 	{
@@ -245,7 +262,43 @@ public class PizzaMenuUI : MonoBehaviour, IAddPizza
 
 	public void SetTemSlotNumber(int num)
 	{
+
+		if (temSlotNumber != -1)
+		{
+			addPizzaSlots[temSlotNumber].InitColor();
+		}
 		temSlotNumber = num;
 	}
 
+	public void ChangeDevelopPizzaName(string str)
+	{
+		if (temSlotNumber == -1) { return; }
+
+		Constant.DevelopPizza[temSlotNumber] = new Pizza
+			(str,
+			Constant.DevelopPizza[temSlotNumber].Perfection,
+			Constant.DevelopPizza[temSlotNumber].ProductionCost,
+			Constant.DevelopPizza[temSlotNumber].SellCost,
+			Constant.DevelopPizza[temSlotNumber].Charisma,
+			Constant.DevelopPizza[temSlotNumber].Ingreds,
+			Constant.DevelopPizza[temSlotNumber].TotalDeclineAt);
+
+		InitAddPizzaPage(nowPage);
+		changePizzaNamePanel.SetActive(false);
+	}
+
+	public void ChoiceDevelopPizza()
+	{
+		if (temSlotNumber == -1) { return; }
+		// 나중에 중복체크해서 중복된 피자는 넣을수 없게 해야됨.(이름이 같거나, 재료가 같거나...)
+		GameManager.Instance.PizzaMenu.Add(Constant.DevelopPizza[temSlotNumber]);
+
+		RefreshAllSlot();
+	}
+	public void OpenChangePizzaNamePanel()
+	{
+		if (temSlotNumber == -1) { return; }
+
+		changePizzaNamePanel.SetActive(true);
+	}
 }

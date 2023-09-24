@@ -55,8 +55,9 @@ public class NoteEditor : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.C) || Input.GetKeyDown(KeyCode.D))
         {
-            calculator = (manager.CurrentTime - (decimal)manager.Data.Sync) / NoteSpawner.BitSlice;
+            calculator = (manager.CurrentTime) / NoteSpawner.BitSlice;
             int index = calculator % NoteSpawner.BitSlice < NoteSpawner.BitSlice / 2 ? (int)calculator : (int)calculator + 1;
+            Debug.Log(index);
             if (!manager.Data.IsNote.ContainsKey(index))
                 manager.Data.IsNote.Add(index, index * (float)NoteSpawner.BitSlice);
         }
@@ -71,8 +72,10 @@ public class NoteEditor : MonoBehaviour
         {
             calculator = (manager.CurrentTime - (decimal)manager.Data.Sync) / NoteSpawner.BitSlice;
             int index = calculator % NoteSpawner.BitSlice < NoteSpawner.BitSlice / 2 ? (int)calculator : (int)calculator + 1;
+
             if (manager.Data.IsNote.ContainsKey(index))
             {
+                Debug.Log(index);
                 if (NoteSpawner.NoteLoad.Count > 0)
                     NoteSpawner.NoteClear();
                 manager.Data.IsNote.Remove(index);

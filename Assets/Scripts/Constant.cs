@@ -29,4 +29,8 @@ public static class Constant
 		{"8","65","12","960" },
 		{"9","78","20","1350" }
 	};
+	/// <summary>
+	/// 피자 메뉴 리스트
+	/// </summary>
+	public static List<Pizza> PizzaMenuList = new List<Pizza>();
 }

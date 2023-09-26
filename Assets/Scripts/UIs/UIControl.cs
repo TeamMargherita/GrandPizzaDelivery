@@ -63,6 +63,7 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
         isPizzaStore = true;
         pizzaStoreHeight = 1080;
         pizzaStoreTrans.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, pizzaStoreHeight);
+        iStop.StopMap(true);
 
         pizzaMenuPanel.SetActive(true);
         isPizzaMenu = true;

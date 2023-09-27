@@ -51,10 +51,10 @@ public class EmployeeFire : MonoBehaviour
             {
                 FireWinParent.GetChild(i).gameObject.SetActive(false);
 
-                FireWinParent.GetChild(i).GetChild(5).
+                FireWinParent.GetChild(i).GetChild(1).
                    GetComponent<Button>().interactable = true;
 
-                FireWinParent.GetChild(i).GetChild(5).GetChild(0).
+                FireWinParent.GetChild(i).GetChild(1).GetChild(0).
                     GetComponent<Text>().text = "해고하기";
             }
         }
@@ -62,15 +62,19 @@ public class EmployeeFire : MonoBehaviour
 
     void FindEmployeeData()
     {
+        string EmployeeStat = null;
+
         for (int i = 0; i < EmployeeParent.childCount; i++)
         {
             FireWinParent.GetChild(i).gameObject.SetActive(true);
 
-            for (int j = 0; j < 5; j++)
+            for (int j = 0; j < 6; j++)
             {
-                FireWinParent.GetChild(i).GetChild(j).
-                    GetComponent<Text>().text = Stat(i, j);
+                EmployeeStat += Stat(i, j) + "\n";
             }
+
+            FireWinParent.GetChild(i).GetChild(0).
+                   GetComponent<Text>().text = EmployeeStat;
         }
     }
 
@@ -151,7 +155,9 @@ public class EmployeeFire : MonoBehaviour
                 result = "주급 : " + EmployeeParent.GetChild(Evalue).
                    GetComponent<EmployeeStat>().Pay.ToString();
                 break;
-            default:
+            case 5:
+                result = "스트레스 : " + EmployeeParent.GetChild(Evalue).
+                   GetComponent<EmployeeStat>().Stress.ToString();
                 break;
         }
 

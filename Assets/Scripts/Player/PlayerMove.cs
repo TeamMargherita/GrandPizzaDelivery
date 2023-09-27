@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -62,6 +63,28 @@ public class PlayerMove : PlayerStat
         {
             Speed = 0;
             this.GetComponent<Rigidbody2D>().velocity = transform.rotation * new Vector2(0, Speed);
+        }
+    }
+
+    IEnumerator banana(float time)
+    {
+        float count = 0;
+        while (true)
+        {
+            count += Time.deltaTime;
+            this.transform.Rotate(angle * 10 * Time.deltaTime);
+            if (count > time)
+                break;
+            yield return null;
+        }
+    }
+
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.transform.CompareTag("Banana"))
+        {
+            StartCoroutine(banana(2));
         }
     }
 }

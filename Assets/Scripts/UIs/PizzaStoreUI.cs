@@ -175,7 +175,13 @@ public class PizzaStoreUI : MonoBehaviour, IIngredientSlot
 		}
 
 		Constant.PizzaAttractiveness = attractiveness;
-		
+		Constant.TotalDeclineAt = declineAt;
+		Constant.ProductionCost = ingredientPrice;
+		Constant.ingreds.Clear();
+		for (int i = 0; i< Constant.ChoiceIngredientList.Count; i++)
+		{
+			Constant.ingreds.Add((Ingredient)Constant.ChoiceIngredientList[i]);
+		}
 		SetChoiceText(true);
 	}
 

@@ -38,6 +38,8 @@ public interface IPoliceCar
     public void SetMap(IStop iStop);
     public void SetIsStop(bool bo);
 
+    public void SetBanana(GameObject banana);
+
 }
 // 경찰차 제어에 관한 인터페이스
 public interface IMovingPoliceCarControl
@@ -115,4 +117,10 @@ public interface IIngredientSlot
 {
     public void IngredientExplain(int ingNum);
     public void ChoiceIngredient(int ingNum, int index);
+}
+
+public interface IAddPizza
+{
+    public void SetAddPizzaExplain(int num);
+    public void SetTemSlotNumber(int num);
 }

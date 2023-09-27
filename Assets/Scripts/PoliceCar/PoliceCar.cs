@@ -24,11 +24,13 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
     // 경로를 차례대로 들고 있다.
     private List<PolicePath> policePathList = new List<PolicePath>();
 
+    private GameObject banana;
     private PlayerMove playerMove;
     private Transform trans;
     private Coroutine smokeEffectCoroutine;
+    private Coroutine shootBananaCoroutine;
     private Rigidbody2D rigid2D;
-
+    
     private Vector3 temRotate;
     private Vector3 temPosition;
 
@@ -70,11 +72,16 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
     private void Start()
     {
         smokeEffectCoroutine = StartCoroutine(PoliceSmokeCoroutine());
+        shootBananaCoroutine = StartCoroutine(ShootBananaTermCoroutine());
     }
 
     public void SetPlayerMove(PlayerMove playerMove)
 	{
         this.playerMove = playerMove;
+	}
+    public void SetBanana(GameObject banana)
+	{
+        this.banana = banana; 
 	}
 
     private void InitValue()
@@ -269,7 +276,22 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
             }
         }
     }
+    private IEnumerator ShootBananaTermCoroutine()
+	{
+        var time = new WaitForSeconds(1f);
+        int r = 0;
+        while(true)
+		{
+            r = Random.Range(5, 15);
 
+            for (int i = 0; i < r; i++)
+			{
+                yield return time;
+			}
+
+            ShootBanana();
+		}
+	}
     private void AddForceCar()
     {
         if (policeState == PoliceState.DESTROY)
@@ -287,6 +309,12 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
         Destroy(this.gameObject);
 
     }
+    private void ShootBanana()
+	{
+        GameObject ba = Instantiate(banana);
+        ba.transform.position = this.transform.position;
+        ba.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(0, 5f), Random.Range(0, 5f)), ForceMode2D.Impulse);
+	}
 
     private void OnCollisionEnter2D(Collision2D collision)
     {

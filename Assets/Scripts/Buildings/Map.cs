@@ -6,7 +6,6 @@ using BuildingNS.HouseNS;
 
 // 한석호 작성
 
-
 //맵에 존재해야할 오브젝트들을 배치하고, 건물마다 주소를 붙여줌으로써 맵을 구현합니다. 
 public class Map : MonoBehaviour, IMap, IStop
 {

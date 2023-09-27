@@ -57,6 +57,9 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
             DirectADdPizzaMenu();
         }
     }
+    /// <summary>
+    /// 리듬게임이 끝난 후 바로 피자 메뉴 UI로 갈 때 사용하는 함수
+    /// </summary>
     private void DirectADdPizzaMenu()
 	{
         pizzaStorePanel.SetActive(true);
@@ -247,7 +250,6 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
             switch(houseType)
             {
                 case HouseType.PIZZASTORE:
-                    //Debug.Log("됏다 안됏다");
                     //houseType = HouseType.NONE;
                     //플레이어 멈추고, 경찰차 멈춰야함.
                     iStop.StopMap(true);

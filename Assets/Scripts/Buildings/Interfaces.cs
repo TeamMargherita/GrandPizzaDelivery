@@ -41,12 +41,17 @@ public interface IPoliceCar
     public void SetBanana(GameObject banana);
 
 }
-// 경찰차 제어에 관한 인터페이스
+/// <summary>
+/// 경찰차 제어에 관한 인터페이스
+/// </summary>
 public interface IMovingPoliceCarControl
 {
     public void SetIsBehaviour(bool bo);
     //public int GetPoliceCarCode();
 }
+/// <summary>
+/// 경찰차 우선순위 번호와 관련된 인터페이스
+/// </summary>
 public interface IPriorityCode
 {
     public int GetPriorityCode();

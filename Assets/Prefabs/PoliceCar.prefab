@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -6070984675502379924}
   m_Layer: 0
   m_Name: PoliceCar
-  m_TagString: Untagged
+  m_TagString: Police
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -99,8 +99,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5c99fcd6edbea24b8694339c0f43f8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PoliceHp: 0
   checkColObj: {fileID: 6432834836947737023}
   stopCheckColObj: {fileID: 5675166279192929702}
+  Speed: 0
 --- !u!50 &821219399756181300
 Rigidbody2D:
   serializedVersion: 4

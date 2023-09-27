@@ -6,7 +6,6 @@ public class PlayerStat : MonoBehaviour
 {
     private int hp = 200;
     public float Braking = 0.99f;
-    [SerializeField]
     private float speed;
     public float MaxSpeed;
     public float acceleration = 10;
@@ -30,13 +29,7 @@ public class PlayerStat : MonoBehaviour
         }
         set
         {
-            if(MaxSpeed < value)
-            {
-                value = MaxSpeed;
-            }else if(-MaxSpeed > value)
-            {
-                value = -MaxSpeed;
-            }
+            value = Mathf.Clamp(value, -MaxSpeed, MaxSpeed);
             speed = value;
         }
     }

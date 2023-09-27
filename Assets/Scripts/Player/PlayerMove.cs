@@ -9,6 +9,9 @@ public class PlayerMove : PlayerStat
     private float time;
     public bool Stop = false;
     private bool bananaTrigger = false;
+
+
+    
     void Update()
     {
         if (!Stop && !bananaTrigger)

@@ -8,15 +8,15 @@ using PoliceNS.PoliceStateNS;
 
 public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IInspectingPoliceCarControl, IEndInspecting, IPriorityCode
 {
-    [Range(0f, 100f)] public float PoliceHp;
+    [Range(0f, 100f)] public float PoliceHp;    // 경찰차 체력
 
-    [SerializeField] private GameObject checkColObj;
-    [SerializeField] private GameObject stopCheckColObj;
-    public static bool IsInspecting { get; private set; }
+    [SerializeField] private GameObject checkColObj;    // 이동 시 충돌을 방지하기 위한 콜라이더
+    [SerializeField] private GameObject stopCheckColObj;    // 정지 시, 불심검문을 위한 콜라이더
+    public static bool IsInspecting { get; private set; }   // 플레이어가 불심검문 중인지 확인하는 정적 변수
 
-    private static List<int> policeCarCodeList = new List<int>();
+    private static List<int> policeCarCodeList = new List<int>();  // 경찰차 고유번호 리스트
 
-    private PoliceState policeState;
+    private PoliceState policeState;    //  경찰차의 상태
 
     private IPoliceSmokeEffect iPoliceSmokeEffect;
     private IStop iStop;
@@ -34,11 +34,11 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
     private Vector3 temRotate;
     private Vector3 temPosition;
 
-    private float speed;    // 자동차의 속도
+    public float Speed;    // 자동차의 속도
     private float rotate;   // 플레이어는 해당 값만큼 z축 방향을 돌려야 합니다.
-    private int hp;
-    private int index;
-    private int policeCarCode;  // 자동차 고유번호
+    private int hp; // 경찰차의 체력
+    private int index;  // 경로 리스트의 인덱스. 오름차순으로 받을지 내림차순으로 받을지에 따라 더해주는 값의 부호가 다르다.
+    private int policeCarCode;  // 경찰차 고유번호. 경찰차들끼리 우선순위를 정하는데 사용한다.
     private bool nextBehaviour;
     private bool isBehaviour;   // 주변에 차가 있는지 여부에 따라 행동을 제어할 수 있게 해준다.
     private bool isLock = false;
@@ -46,16 +46,18 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
     private bool isStop = false;    // 경찰차 멈춤 여부
     void Awake()
     {
-        PoliceHp = 100;
+        PoliceHp = 100; // 경찰차 초기 체력 설정
 
-        trans = this.transform;
+        trans = this.transform; // transform 캐싱
         if (checkColObj != null)
         {
+            // 필요한 인터페이스들을 넣어줌
             checkColObj.GetComponent<PoliceCarCollisionCheck>().SetIPoliceCarIsBehaviour(this);
             checkColObj.GetComponent<PoliceCarCollisionCheck>().SetIPriority(this);
         }
         if (stopCheckColObj != null)
         {
+            // 필요한 인터페이스들을 넣어줌
             stopCheckColObj.GetComponent<StopPoliceCarCollisionCheck>().SetIInspectingPoliceCarControl(this);
             stopCheckColObj.GetComponent<StopPoliceCarCollisionCheck>().SetIPoliceCarIsBehaviour(this);
             stopCheckColObj.GetComponent<StopPoliceCarCollisionCheck>().SetIEndInspecting(this);
@@ -63,14 +65,16 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
         }
         if (this.GetComponent<Rigidbody2D>() != null)
 		{
+            // rigidbody2d 캐싱
             rigid2D = this.GetComponent<Rigidbody2D>();
         }
 
-        InitValue();
+        InitValue();    // 초기에 설정되어야 하는 것
     }
 
     private void Start()
     {
+        // 코루틴 발동
         smokeEffectCoroutine = StartCoroutine(PoliceSmokeCoroutine());
         shootBananaCoroutine = StartCoroutine(ShootBananaTermCoroutine());
     }
@@ -91,7 +95,7 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
         isRight = Random.Range(0, 2) == 0 ? true : false;
         //isLeft = false;
         trans.eulerAngles = new Vector3(0,0, isRight ? 0 : 180);
-        speed = Random.Range(1,10); // 속도를 랜덤으로 줌
+        Speed = Random.Range(1,10); // 속도를 랜덤으로 줌
         hp = 100;   // 자동차의 기본 체력은 100
         rotate = 0;
         index = 0;
@@ -107,7 +111,10 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
         
         isBehaviour = true;
     }
-    // 상태를 초기화해준다.
+    /// <summary>
+    /// 상태에 따라 콜라이더를 꺼주거나 켜준다. 
+    /// </summary>
+    /// <param name="bo">true면 경찰차의 상태를 랜덤으로 정해주며, false면 경찰차의 상태를 정해주진 않는다.</param>    
     private void InitState(bool bo)
     {
         if (bo)
@@ -116,30 +123,30 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
             policeState = (PoliceState)Random.Range(1, 3);
         }
         // 경찰차에 상태에 따라 켜줘야할 콜라이더가 다르다.
-        if (policeState == PoliceState.MOVING)
+        if (policeState == PoliceState.MOVING)  // 경찰차가 이동 상태일 때
         {
             checkColObj.SetActive(true);    // 켜준다.
             stopCheckColObj.SetActive(false);   // 꺼준다.
         }
-        else if (policeState == PoliceState.STOP)
+        else if (policeState == PoliceState.STOP)   // 경찰차가 정지 상태일 때(불심검문)
         {
             stopCheckColObj.SetActive(true);    // 켜준다.
             checkColObj.SetActive(false);   // 꺼준다.
         }
-        else if (policeState == PoliceState.INSPECTING)
+        else if (policeState == PoliceState.INSPECTING) // 경찰차가 불심검문 중인 상태일 때
         {
-            IsInspecting = true;
+            IsInspecting = true;    // true면 플레이어가 불심검문 중임을 나타냄
             if (playerMove != null)
             {
-                playerMove.Stop = true;
+                playerMove.Stop = true; // 플레이어의 이동을 제어한다.
             }
-            stopCheckColObj.SetActive(false);
-            checkColObj.SetActive(false);
+            stopCheckColObj.SetActive(false);   // 꺼준다.
+            checkColObj.SetActive(false);   // 꺼준다.
         }
-        else if (policeState == PoliceState.DESTROY)
+        else if (policeState == PoliceState.DESTROY)    // 경찰차가 파괴됨 상태일 때
         {
-            stopCheckColObj.SetActive(false);
-            checkColObj.SetActive(false);
+            stopCheckColObj.SetActive(false);   // 꺼준다.
+            checkColObj.SetActive(false);   // 꺼준다.
         }
     }
 
@@ -148,6 +155,7 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
     {
         // 경로를 깔끔하게 다 지워준다.
         this.policePathList.Clear();
+        // 경로를 차례대로 넣어준다.
         for (int i = 0; i < policePathList.Count; i++)
         {
             this.policePathList.Add(policePathList[i]);
@@ -168,6 +176,7 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
                 if (Random.Range(0,1000) < 2) { InitState(true); }
                 break;
             case 2:
+                // 좌회전, 우회전을 한다.
                 Turn(value);
                 TurnStraight(value);
                 break;
@@ -176,31 +185,34 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
     // 자동차가 회전 후 회전한 방향으로 일정거리 직진하게끔 해줍니다.
     private void TurnStraight(float value)
     {
-        int n = 1;
-        if (value > 0) { n = -1; }
-        trans.position += transform.right * ((Mathf.PI * speed) / (2 * value * (-1) * n));
+        int n = -1;
+        if (value > 0) { n = 1; }
+        trans.position += transform.right * ((Mathf.PI * Speed) / (2 * value * n));
     }
     // 바라보는 방향으로 직진합니다.
     private void Straight(float dis)
     {
         if (!isLock)
         {
+            // temPosition은 경찰차가 목표로 하고 있는 지점이다.
+            // isLock으로 목표지점을 한번만 정해준다.
             temPosition = trans.position + (transform.right * dis);
             isLock = true;
         }
         
+        // 경찰차의 위치가 목표지점에 가장 가까워졌을 시, 경찰차의 위치를 목표지점으로 바꿔 위치의 오차를 없앤다.
         if (Vector3.SqrMagnitude(trans.position - temPosition)
-            <= Vector3.SqrMagnitude((trans.position + transform.right * speed * Time.deltaTime) - temPosition))
+            <= Vector3.SqrMagnitude((trans.position + transform.right * Speed * Time.deltaTime) - temPosition))
         {
             trans.position = temPosition;
             
-            //Debug.Log($"{trans.position.x}  {trans.position.y}");
-            nextBehaviour = true;
-            isLock = false;
+            nextBehaviour = true;   // 목표지점에 도달했으므로 다음 명령을 받을 준비가 된다.
+            isLock = false; // 목표지점에 도달했으므로 temPosition을 다음 호출 시 다시 받아야한다.
         }
         else
         {
-            trans.position += transform.right * speed * Time.deltaTime;
+            // 경찰차를 목표지점 방향으로 일정거리 이동시킨다.
+            trans.position += transform.right * Speed * Time.deltaTime;
         }
     }
     // 회전합니다. 해당 함수는 Mathf.Abs(rotate)값만큼 호출되고 다음 명령으로 넘어가게 합니다.
@@ -214,11 +226,12 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
             // 방향을 바꾸기전 경찰차의 z축 rotation값을 temRotate에 저장합니다.
             temRotate = trans.eulerAngles;
         }
-
+        // rotate의 값이 음수인지 양수인지 여부와, 경찰차가 오른쪽으로 가는지 아닌지에 따라 
+        // 총 4가지의 상황이 생기며, 그에 따라 다르게 회전을 시켜줄 필요가 있다.
         if (rotate * (isRight ? 1 : -1) > 0)
         {
-            this.rotate += (-1) * speed;
-            trans.Rotate(new Vector3(0, 0, speed));
+            this.rotate += (-1) * Speed;
+            trans.Rotate(new Vector3(0, 0, Speed));
             if (this.rotate < 0)
             {
                 this.rotate = 0f;
@@ -226,8 +239,8 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
         }
         else if (rotate * (isRight ? 1 : -1) < 0)
         {
-            this.rotate += speed;
-            trans.Rotate(new Vector3(0, 0, (-1) * speed));
+            this.rotate += Speed;
+            trans.Rotate(new Vector3(0, 0, (-1) * Speed));
             if (this.rotate > 0)
             {
                 this.rotate = 0f;
@@ -368,11 +381,13 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
                 // 경찰차에게 어떤 행동을 하게 할지 명령을 내립니다.
                 PoliceCarBehaviour(policePathList[index].Behaviour, policePathList[index].Value);
             }
-
+            // 다음 명령을 받을 준비가 되어있고, 경찰차 주변에 부딪힐 차량이 없는 경우
+            // index를 바꾸고 다음 명령을 호출하도록 한다.
             if (nextBehaviour && isBehaviour)
             {
+                // 소수점이하의 오차를 없애기 위해 현재 포지션값을 반올림하여 정수로 바꾼다.
                 trans.position = new Vector3((float)System.Math.Round(trans.position.x, 1), (float)System.Math.Round(trans.position.y, 1));
-
+                // 오른쪽으로 경찰차가 움직이면, 경로 리스트의 인덱스를 1 올리고, 그 반대면 1 내린다.
                 if (isRight)
                 {
                     if (policePathList.Count - 1 == index)
@@ -395,27 +410,42 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
                         index--;
                     }
                 }
+                // 경로 리스트 인덱스를 바꿨으니 다음 명령을 받을 수 없는 상태로 바꾼다.
                 nextBehaviour = false;
             }
         }
+        // 일정확률로 불심검문 상태에서 다시 새로운 상태로 초기화시켜준다.
         else if (policeState == PoliceState.STOP)
         {
             if (Random.Range(0,10000) < 10) { InitState(true); }
         }
     }
+    // 충돌하게 되는지 여부에 따라 값을 바꿔준다.
     public void SetIsBehaviour(bool bo)
     {
         isBehaviour = bo;
     }
+    /// <summary>
+    /// 경찰차의 고유 번호를 가져온다. 고유번호는 경찰차들끼리 우선순위를 정하는데 사용한다.
+    /// </summary>
     public int GetPriorityCode()
     {
         return policeCarCode;
     }
+    /// <summary>
+    /// 경찰차의 상태를 바꾼다. 상태를 초기화하지는 않고,
+    /// 필요없는 콜라이더는 InitState함수로 꺼주고, 필요한 건 켜준다.
+    /// </summary>
+    /// <param name="policeState"></param>
     public void SetPoliceState(PoliceState policeState)
     {
         this.policeState = policeState;
         InitState(false);
     }
+    /// <summary>
+    /// 불심검문중 상태가 끝나고 경찰차의 상태를 이동 상태로 바꿔준다. 그 외에
+    /// 플레이어 제어권이나, 불심검문중인 상태가 아님을 나타내기 위해 변수값을 바꿔준다.
+    /// </summary>
     public void EndInspecting()
 	{
         playerMove.Stop = false;
@@ -437,7 +467,7 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
 	}
     public float GetSpeed()
 	{
-        return speed;
+        return Speed;
 	}
     public PoliceState GetPoliceState()
 	{

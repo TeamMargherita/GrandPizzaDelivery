@@ -34,7 +34,7 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
     private Vector3 temRotate;
     private Vector3 temPosition;
 
-    public float speed;    // 자동차의 속도
+    public float Speed;    // 자동차의 속도
     private float rotate;   // 플레이어는 해당 값만큼 z축 방향을 돌려야 합니다.
     private int hp; // 경찰차의 체력
     private int index;  // 경로 리스트의 인덱스. 오름차순으로 받을지 내림차순으로 받을지에 따라 더해주는 값의 부호가 다르다.
@@ -95,7 +95,7 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
         isRight = Random.Range(0, 2) == 0 ? true : false;
         //isLeft = false;
         trans.eulerAngles = new Vector3(0,0, isRight ? 0 : 180);
-        speed = Random.Range(1,10); // 속도를 랜덤으로 줌
+        Speed = Random.Range(1,10); // 속도를 랜덤으로 줌
         hp = 100;   // 자동차의 기본 체력은 100
         rotate = 0;
         index = 0;
@@ -187,7 +187,7 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
     {
         int n = -1;
         if (value > 0) { n = 1; }
-        trans.position += transform.right * ((Mathf.PI * speed) / (2 * value * n));
+        trans.position += transform.right * ((Mathf.PI * Speed) / (2 * value * n));
     }
     // 바라보는 방향으로 직진합니다.
     private void Straight(float dis)
@@ -202,7 +202,7 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
         
         // 경찰차의 위치가 목표지점에 가장 가까워졌을 시, 경찰차의 위치를 목표지점으로 바꿔 위치의 오차를 없앤다.
         if (Vector3.SqrMagnitude(trans.position - temPosition)
-            <= Vector3.SqrMagnitude((trans.position + transform.right * speed * Time.deltaTime) - temPosition))
+            <= Vector3.SqrMagnitude((trans.position + transform.right * Speed * Time.deltaTime) - temPosition))
         {
             trans.position = temPosition;
             
@@ -212,7 +212,7 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
         else
         {
             // 경찰차를 목표지점 방향으로 일정거리 이동시킨다.
-            trans.position += transform.right * speed * Time.deltaTime;
+            trans.position += transform.right * Speed * Time.deltaTime;
         }
     }
     // 회전합니다. 해당 함수는 Mathf.Abs(rotate)값만큼 호출되고 다음 명령으로 넘어가게 합니다.
@@ -230,8 +230,8 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
         // 총 4가지의 상황이 생기며, 그에 따라 다르게 회전을 시켜줄 필요가 있다.
         if (rotate * (isRight ? 1 : -1) > 0)
         {
-            this.rotate += (-1) * speed;
-            trans.Rotate(new Vector3(0, 0, speed));
+            this.rotate += (-1) * Speed;
+            trans.Rotate(new Vector3(0, 0, Speed));
             if (this.rotate < 0)
             {
                 this.rotate = 0f;
@@ -239,8 +239,8 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
         }
         else if (rotate * (isRight ? 1 : -1) < 0)
         {
-            this.rotate += speed;
-            trans.Rotate(new Vector3(0, 0, (-1) * speed));
+            this.rotate += Speed;
+            trans.Rotate(new Vector3(0, 0, (-1) * Speed));
             if (this.rotate > 0)
             {
                 this.rotate = 0f;
@@ -467,7 +467,7 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
 	}
     public float GetSpeed()
 	{
-        return speed;
+        return Speed;
 	}
     public PoliceState GetPoliceState()
 	{

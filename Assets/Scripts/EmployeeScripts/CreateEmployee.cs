@@ -10,11 +10,11 @@ public class CreateEmployee : MonoBehaviour
 
     public void SpawnEmployee(int value)
     {
-        int EmployeeCount = 0;
+        int employeeCount = 0;
 
-        EmployeeCount = EmployeeMother.transform.childCount;
+        employeeCount = EmployeeMother.transform.childCount;
 
-        if(EmployeeCount < 5 )
+        if(employeeCount < 5 )
         {
             GameObject employee;
 
@@ -24,7 +24,7 @@ public class CreateEmployee : MonoBehaviour
             EmployeeMother.GetComponent<PizzaQuality>().
                 Employees.Add(employee);
 
-            GetStat(value, EmployeeCount);
+            GetStat(value, employeeCount);
         }
         else
         {
@@ -35,14 +35,14 @@ public class CreateEmployee : MonoBehaviour
     public void GetStat(int SValue, int Gvalue)
     {
         EmployeeMother.GetChild(Gvalue).GetComponent<EmployeeStat>().Handy 
-            = EmployeeRecruitMother.GetComponent<EmployeeRecruit>().handy[SValue];
+            = EmployeeRecruitMother.GetComponent<EmployeeRecruit>().Handy[SValue];
         EmployeeMother.GetChild(Gvalue).GetComponent<EmployeeStat>().Agility
-            = EmployeeRecruitMother.GetComponent<EmployeeRecruit>().agility[SValue];
+            = EmployeeRecruitMother.GetComponent<EmployeeRecruit>().Agility[SValue];
         EmployeeMother.GetChild(Gvalue).GetComponent<EmployeeStat>().Career
-            = EmployeeRecruitMother.GetComponent<EmployeeRecruit>().career[SValue];
+            = EmployeeRecruitMother.GetComponent<EmployeeRecruit>().Career[SValue];
         EmployeeMother.GetChild(Gvalue).GetComponent<EmployeeStat>().Creativity
-            = EmployeeRecruitMother.GetComponent<EmployeeRecruit>().creativity[SValue];
+            = EmployeeRecruitMother.GetComponent<EmployeeRecruit>().Creativity[SValue];
         EmployeeMother.GetChild(Gvalue).GetComponent<EmployeeStat>().Pay
-            = EmployeeRecruitMother.GetComponent<EmployeeRecruit>().pay[SValue];
+            = EmployeeRecruitMother.GetComponent<EmployeeRecruit>().Pay[SValue];
     }
 }

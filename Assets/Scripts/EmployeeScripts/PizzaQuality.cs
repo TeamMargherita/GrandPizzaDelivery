@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PizzaQuality : MonoBehaviour
 {
-    public int pizzaQuality;
+    public int PizzaQualitys;
 
     public Transform EmployeeParent;
 
@@ -39,7 +39,7 @@ public class PizzaQuality : MonoBehaviour
 
         for (int i = 0; i < EmployeesCount; i++)
         {
-            pizzaQuality += Employees[i].GetComponent<EmployeeStat>().Handy;
+            PizzaQualitys += Employees[i].GetComponent<EmployeeStat>().Handy;
 
             min += Employees[i].GetComponent<EmployeeStat>().Career;
             max += Employees[i].GetComponent<EmployeeStat>().Creativity;
@@ -48,16 +48,16 @@ public class PizzaQuality : MonoBehaviour
         min /= EmployeesCount;
         max /= EmployeesCount;
 
-        pizzaQuality = 
-            pizzaQuality / EmployeesCount + Random.Range(QualityMinValue + min, QualityMaxValue + 1 + max);
+        PizzaQualitys =
+            PizzaQualitys / EmployeesCount + Random.Range(QualityMinValue + min, QualityMaxValue + 1 + max);
 
-        if(pizzaQuality > 100) 
+        if(PizzaQualitys > 100) 
         {
-            pizzaQuality = 100;
+            PizzaQualitys = 100;
         }
-        else if(pizzaQuality < 1)
+        else if(PizzaQualitys < 1)
         {
-            pizzaQuality = 1;
+            PizzaQualitys = 1;
         }
     }
 

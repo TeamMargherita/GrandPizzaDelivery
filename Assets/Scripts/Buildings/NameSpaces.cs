@@ -4,6 +4,30 @@ using UnityEngine;
 
 // 한석호 작성
 
+namespace ClerkNS
+{
+    public enum Tier{ ONE = -1, TWO = 1, THREE = 3, FOUR = 6 };
+    // 나중에 클래스로 바꿀듯
+    public struct ClerkS
+	{
+        public Tier Handicraft;  // 손재주
+        public Tier Agility; // 순발력
+        public Tier Career;  // 경력
+        public Tier Creativity;  // 창의력
+        public int Stress;  // 스트레스
+        public int Pay; // 주급
+
+        public ClerkS (Tier Handicraft, Tier Agility, Tier Career, Tier Creativity, int Stress, int Pay)
+		{
+            this.Handicraft = Handicraft;
+            this.Agility = Agility;
+            this.Career = Career;
+            this.Creativity = Creativity;
+            this.Stress = Stress;
+            this.Pay = Pay;
+		}
+    }
+}
 
 namespace BuildingNS
 {
@@ -36,16 +60,7 @@ namespace BuildingAddressNS
 		}
 	}
 }
-/*
-집마다 성향이 제각각인 손님들이 존재한다. 한번 성향이 정해진 손님들은 쭉 유지된다.
-경찰차가 플레이어를 추격한다.(미정)
-속도계를 만든다.
-재료들을 만든다. 재료마다 매력도가 다름. 매력도 하락수치도 다름
-가게 내부 화면을 만든다.
-경찰차 리젠(추격이벤트때는 리젠 안됨)
-경찰차 바나나
-손님 리뷰
-*/
+
 namespace PizzaNS
 {
     public enum Ingredient { NONE, TOMATO, CHEESE, BASIL, POTATO, BACON, CORN, JALAPENO, CHICKEN, MEAT };

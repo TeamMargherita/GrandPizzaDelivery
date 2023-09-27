@@ -14,6 +14,11 @@ public static class Constant
 	/// 피자의 매력도. 리듬게임 100% 정확도 기준일 때의 매력도이다. 정확도 깎이면 매력도도 깎임.
 	/// </summary>
 	public static int PizzaAttractiveness;
+	public static int Perfection;
+	public static int ProductionCost;
+	public static int SellCost;
+	public static int TotalDeclineAt;
+	public static List<Ingredient> ingreds = new List<Ingredient>();
 	/// <summary>
 	/// 피자 재료값. [,0]은 재료번호, [,1]은 매력도, [,2]는 매력하락도, [,3]은 재료값. [0,]은 재료없음임.
 	/// </summary>
@@ -30,4 +35,10 @@ public static class Constant
 		{"8","65","12","960" },
 		{"9","78","20","1350" }
 	};
+	/// <summary>
+	/// 개발한 피자 리스트
+	/// </summary>
+	public static List<Pizza> DevelopPizza = new List<Pizza>();
+
+	public static bool isMakePizza = false;
 }

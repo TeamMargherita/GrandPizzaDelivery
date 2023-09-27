@@ -12,6 +12,7 @@ public class Map : MonoBehaviour, IMap, IStop
 {
     [SerializeField] private GameObject uiControlObj;
     [SerializeField] private GameObject policeCar;
+    [SerializeField] private GameObject banana;
     [SerializeField] private GameObject effectControl;
     [SerializeField] private PlayerMove playerMove;
     [SerializeField] private Sprite[] houseMarkArr;
@@ -86,6 +87,7 @@ public class Map : MonoBehaviour, IMap, IStop
                     policeCar.GetComponent<IPoliceCar>().SetPlayerMove(playerMove);
                     policeCar.GetComponent<IPoliceCar>().SetPoliceSmokeEffect(effectControl.GetComponent<IPoliceSmokeEffect>());
                     policeCar.GetComponent<IPoliceCar>().SetMap(this);
+                    policeCar.GetComponent<IPoliceCar>().SetBanana(banana);
                     // 각 경찰차에게 건물에 맞는 루트를 짜서 넘겨야한다.
                     if (buildingList[ran].GetPolicePath().Count != 0)
                     {

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerStat : MonoBehaviour
 {
-    private int hp = Mathf.Clamp(200, 1, 200);
+    private int hp = 200;
     public float Braking = 0.99f;
     [SerializeField]
     private float speed;
@@ -14,7 +14,13 @@ public class PlayerStat : MonoBehaviour
     public int HP
     {
         get { return hp; }
-        set { hp = value; }
+        set {
+            if (value <= 0)
+                Debug.Log("플레이어 사망");
+            else if (value > 0)
+                Debug.Log("플레이어 생존");
+            hp = value;
+        }
     }
     public float Speed
     {

@@ -52,7 +52,7 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
 
         houseType = HouseType.NONE;
 
-        if (Constant.isMakePizza)
+        if (Constant.IsMakePizza)
 		{
             DirectADdPizzaMenu();
         }

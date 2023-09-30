@@ -31,14 +31,14 @@ public class PizzaMenuUI : MonoBehaviour, IAddPizza
 	private int nowPage = 0;
 	private void Awake()
 	{
-		for (int i = 0; i < 7; i++)
-		{
-			List<Ingredient> ing = new List<Ingredient>();
-			ing.Add(Ingredient.BACON);
-			ing.Add(Ingredient.TOMATO);
-			ing.Add(Ingredient.CHEESE);
-			Constant.DevelopPizza.Add(new Pizza("SuperPizza", 60, 5000, 10000, Random.Range(0, 1500) + 500, ing, Random.Range(0, 1500) + 200));
-		}
+		//for (int i = 0; i < 7; i++)
+		//{
+		//	List<Ingredient> ing = new List<Ingredient>();
+		//	ing.Add(Ingredient.BACON);
+		//	ing.Add(Ingredient.TOMATO);
+		//	ing.Add(Ingredient.CHEESE);
+		//	Constant.DevelopPizza.Add(new Pizza("SuperPizza", 60, 5000, 10000, Random.Range(0, 1500) + 500, ing, Random.Range(0, 1500) + 200));
+		//}
 
 		pizzaMenuSlot = new GameObject[pizzaMenuListObj.transform.childCount];
 		pizzaMenuSlotText = new Text[pizzaMenuSlot.Length];

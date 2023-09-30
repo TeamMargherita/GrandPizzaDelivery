@@ -129,3 +129,11 @@ public interface IAddPizza
     public void SetAddPizzaExplain(int num);
     public void SetTemSlotNumber(int num);
 }
+/// <summary>
+/// 피자집에서 생성된 피자에 관한 정보를 전달하는 인터페이스
+/// </summary>
+public interface IMakingPizzaPanel
+{
+    public void SetPizza(Pizza pizza);
+    public bool ComparePizza(Pizza pizza);
+}

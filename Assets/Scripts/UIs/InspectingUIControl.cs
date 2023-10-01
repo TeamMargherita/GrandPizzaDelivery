@@ -13,6 +13,7 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText
     [SerializeField] private Sprite[] policeSprArr; // 0 : 기분좋음 1 : 기분 안좋음 2 : 화남 3 : 극대노
     [SerializeField] private Sprite[] playerSprArr; // 0 : 보통 1 : 설득중 2 : 개무시 3 : 쩔쩔맴
 
+    [SerializeField] private GameObject spawnChaser;
     [SerializeField] private GameObject uiControl;
     [SerializeField] private RectTransform scrollContents;
     [SerializeField] private Image policeFace;
@@ -21,6 +22,7 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText
     [SerializeField] private Text policeText;
 
     private IInspectingPanelControl iInspectingPanelControl;
+    private ISpawnCar iSpawnCar;
 
     private RectTransform[] diceRectArr;
     private Image[] diceImgArr;
@@ -79,7 +81,7 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText
 		}
 
         iInspectingPanelControl = uiControl.GetComponent<IInspectingPanelControl>();
-
+        iSpawnCar = spawnChaser.GetComponent<ISpawnCar>();
     }
 
 	private void OnEnable()
@@ -177,7 +179,7 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText
                 playerFace.sprite = playerSprArr[3];
                 break;
             case 1001:  // 무시한다.
-                SetPoliceText(20);  // 시간을 낭비했군 ~
+                SetPoliceText(5);  // 시간을 낭비했군 ~
 
                 scrollContents.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 100);
                 SetPlayerText(0, 19, 1005);
@@ -233,6 +235,7 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText
                 policeFace.sprite = policeSprArr[3];
                 playerFace.sprite = playerSprArr[2];
                 // 경찰 추적
+                iSpawnCar.SpawnCar(10);
                 break;
             case 1006:  // (간다.)
                 InitPoliceText();

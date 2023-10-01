@@ -11,7 +11,6 @@ public class GameManager : MonoBehaviour
     public List<Pizza> PizzaMenu = new List<Pizza>();
     public List<Slot> InventorySlotList = new List<Slot>();
     public GameObject TimeText;
-    
     public static GameManager Instance
     {
         get
@@ -28,6 +27,7 @@ public class GameManager : MonoBehaviour
     }
     private void Awake()
     {
+        
         for (int i = 0; i < 5; i++)
         {
             List<Ingredient> ing = new List<Ingredient>();

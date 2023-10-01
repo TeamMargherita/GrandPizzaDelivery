@@ -9,11 +9,17 @@ public class PlayerMove : PlayerStat
     private float time;
     public bool Stop = false;
     private bool bananaTrigger = false;
-
-
-    
+    [SerializeField]
+    private MakingPizza MakingPizzaScript;
+    [SerializeField]
+    private InventoryManager InventoryManagerScript;
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            InventoryManagerScript.InventoryAddItem(MakingPizzaScript.GetInvenPizzaList(0));
+            InventoryManagerScript.inventoryDisplay();
+        }
         if (!Stop && !bananaTrigger)
         {
             time += Time.deltaTime;
@@ -99,8 +105,11 @@ public class PlayerMove : PlayerStat
     {
         if (other.transform.CompareTag("Banana"))
         {
+            if (bananaCoroutine != null)
+                StopCoroutine(bananaCoroutine);
             bananaCoroutine = banana(2, this.transform);
             StartCoroutine(bananaCoroutine);
+            Destroy(other.gameObject);
         }
         
     }

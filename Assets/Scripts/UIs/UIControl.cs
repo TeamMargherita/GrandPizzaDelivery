@@ -5,7 +5,7 @@ using BuildingNS.HouseNS;
 
 // 한석호 작성
 
-public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelControl, IHouseActiveUIControl
+public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelControl, IHouseActiveUIControl, IAlarmMessagePanel
 {
     [SerializeField] private GameObject inspectingPanel;
     [SerializeField] private GameObject inspectingMaskPanel;
@@ -16,8 +16,10 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
     [SerializeField] private GameObject pizzaMakePanel;
     [SerializeField] private GameObject pizzaMenuPanel;
     [SerializeField] private GameObject employeeRecruitPanel;
+    [SerializeField] private GameObject alarmMessagePanel;
 
     [SerializeField] private UnityEngine.UI.Image addPizzaImg;
+    [SerializeField] private UnityEngine.UI.Text alarmMessageText;
 
     private IEndInspecting iEndInspecting;
     private IHouse iHouse;
@@ -30,6 +32,10 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
     private RectTransform pizzaMakeTrans;
     private RectTransform pizzaMenuTrans;
     private RectTransform employeeRecruitTrans;
+    private RectTransform alarmMessageTrans;
+
+    private Vector3 alarmMessageStart = new Vector3(0, 590);
+    private Vector3 alarmMessageEnd = new Vector3(0, 490);
 
     private int inspectingHeight = 0;   // 불심검문 패널창 높이
     private int pizzaStoreHeight = 0;   // 피자집 패널창 높이
@@ -41,22 +47,47 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
     private bool isPizzaMake = false;
     private bool isPizzaMenu = false;
     private bool isPizzaAddButtonBlank = false;
+    private bool isAlarmMessage = false;    // 알람 메시지 창이 떠야하는지 여부
     private bool isColor = false;
+
+    public GameObject Inventory;
+    public InventoryManager InventoryManager;
     void Awake()
     {
+        Caching();
+
+        houseType = HouseType.NONE;
+
+        if (Constant.IsMakePizza)
+		{
+            DirectADdPizzaMenu();
+        }
+        Inventory = GameObject.FindWithTag("Inventory").transform.GetChild(0).gameObject;
+    }
+    private void Caching()
+	{
         inspectTrans = inspectingMaskPanel.GetComponent<RectTransform>();
         pizzaStoreTrans = pizzaStoreMaskPanel.GetComponent<RectTransform>();
         pizzaMakeTrans = pizzaMakePanel.GetComponent<RectTransform>();
         pizzaMenuTrans = pizzaMenuPanel.GetComponent<RectTransform>();
         employeeRecruitTrans = employeeRecruitPanel.GetComponent<RectTransform>();
+        alarmMessageTrans = alarmMessagePanel.GetComponent<RectTransform>();
+        alarmMessageText = alarmMessagePanel.transform.GetChild(0).GetComponent<UnityEngine.UI.Text>();
+	}
+    /// <summary>
+    /// 알림 창 열고닫기. 알림창에 보여줄 텍스트도 설정해야됨
+    /// </summary>
+    /// <param name="isOn"></param>
+    /// <param name="text">띄울 텍스트를 적는다.</param>
+    public void ControlAlarmMessageUI(bool isOn, string text)
+	{
+        alarmMessageText.text = text;
+        isAlarmMessage = isOn;
+	}
 
-        houseType = HouseType.NONE;
-
-        if (Constant.isMakePizza)
-		{
-            DirectADdPizzaMenu();
-        }
-    }
+    /// <summary>
+    /// 리듬게임이 끝난 후 바로 피자 메뉴 UI로 갈 때 사용하는 함수
+    /// </summary>
     private void DirectADdPizzaMenu()
 	{
         pizzaStorePanel.SetActive(true);
@@ -64,14 +95,17 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
         pizzaStoreHeight = 1080;
         pizzaStoreTrans.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, pizzaStoreHeight);
         iStop.StopMap(true);
-
         pizzaMenuPanel.SetActive(true);
         isPizzaMenu = true;
         pizzaMenuHeight = 1080;
         pizzaMenuTrans.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, pizzaMenuHeight);
-
         isPizzaAddButtonBlank = true;
     }
+    /// <summary>
+    /// 불심검문창 열고닫기
+    /// </summary>
+    /// <param name="isOn"></param>
+    /// <param name="iEndInspecting"></param>
     public void ControlInspectUI(bool isOn, IEndInspecting iEndInspecting)
     {
         if (iEndInspecting != null)
@@ -149,8 +183,11 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
     {
         if (iHouse == null) { return; }
 
-        iHouse.DisableHouse();
+        //iHouse.DisableHouse();
         deliveryPanel.SetActive(false);
+        Inventory.SetActive(true);
+        InventoryManager.InventoryActive = true;
+        InventoryManager.inventoryDisplay();
     }
     public void NODeliveryUI()
     {
@@ -236,6 +273,26 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
                 if (addPizzaImg.color.r <= 0) { isColor = true; }
             }
         }
+
+        if (isAlarmMessage && alarmMessageTrans.localPosition != alarmMessageEnd)
+		{
+            alarmMessageTrans.localPosition = Vector3.Lerp(alarmMessageTrans.localPosition, alarmMessageEnd, 0.1f);
+
+            if (Mathf.Abs(alarmMessageTrans.localPosition.y - alarmMessageEnd.y) <= 0.1f)
+			{
+                alarmMessageTrans.localPosition = alarmMessageEnd;
+                isAlarmMessage = false;
+			}
+		}
+        else if (!isAlarmMessage && alarmMessageTrans.localPosition != alarmMessageStart)
+		{
+            alarmMessageTrans.localPosition = Vector3.Lerp(alarmMessageTrans.localPosition, alarmMessageStart, 0.1f);
+
+            if (Mathf.Abs(alarmMessageTrans.localPosition.y - alarmMessageStart.y) <= 0.1f)
+            {
+                alarmMessageTrans.localPosition = alarmMessageStart;
+            }
+        }
     }
 
     public void Update()
@@ -247,7 +304,6 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
             switch(houseType)
             {
                 case HouseType.PIZZASTORE:
-                    //Debug.Log("됏다 안됏다");
                     //houseType = HouseType.NONE;
                     //플레이어 멈추고, 경찰차 멈춰야함.
                     iStop.StopMap(true);

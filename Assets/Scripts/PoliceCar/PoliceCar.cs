@@ -18,7 +18,7 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
 
     private PoliceState policeState;    //  경찰차의 상태
 
-    private IPoliceSmokeEffect iPoliceSmokeEffect;
+    private ISetTransform iSetTransform;
     private IStop iStop;
 
     // 경로를 차례대로 들고 있다.
@@ -150,7 +150,9 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
         }
     }
 
-    // 경찰차의 경로를 정해주는 함수이다.
+    /// <summary>
+    /// 경찰차의 경로를 정해주는 함수이다.
+    /// </summary>
     public void InitPoliceCarPath(List<PolicePath> policePathList)
     {
         // 경로를 깔끔하게 다 지워준다.
@@ -165,7 +167,9 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
         else { index = this.policePathList.Count - 1; }
     }
 
-    // 경찰차에게 어떤 행동을 하게 할지 명령을 내립니다.
+    /// <summary>
+    /// 경찰차에게 어떤 행동을 하게 할지 명령을 내립니다.
+    /// </summary>
     private void PoliceCarBehaviour(int choice, float value)
     {
         switch(choice)
@@ -182,14 +186,18 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
                 break;
         }
     }
-    // 자동차가 회전 후 회전한 방향으로 일정거리 직진하게끔 해줍니다.
+    /// <summary>
+    /// 자동차가 회전 후 회전한 방향으로 일정거리 직진하게끔 해줍니다.
+    /// </summary>
     private void TurnStraight(float value)
     {
         int n = -1;
         if (value > 0) { n = 1; }
         trans.position += transform.right * ((Mathf.PI * Speed) / (2 * value * n));
     }
-    // 바라보는 방향으로 직진합니다.
+    /// <summary>
+    /// 바라보는 방향으로 직진합니다.
+    /// </summary>
     private void Straight(float dis)
     {
         if (!isLock)
@@ -215,7 +223,9 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
             trans.position += transform.right * Speed * Time.deltaTime;
         }
     }
-    // 회전합니다. 해당 함수는 Mathf.Abs(rotate)값만큼 호출되고 다음 명령으로 넘어가게 합니다.
+    /// <summary>
+    /// 회전합니다. 해당 함수는 Mathf.Abs(rotate)값만큼 호출되고 다음 명령으로 넘어가게 합니다.
+    /// </summary>
     private void Turn(float rotate)
     {
         // this.rotate의 값을 설정해줍니다.
@@ -256,7 +266,10 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
             nextBehaviour = true;
         }
     }
-
+    /// <summary>
+    /// 경찰차의 체력을 확인하고 지속적으로 연기를 내뿜게할지 정하는 코루틴
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator PoliceSmokeCoroutine()
     {
         var time = new WaitForSeconds(0.01f);
@@ -267,7 +280,7 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
 
             if (PoliceHp < 70f)
             {
-                iPoliceSmokeEffect.InsPoliceSmokeEfectObj(this.transform);
+                iSetTransform.SetTransform(this.transform);
             }
             // 경찰차 체력이 0이 되면 rigidbody-constrait을 해제하고 10초 후 제거하도록함.
             if (PoliceHp <= 0f && policeState != PoliceState.DESTROY)
@@ -289,13 +302,17 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
             }
         }
     }
+    /// <summary>
+    /// 일정 시간마다 바나나를 던지게 하는 코루틴
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator ShootBananaTermCoroutine()
 	{
         var time = new WaitForSeconds(1f);
         int r = 0;
         while(true)
 		{
-            r = Random.Range(5, 15);
+            r = Random.Range(50, 150);
 
             for (int i = 0; i < r; i++)
 			{
@@ -457,9 +474,9 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
     {
         stopCheckColObj.GetComponent<StopPoliceCarCollisionCheck>().SetIInspectingPanelControl(iInspectingPanelControl);
     }
-    public void SetPoliceSmokeEffect(IPoliceSmokeEffect iPoliceSmokeEffect)
+    public void SetPoliceSmokeEffect(ISetTransform iSetTransform)
 	{
-        this.iPoliceSmokeEffect = iPoliceSmokeEffect;
+        this.iSetTransform = iSetTransform;
     }
     public Rigidbody2D GetRigidBody2D()
 	{

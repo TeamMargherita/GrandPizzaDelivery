@@ -9,28 +9,32 @@ using ClerkNS;
 public class MakingPizza : MonoBehaviour
 {
     [SerializeField] private GameObject[] makingPizzaPanelArr; // 만들고 있는, 혹은 만든 피자를 보여주기 위한 패널들
-    
+    [SerializeField] private GameObject uiControl;
+
     private List<Request> pizzaRequestList = new List<Request>();   // 만들어야할 피자 리스트
 
     private List<Pizza> completePizzaList = new List<Pizza>();  // 완성된 피자 리스트
 
-
-    private Coroutine makingPizzaCoroutine; // 피자를 만드는 코루틴
     private RectTransform[] makingPizzaPanelRect;
-
     private MakingPizzaPanel[] makingPizzaPanelClass;
-    
+    private Coroutine makingPizzaCoroutine; // 피자를 만드는 코루틴
+
     private Vector3 initMakingPizzaPanelVec = new Vector3(-600, 400);
 
-	private void Awake()
+    private IAlarmMessagePanel iAlarmMessagePanel;
+    private void Awake()
 	{
         Constant.ClerkList.Add(new ClerkC(47, Tier.THREE, Tier.ONE, Tier.FOUR, 0, 20000));  // 임의로 점원 생성
+        iAlarmMessagePanel = uiControl.GetComponent<IAlarmMessagePanel>();
         InitArr();
     }
 	void Start()
     {
         makingPizzaCoroutine = StartCoroutine(Making());
     }
+    /// <summary>
+    /// 초기화
+    /// </summary>
     private void InitArr()
 	{
         makingPizzaPanelRect = new RectTransform[makingPizzaPanelArr.Length];
@@ -109,7 +113,10 @@ public class MakingPizza : MonoBehaviour
             }
             // 피자가 완성되었다. 완성된 피자는 피자집 인벤에 들어간다.
             completePizzaList.Add(pizzaRequestList[0].Pizza);
-            
+
+            // 알림이 뜬다.
+            iAlarmMessagePanel.ControlAlarmMessageUI(true, $"{pizzaRequestList[0].Pizza.Name}가 완성되었습니다.");
+
             // 피자 패널들을 아래로 내린다.
             for (int i = 0; i < 7; i++)
 			{

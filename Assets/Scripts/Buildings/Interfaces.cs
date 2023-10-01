@@ -137,3 +137,15 @@ public interface IMakingPizzaPanel
     public void SetPizza(Pizza pizza);
     public bool ComparePizza(Pizza pizza);
 }
+/// <summary>
+/// 화면 상단에 알람을 띄우는 인터페이스
+/// </summary>
+public interface IAlarmMessagePanel
+{
+    /// <summary>
+    /// 알림 창 열고닫기. 알림창에 보여줄 텍스트도 설정해야됨
+    /// </summary>
+    /// <param name="isOn"></param>
+    /// <param name="text">띄울 텍스트를 적는다.</param>
+    public void ControlAlarmMessageUI(bool isOn, string text);
+}

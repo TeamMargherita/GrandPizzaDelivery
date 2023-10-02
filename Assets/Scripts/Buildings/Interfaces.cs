@@ -31,7 +31,7 @@ public interface IPoliceCar
     public void InitPoliceCarPath(List<PolicePath> policePathList);
     public void SetIInspectingPanelControl(IInspectingPanelControl iInspectingPanelControl);
     public void SetPlayerMove(PlayerMove playerMove);
-    public void SetPoliceSmokeEffect(IPoliceSmokeEffect iPoliceSmokeEffect);
+    public void SetPoliceSmokeEffect(ISetTransform iSetTransform);
     public Rigidbody2D GetRigidBody2D();
     public float GetSpeed();
     public PoliceState GetPoliceState();
@@ -87,12 +87,6 @@ public interface IEndInspecting
 {
     public void EndInspecting();
 }
-
-public interface IPoliceSmokeEffect
-{
-    public void InsPoliceSmokeEfectObj(Transform trans);
-}
-
 public interface IHouse
 {
     public void EnableHouse();
@@ -148,4 +142,22 @@ public interface IAlarmMessagePanel
     /// <param name="isOn"></param>
     /// <param name="text">띄울 텍스트를 적는다.</param>
     public void ControlAlarmMessageUI(bool isOn, string text);
+}
+/// <summary>
+/// 추격 경찰차를 소환하는 인터페이스
+/// </summary>
+public interface ISpawnCar
+{
+    /// <summary>
+    /// 추격 경찰차를 count 수 만큼 소환합니다.
+    /// </summary>
+    /// <param name="count">소환할 추격 경찰차의 수입니다.</param>
+    public void SpawnCar(int count);
+}
+/// <summary>
+/// 트랜스폼을 가져오는 인터페이스
+/// </summary>
+public interface ISetTransform
+{
+    public void SetTransform(Transform trans);
 }

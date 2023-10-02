@@ -18,7 +18,7 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
 
     private PoliceState policeState;    //  경찰차의 상태
 
-    private IPoliceSmokeEffect iPoliceSmokeEffect;
+    private ISetTransform iSetTransform;
     private IStop iStop;
 
     // 경로를 차례대로 들고 있다.
@@ -280,7 +280,7 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
 
             if (PoliceHp < 70f)
             {
-                iPoliceSmokeEffect.InsPoliceSmokeEfectObj(this.transform);
+                iSetTransform.SetTransform(this.transform);
             }
             // 경찰차 체력이 0이 되면 rigidbody-constrait을 해제하고 10초 후 제거하도록함.
             if (PoliceHp <= 0f && policeState != PoliceState.DESTROY)
@@ -474,9 +474,9 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
     {
         stopCheckColObj.GetComponent<StopPoliceCarCollisionCheck>().SetIInspectingPanelControl(iInspectingPanelControl);
     }
-    public void SetPoliceSmokeEffect(IPoliceSmokeEffect iPoliceSmokeEffect)
+    public void SetPoliceSmokeEffect(ISetTransform iSetTransform)
 	{
-        this.iPoliceSmokeEffect = iPoliceSmokeEffect;
+        this.iSetTransform = iSetTransform;
     }
     public Rigidbody2D GetRigidBody2D()
 	{

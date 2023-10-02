@@ -4,7 +4,7 @@ using UnityEngine;
 
 // 한석호 작성
 
-public class EffectControl : MonoBehaviour, IPoliceSmokeEffect
+public class EffectControl : MonoBehaviour, ISetTransform
 {
     [SerializeField] private GameObject policeSmokeEffectObj;
     [SerializeField] private GameObject policeSmokeEffect;
@@ -17,7 +17,7 @@ public class EffectControl : MonoBehaviour, IPoliceSmokeEffect
         
     }
 
-    public void InsPoliceSmokeEfectObj(Transform trans)
+    public void SetTransform(Transform trans)
 	{
         for (int i = 0; i < policeSmokeEffectList.Count; i++)
 		{

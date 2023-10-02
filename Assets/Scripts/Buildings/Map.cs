@@ -86,7 +86,7 @@ public class Map : MonoBehaviour, IMap, IStop
                 {
                     policeList.Add(policeCar.GetComponent<IPoliceCar>());
                     policeCar.GetComponent<IPoliceCar>().SetPlayerMove(playerMove);
-                    policeCar.GetComponent<IPoliceCar>().SetPoliceSmokeEffect(effectControl.GetComponent<IPoliceSmokeEffect>());
+                    policeCar.GetComponent<IPoliceCar>().SetPoliceSmokeEffect(effectControl.GetComponent<ISetTransform>());
                     policeCar.GetComponent<IPoliceCar>().SetMap(this);
                     policeCar.GetComponent<IPoliceCar>().SetBanana(banana);
                     // 각 경찰차에게 건물에 맞는 루트를 짜서 넘겨야한다.

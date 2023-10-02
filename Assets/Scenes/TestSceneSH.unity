@@ -36401,6 +36401,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 539893973}
   m_CullTransparentMesh: 1
+--- !u!1 &541032900
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 541032901}
+  - component: {fileID: 541032902}
+  m_Layer: 0
+  m_Name: PoliceChase
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &541032901
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 541032900}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 16
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &541032902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 541032900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59687c667774a2c42ab1e8f20271b16a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chaserPoliceCar: {fileID: 8242808976314856609, guid: a4b19b350cdfca043b1674b1522d0f5a, type: 3}
+  playerTrans: {fileID: 5465525691940280719}
 --- !u!1 &541733034
 GameObject:
   m_ObjectHideFlags: 0
@@ -42622,6 +42667,7 @@ MonoBehaviour:
   - {fileID: 3674565739145637645, guid: dff6cfaffb811ac498911813e3c481eb, type: 3}
   - {fileID: -5347623856431590365, guid: dff6cfaffb811ac498911813e3c481eb, type: 3}
   - {fileID: 8511913863177069774, guid: dff6cfaffb811ac498911813e3c481eb, type: 3}
+  spawnChaser: {fileID: 541032900}
   uiControl: {fileID: 1930384846}
   scrollContents: {fileID: 633216447}
   policeFace: {fileID: 562629633}
@@ -59039,7 +59085,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1737375351}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 0.5, z: 0}
+  m_LocalPosition: {x: 0.5, y: 0.5, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 295212000}
@@ -70369,7 +70415,7 @@ GameObject:
   - component: {fileID: 5465525691940280721}
   - component: {fileID: 5465525691940280722}
   - component: {fileID: 5465525691940280720}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}

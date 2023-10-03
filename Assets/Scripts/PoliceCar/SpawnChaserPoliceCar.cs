@@ -20,9 +20,10 @@ public class SpawnChaserPoliceCar : MonoBehaviour, ISpawnCar
 				if (vecList.FindIndex(a => a.Equals(ve)) == -1)
 				{
 					vecList.Add(ve);
-					GameObject obj = Instantiate(chaserPoliceCar);
+					GameObject obj = Instantiate(chaserPoliceCar, this.transform);
 					obj.transform.localPosition = ve;
 					obj.GetComponent<ISetTransform>().SetTransform(playerTrans);
+					
 					break;
 				}
 		} }

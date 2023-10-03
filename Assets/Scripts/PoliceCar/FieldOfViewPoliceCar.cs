@@ -4,7 +4,7 @@ using UnityEngine;
 
 // 한석호 작성
 
-public class FieldOfViewPoliceCar : MonoBehaviour
+public class FieldOfViewPoliceCar : MonoBehaviour, IGetBool
 {
 	public float ViewRadius;	// 시야 반지름 길이
 	[Range(0,360)]
@@ -23,7 +23,10 @@ public class FieldOfViewPoliceCar : MonoBehaviour
 	public int EdgeResolveIterations;
 
 	public MeshFilter ViewMeshFilter;
+	
 	private Mesh viewMesh;
+
+	private bool isFindPlayer = false;
 
 	private void Start()
 	{
@@ -43,15 +46,15 @@ public class FieldOfViewPoliceCar : MonoBehaviour
 		{
 			yield return Constant.OneTime;
 			yield return Constant.OneTime;
-			FindVisibleTargets();
+			isFindPlayer = FindVisibleTargets();
 		}
 	}
 	/// <summary>
 	/// 목표물을 찾는 함수.목표물엔 TargetLayer가 설정되어있다.
 	/// </summary>
-	private void FindVisibleTargets()
+	private bool FindVisibleTargets()
 	{
-		visibleTargets.Clear();
+		//visibleTargets.Clear();
 		Collider2D[] targetsInViewRadius = Physics2D.OverlapCircleAll(transform.position, ViewRadius, TargetMask);
 
 		for (int i = 0; i < targetsInViewRadius.Length; i++)
@@ -67,11 +70,12 @@ public class FieldOfViewPoliceCar : MonoBehaviour
 				//Debug.DrawRay(transform.position, dirToTarget * dstToTarget,Color.green);
 				if (!Physics2D.Raycast (transform.position, dirToTarget, dstToTarget, ObstacleMask))
 				{
-					visibleTargets.Add(target);
-					Debug.Log("작동3");
+					//visibleTargets.Add(target);
+					return true;
 				}
 			}
 		}
+		return false;
 	}
 	/// <summary>
 	/// FieldOfView를 그려준다.
@@ -215,6 +219,14 @@ public class FieldOfViewPoliceCar : MonoBehaviour
 		}
 		return new Vector3(Mathf.Sin((90 + angleInDegrees) * Mathf.Deg2Rad), Mathf.Cos((90 + angleInDegrees) * Mathf.Deg2Rad), 0);
 	}
+	/// <summary>
+	/// 플레이어를 찾았는지 여부를 반환한다.
+	/// </summary>
+	/// <returns></returns>
+	public bool GetBool()
+	{
+		return isFindPlayer;
+	}
 
 	public struct ViewCastInfo
 	{
@@ -243,4 +255,6 @@ public class FieldOfViewPoliceCar : MonoBehaviour
 			PointB = pointB;
 		}
 	}
+
+
 }

@@ -161,3 +161,10 @@ public interface ISetTransform
 {
     public void SetTransform(Transform trans);
 }
+/// <summary>
+/// boolean 값을 반환하는 인터페이스
+/// </summary>
+public interface IGetBool
+{
+    public bool GetBool();
+}

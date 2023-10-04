@@ -72,7 +72,7 @@ public class MakingPizza : MonoBehaviour
             if (pizzaRequestList.Count <= 0) { yield return Constant.OneTime; continue; }
 
             // 피자 만드는데 걸리는 시간을 계산한다.
-            makeTime = 100;
+            makeTime = 360;
             for (int i = 0; i < Constant.ClerkList.Count; i++)
             {
                 makeTime -= (60 + (int)Constant.ClerkList[i].Agility);

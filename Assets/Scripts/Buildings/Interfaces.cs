@@ -168,3 +168,17 @@ public interface IGetBool
 {
     public bool GetBool();
 }
+/// <summary>
+/// 추격 경찰차 근처에 방해되는 오브젝트가 있는지 확인하기 위한 인터페이스
+/// </summary>
+public interface ICheckCol
+{
+    public void InitNumber(int num, IUpdateCheckList iUpdateCheckList);
+}
+/// <summary>
+/// 추격 경찰차 근처에서 탐지한 것을 전달 혹은 사라졌음을 알리는 인터페이스
+/// </summary>
+public interface IUpdateCheckList
+{
+    public void UpdateCheck(int num, bool isAdd);
+}

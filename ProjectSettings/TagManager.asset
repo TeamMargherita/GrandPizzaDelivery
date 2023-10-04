@@ -16,8 +16,8 @@ TagManager:
   - UI
   - Target
   - Obstacles
-  - 
-  - 
+  - WallObstacle
+  - MoveObstacle
   - 
   - 
   - 

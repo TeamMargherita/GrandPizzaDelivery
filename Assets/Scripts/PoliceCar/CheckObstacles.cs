@@ -38,6 +38,7 @@ public class CheckObstacles : MonoBehaviour, ICheckCol
 		}
 
 		col2DList.Remove(collision);
+		//Debug.Log(col2DList.Count + " <- 카운트 숫자 ");
 		// 모든 콜라이더가 빠져나간 경우에는 콜라이더 감지 리스트에서 제거
 		if (col2DList.Count == 0)
 		{

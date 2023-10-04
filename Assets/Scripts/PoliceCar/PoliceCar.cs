@@ -312,7 +312,7 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
         int r = 0;
         while(true)
 		{
-            r = Random.Range(5, 15);
+            r = Random.Range(50, 150);
 
             for (int i = 0; i < r; i++)
 			{

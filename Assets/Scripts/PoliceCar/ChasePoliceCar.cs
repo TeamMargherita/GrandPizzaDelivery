@@ -23,7 +23,6 @@ public class ChasePoliceCar : MonoBehaviour, ISetTransform, IUpdateCheckList
     private enum MoveRoute { NONE, GO, GORIGHT, GOLEFT, BACK, BACKRIGHT, BACKLEFT, STOP};
     private Transform playerTrans;
     private Transform myTrans;
-    private Coroutine stateCoroutine;
     
     private ChaserPoliceState chaserPoliceState = ChaserPoliceState.SPUERCHASE;
     private MoveRoute oldRoute = MoveRoute.NONE;    // 이전 프레임의 이동 방향
@@ -34,15 +33,17 @@ public class ChasePoliceCar : MonoBehaviour, ISetTransform, IUpdateCheckList
     private ICheckCol[] iCheckColArr;
 
     private Vector3 outVec = new Vector3(100, 30, 0);
+    private Vector3 ranTarget = Vector3.one;
 
     private List<int> colList = new List<int>();    // 감지된 콜라이더 리스트
     private float time; // 현재 상태가 발동되고 있는 시간
     private float oldAngle = -999f; // 이전 프레임에서 추격경찰차와 플레이어의 각도 차이
-    private bool isFront = true;    // 전진할 수 있는지 여부. false면 후진해야됨.
+    private float autoAndStopTime = 0;   // 자동주행과 정지상태인 시간
 	// Start is called before the first frame update
 	private void Awake()
 	{
         Speed = Random.Range(3f, 10f);
+        ranTarget = new Vector3(Random.Range(0, 70), Random.Range(0, 70), 0);
         myTrans = this.transform;
         iGetBool = this.GetComponent<IGetBool>();
         iCheckColArr = new ICheckCol[colArr.Length];
@@ -50,28 +51,6 @@ public class ChasePoliceCar : MonoBehaviour, ISetTransform, IUpdateCheckList
 		{
             iCheckColArr[i] = colArr[i].GetComponent<ICheckCol>();
             iCheckColArr[i].InitNumber(i, this);
-		}
-	}
-	void Start()
-    {
-        //stateCoroutine = StartCoroutine(stateMachine());
-    }
-    /// <summary>
-    /// 추격 경찰차의 상태 변경을 담당
-    /// </summary>
-    /// <returns></returns>
-    private IEnumerator stateMachine()
-	{
-        while(true)
-		{
-            // 플레이어와의 거리 상관없이 무조건 쫓아오는 상태임.
-            if (chaserPoliceState == ChaserPoliceState.SPUERCHASE)
-			{
-                // 만약 
-
-
-                yield return Constant.OneTime;
-			}
 		}
 	}
     /// <summary>
@@ -91,21 +70,55 @@ public class ChasePoliceCar : MonoBehaviour, ISetTransform, IUpdateCheckList
         else
         {
             // 자동주행을 한다.
-            AutoMove();
+            Move();
         }
     }
-    private void OutMap()
-	{
+    /// <summary>
+    /// 자유롭게 맵을 주행한다.
+    /// </summary>
+    private void AutoMove()
+    {
+
+        if (Vector3.SqrMagnitude(ranTarget - myTrans.position) <= 1f + autoAndStopTime)
+		{
+            ranTarget = new Vector3(Random.Range(0, 70), Random.Range(0, 70));
+            autoAndStopTime = 0;
+		}
+
         // 주변에 방해물이 없을 시, 혹은 플레이어를 발견했을 시
-        if (!CheckObstacle() || iGetBool.GetBool())
+        if (!CheckObstacle() || autoAndStopTime >= 5f)
         {
-            MoveToTarget(outVec, outVec);
+            MoveToTarget((ranTarget - myTrans.position).normalized, ranTarget - myTrans.position);
         }
         // 주변에 방해물이 있을 시
         else
         {
             // 자동주행을 한다.
-            AutoMove();
+            Move();
+        }
+    }
+    /// <summary>
+    /// 추격 경찰차는 맵 밖으로 나간다.
+    /// </summary>
+    private void OutMap()
+	{
+        Debug.DrawLine(myTrans.position, myTrans.position + myTrans.right * 100f);
+        Debug.DrawLine(myTrans.position, outVec);
+
+        // 주변에 방해물이 없을 시, 혹은 플레이어를 발견했을 시, 또는 OUTMAP상태가 된지 10초가 지나고 방해물이 있을 시
+        if (!CheckObstacle() || iGetBool.GetBool() || (time >= 10f && CheckObstacle()))
+        {
+            MoveToTarget((outVec - myTrans.position).normalized, outVec - myTrans.position);
+            if (time > 15f)
+			{
+                time = 0f;
+			}
+        }
+        // 주변에 방해물이 있을 시
+        else
+        {
+            // 자동주행을 한다.
+            Move();
         }
     }
     /// <summary>
@@ -120,8 +133,8 @@ public class ChasePoliceCar : MonoBehaviour, ISetTransform, IUpdateCheckList
         Vector3 from = (myTrans.position + myTrans.right) - myTrans.position;
         // 경찰차에서 플레이어 쪽 방향의 벡터
         Vector3 to = target;
-        // Spin이 false를 리턴하면 경찰차가 플레이어를 바라보게 함
-        if (!SpinToPlayer(GetAngle(from, to)))
+        // Spin이 false를 리턴하면 경찰차가 타겟을 바라보게 함
+        if (!SpinToTarget(GetAngle(from, to)))
         {
             // 경찰차에서 타겟쪽을 바라보는 벡터
             Vector3 ve = fixTarget;
@@ -144,7 +157,14 @@ public class ChasePoliceCar : MonoBehaviour, ISetTransform, IUpdateCheckList
                 colList.FindIndex(a => a.Equals(RIGHTDOWN)) != -1 && colList.FindIndex(a => a.Equals(RIGHTUP)) != -1)
 		{
             // 정지한다.
-            oldRoute = MoveRoute.STOP;
+            if (autoAndStopTime < 3f)
+            {
+                oldRoute = MoveRoute.STOP;
+            }
+            else
+			{
+                oldRoute = MoveRoute.BACK;
+			}
             return oldRoute;
 		}
         // FRONT, RIGHTUP, RIGHTDOWN 모두 탐지되는 경우
@@ -253,9 +273,9 @@ public class ChasePoliceCar : MonoBehaviour, ISetTransform, IUpdateCheckList
         return false;
 	}
     /// <summary>
-    /// 랜덤주행. 플레이어와 상관없이 도시를 이리저리 활보하는 상태이다.
+    /// MoveRoute에 따라 이동시키는 함수를 호출한다.
     /// </summary>
-    private void AutoMove()
+    private void Move()
 	{
         switch (FindRoute())
         {
@@ -301,12 +321,12 @@ public class ChasePoliceCar : MonoBehaviour, ISetTransform, IUpdateCheckList
     /// </summary>
     /// <param name="angle"></param>
     /// <returns></returns>
-    private bool SpinToPlayer(float angle)
+    private bool SpinToTarget(float angle)
 	{
-        // Mathf.Abs(angle) >= 120에서 120은 180에서 -180으로 넘어가는 경우를 제외하기 위해 대강 정해준 수 
-        if ((oldAngle >= 0 && angle <= 0 && oldAngle != -999 && Mathf.Abs(angle) <= 120) || (oldAngle <= 0 && angle >= 0 && oldAngle != -999 && Mathf.Abs(angle) <= 120))
+        // Mathf.Abs(angle) <= 5에서 5는 180에서 -180으로 넘어가는 경우를 제외하기 위해 대강 정해준 수 
+        if ((oldAngle >= 0 && angle <= 0 && oldAngle != -999 && Mathf.Abs(angle) <= 5) || (oldAngle <= 0 && angle >= 0 && oldAngle != -999 && Mathf.Abs(angle) <= 5))
 		{
-            Debug.Log(angle + " " + oldAngle);
+            //Debug.Log(angle + " " + oldAngle);
             oldAngle = angle;
             return false;
         }
@@ -323,6 +343,7 @@ public class ChasePoliceCar : MonoBehaviour, ISetTransform, IUpdateCheckList
     /// <param name="angle"></param>
     private void Spin(float angle)
 	{
+        oldAngle = -999;
         myTrans.localEulerAngles += new Vector3(0,0,angle);
 	}
     /// <summary>
@@ -339,6 +360,7 @@ public class ChasePoliceCar : MonoBehaviour, ISetTransform, IUpdateCheckList
     private void Back(float k)
 	{
         myTrans.localPosition -= myTrans.right * Time.deltaTime * Speed * k;
+        Debug.Log("발동??");
     }
     /// <summary>
     /// 플레이어의 트랜스폼을 가져옴. 위치를 가져와 추격하기 위함
@@ -373,8 +395,8 @@ public class ChasePoliceCar : MonoBehaviour, ISetTransform, IUpdateCheckList
                 {
                     ResetState(ChaserPoliceState.SPUERCHASE);
                 }
-                // 만약 40초가 지나면 자동주행모드로 바꿈
-                if (time >= 40f)
+                // 만약 20초가 지나면 자동주행모드로 바꿈
+                if (time >= 20f)
                 {
                     ResetState(ChaserPoliceState.AUTOMOVE);
                 }
@@ -387,14 +409,14 @@ public class ChasePoliceCar : MonoBehaviour, ISetTransform, IUpdateCheckList
 				{
                     ResetState(ChaserPoliceState.SPUERCHASE);
 				}
-                // 자동주행 모두가 40초동안 이루어지면 맵 밖으로 나가는 상태가 됨.
-                else if (time > 40f)
+                // 자동주행 모두가 30초동안 이루어지면 맵 밖으로 나가는 상태가 됨.
+                else if (time >= 30f)
 				{
                     ResetState(ChaserPoliceState.OUTMAP);
 				}
                 break;
             case ChaserPoliceState.STOP:
-                if (time >= 5f)
+                if (time >= 2f)
 				{
                     ResetState(ChaserPoliceState.AUTOMOVE);
 				}
@@ -406,9 +428,19 @@ public class ChasePoliceCar : MonoBehaviour, ISetTransform, IUpdateCheckList
                 {
                     ResetState(ChaserPoliceState.SPUERCHASE);
                 }
+
+                if (Vector3.SqrMagnitude(myTrans.position - outVec) <= 2)
+				{
+                    Destroy(this.gameObject);
+				}
                 break;
         }
-	}
+        if (chaserPoliceState == ChaserPoliceState.STOP || chaserPoliceState == ChaserPoliceState.AUTOMOVE)
+		{
+            autoAndStopTime += Time.deltaTime;
+        }
+        //Debug.Log(chaserPoliceState);
+    }
 
 	public void UpdateCheck(int num, bool isAdd)
 	{

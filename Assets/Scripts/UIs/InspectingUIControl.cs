@@ -235,7 +235,7 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText
                 policeFace.sprite = policeSprArr[3];
                 playerFace.sprite = playerSprArr[2];
                 // 경찰 추적
-                iSpawnCar.SpawnCar(20);
+                iSpawnCar.SpawnCar(10);
                 break;
             case 1006:  // (간다.)
                 InitPoliceText();

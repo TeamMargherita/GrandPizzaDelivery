@@ -7,6 +7,7 @@ TagManager:
   - InventorySlot
   - Banana
   - Police
+  - Inventory
   layers:
   - Default
   - TransparentFX

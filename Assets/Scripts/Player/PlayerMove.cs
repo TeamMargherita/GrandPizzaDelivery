@@ -9,11 +9,16 @@ public class PlayerMove : PlayerStat
     private float time;
     public bool Stop = false;
     private bool bananaTrigger = false;
-
-
-    
+    [SerializeField]
+    private MakingPizza MakingPizzaScript;
+    [SerializeField]
+    private InventoryManager InventoryManagerScript;
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            InventoryManagerScript.InventoryAddItem(MakingPizzaScript.GetInvenPizzaList(0));
+        }
         if (!Stop && !bananaTrigger)
         {
             time += Time.deltaTime;
@@ -101,6 +106,7 @@ public class PlayerMove : PlayerStat
         {
             bananaCoroutine = banana(2, this.transform);
             StartCoroutine(bananaCoroutine);
+            Destroy(other.gameObject);
         }
         
     }

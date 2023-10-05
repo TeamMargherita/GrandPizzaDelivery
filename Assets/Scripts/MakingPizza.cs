@@ -72,7 +72,7 @@ public class MakingPizza : MonoBehaviour
             if (pizzaRequestList.Count <= 0) { yield return Constant.OneTime; continue; }
 
             // 피자 만드는데 걸리는 시간을 계산한다.
-            makeTime = 360;
+            makeTime = 80;
             for (int i = 0; i < Constant.ClerkList.Count; i++)
             {
                 makeTime -= (60 + (int)Constant.ClerkList[i].Agility);
@@ -149,6 +149,7 @@ public class MakingPizza : MonoBehaviour
         // 피자를 임시로 저장한다.
         Pizza temPizza = completePizzaList[index];
         // 피자집에 있는 피자들 명단에서 제외한다.
+        //Debug.Log(temPizza.Name);
         completePizzaList.RemoveAt(index);
         // 명단에서 제외했으므로, 피자집 피자 패널을 꺼준다.
         for (int i = 0; i < makingPizzaPanelArr.Length; i++)
@@ -156,6 +157,7 @@ public class MakingPizza : MonoBehaviour
             if (makingPizzaPanelClass[i].ComparePizza(temPizza))
 			{
                 makingPizzaPanelArr[i].SetActive(false);
+                break;
 			}
 		}
         // 피자 패널의 위치를 재조정한다.

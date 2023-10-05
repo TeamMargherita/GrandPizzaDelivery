@@ -49,6 +49,8 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
     private bool isPizzaAddButtonBlank = false;
     private bool isAlarmMessage = false;    // 알람 메시지 창이 떠야하는지 여부
     private bool isColor = false;
+
+    public GameObject Inventory;
     void Awake()
     {
         Caching();
@@ -59,6 +61,7 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
 		{
             DirectADdPizzaMenu();
         }
+        Inventory = GameObject.FindWithTag("Inventory").transform.GetChild(0).gameObject;
     }
     private void Caching()
 	{
@@ -182,8 +185,11 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
     {
         if (iHouse == null) { return; }
 
-        iHouse.DisableHouse();
+        //iHouse.DisableHouse();
         deliveryPanel.SetActive(false);
+        Inventory.SetActive(true);
+        GameObject.Find("InventoryManager").GetComponent<InventoryManager>().InventoryActive = true;
+        GameObject.Find("InventoryManager").GetComponent<InventoryManager>().inventoryDisplay();
     }
     public void NODeliveryUI()
     {

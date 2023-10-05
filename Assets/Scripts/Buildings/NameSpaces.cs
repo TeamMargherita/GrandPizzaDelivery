@@ -8,16 +8,17 @@ namespace ClerkNS
 {
     public enum Tier{ ONE = -1, TWO = 1, THREE = 3, FOUR = 6 };
     // 나중에 클래스로 바꿀듯
-    public struct ClerkS
-	{
-        public Tier Handicraft;  // 손재주
-        public Tier Agility; // 순발력
-        public Tier Career;  // 경력
-        public Tier Creativity;  // 창의력
-        public int Stress;  // 스트레스
-        public int Pay; // 주급
-
-        public ClerkS (Tier Handicraft, Tier Agility, Tier Career, Tier Creativity, int Stress, int Pay)
+    public class ClerkC
+    {
+        public Tier Agility { get; private set; } // 순발력
+        public Tier Career { get; private set; }  // 경력
+        public Tier Creativity { get; private set; }  // 창의력
+        public int Handicraft { get; private set; }  // 손재주
+        public int Stress { get; set; } // 스트레스
+        public int Pay { get; private set; } // 주급
+        public int Max { get; private set; }    // 최종 능력치 최대치
+        public int Min { get; private set; }    // 최종 능력치 최소치
+        public ClerkC (int Handicraft, Tier Agility, Tier Career, Tier Creativity, int Stress, int Pay)
 		{
             this.Handicraft = Handicraft;
             this.Agility = Agility;
@@ -25,6 +26,11 @@ namespace ClerkNS
             this.Creativity = Creativity;
             this.Stress = Stress;
             this.Pay = Pay;
+
+            Max = (this.Handicraft + 8) + (int)Creativity;
+            Min = (this.Handicraft - 8) + (int)Career;
+
+            this.Pay = this.Handicraft + (int)this.Career + (int)this.Creativity + (int)this.Agility + Random.Range(-10, 11);
 		}
     }
 }

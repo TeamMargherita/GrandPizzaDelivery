@@ -6,7 +6,6 @@ using BuildingNS.HouseNS;
 
 // 한석호 작성
 
-
 //맵에 존재해야할 오브젝트들을 배치하고, 건물마다 주소를 붙여줌으로써 맵을 구현합니다. 
 public class Map : MonoBehaviour, IMap, IStop
 {
@@ -63,8 +62,10 @@ public class Map : MonoBehaviour, IMap, IStop
             ad[i].IHouse.EnableHouse();
         }
     }
-
-    // 경찰차를 랜덤한 건물마다 배정해주는 함수입니다.
+    /// <summary>
+    /// 경찰차를 랜덤한 건물마다 배정해주는 함수입니다.
+    /// </summary>
+    /// <param name="cnt"></param>
     private void MakeAPoliceCar(int cnt)
     {
         if (cnt >= buildingList.Count) { cnt = buildingList.Count; }
@@ -85,7 +86,7 @@ public class Map : MonoBehaviour, IMap, IStop
                 {
                     policeList.Add(policeCar.GetComponent<IPoliceCar>());
                     policeCar.GetComponent<IPoliceCar>().SetPlayerMove(playerMove);
-                    policeCar.GetComponent<IPoliceCar>().SetPoliceSmokeEffect(effectControl.GetComponent<IPoliceSmokeEffect>());
+                    policeCar.GetComponent<IPoliceCar>().SetPoliceSmokeEffect(effectControl.GetComponent<ISetTransform>());
                     policeCar.GetComponent<IPoliceCar>().SetMap(this);
                     policeCar.GetComponent<IPoliceCar>().SetBanana(banana);
                     // 각 경찰차에게 건물에 맞는 루트를 짜서 넘겨야한다.
@@ -105,7 +106,11 @@ public class Map : MonoBehaviour, IMap, IStop
     {
         deliveryTimeDic.Add(addressS, GameManager.Instance.time);
     }
-    // 배달이 끝나 해당 주소에서의 시간재기를 끝내고 소요한 배달시간을 반환합니다.
+    /// <summary>
+    /// 배달이 끝나 해당 주소에서의 시간재기를 끝내고 소요한 배달시간을 반환합니다.
+    /// </summary>
+    /// <param name="addressS"></param>
+    /// <returns></returns>
     public float RemoveAddress(AddressS addressS)
     {
         foreach (var addr in deliveryTimeDic.Keys)
@@ -173,7 +178,10 @@ public class Map : MonoBehaviour, IMap, IStop
         }
 
     }
-
+    /// <summary>
+    /// 맵에 경찰차들과 플레이어를 정지시킨다.
+    /// </summary>
+    /// <param name="bo"></param>
     public void StopMap(bool bo) 
     {
         int n = 0;

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using PizzaNS;
+using ClerkNS;
 
 // 한석호 작성
 public static class Constant
@@ -40,5 +41,14 @@ public static class Constant
 	/// </summary>
 	public static List<Pizza> DevelopPizza = new List<Pizza>();
 
-	public static bool isMakePizza = false;
+	public static bool IsMakePizza = false;
+	/// <summary>
+	/// 0.1초간의 텀
+	/// </summary>
+	public static WaitForSeconds OneTime = new WaitForSeconds(0.1f);
+	/// <summary>
+	/// 고용한 점원 리스트
+	/// </summary>
+	public static List<ClerkC> ClerkList = new List<ClerkC>();
+	
 }

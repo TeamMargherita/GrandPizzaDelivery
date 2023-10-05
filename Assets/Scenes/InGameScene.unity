@@ -69203,7 +69203,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Braking: 0.98
-  speed: 0
   MaxSpeed: 10
   acceleration: 1
   Stop: 0

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class DeliveryScreen : MonoBehaviour
 {
+    [SerializeField] private MakingPizza ma;
     public List<Text> RequestTextList = new List<Text>();
     public SendDeliveryRequest SDR;
     public List<GameObject> AcceptB;
@@ -45,6 +46,7 @@ public class DeliveryScreen : MonoBehaviour
         SDR.RequestList[i].AddressS = Map.GetRandAddressS();
         SDR.RequestList[i].AddressS.IHouse.EnableHouse();
         Minimap.CreateDestination(SDR.RequestList[i]);
+        ma.AddRequestPizza(SDR.RequestList[i]);
     }
     
     public void OnClickCancle(int i)//피자주문취소버튼클릭

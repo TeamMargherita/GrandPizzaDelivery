@@ -29,6 +29,34 @@ public struct Pizza
         }
         this.TotalDeclineAt = TotalDeclineAt;
     }
+    public string GetName()
+    {
+        return Name;
+    }
+    public int GetPerfection()
+    {
+        return Perfection;
+    }
+    public int GetProductionCost()
+    {
+        return ProductionCost;
+    }
+    public int GetSellCost()
+    {
+        return SellCost;
+    }
+    public int GetCharisma()
+    {
+        return Charisma;
+    }
+    public List<Ingredient> GetIngreds()
+    {
+        return Ingreds;
+    }
+    public int GetTotalDeclineAt()
+    {
+        return TotalDeclineAt;
+    }
 }
 
 public class Request//피자주문
@@ -60,7 +88,7 @@ namespace Inventory
         public void TextUpdate()
         {
             if(Pizza != null)
-                InventorySlot.transform.GetChild(0).GetComponent<Text>().text = Pizza?.Name;
+                InventorySlot.transform.GetChild(0).GetComponent<Text>().text = Pizza?.GetName();
         }
     }
 }

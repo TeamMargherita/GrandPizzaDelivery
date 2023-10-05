@@ -8,7 +8,6 @@ public class Minimap : MonoBehaviour
     public List<Transform> Destination = new List<Transform>(); // 목적지(Transform)를 연결합니다.
     public List<RectTransform> destinationIcon = new List<RectTransform>();
     public RectTransform PlayerIcon;
-    
 
     public void CreateDestination(Request SDR)
     {
@@ -23,6 +22,7 @@ public class Minimap : MonoBehaviour
     {
         destinationIcon[Destination.Count - 1].gameObject.SetActive(false);
         Destination.Remove(destination);
+        ResetDestinationIcon();
     }
 
     private void ResetDestinationIcon()

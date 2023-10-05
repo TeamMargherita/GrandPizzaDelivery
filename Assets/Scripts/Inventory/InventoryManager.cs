@@ -1,30 +1,37 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Inventory;
+using BuildingAddressNS;
 
 public class InventoryManager : MonoBehaviour
 {
     public GameObject Inventory;
-    private bool InventoryActive;
+    public bool InventoryActive;
     public GameObject[] InventorySlot;
-    
+    public GameObject ItemPanel;
     public int SlotNum;
+    public GoalCheckCollider GoalAddressS;
+    public SendDeliveryRequest SDR;
+    public DeliveryScreen DeliveryScreen;
+    public Minimap Minimap;
 
     private void Awake()
     {
-        for(int i = 0; i < InventorySlot.Length; i++)
+        if(GameManager.Instance.InventorySlotList.Count == 0)
         {
-            GameManager.Instance.InventorySlotList.Add(new Slot(InventorySlot[i]));
+            for (int i = 0; i < InventorySlot.Length; i++)
+            {
+                GameManager.Instance.InventorySlotList.Add(new Slot(InventorySlot[i]));
+            }
         }
+        
     }
 
     public void InventoryAddItem(Pizza pizza)
     {
         foreach (var i in GameManager.Instance.InventorySlotList)
         {
-            if(i.Pizza == null)
+            if(i.Pizza?.Name == null)
             {
                 i.Pizza = pizza;
                 break;
@@ -68,7 +75,7 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    void inventoryDisplay()
+    public void inventoryDisplay()
     {
         foreach(var i in GameManager.Instance.InventorySlotList)
         {
@@ -80,16 +87,41 @@ public class InventoryManager : MonoBehaviour
     {
         if(GameManager.Instance.InventorySlotList[SlotNum - 1].Pizza != null)
         {
+            GameManager.Instance.InventorySlotList[SlotNum - 1].InventorySlot.transform.GetChild(0).GetComponent<Text>().text = "";
             GameManager.Instance.InventorySlotList[SlotNum - 1].Pizza = null;
+            ItemPanel.SetActive(false);
         }
         inventoryDisplay();
     }
 
     public void OnClickDelivery()
     {
-        if(GameManager.Instance.InventorySlotList[SlotNum - 1].Pizza != null)
+        if(GameManager.Instance.InventorySlotList[SlotNum - 1].Pizza != null && GoalAddressS != null)
         {
-            GameManager.Instance.InventorySlotList[SlotNum - 1].Pizza = null;
+            int j = 0;
+            foreach(var i in SDR.RequestList)
+            {
+                if(i.AddressS.HouseAddress == GoalAddressS.addr.HouseAddress)
+                {
+                    if(i.Pizza.Name.Equals(GameManager.Instance.InventorySlotList[SlotNum - 1].Pizza?.Name))
+                    {
+                        GameManager.Instance.Money += (int)GameManager.Instance.InventorySlotList[SlotNum - 1].Pizza?.SellCost;
+                        GameManager.Instance.InventorySlotList[SlotNum - 1].InventorySlot.transform.GetChild(0).GetComponent<Text>().text = "";
+                        GameManager.Instance.InventorySlotList[SlotNum - 1].Pizza = null;
+                        Minimap.DeleteDestination(GoalAddressS.iHouse.GetLocation());
+                        GoalAddressS.iHouse.DisableHouse();
+                        DeliveryScreen.OnClickCancle(j);
+                        ItemPanel.SetActive(false);
+                        GoalAddressS = null;
+                        break;
+                    }
+                    else
+                    {
+                        Debug.Log("다른 피자입니다.");
+                    }
+                    j++;
+                }
+            }
         }
         inventoryDisplay();
     }

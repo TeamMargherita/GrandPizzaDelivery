@@ -10,11 +10,8 @@ public class GoalCheckCollider : MonoBehaviour, IPriorityCode
     private List<IPriorityCode> priorityList = new List<IPriorityCode>();
 
     private IDeliveryPanelControl iDeliveryPanelControl;
-    private IHouse iHouse;
-
-    private AddressS addr;
-
-
+    public IHouse iHouse;
+    public AddressS addr;
     // 목표지점에 도달시, 배달 패널을 연다.
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -33,9 +30,9 @@ public class GoalCheckCollider : MonoBehaviour, IPriorityCode
         if (collision.tag.Equals("Player"))
         {
             if (iDeliveryPanelControl == null) { return; }
-
             iDeliveryPanelControl.SetIHouseDeliveryUI(iHouse);
             iDeliveryPanelControl.ControlDeliveryUI(true);
+            GameObject.Find("InventoryManager").GetComponent<InventoryManager>().GoalAddressS = this.GetComponent<GoalCheckCollider>();
         }
     }
     private bool CheckPriority()

@@ -31,7 +31,7 @@ public class InventoryManager : MonoBehaviour
     {
         foreach (var i in GameManager.Instance.InventorySlotList)
         {
-            if(i.Pizza == null)
+            if(i.Pizza?.Name == null)
             {
                 i.Pizza = pizza;
                 break;

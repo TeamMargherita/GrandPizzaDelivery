@@ -126,12 +126,13 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
             this.iEndInspecting.EndInspecting();
             this.iEndInspecting = null;
         }
-
+        ChasePoliceCar.isStop = isOn;
     }
     public void ControlPizzaStore(bool isOn)
     {
         if (isOn)
         {
+            ChasePoliceCar.isStop = isOn;
             pizzaStorePanel.SetActive(isOn);
             isPizzaStore = isOn;
         }
@@ -236,6 +237,7 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
             pizzaStoreTrans.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, pizzaStoreHeight);
             pizzaStorePanel.SetActive(false);
             iStop.StopMap(false);
+            ChasePoliceCar.isStop = false;
         }
 
         if (isPizzaMake && pizzaMakeWitdh < 1920)

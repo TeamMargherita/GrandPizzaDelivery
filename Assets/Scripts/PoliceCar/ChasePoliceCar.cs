@@ -5,6 +5,8 @@ using UnityEngine;
 // 한석호 작성
 public class ChasePoliceCar : MonoBehaviour, ISetTransform, IUpdateCheckList
 {
+    public static bool isStop = false;  // 추격 경찰차 행동 제어 여부
+
     [Range (0f,10f)]
     public float Speed;
 
@@ -23,7 +25,8 @@ public class ChasePoliceCar : MonoBehaviour, ISetTransform, IUpdateCheckList
     private enum MoveRoute { NONE, GO, GORIGHT, GOLEFT, BACK, BACKRIGHT, BACKLEFT, STOP};
     private Transform playerTrans;
     private Transform myTrans;
-    
+    private Rigidbody2D rigid;
+
     private ChaserPoliceState chaserPoliceState = ChaserPoliceState.SPUERCHASE;
     private MoveRoute oldRoute = MoveRoute.NONE;    // 이전 프레임의 이동 방향
     /// <summary>
@@ -39,12 +42,14 @@ public class ChasePoliceCar : MonoBehaviour, ISetTransform, IUpdateCheckList
     private float time; // 현재 상태가 발동되고 있는 시간
     private float oldAngle = -999f; // 이전 프레임에서 추격경찰차와 플레이어의 각도 차이
     private float autoAndStopTime = 0;   // 자동주행과 정지상태인 시간
+    private bool isRigid = false;   // 리지드바디 제어 변수
 	// Start is called before the first frame update
 	private void Awake()
 	{
         Speed = Random.Range(3f, 10f);
         ranTarget = new Vector3(Random.Range(0, 70), Random.Range(0, 70), 0);
         myTrans = this.transform;
+        rigid = this.GetComponent<Rigidbody2D>();
         iGetBool = this.GetComponent<IGetBool>();
         iCheckColArr = new ICheckCol[colArr.Length];
         for (int i = 0; i < colArr.Length; i++)
@@ -58,8 +63,8 @@ public class ChasePoliceCar : MonoBehaviour, ISetTransform, IUpdateCheckList
     /// </summary>
     private void SpuerChase()
     {
-        Debug.DrawLine(myTrans.position, myTrans.position + myTrans.right * 100f);
-        Debug.DrawLine(myTrans.position, myTrans.position + (playerTrans.position - myTrans.position).normalized * 100f);
+        //Debug.DrawLine(myTrans.position, myTrans.position + myTrans.right * 100f);
+        //Debug.DrawLine(myTrans.position, myTrans.position + (playerTrans.position - myTrans.position).normalized * 100f);
         
         // 주변에 방해물이 없을 시, 혹은 플레이어를 발견했을 시
         if (!CheckObstacle() || iGetBool.GetBool())
@@ -102,8 +107,8 @@ public class ChasePoliceCar : MonoBehaviour, ISetTransform, IUpdateCheckList
     /// </summary>
     private void OutMap()
 	{
-        Debug.DrawLine(myTrans.position, myTrans.position + myTrans.right * 100f);
-        Debug.DrawLine(myTrans.position, outVec);
+        //Debug.DrawLine(myTrans.position, myTrans.position + myTrans.right * 100f);
+        //Debug.DrawLine(myTrans.position, outVec);
 
         // 주변에 방해물이 없을 시, 혹은 플레이어를 발견했을 시, 또는 OUTMAP상태가 된지 10초가 지나고 방해물이 있을 시
         if (!CheckObstacle() || iGetBool.GetBool() || (time >= 10f && CheckObstacle()))
@@ -360,7 +365,7 @@ public class ChasePoliceCar : MonoBehaviour, ISetTransform, IUpdateCheckList
     private void Back(float k)
 	{
         myTrans.localPosition -= myTrans.right * Time.deltaTime * Speed * k;
-        Debug.Log("발동??");
+        //Debug.Log("발동??");
     }
     /// <summary>
     /// 플레이어의 트랜스폼을 가져옴. 위치를 가져와 추격하기 위함
@@ -380,8 +385,32 @@ public class ChasePoliceCar : MonoBehaviour, ISetTransform, IUpdateCheckList
         time = 0f;
 	}
 
+    private bool ControlMove()
+	{
+        if (isStop)
+        {
+            if (isRigid)
+            {
+                rigid.constraints = RigidbodyConstraints2D.FreezeAll;
+                isRigid = false;
+            }
+        }
+        else
+        {
+            if (!isRigid)
+            {
+                rigid.constraints = RigidbodyConstraints2D.FreezeRotation;
+                isRigid = true;
+            }
+        }
+
+        return isStop;
+    }
 	private void FixedUpdate()
 	{
+        // 특정상황에서 모든 추격 경찰차 정지
+        if (ControlMove()) { return; }
+
         time += Time.deltaTime;
 
         switch (chaserPoliceState)

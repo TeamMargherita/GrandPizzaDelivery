@@ -63551,6 +63551,7 @@ MonoBehaviour:
   addPizzaImg: {fileID: 1563996481}
   alarmMessageText: {fileID: 1788539172}
   Inventory: {fileID: 0}
+  InventoryManager: {fileID: 32887005}
 --- !u!4 &1930384848
 Transform:
   m_ObjectHideFlags: 0

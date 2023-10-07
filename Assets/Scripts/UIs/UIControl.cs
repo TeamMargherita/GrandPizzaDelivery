@@ -51,6 +51,7 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
     private bool isColor = false;
 
     public GameObject Inventory;
+    public InventoryManager InventoryManager;
     void Awake()
     {
         Caching();
@@ -71,7 +72,6 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
         pizzaMenuTrans = pizzaMenuPanel.GetComponent<RectTransform>();
         employeeRecruitTrans = employeeRecruitPanel.GetComponent<RectTransform>();
         alarmMessageTrans = alarmMessagePanel.GetComponent<RectTransform>();
-
         alarmMessageText = alarmMessagePanel.transform.GetChild(0).GetComponent<UnityEngine.UI.Text>();
 	}
     /// <summary>
@@ -95,12 +95,10 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
         pizzaStoreHeight = 1080;
         pizzaStoreTrans.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, pizzaStoreHeight);
         iStop.StopMap(true);
-
         pizzaMenuPanel.SetActive(true);
         isPizzaMenu = true;
         pizzaMenuHeight = 1080;
         pizzaMenuTrans.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, pizzaMenuHeight);
-
         isPizzaAddButtonBlank = true;
     }
     /// <summary>
@@ -189,8 +187,8 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
         //iHouse.DisableHouse();
         deliveryPanel.SetActive(false);
         Inventory.SetActive(true);
-        GameObject.Find("InventoryManager").GetComponent<InventoryManager>().InventoryActive = true;
-        GameObject.Find("InventoryManager").GetComponent<InventoryManager>().inventoryDisplay();
+        InventoryManager.InventoryActive = true;
+        InventoryManager.inventoryDisplay();
     }
     public void NODeliveryUI()
     {

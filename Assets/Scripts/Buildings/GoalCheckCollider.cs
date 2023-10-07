@@ -12,6 +12,12 @@ public class GoalCheckCollider : MonoBehaviour, IPriorityCode
     private IDeliveryPanelControl iDeliveryPanelControl;
     public IHouse iHouse;
     public AddressS addr;
+    private InventoryManager InventoryManager;
+
+    private void Awake()
+    {
+        InventoryManager = GameObject.Find("InventoryManager").GetComponent<InventoryManager>();
+    }
     // 목표지점에 도달시, 배달 패널을 연다.
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -32,7 +38,7 @@ public class GoalCheckCollider : MonoBehaviour, IPriorityCode
             if (iDeliveryPanelControl == null) { return; }
             iDeliveryPanelControl.SetIHouseDeliveryUI(iHouse);
             iDeliveryPanelControl.ControlDeliveryUI(true);
-            GameObject.Find("InventoryManager").GetComponent<InventoryManager>().GoalAddressS = this.GetComponent<GoalCheckCollider>();
+            InventoryManager.GoalAddressS = this.GetComponent<GoalCheckCollider>();
         }
     }
     private bool CheckPriority()

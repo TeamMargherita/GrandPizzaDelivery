@@ -149,5 +149,9 @@ namespace PoliceNS
         {
             NONE, MOVING, STOP, INSPECTING, DESTROY
         };
+        public enum SuperPoliceState
+		{
+            NONE, IDLE, DESTROY
+		};
     }
 }

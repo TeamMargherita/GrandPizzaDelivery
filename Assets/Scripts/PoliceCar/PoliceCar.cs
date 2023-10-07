@@ -6,9 +6,9 @@ using PoliceNS.PoliceStateNS;
 
 // 한석호 작성
 
-public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IInspectingPoliceCarControl, IEndInspecting, IPriorityCode
+public class PoliceCar : Police, IPoliceCar, IMovingPoliceCarControl, IInspectingPoliceCarControl, IEndInspecting, IPriorityCode
 {
-    [Range(0f, 100f)] public float PoliceHp;    // 경찰차 체력
+    //[Range(0f, 100f)] public float PoliceHp;    // 경찰차 체력
 
     [SerializeField] private GameObject checkColObj;    // 이동 시 충돌을 방지하기 위한 콜라이더
     [SerializeField] private GameObject stopCheckColObj;    // 정지 시, 불심검문을 위한 콜라이더
@@ -18,8 +18,8 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
 
     private PoliceState policeState;    //  경찰차의 상태
 
-    private ISetTransform iSetTransform;
-    private IStop iStop;
+    //private ISetTransform iSetTransform;
+    //private IStop iStop;
 
     // 경로를 차례대로 들고 있다.
     private List<PolicePath> policePathList = new List<PolicePath>();
@@ -27,7 +27,7 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
     private GameObject banana;
     private PlayerMove playerMove;
     private Transform trans;
-    private Coroutine smokeEffectCoroutine;
+    //private Coroutine smokeEffectCoroutine;
     private Coroutine shootBananaCoroutine;
     private Rigidbody2D rigid2D;
     
@@ -72,10 +72,11 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
         InitValue();    // 초기에 설정되어야 하는 것
     }
 
-    private void Start()
+    protected override void Start()
     {
         // 코루틴 발동
-        smokeEffectCoroutine = StartCoroutine(PoliceSmokeCoroutine());
+        //smokeEffectCoroutine = StartCoroutine(PoliceSmokeCoroutine());
+        base.Start();
         shootBananaCoroutine = StartCoroutine(ShootBananaTermCoroutine());
     }
 
@@ -115,7 +116,7 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
     /// 상태에 따라 콜라이더를 꺼주거나 켜준다. 
     /// </summary>
     /// <param name="bo">true면 경찰차의 상태를 랜덤으로 정해주며, false면 경찰차의 상태를 정해주진 않는다.</param>    
-    private void InitState(bool bo)
+    protected override void InitState(bool bo)
     {
         if (bo)
         {
@@ -149,7 +150,15 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
             checkColObj.SetActive(false);   // 꺼준다.
         }
     }
-
+    protected override void ChangeSuperPoliceState(SuperPoliceState spState)
+	{
+        this.spState = spState;
+        if (spState == SuperPoliceState.DESTROY) 
+        {
+            policeState = PoliceState.DESTROY; 
+            InitState(false); 
+        }
+	}
     /// <summary>
     /// 경찰차의 경로를 정해주는 함수이다.
     /// </summary>
@@ -270,38 +279,38 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
     /// 경찰차의 체력을 확인하고 지속적으로 연기를 내뿜게할지 정하는 코루틴
     /// </summary>
     /// <returns></returns>
-    private IEnumerator PoliceSmokeCoroutine()
-    {
-        var time = new WaitForSeconds(0.01f);
-        int r = 0;
-        while(true)
-        {
-            r = Random.Range(5, 15);
+    //private IEnumerator PoliceSmokeCoroutine()
+    //{
+    //    var time = new WaitForSeconds(0.01f);
+    //    int r = 0;
+    //    while(true)
+    //    {
+    //        r = Random.Range(5, 15);
 
-            if (PoliceHp < 70f)
-            {
-                iSetTransform.SetTransform(this.transform);
-            }
-            // 경찰차 체력이 0이 되면 rigidbody-constrait을 해제하고 10초 후 제거하도록함.
-            if (PoliceHp <= 0f && policeState != PoliceState.DESTROY)
-            {
-                this.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
-                // 파괴 상태로 변경
-                policeState = PoliceState.DESTROY;
-                // 상태에 따른 콜라이더 초기화
-                InitState(false);
-                // 파괴
-                //Destroy(this.gameObject, 10f);
-                //StopCoroutine(smokeEffectCoroutine);
-                Invoke("AddForceCar", 9f);
-            }
+    //        if (PoliceHp < 70f)
+    //        {
+    //            iSetTransform.SetTransform(this.transform);
+    //        }
+    //        // 경찰차 체력이 0이 되면 rigidbody-constrait을 해제하고 10초 후 제거하도록함.
+    //        if (PoliceHp <= 0f && policeState != PoliceState.DESTROY)
+    //        {
+    //            this.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
+    //            // 파괴 상태로 변경
+    //            policeState = PoliceState.DESTROY;
+    //            // 상태에 따른 콜라이더 초기화
+    //            InitState(false);
+    //            // 파괴
+    //            //Destroy(this.gameObject, 10f);
+    //            //StopCoroutine(smokeEffectCoroutine);
+    //            Invoke("AddForceCar", 9f);
+    //        }
             
-            for (int i = 0; i < r; i++)
-            {
-                yield return time;
-            }
-        }
-    }
+    //        for (int i = 0; i < r; i++)
+    //        {
+    //            yield return time;
+    //        }
+    //    }
+    //}
     /// <summary>
     /// 일정 시간마다 바나나를 던지게 하는 코루틴
     /// </summary>
@@ -322,23 +331,23 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
             ShootBanana();
 		}
 	}
-    private void AddForceCar()
-    {
-        if (policeState == PoliceState.DESTROY)
-        {
-            this.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(0, 10f), Random.Range(0, 10f)), ForceMode2D.Impulse);
-        }
+    //private void AddForceCar()
+    //{
+    //    if (policeState == PoliceState.DESTROY)
+    //    {
+    //        this.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(0, 10f), Random.Range(0, 10f)), ForceMode2D.Impulse);
+    //    }
 
-        Invoke("DestroyCar", 5f);
-    }
+    //    Invoke("DestroyCar", 5f);
+    //}
 
-    private void DestroyCar()
-    {
-        StopCoroutine(smokeEffectCoroutine);
-        iStop.RemovePoliceList(this);
-        Destroy(this.gameObject);
+    //private void DestroyCar()
+    //{
+    //    StopCoroutine(smokeEffectCoroutine);
+    //    iStop.RemovePoliceList(this);
+    //    Destroy(this.gameObject);
 
-    }
+    //}
     private void ShootBanana()
 	{
         GameObject ba = Instantiate(banana);
@@ -383,7 +392,10 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
     {
         isStop = bo;
     }
-
+    protected override void DestroyPolice()
+	{
+        iStop.RemovePoliceList(this);
+	}
     void FixedUpdate()
     {
         if (isStop) { return; }
@@ -474,10 +486,10 @@ public class PoliceCar : MonoBehaviour, IPoliceCar, IMovingPoliceCarControl, IIn
     {
         stopCheckColObj.GetComponent<StopPoliceCarCollisionCheck>().SetIInspectingPanelControl(iInspectingPanelControl);
     }
-    public void SetPoliceSmokeEffect(ISetTransform iSetTransform)
-	{
-        this.iSetTransform = iSetTransform;
-    }
+ //   public void SetPoliceSmokeEffect(ISetTransform iSetTransform)
+	//{
+ //       this.iSetTransform = iSetTransform;
+ //   }
     public Rigidbody2D GetRigidBody2D()
 	{
         return rigid2D;

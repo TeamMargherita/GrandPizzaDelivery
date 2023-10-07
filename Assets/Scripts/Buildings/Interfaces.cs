@@ -31,7 +31,7 @@ public interface IPoliceCar
     public void InitPoliceCarPath(List<PolicePath> policePathList);
     public void SetIInspectingPanelControl(IInspectingPanelControl iInspectingPanelControl);
     public void SetPlayerMove(PlayerMove playerMove);
-    public void SetPoliceSmokeEffect(ISetTransform iSetTransform);
+    //public void SetPoliceSmokeEffect(ISetTransform iSetTransform);
     public Rigidbody2D GetRigidBody2D();
     public float GetSpeed();
     public PoliceState GetPoliceState();

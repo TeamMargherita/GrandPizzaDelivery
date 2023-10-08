@@ -36560,6 +36560,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chaserPoliceCar: {fileID: 8242808976314856609, guid: a4b19b350cdfca043b1674b1522d0f5a, type: 3}
   playerTrans: {fileID: 5465525691940280719}
+  effectControl: {fileID: 1646063386}
 --- !u!1 &541733034
 GameObject:
   m_ObjectHideFlags: 0
@@ -63551,6 +63552,7 @@ MonoBehaviour:
   addPizzaImg: {fileID: 1563996481}
   alarmMessageText: {fileID: 1788539172}
   Inventory: {fileID: 0}
+  InventoryManager: {fileID: 32887005}
 --- !u!4 &1930384848
 Transform:
   m_ObjectHideFlags: 0

@@ -11,9 +11,20 @@ public abstract class Police : MonoBehaviour
     protected ISetTransform smokeEffectTrans;
     protected IStop iStop;
 
-    protected SuperPoliceState spState;
+    //protected SuperPoliceState spState;
+    protected PoliceState policeState;    //  경찰차의 상태
 
-    protected Coroutine smokeEffectCoroutine;
+    protected Coroutine smokeEffectCoroutine;   // 피해 입을 시 생기는 연기 코루틴
+    protected Coroutine damagedCoroutine;   // 피해 입을시 차량 색상이 바뀌는 이펙트 코루틴
+    protected SpriteRenderer spr;
+
+    protected  virtual void Awake()
+	{
+        if (this.GetComponent<SpriteRenderer>() != null)
+		{
+            spr = this.GetComponent<SpriteRenderer>();
+		}
+	}
 
 	protected virtual void Start()
 	{
@@ -41,14 +52,14 @@ public abstract class Police : MonoBehaviour
                 smokeEffectTrans.SetTransform(this.transform);
             }
             // 경찰차 체력이 0이 되면 rigidbody-constrait을 해제하고 10초 후 제거하도록함.
-            if (PoliceHp <= 0f && spState != SuperPoliceState.DESTROY)
+            if (PoliceHp <= 0f && policeState != PoliceState.DESTROY)
             {
                 if (this.GetComponent<Rigidbody2D>() != null)
                 {
                     this.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
                 }
                 // 파괴 상태로 변경
-                ChangeSuperPoliceState(SuperPoliceState.DESTROY);
+                policeState = PoliceState.DESTROY;
                 // 상태에 따른 콜라이더 초기화
                 InitState(false);
                 // 파괴
@@ -63,17 +74,45 @@ public abstract class Police : MonoBehaviour
             }
         }
     }
+    protected IEnumerator Damaged()
+	{
+        spr.color = Color.red;
+        yield return Constant.OneTime;
+        spr.color = Color.white;
+        yield return Constant.OneTime;
+        spr.color = Color.green;
+        yield return Constant.OneTime;
+        spr.color = Color.white;
+        yield return Constant.OneTime;
+        spr.color = Color.red;
+        yield return Constant.OneTime;
+        spr.color = Color.white;
+        yield return Constant.OneTime;
+    }
     protected virtual void InitState(bool bo)
 	{
-
+        
 	}
-    protected virtual void ChangeSuperPoliceState(SuperPoliceState spState)
+    protected virtual void OnCollisionEnter2D(Collision2D collision)
 	{
-        this.spState = spState;
-	}
+        if (collision.gameObject.tag.Equals("Player"))
+        {
+            // 크리티컬 1.5배
+            PoliceHp -= Mathf.Abs(collision.gameObject.GetComponent<PlayerMove>().Speed) * 7f * Random.Range(1.0f, 1.5f);
+
+            if (PoliceHp < 0f) { PoliceHp = 0f; }
+
+
+            if (damagedCoroutine != null)
+            {
+                StopCoroutine(damagedCoroutine);
+            }
+            damagedCoroutine = StartCoroutine(Damaged());
+        }
+    }
     protected void AddForceCar()
 	{
-        if (spState == SuperPoliceState.DESTROY)
+        if (policeState == PoliceState.DESTROY)
         {
             if (this.GetComponent<Rigidbody2D>() != null)
             {

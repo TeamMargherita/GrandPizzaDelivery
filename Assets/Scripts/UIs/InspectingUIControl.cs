@@ -112,6 +112,9 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText
         playerFace.sprite = playerSprArr[0];
 
     }
+
+
+
     // 초상화 초기화
     private void InitFace()
     {

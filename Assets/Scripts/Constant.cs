@@ -45,7 +45,7 @@ public static class Constant
 	/// <summary>
 	/// 0.1초간의 텀
 	/// </summary>
-	public static WaitForSeconds OneTime = new WaitForSeconds(0.1f);
+	public static WaitForSeconds OneTime = new WaitForSeconds(0.02f);
 	/// <summary>
 	/// 고용한 점원 리스트
 	/// </summary>

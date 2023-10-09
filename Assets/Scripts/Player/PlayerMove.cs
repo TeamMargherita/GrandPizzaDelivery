@@ -105,6 +105,8 @@ public class PlayerMove : PlayerStat
     {
         if (other.transform.CompareTag("Banana"))
         {
+            if (bananaCoroutine != null)
+                StopCoroutine(bananaCoroutine);
             bananaCoroutine = banana(2, this.transform);
             StartCoroutine(bananaCoroutine);
             Destroy(other.gameObject);

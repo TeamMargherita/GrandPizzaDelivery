@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using ConversationNS;
 // 한석호 작성
 
 public class InspectingUIControl : MonoBehaviour, IInspectingUIText
@@ -24,6 +24,7 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText
     private IInspectingPanelControl iInspectingPanelControl;
     private ISpawnCar iSpawnCar;
 
+    private List<TextNodeC> textNodeList = new List<TextNodeC>();
     private RectTransform[] diceRectArr;
     private Image[] diceImgArr;
     private Text[] playerTextArr;
@@ -113,7 +114,10 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText
 
     }
 
+    public void SetConversation(Conversation con)
+    {
 
+    }
 
     // 초상화 초기화
     private void InitFace()
@@ -182,7 +186,7 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText
                 playerFace.sprite = playerSprArr[3];
                 break;
             case 1001:  // 무시한다.
-                SetPoliceText(5);  // 시간을 낭비했군 ~
+                SetPoliceText(20);  // 시간을 낭비했군 ~
 
                 scrollContents.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 100);
                 SetPlayerText(0, 19, 1005);

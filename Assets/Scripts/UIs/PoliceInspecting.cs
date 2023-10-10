@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using ConversationNS;
+using ClerkNS;
 public class PoliceInspecting : Conversation
 {
     public PoliceInspecting()
     {
-        inspectingPoliceTextStart = new string[23]
+        InspectingPoliceTextStart = new string[23]
         {
             "잠깐 이쪽좀 볼까?",   // 0
             "거기 멈춰 주실까?",   // 1
@@ -32,5 +33,8 @@ public class PoliceInspecting : Conversation
             "(간다.)", // 21
             "(검문을 받는다.)" // 22
         };
+
+        TextList = new List<TextNodeS>();
+
     }
 }

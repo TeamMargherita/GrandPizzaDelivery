@@ -151,3 +151,20 @@ namespace PoliceNS
         };
     }
 }
+
+namespace ConversationNS
+{
+    public struct TextNodeS
+    {
+        public int NowTextNum;  // 현재 텍스트 번호
+        public int[] NextTextNum;  // 현재 텍스트 번호 다음에 연결되어 있는 텍스트 번호들
+        public MethodS[] MethodSArr;    // 현재 텍스트 등장과 동시에 실행되어야 하는 함수들과 인자값을 넣어놓은 구조체의 배열
+        public bool[] NextTextIsAble;
+    }
+
+    public struct MethodS
+    {
+        public int MethodNum;
+        public int[] MethodParameter;
+    }
+}

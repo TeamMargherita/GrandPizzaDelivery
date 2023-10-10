@@ -21,18 +21,33 @@ public class NoteClear : MonoBehaviour
         // 나와있는 노트가 존재
         if (storage.NoteLoad.Count > 0)
         {
-            // 노트 클리어용 키 바인딩 [A S ; ']
-            if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) ||
-                Input.GetKeyDown(KeyCode.Semicolon) || Input.GetKeyDown(KeyCode.Quote))
+            if (storage.NoteLoad.Peek().Type == NoteType.Normal)
             {
-                // 노트 클리어
-                if (storage.NoteLoad.Peek().SendJudge() != Judge.NONE)
+                // 노트 클리어용 키 바인딩 [A S ; ']
+                if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) ||
+                    Input.GetKeyDown(KeyCode.Semicolon) || Input.GetKeyDown(KeyCode.Quote))
                 {
-                    JudgeCount();
-                    storage.NoteClear();
+                    // 노트 클리어
+                    if (storage.NoteLoad.Peek().SendJudge() != Judge.NONE)
+                    {
+                        JudgeCount();
+                        storage.NoteClear();
+                    }
                 }
             }
-
+            if (storage.NoteLoad.Peek().Type == NoteType.Hold)
+            {
+                // 노트 클리어용 키 바인딩 [A S ; ']
+                if (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt))
+                {
+                    // 노트 클리어
+                    if (storage.NoteLoad.Peek().SendJudge() == Judge.PERFECT || storage.NoteLoad.Peek().Timing < 0)
+                    {
+                        JudgeCount();
+                        storage.NoteClear();
+                    }
+                }
+            }
             // 오토 클리어
             if (IsAuto)
             {

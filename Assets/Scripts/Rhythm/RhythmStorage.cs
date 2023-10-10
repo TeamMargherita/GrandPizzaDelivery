@@ -67,6 +67,7 @@ public class RhythmStorage : MonoBehaviour
         {
             Notes.Enqueue(NoteLoad.Dequeue());
             RhythmManager.Instance.Judges.Miss++;
+            Debug.Log("Return Note");
         }
     }
     /// <summary>
@@ -79,6 +80,7 @@ public class RhythmStorage : MonoBehaviour
             Note note = NoteLoad.Peek();
             note.gameObject.SetActive(false);
             Notes.Enqueue(NoteLoad.Dequeue());
+            Debug.Log("Reset Note");
         }
     }
 

@@ -10,12 +10,11 @@ public enum Judge { NONE = 0, PERFECT, GREAT, GOOD, MISS }
 /// </summary>
 public class Note : MonoBehaviour
 {
-    public decimal Timing { get { return timing; } }    // 남은 시간 반환
+    public decimal Timing { set { timing = value; }  get { return timing; } }    // 남은 시간 반환
     public NoteType Type;
     private float speed;            // 이동 속도
     private decimal arrive;         // 도착 시간
     private decimal timing;         // 남은 시간
-    private Vector2 start;          // 시작 위치
     private Vector2 end;            // 도착 위치
     private NoteSpawner spawner;
     private Transform trans;
@@ -49,7 +48,6 @@ public class Note : MonoBehaviour
         Effect = false;
         arrive = arriveTime;
         fade = 1f;
-        start = new Vector2(10f, 0);
     }
 
     /// <summary>
@@ -90,11 +88,7 @@ public class Note : MonoBehaviour
     private void NoteMove()
     {
         speed = RhythmManager.Instance.Speed;
-        //if (timing > 0m)
-        //    trans.localPosition = Vector2.Lerp(end, start * speed, (float)timing / 10f * speed);
-        //else
-        //    trans.localPosition = Vector2.Lerp(end, (end - start) * speed, (float)-timing / 10f * speed);
-        trans.localPosition = end + Vector2.right * (float)timing * speed;
+        trans.localPosition = end + Vector2.right * (float)timing * speed * 5f;
     }
 
     /// <summary>

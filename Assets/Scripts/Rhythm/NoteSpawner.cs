@@ -55,8 +55,9 @@ public class NoteSpawner : MonoBehaviour
     /// <summary>
     /// 노트를 생성하는 함수
     /// </summary>
-    public void CreateNote()
+    private void CreateNote()
     {
+        
         // 리셋
         storage.NoteLoadReset();
         // 생성
@@ -72,7 +73,7 @@ public class NoteSpawner : MonoBehaviour
 
             note.Type = v.Value;
             // 노트 초기화
-            note.Init(BitSlice * v.Key + (decimal)Sync);
+            
             if ((curList + 1) * nextList < (float)(BitSlice * v.Key + (decimal)Sync))
                 curList++;
 
@@ -81,7 +82,8 @@ public class NoteSpawner : MonoBehaviour
                 pizzaIngredientSprArr[Constant.ChoiceIngredientList[curList]];
 
             note.gameObject.SetActive(true);
-
+            note.Init(BitSlice * v.Key + (decimal)Sync);
+            Debug.Log(note.Timing);
             // 노트를 NoteLoad(나와있는 노트 모음)에 추가
             storage.NoteLoad.Enqueue(note);
         }

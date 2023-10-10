@@ -58,6 +58,7 @@ public class RhythmManager : MonoBehaviour
 
     public void Init()
     {
+        BgSound.Stop();
         LoadData();
         CurrentTime = 0;
         Judges.Init();

@@ -12,7 +12,7 @@ public class NoteEditor : MonoBehaviour
 
     private decimal calculator;     // 노트 배열 인덱스 계산용
     private RhythmManager manager;
-
+    private int index;
     private void Start()
     {
         manager = RhythmManager.Instance;
@@ -53,14 +53,14 @@ public class NoteEditor : MonoBehaviour
     /// </summary>
     private void AddNote()
     {
-        if (Input.GetKeyDown(KeyCode.C) || Input.GetKeyDown(KeyCode.D))
+        if(Input.GetKeyDown(KeyCode.C) || Input.GetKey(KeyCode.X))
         {
             calculator = (manager.CurrentTime) / NoteSpawner.BitSlice;
-            int index = calculator % NoteSpawner.BitSlice < NoteSpawner.BitSlice / 2 ? (int)calculator : (int)calculator + 1;
-            Debug.Log(index);
-            if (!manager.Data.IsNote.ContainsKey(index))
-                manager.Data.IsNote.Add(index, index * (float)NoteSpawner.BitSlice);
+            index = calculator % NoteSpawner.BitSlice < NoteSpawner.BitSlice / 2 ? (int)calculator : (int)calculator + 1;
+            if (!manager.Data.Notes.ContainsKey(index))
+                manager.Data.Notes.Add(index, (Input.GetKeyDown(KeyCode.C)) ? NoteType.Normal : NoteType.Hold);
         }
+
     }
 
     /// <summary>
@@ -71,15 +71,9 @@ public class NoteEditor : MonoBehaviour
         if (Input.GetKey(KeyCode.V))
         {
             calculator = (manager.CurrentTime - (decimal)manager.Data.Sync) / NoteSpawner.BitSlice;
-            int index = calculator % NoteSpawner.BitSlice < NoteSpawner.BitSlice / 2 ? (int)calculator : (int)calculator + 1;
-
-            if (manager.Data.IsNote.ContainsKey(index))
-            {
-                Debug.Log(index);
-                if (NoteSpawner.NoteLoad.Count > 0)
-                    NoteSpawner.NoteClear();
-                manager.Data.IsNote.Remove(index);
-            }
+            index = calculator % NoteSpawner.BitSlice < NoteSpawner.BitSlice / 2 ? (int)calculator : (int)calculator + 1;
+            if (manager.Data.Notes.ContainsKey(index))
+                manager.Data.Notes.Remove(index);
         }
     }
 

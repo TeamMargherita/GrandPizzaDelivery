@@ -51,9 +51,10 @@ public class Bar : MonoBehaviour
     private void BarMove()
     {
         speed = RhythmManager.Instance.Speed;
-        if (timing > 0m)
-            trans.localPosition = Vector2.Lerp(end, start * speed, (float)timing / 10f * speed);
-        else
-            trans.localPosition = Vector2.Lerp(end, (end - start) * speed, (float)-timing / 10f * speed);
+        //if (timing > 0m)
+        //    trans.localPosition = Vector2.Lerp(end, start * speed, (float)timing / 10f * speed);
+        //else
+        //    trans.localPosition = Vector2.Lerp(end, (end - start) * speed, (float)-timing / 10f * speed);
+        trans.localPosition = end + Vector2.right * (float)timing * speed;
     }
 }

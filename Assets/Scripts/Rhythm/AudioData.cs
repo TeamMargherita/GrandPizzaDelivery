@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 
+public enum NoteType { None = 0, Normal, Hold }
+
 /// <summary>
 /// 곡 데이터를 담고 있는 클래스
 /// </summary>
@@ -9,7 +11,7 @@ public class AudioData
     public float BPM;                           // 곡 BPM
     public float Length;                        // 곡 길이
     public float Sync;                          // 곡 싱크
-    public SortedList<int, float> IsNote;       // 노트 생성 시간
+    public SortedList<int, NoteType> Notes;       // 노트 생성 시간
 
     public AudioData()
     {
@@ -17,7 +19,7 @@ public class AudioData
         BPM = 60f;
         Length = 0f;
         Sync = 0f;
-        IsNote = new SortedList<int, float>();
+        Notes = new SortedList<int, NoteType>();
     }
 
     public AudioData(string fileName)
@@ -31,6 +33,6 @@ public class AudioData
         BPM = data.BPM;
         Length = data.Length;
         Sync = data.Sync;
-        IsNote = data.IsNote;
+        Notes = data.Notes;
     }
 }

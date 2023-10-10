@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerStat : MonoBehaviour
 {
+    [SerializeField]
     private int hp = 200;
     public float Braking = 0.99f;
     private float speed;

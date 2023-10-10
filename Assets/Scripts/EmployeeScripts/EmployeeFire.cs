@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class EmployeeFire : MonoBehaviour
 {
     [SerializeField] Transform FireWinParent;
+    [SerializeField] Transform FireWinBG;
     [SerializeField] Transform EmployeeParent;
 
     private void Start()
@@ -16,7 +17,7 @@ public class EmployeeFire : MonoBehaviour
 
     void WinOff()
     {
-        FireWinParent.gameObject.SetActive(false);
+        FireWinBG.gameObject.SetActive(false);
 
         for (int i = 0; i < FireWinParent.childCount; i++)
         {
@@ -28,7 +29,7 @@ public class EmployeeFire : MonoBehaviour
     {
         bool value = true;
 
-        if (FireWinParent.gameObject.activeInHierarchy)
+        if (FireWinBG.gameObject.activeInHierarchy)
         {
             value = false;
         }
@@ -39,13 +40,13 @@ public class EmployeeFire : MonoBehaviour
 
         if (value == true)
         {
-            FireWinParent.gameObject.SetActive(true);
+            FireWinBG.gameObject.SetActive(true);
 
             FindEmployeeData();
         }
         else
         {
-            FireWinParent.gameObject.SetActive(false);
+            FireWinBG.gameObject.SetActive(false);
 
             for (int i = 0; i < FireWinParent.childCount; i++)
             {
@@ -152,12 +153,12 @@ public class EmployeeFire : MonoBehaviour
                 }
                 break;
             case 4:
-                result = "주급 : " + EmployeeParent.GetChild(Evalue).
-                   GetComponent<EmployeeStat>().Pay.ToString();
-                break;
-            case 5:
                 result = "스트레스 : " + EmployeeParent.GetChild(Evalue).
                    GetComponent<EmployeeStat>().Stress.ToString();
+                break;
+            case 5:
+                result = "주급 :     " + EmployeeParent.GetChild(Evalue).
+                  GetComponent<EmployeeStat>().Pay.ToString();
                 break;
         }
 
@@ -182,6 +183,20 @@ public class EmployeeFire : MonoBehaviour
         else
         {
             Debug.Log("사장님 나빠요");
+        }
+    }
+
+    public void PayRateButton(bool value)
+    {
+        int pay = 
+
+        if (value)
+        {
+
+        }
+        else
+        {
+
         }
     }
 }

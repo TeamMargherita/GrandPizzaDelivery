@@ -1,12 +1,16 @@
+using ClerkNS;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CreateEmployee : MonoBehaviour
 {
     [SerializeField] Transform EmployeeMother;
     [SerializeField] GameObject EmployeePrefab;
     [SerializeField] Transform EmployeeRecruitMother;
+
+    [SerializeField] GameObject NoticeWin;
 
     public void SpawnEmployee(int value)
     {
@@ -26,10 +30,17 @@ public class CreateEmployee : MonoBehaviour
 
             GetStat(value, employeeCount);
         }
-        else
+        else // 인원 초과 시 경고창 띄우기
         {
-            Debug.Log("인원초과");
+            NoticeMessage("고용 가능한 인원을 초과합니다.");
         }
+    }
+
+    void NoticeMessage(string Message)
+    {
+        NoticeWin.SetActive(true);
+
+        NoticeWin.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = Message;
     }
 
     public void GetStat(int SValue, int Gvalue)

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ClerkNS;
 
 // 스텟 단계별 수치(경력, 창의력)
 enum StatRate

@@ -89,7 +89,6 @@ public class PlayerMove : PlayerStat
             this.GetComponent<Rigidbody2D>().velocity = t.rotation * new Vector2(0, -10);
         while (true)
         {
-            Debug.Log("코루틴 실행중");
             count += Time.deltaTime;
             this.transform.Rotate(angle * 10 * Time.deltaTime);
             if (count > time)
@@ -111,14 +110,21 @@ public class PlayerMove : PlayerStat
             StartCoroutine(bananaCoroutine);
             Destroy(other.gameObject);
         }
-        
     }
-
+    Vector2 Power;
+    float TestPower;
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.transform.CompareTag("Police"))
         {
-            HP -= (int)(Speed * 1.5 - collision.transform.GetComponent<PoliceCar>().Speed * 1.5 + Speed * (Random.Range(0, 10)) * 0.01);
+            Power = GetComponent<Rigidbody2D>().velocity - (Vector2)(collision.transform.right * collision.transform.GetComponent<PoliceCar>().Speed);
+            TestPower = Power.magnitude;
+            HP -= (int)(TestPower * 1.5);
+        }else if (collision.transform.CompareTag("ChaserPoliceCar"))
+        {
+            Power = GetComponent<Rigidbody2D>().velocity - (Vector2)(collision.transform.right * collision.transform.GetComponent<ChasePoliceCar>().Speed);
+            TestPower = Power.magnitude;
+            HP -= (int)(TestPower * 1.5);
         }
     }
 }

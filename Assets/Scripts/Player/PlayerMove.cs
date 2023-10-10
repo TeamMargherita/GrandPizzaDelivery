@@ -100,6 +100,12 @@ public class PlayerMove : PlayerStat
         }
     }
 
+    IEnumerator HPBarUpdate()
+    {
+
+        yield return null;
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.transform.CompareTag("Banana"))

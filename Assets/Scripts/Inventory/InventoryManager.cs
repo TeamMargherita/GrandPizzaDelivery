@@ -96,6 +96,7 @@ public class InventoryManager : MonoBehaviour
 
     public void OnClickDelivery()
     {
+        Debug.Log("올클릭딜리버리");
         if(GameManager.Instance.InventorySlotList[SlotNum - 1].Pizza != null && GoalAddressS != null)
         {
             int j = 0;

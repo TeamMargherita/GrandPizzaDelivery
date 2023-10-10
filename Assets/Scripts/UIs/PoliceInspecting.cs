@@ -49,7 +49,7 @@ public class PoliceInspecting : Conversation
             new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 0 } )
         };
         AddTextList();
-        nowTextNum = 3; nextTextNum = new int[4] { 8, 9, 10, 4}; nextTextIsAble = new bool[4] { true, true, true, true };
+        nowTextNum = 3; nextTextNum = new int[4] { 8, 9, 10, 4}; nextTextIsAble = new bool[4] { true, true, false, true };
         methodSArr = new MethodS[4]
         {
             new MethodS(MethodEnum.SETRANDNPCTEXT, new int[3] { 5, 6, 7 } ),
@@ -86,6 +86,59 @@ public class PoliceInspecting : Conversation
         };
         AddTextList();
         nowTextNum = 9; nextTextNum = new int[1] { 21 }; nextTextIsAble = new bool[1] { true };
+        methodSArr = new MethodS[4]
+        {
+            new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { 13 } ),
+            new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 100 } ),
+            new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 0 } ),
+            new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 1 } )
+        };
+        AddTextList();
+        nowTextNum = 9; nextTextNum = new int[1] { 22 }; nextTextIsAble = new bool[1] { true };
+        methodSArr = new MethodS[4]
+        {
+            new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { 14 } ),
+            new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 100 } ),
+            new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 0 } ),
+            new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 1 } )
+        };
+        AddTextList();
+        nowTextNum = 10; nextTextNum = new int[1] { 21 }; nextTextIsAble = new bool[1] { true };
+        methodSArr = new MethodS[4]
+        {
+            new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { 15 } ),
+            new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 100 } ),
+            new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 0 } ),
+            new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 3 } )
+        };
+        AddTextList();
+        nowTextNum = 10; nextTextNum = new int[2] { 17, 18 }; nextTextIsAble = new bool[2] { true, true };
+        methodSArr = new MethodS[4]
+        {
+            new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { 16 } ),
+            new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 200 } ),
+            new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 1 } ),
+            new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 3 } )
+        };
+        AddTextList();
+        nowTextNum = 17; nextTextNum = new int[1] { 21 }; nextTextIsAble = new bool[1] { true };
+        methodSArr = new MethodS[4]
+        {
+            new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { 15 } ),
+            new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 100 } ),
+            new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 0 } ),
+            new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 3 } )
+        };
+        nowTextNum = 17; nextTextNum = new int[2] { 17, 18 }; nextTextIsAble = new bool[2] { true, true };
+        methodSArr = new MethodS[4]
+        {
+            new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { 16 } ),
+            new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 200 } ),
+            new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 1 } ),
+            new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 3 } )
+        };
+        AddTextList();
+
 
         nowTextNum = 21; nextTextNum = new int[1] { -1 }; nextTextIsAble = new bool[1] { false };
         methodSArr = new MethodS[1]

@@ -40,6 +40,8 @@ public class PoliceInspecting : Conversation
 
     private void InitTextList()
     {
+        startText = new int[3] { 0, 1, 2 };
+
         nowTextNum = -1; nextTextNum = new int[2] { 3, 4 }; nextTextIsAble = new bool[2] { true, true };
         methodSArr = new MethodS[4]
         {
@@ -138,8 +140,22 @@ public class PoliceInspecting : Conversation
             new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 3 } )
         };
         AddTextList();
-
-
+        nowTextNum = 18; nextTextNum = new int[1] { 19 }; nextTextIsAble = new bool[2] { true, true };
+        methodSArr = new MethodS[4]
+        {
+            new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { 20 } ),
+            new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 100 } ),
+            new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 3 } ),
+            new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 2 } )
+        };
+        AddTextList();
+        nowTextNum = 19; nextTextNum = new int[1] { -1 }; nextTextIsAble = new bool[2] { true, true };
+        methodSArr = new MethodS[2]
+        {
+            new MethodS(MethodEnum.ENDPANEL, new int[1] { -1 } ),
+            new MethodS(MethodEnum.SPAWNPOLICE, new int[1] { 4 } )
+        };
+        AddTextList();
         nowTextNum = 21; nextTextNum = new int[1] { -1 }; nextTextIsAble = new bool[1] { false };
         methodSArr = new MethodS[1]
         {
@@ -152,7 +168,6 @@ public class PoliceInspecting : Conversation
             new MethodS(MethodEnum.ENDPANEL, new int[1] { -1 } )
         };
         AddTextList();
-
     }
 
 }

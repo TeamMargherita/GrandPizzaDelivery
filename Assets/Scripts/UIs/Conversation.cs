@@ -12,7 +12,8 @@ public class Conversation
 	public Sprite[] NpcSprArr { get; set; }
 	public Sprite[] PlayerSprArr { get; set; }
 	public  Text NpcText { get; set; }
-	public IInspectingPanelControl IInspectingPanelControl { get; set; }
+	public IInspectingPanelControl InspectingPanelControl { get; set; }
+	public ISpawnCar SpawnCar { get; set; }
 	public string[] NpcTextStrArr { get; protected set; }
 
 	public List<TextNodeC> TextList { get; protected set; }
@@ -22,7 +23,7 @@ public class Conversation
 	protected int nowTextNum;
 	protected int[] nextTextNum;
 	protected bool[] nextTextIsAble;
-	
+	protected int[] startText;
 	public void SetSizeScrollContents(bool isVert, int size)
     {
 		if (isVert)
@@ -54,6 +55,9 @@ public class Conversation
 			case MethodEnum.ENDPANEL:
 				EndPanel();
 				break;
+			case MethodEnum.SPAWNPOLICE:
+				SpawnPolice(met.MethodParameter[0]);
+				break;
         }
     }
 	public void ChangeNPCImage(int index)
@@ -70,8 +74,12 @@ public class Conversation
     }
 	public void EndPanel()
     {
-		IInspectingPanelControl.ControlInspectUI(false, null);
+		InspectingPanelControl.ControlInspectUI(false, null);
 	}
+	public void SpawnPolice(int cnt)
+    {
+		SpawnCar.SpawnCar(cnt);
+    }
 	protected void AddTextList()
 	{
 		TextNodeC t = new TextNodeC(nowTextNum, nextTextNum, methodSArr, nextTextIsAble);

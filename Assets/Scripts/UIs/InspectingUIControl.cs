@@ -112,6 +112,9 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText
         playerFace.sprite = playerSprArr[0];
 
     }
+
+
+
     // 초상화 초기화
     private void InitFace()
     {
@@ -235,7 +238,7 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText
                 policeFace.sprite = policeSprArr[3];
                 playerFace.sprite = playerSprArr[2];
                 // 경찰 추적
-                iSpawnCar.SpawnCar(10);
+                iSpawnCar.SpawnCar(4);
                 break;
             case 1006:  // (간다.)
                 InitPoliceText();

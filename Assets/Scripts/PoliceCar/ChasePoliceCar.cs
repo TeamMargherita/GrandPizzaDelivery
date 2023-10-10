@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PoliceNS.PoliceStateNS;
 
 // 한석호 작성
-public class ChasePoliceCar : MonoBehaviour, ISetTransform, IUpdateCheckList
+public class ChasePoliceCar : Police, ISetTransform, IUpdateCheckList
 {
+    public static bool isStop = false;  // 추격 경찰차 행동 제어 여부
+
     [Range (0f,10f)]
     public float Speed;
 
@@ -16,35 +19,48 @@ public class ChasePoliceCar : MonoBehaviour, ISetTransform, IUpdateCheckList
     private const int LEFTDOWN = 3; // 뒤
     private const int FRONT = 4;
     private const int BACK = 5;
+
     /// <summary>
     /// 추격 경찰차 상태. SPUERCHASE는 거리 상관없이 무조건 플레이어 쫓아오는 상태
     /// </summary>
-    private enum ChaserPoliceState { NONE, SPUERCHASE, AUTOMOVE, STOP, OUTMAP};
     private enum MoveRoute { NONE, GO, GORIGHT, GOLEFT, BACK, BACKRIGHT, BACKLEFT, STOP};
     private Transform playerTrans;
     private Transform myTrans;
-    
-    private ChaserPoliceState chaserPoliceState = ChaserPoliceState.SPUERCHASE;
+    private Rigidbody2D rigid;
+
+    //private PoliceState chaserPoliceState = PoliceState.SPUERCHASE;
     private MoveRoute oldRoute = MoveRoute.NONE;    // 이전 프레임의 이동 방향
     /// <summary>
     /// 플레이어를 찾았는지 여부를 알기위한 인터페이스
     /// </summary>
     private IGetBool iGetBool;
     private ICheckCol[] iCheckColArr;
+    private PoliceState temState;
 
     private Vector3 outVec = new Vector3(100, 30, 0);
     private Vector3 ranTarget = Vector3.one;
+    private Color redEmi = new Color(139f/255f, 57f/255f, 58f/255f);
+    private Color yellowEmi = new Color(139f/255f, 111f/255f, 57f/255f);
+    private Color greenEmi = new Color(84f/255f, 139f/255f, 57f/255f);
+
+    private MeshRenderer mesh;
 
     private List<int> colList = new List<int>();    // 감지된 콜라이더 리스트
     private float time; // 현재 상태가 발동되고 있는 시간
     private float oldAngle = -999f; // 이전 프레임에서 추격경찰차와 플레이어의 각도 차이
     private float autoAndStopTime = 0;   // 자동주행과 정지상태인 시간
-	// Start is called before the first frame update
-	private void Awake()
-	{
+    private bool isRigid = false;   // 리지드바디 제어 변수
+    protected override void Awake()
+    {
+        base.Awake();
+        PoliceHp = 500;
+        policeState = PoliceState.SPUERCHASE;
+        temState = PoliceState.NONE;
         Speed = Random.Range(3f, 10f);
         ranTarget = new Vector3(Random.Range(0, 70), Random.Range(0, 70), 0);
         myTrans = this.transform;
+        rigid = this.GetComponent<Rigidbody2D>();
+        mesh = this.transform.GetChild(0).GetComponent<MeshRenderer>();
         iGetBool = this.GetComponent<IGetBool>();
         iCheckColArr = new ICheckCol[colArr.Length];
         for (int i = 0; i < colArr.Length; i++)
@@ -58,8 +74,8 @@ public class ChasePoliceCar : MonoBehaviour, ISetTransform, IUpdateCheckList
     /// </summary>
     private void SpuerChase()
     {
-        Debug.DrawLine(myTrans.position, myTrans.position + myTrans.right * 100f);
-        Debug.DrawLine(myTrans.position, myTrans.position + (playerTrans.position - myTrans.position).normalized * 100f);
+        //Debug.DrawLine(myTrans.position, myTrans.position + myTrans.right * 100f);
+        //Debug.DrawLine(myTrans.position, myTrans.position + (playerTrans.position - myTrans.position).normalized * 100f);
         
         // 주변에 방해물이 없을 시, 혹은 플레이어를 발견했을 시
         if (!CheckObstacle() || iGetBool.GetBool())
@@ -102,8 +118,8 @@ public class ChasePoliceCar : MonoBehaviour, ISetTransform, IUpdateCheckList
     /// </summary>
     private void OutMap()
 	{
-        Debug.DrawLine(myTrans.position, myTrans.position + myTrans.right * 100f);
-        Debug.DrawLine(myTrans.position, outVec);
+        //Debug.DrawLine(myTrans.position, myTrans.position + myTrans.right * 100f);
+        //Debug.DrawLine(myTrans.position, outVec);
 
         // 주변에 방해물이 없을 시, 혹은 플레이어를 발견했을 시, 또는 OUTMAP상태가 된지 10초가 지나고 방해물이 있을 시
         if (!CheckObstacle() || iGetBool.GetBool() || (time >= 10f && CheckObstacle()))
@@ -282,7 +298,7 @@ public class ChasePoliceCar : MonoBehaviour, ISetTransform, IUpdateCheckList
             case MoveRoute.STOP:
                 //Debug.Log("정지");
                 // 정지상태로 변경 후 해당 함수 종료
-                ResetState(ChaserPoliceState.STOP);
+                ResetState(PoliceState.STOP);
                 return;
                 break;
             case MoveRoute.GO:
@@ -360,7 +376,7 @@ public class ChasePoliceCar : MonoBehaviour, ISetTransform, IUpdateCheckList
     private void Back(float k)
 	{
         myTrans.localPosition -= myTrans.right * Time.deltaTime * Speed * k;
-        Debug.Log("발동??");
+        //Debug.Log("발동??");
     }
     /// <summary>
     /// 플레이어의 트랜스폼을 가져옴. 위치를 가져와 추격하기 위함
@@ -374,59 +390,109 @@ public class ChasePoliceCar : MonoBehaviour, ISetTransform, IUpdateCheckList
     /// 상태를 갱신하고 시간을 초기화시킴.
     /// </summary>
     /// <param name="state"></param>
-    private void ResetState(ChaserPoliceState state)
+    private void ResetState(PoliceState state)
 	{
-        chaserPoliceState = state;
+        policeState = state;
         time = 0f;
 	}
 
+    private bool ControlMove()
+	{
+        if (isStop)
+        {
+            if (isRigid)
+            {
+                rigid.constraints = RigidbodyConstraints2D.FreezeAll;
+                isRigid = false;
+            }
+        }
+        else
+        {
+            if (!isRigid)
+            {
+                rigid.constraints = RigidbodyConstraints2D.FreezeRotation;
+                isRigid = true;
+            }
+        }
+
+        return isStop;
+    }
+    private void ChangeFOVColor(PoliceState state)
+	{
+        if (temState != policeState)
+		{
+            temState = policeState;
+
+            if (temState == PoliceState.SPUERCHASE)
+			{
+                mesh.material.SetColor("_EmissionColor", redEmi);
+			}
+            else if (temState == PoliceState.AUTOMOVE)
+            {
+                mesh.material.SetColor("_EmissionColor", yellowEmi);
+            }
+            else if (temState == PoliceState.OUTMAP || temState == PoliceState.DESTROY)
+            {
+                mesh.material.SetColor("_EmissionColor", greenEmi);
+            }
+        }
+        else
+		{
+            return;
+		}
+	}
 	private void FixedUpdate()
 	{
-        time += Time.deltaTime;
+        // 특정상황에서 모든 추격 경찰차 정지
+        if (ControlMove()) { return; }
+        if (policeState == PoliceState.DESTROY) { return; }
 
-        switch (chaserPoliceState)
+        time += Time.deltaTime;
+        ChangeFOVColor(policeState);
+
+        switch (policeState)
         {
             // 플레이어와의 거리 상관없이 무조건 쫓아오는 상태임.
-            case ChaserPoliceState.SPUERCHASE:
+            case PoliceState.SPUERCHASE:
                 // 플레이어를 무조건 쫓아옴
                 SpuerChase();
                 // 만약 플레이어를 발견한다면 시간을 0초로 돌려서 SUPERCHASE 상태를 갱신.
                 if (iGetBool.GetBool())
                 {
-                    ResetState(ChaserPoliceState.SPUERCHASE);
+                    ResetState(PoliceState.SPUERCHASE);
                 }
                 // 만약 20초가 지나면 자동주행모드로 바꿈
                 if (time >= 20f)
                 {
-                    ResetState(ChaserPoliceState.AUTOMOVE);
+                    ResetState(PoliceState.AUTOMOVE);
                 }
                 break;
             // 맵을 랜덤으로 돌아다니는 상태임
-            case ChaserPoliceState.AUTOMOVE:
+            case PoliceState.AUTOMOVE:
                 AutoMove();
                 // 만약 플레이어를 발견한다면 시간을 0초로 돌리고 SUPERCHASE 상태로 전환
                 if (iGetBool.GetBool())
 				{
-                    ResetState(ChaserPoliceState.SPUERCHASE);
+                    ResetState(PoliceState.SPUERCHASE);
 				}
                 // 자동주행 모두가 30초동안 이루어지면 맵 밖으로 나가는 상태가 됨.
                 else if (time >= 30f)
 				{
-                    ResetState(ChaserPoliceState.OUTMAP);
+                    ResetState(PoliceState.OUTMAP);
 				}
                 break;
-            case ChaserPoliceState.STOP:
+            case PoliceState.STOP:
                 if (time >= 2f)
 				{
-                    ResetState(ChaserPoliceState.AUTOMOVE);
+                    ResetState(PoliceState.AUTOMOVE);
 				}
                 break;
-            case ChaserPoliceState.OUTMAP:
+            case PoliceState.OUTMAP:
                 OutMap();
                 // 만약 플레이어를 발견한다면 시간을 0초로 돌리고 SUPERCHASE 상태로 전환
                 if (iGetBool.GetBool())
                 {
-                    ResetState(ChaserPoliceState.SPUERCHASE);
+                    ResetState(PoliceState.SPUERCHASE);
                 }
 
                 if (Vector3.SqrMagnitude(myTrans.position - outVec) <= 2)
@@ -435,11 +501,10 @@ public class ChasePoliceCar : MonoBehaviour, ISetTransform, IUpdateCheckList
 				}
                 break;
         }
-        if (chaserPoliceState == ChaserPoliceState.STOP || chaserPoliceState == ChaserPoliceState.AUTOMOVE)
+        if (policeState == PoliceState.STOP || policeState == PoliceState.AUTOMOVE)
 		{
             autoAndStopTime += Time.deltaTime;
         }
-        //Debug.Log(chaserPoliceState);
     }
 
 	public void UpdateCheck(int num, bool isAdd)

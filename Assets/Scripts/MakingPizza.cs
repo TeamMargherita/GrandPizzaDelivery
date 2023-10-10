@@ -65,11 +65,17 @@ public class MakingPizza : MonoBehaviour
         int makeTime = 0;
         float makingRate = 0;
         int panelIndex = -1;
-        var ti = new WaitForSeconds(0.02f);
         while (true)
         {
             // 만들 피자를 고릅니다.
-            if (pizzaRequestList.Count <= 0) { yield return Constant.OneTime; continue; }
+            if (pizzaRequestList.Count <= 0) 
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    yield return Constant.OneTime;
+                }
+                continue; 
+            }
 
             // 피자 만드는데 걸리는 시간을 계산한다.
             makeTime = 80;
@@ -98,7 +104,7 @@ public class MakingPizza : MonoBehaviour
             while(makingPizzaPanelRect[panelIndex].localPosition.x < 0)
 			{
                 makingPizzaPanelRect[panelIndex].localPosition += new Vector3(5, 0);
-                yield return ti;
+                yield return Constant.OneTime;
 			}
 
             // 만드는 중.
@@ -109,7 +115,10 @@ public class MakingPizza : MonoBehaviour
                 // 퍼센트 게이지 갱신.
                 makingPizzaPanelClass[panelIndex].SetMainPanelRect(makingRate);
                 // 일정 시간 대기
-                yield return Constant.OneTime;
+                for (int j = 0; j < 5; j++)
+                {
+                    yield return Constant.OneTime;
+                }
             }
             // 피자가 완성되었다. 완성된 피자는 피자집 인벤에 들어간다.
             completePizzaList.Add(pizzaRequestList[0].Pizza);
@@ -127,7 +136,7 @@ public class MakingPizza : MonoBehaviour
                         makingPizzaPanelRect[j].localPosition -= new Vector3(0, 20);
                     }
                 }
-                yield return ti;
+                yield return Constant.OneTime;
 			}
             
             // 완성된 피자는 리스트에서 제거

@@ -16,54 +16,51 @@ public class NoteClear : MonoBehaviour
 
     void Update()
     {
-        // 나와있는 노트가 존재
-        if (storage.NoteLoad.Count > 0)
+        for(int i = 0; i < storage.NoteLoad.Length; i++)
         {
+            if (storage.NoteLoad[i].Count > 0)
+            {
+                if (KeyDownInput(i) && storage.NoteLoad[i].Peek().SendJudge() != Judge.NONE)
+                {
+                    // 노트 클리어   
+                    JudgeCount(i);
+                    storage.NoteClear(i);
+                }
+
+                else if (storage.NoteLoad[i].Peek().Type == NoteType.Hold)
+                {
+                    if (KeyHoldInput(i) && (storage.NoteLoad[i].Peek().SendJudge() == Judge.PERFECT || storage.NoteLoad[i].Peek().Timing <= 0))
+                    {
+                        // 노트 클리어
+                        JudgeCount(i);
+                        storage.NoteClear(i);
+                    }
+                }
+            }
             // 오토 클리어
             if (IsAuto)
             {
-                if (storage.NoteLoad.Peek().Timing <= 0)
+                if (storage.NoteLoad[i].Peek().Timing <= 0)
                 {
-                    JudgeCount();
-                    storage.NoteClear();
+                    JudgeCount(i);
+                    storage.NoteClear(i);
                 }
-            }
-            else if (storage.NoteLoad.Peek().Type == NoteType.Normal)
-            {
-                // 노트 클리어용 키 바인딩 [A S ; ']
-                if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) ||
-                    Input.GetKeyDown(KeyCode.Semicolon) || Input.GetKeyDown(KeyCode.Quote))
+                if (storage.NoteLoad[i].Peek().Timing <= 0)
                 {
-                    // 노트 클리어
-                    if (storage.NoteLoad.Peek().SendJudge() != Judge.NONE)
-                    {
-                        JudgeCount();
-                        storage.NoteClear();
-                    }
-                }
-            }
-            else if (storage.NoteLoad.Peek().Type == NoteType.Hold)
-            {
-                // 노트 클리어용 키 바인딩 [A S ; ']
-                if (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt))
-                {
-                    // 노트 클리어
-                    if (storage.NoteLoad.Peek().SendJudge() == Judge.PERFECT || storage.NoteLoad.Peek().Timing < 0.02m)
-                    {
-                        JudgeCount();
-                        storage.NoteClear();
-                    }
+                    JudgeCount(i);
+                    storage.NoteClear(i);
                 }
             }
         }
+
     }
 
     /// <summary>
     /// 받은 판정을 카운트 해주는 함수
     /// </summary>
-    private void JudgeCount()
+    private void JudgeCount(int index)
     {
-        switch (storage.NoteLoad.Peek().SendJudge())
+        switch (storage.NoteLoad[index].Peek().SendJudge())
         {
             case Judge.PERFECT:
                 manager.Judges.Perfect++;
@@ -81,5 +78,33 @@ public class NoteClear : MonoBehaviour
                 Debug.LogError("잘못된 정보 (Judge)");
                 return;
         }
+    }
+
+    private bool KeyDownInput(int index)
+    {
+        if (index == 0)
+        {
+            return Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S);
+        }
+        else if (index == 1)
+        {
+            return Input.GetKeyDown(KeyCode.Semicolon) || Input.GetKeyDown(KeyCode.Quote);
+        }
+        else
+            return false;
+    }
+
+    private bool KeyHoldInput(int index)
+    {
+        if (index == 0)
+        {
+            return Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S);
+        }
+        else if (index == 1)
+        {
+            return Input.GetKey(KeyCode.Semicolon) || Input.GetKey(KeyCode.Quote);
+        }
+        else
+            return false;
     }
 }

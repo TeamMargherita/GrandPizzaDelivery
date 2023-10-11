@@ -12,15 +12,15 @@ public class Note : MonoBehaviour
 {
     public decimal Timing { set { timing = value; } get { return timing; } }    // 남은 시간 반환
     public NoteType Type;
-    private float speed;            // 이동 속도
-    private decimal arrive;         // 도착 시간
-    private decimal timing;         // 남은 시간
-    private Vector2 end;            // 도착 위치
-    private NoteSpawner spawner;
+    private float speed;                                    // 이동 속도
+    private decimal arrive;                                 // 도착 시간
+    private decimal timing;                                 // 남은 시간
+    private Vector2 end;                                    // 도착 위치
     private Transform trans;
     private bool Effect;
     private float fade = 1f;
-    void Update()
+
+    private void Update()
     {
         if (Effect)
         {
@@ -41,14 +41,16 @@ public class Note : MonoBehaviour
     /// 변수 초기화 함수
     /// </summary>
     /// <param name="arriveTime">도착 시간</param>
-    public void Init(decimal arriveTime)
+    public void Init(decimal arriveTime, Vector2 _end)
     {
-        FindCompnent();
+        if (trans == null)
+            trans = GetComponent<Transform>();
         GetComponent<SpriteRenderer>().color = Color.white;
         Effect = false;
         arrive = arriveTime;
         fade = 1f;
         timing = 300m;
+        end = _end;
     }
 
     /// <summary>
@@ -57,7 +59,6 @@ public class Note : MonoBehaviour
     /// <returns>판정</returns>
     public Judge SendJudge()
     {
-        Debug.Log(timing);
         if (Mathf.Abs((float)timing) > 0.12501f)
             return Judge.NONE;
         else if (Mathf.Abs((float)timing) <= 0.04167f)
@@ -67,21 +68,10 @@ public class Note : MonoBehaviour
         else
             return Judge.GOOD;
     }
+
     public void ActiveEffect()
     {
         Effect = true;
-    }
-    /// <summary>
-    /// 할당받지 못한 컴포넌트 찾아서 할당
-    /// </summary>
-    private void FindCompnent()
-    {
-        if (end == Vector2.zero)
-            end = GameObject.Find("Judgement").GetComponent<Transform>().localPosition;
-        if (trans == null)
-            trans = GetComponent<Transform>();
-        if (spawner == null)
-            spawner = transform.parent.GetComponent<NoteSpawner>();
     }
 
     /// <summary>
@@ -100,7 +90,6 @@ public class Note : MonoBehaviour
     {
         if (timing < -0.12501m)
         {
-            //Debug.Log("Delete Note");
             gameObject.SetActive(false);
         }
     }

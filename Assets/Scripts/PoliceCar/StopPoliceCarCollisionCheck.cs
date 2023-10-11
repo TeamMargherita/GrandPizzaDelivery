@@ -38,7 +38,7 @@ public class StopPoliceCarCollisionCheck : MonoBehaviour
                 iInspectingPoliceCarControl.SetPoliceState(PoliceState.INSPECTING);
 
                 // 카메라를 해당 경찰차쪽으로 확대 및 이동시키고, 불심검문중 창을 띄운다.
-                iInspectingPanelControl.ControlInspectUI(true, iEndInspecting);
+                iInspectingPanelControl.ControlInspectUI(true, iEndInspecting, 1);
             }
         }
     }

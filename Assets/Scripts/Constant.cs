@@ -43,7 +43,7 @@ public static class Constant
 
 	public static bool IsMakePizza = false;
 	/// <summary>
-	/// 0.1√ ∞£¿« ≈“
+	/// 0.02√ ∞£¿« ≈“
 	/// </summary>
 	public static WaitForSeconds OneTime = new WaitForSeconds(0.02f);
 	/// <summary>

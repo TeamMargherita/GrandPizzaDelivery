@@ -173,7 +173,7 @@ public class ChasePoliceCar : Police, ISetTransform, IUpdateCheckList
                 colList.FindIndex(a => a.Equals(RIGHTDOWN)) != -1 && colList.FindIndex(a => a.Equals(RIGHTUP)) != -1)
 		{
             // 정지한다.
-            if (autoAndStopTime < 3f)
+            if (autoAndStopTime < 1f)
             {
                 oldRoute = MoveRoute.STOP;
             }

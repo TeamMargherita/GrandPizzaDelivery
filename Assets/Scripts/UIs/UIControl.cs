@@ -106,7 +106,7 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
     /// </summary>
     /// <param name="isOn"></param>
     /// <param name="iEndInspecting"></param>
-    public void ControlInspectUI(bool isOn, IEndInspecting iEndInspecting)
+    public void ControlInspectUI(bool isOn, IEndInspecting iEndInspecting, int type)
     {
         if (iEndInspecting != null)
 		{
@@ -117,6 +117,7 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
         {
             inspectingPanel.SetActive(isOn);
             isInspecting = isOn;
+            inspectingPanel.GetComponent<InspectingUIControl>().ChoiceConversation(type);
         }
         else if (!isOn && inspectingHeight >= 1080)
         {

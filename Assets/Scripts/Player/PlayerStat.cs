@@ -6,6 +6,7 @@ public class PlayerStat : MonoBehaviour
 {
     [SerializeField]
     private int hp = 200;
+    public int MaxHP = 200;
     public float Braking = 0.99f;
     private float speed;
     public float MaxSpeed;

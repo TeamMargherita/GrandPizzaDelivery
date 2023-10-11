@@ -31,7 +31,7 @@ public class PlayerStat : MonoBehaviour
         }
         set
         {
-            value = Mathf.Clamp(value, -MaxSpeed, MaxSpeed);
+            value = Mathf.Clamp(value, -1f, MaxSpeed);
             speed = value;
         }
     }

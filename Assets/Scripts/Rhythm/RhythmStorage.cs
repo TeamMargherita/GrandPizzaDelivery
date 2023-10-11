@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -56,10 +55,10 @@ public class RhythmStorage : MonoBehaviour
     /// </summary>
     public void NoteClear()
     {
+        NoteSound.PlayOneShot(NoteSound.clip);
         Note n = NoteLoad.Peek();
         n.ActiveEffect();
         Notes.Enqueue(NoteLoad.Dequeue());
-        NoteSound.PlayOneShot(NoteSound.clip);
     }
     public void ReturnNote()
     {

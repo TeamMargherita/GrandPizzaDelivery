@@ -10,7 +10,7 @@ public enum Judge { NONE = 0, PERFECT, GREAT, GOOD, MISS }
 /// </summary>
 public class Note : MonoBehaviour
 {
-    public decimal Timing { set { timing = value; }  get { return timing; } }    // 남은 시간 반환
+    public decimal Timing { set { timing = value; } get { return timing; } }    // 남은 시간 반환
     public NoteType Type;
     private float speed;            // 이동 속도
     private decimal arrive;         // 도착 시간
@@ -48,6 +48,7 @@ public class Note : MonoBehaviour
         Effect = false;
         arrive = arriveTime;
         fade = 1f;
+        timing = 300m;
     }
 
     /// <summary>
@@ -56,6 +57,7 @@ public class Note : MonoBehaviour
     /// <returns>판정</returns>
     public Judge SendJudge()
     {
+        Debug.Log(timing);
         if (Mathf.Abs((float)timing) > 0.12501f)
             return Judge.NONE;
         else if (Mathf.Abs((float)timing) <= 0.04167f)

@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -9,7 +8,6 @@ public class NoteSpawner : MonoBehaviour
     [Range(-1f, 1f)]
     public float Sync;                      // 곡 싱크 (추후 로직 수정 필요)
     public static decimal BitSlice;         // 1 비트를 8 등분
-    public bool IsAuto;                     // 노트 자동 클리어
     public float BarInterval = 1f;          // 바 간격
 
     private decimal oneBar;                 // 4 비트당 1 마디
@@ -57,7 +55,6 @@ public class NoteSpawner : MonoBehaviour
     /// </summary>
     private void CreateNote()
     {
-        
         // 리셋
         storage.NoteLoadReset();
         // 생성
@@ -73,17 +70,17 @@ public class NoteSpawner : MonoBehaviour
 
             note.Type = v.Value;
             // 노트 초기화
-            
-            if ((curList + 1) * nextList < (float)(BitSlice * v.Key + (decimal)Sync))
+
+            if ((curList + 1) * nextList < (float)(BitSlice * v.Key))
                 curList++;
 
             if (Constant.ChoiceIngredientList.Count > 0)
                 note.GetComponent<SpriteRenderer>().sprite =
                 pizzaIngredientSprArr[Constant.ChoiceIngredientList[curList]];
 
+            note.Init(BitSlice * v.Key);
+            Debug.Log(BitSlice * v.Key);
             note.gameObject.SetActive(true);
-            note.Init(BitSlice * v.Key + (decimal)Sync);
-            Debug.Log(note.Timing);
             // 노트를 NoteLoad(나와있는 노트 모음)에 추가
             storage.NoteLoad.Enqueue(note);
         }

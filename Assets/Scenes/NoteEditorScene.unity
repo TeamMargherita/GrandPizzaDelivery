@@ -3543,6 +3543,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RhtrhmManager
       objectReference: {fileID: 0}
+    - target: {fileID: 1044286200932288319, guid: a83cc78eea476dd48b0a466ead8e257d, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: e7dd9267749d76e43843d7b211cc306e, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a83cc78eea476dd48b0a466ead8e257d, type: 3}
 --- !u!1001 &8438432326741943895
@@ -3552,6 +3556,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8438432327943771045, guid: aecdb814ac0800d4f9925fb52ad68671, type: 3}
+      propertyPath: BarInterval
+      value: 32
+      objectReference: {fileID: 0}
     - target: {fileID: 8438432328281067600, guid: aecdb814ac0800d4f9925fb52ad68671, type: 3}
       propertyPath: m_RootOrder
       value: 6

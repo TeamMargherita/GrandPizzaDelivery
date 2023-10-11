@@ -53,12 +53,13 @@ public class NoteEditor : MonoBehaviour
     /// </summary>
     private void AddNote()
     {
-        if(Input.GetKeyDown(KeyCode.C) || Input.GetKey(KeyCode.X))
+        if (Input.GetKeyDown(KeyCode.C) || Input.GetKey(KeyCode.X))
         {
             calculator = (manager.CurrentTime) / NoteSpawner.BitSlice;
-            index = calculator % NoteSpawner.BitSlice < NoteSpawner.BitSlice / 2 ? (int)calculator : (int)calculator + 1;
-            if (!manager.Data.Notes.ContainsKey(index))
-                manager.Data.Notes.Add(index, (Input.GetKeyDown(KeyCode.C)) ? NoteType.Normal : NoteType.Hold);
+            Debug.Log(calculator);
+            Debug.Log((int)calculator);
+            if (!manager.Data.Notes.ContainsKey((int)calculator))
+                manager.Data.Notes.Add((int)calculator, (Input.GetKeyDown(KeyCode.C)) ? NoteType.Normal : NoteType.Hold);
         }
 
     }

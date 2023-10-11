@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class NoteClear : MonoBehaviour
@@ -21,7 +19,16 @@ public class NoteClear : MonoBehaviour
         // 나와있는 노트가 존재
         if (storage.NoteLoad.Count > 0)
         {
-            if (storage.NoteLoad.Peek().Type == NoteType.Normal)
+            // 오토 클리어
+            if (IsAuto)
+            {
+                if (storage.NoteLoad.Peek().Timing <= 0)
+                {
+                    JudgeCount();
+                    storage.NoteClear();
+                }
+            }
+            else if (storage.NoteLoad.Peek().Type == NoteType.Normal)
             {
                 // 노트 클리어용 키 바인딩 [A S ; ']
                 if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) ||
@@ -35,26 +42,17 @@ public class NoteClear : MonoBehaviour
                     }
                 }
             }
-            if (storage.NoteLoad.Peek().Type == NoteType.Hold)
+            else if (storage.NoteLoad.Peek().Type == NoteType.Hold)
             {
                 // 노트 클리어용 키 바인딩 [A S ; ']
                 if (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt))
                 {
                     // 노트 클리어
-                    if (storage.NoteLoad.Peek().SendJudge() == Judge.PERFECT || storage.NoteLoad.Peek().Timing < 0)
+                    if (storage.NoteLoad.Peek().SendJudge() == Judge.PERFECT || storage.NoteLoad.Peek().Timing < 0.02m)
                     {
                         JudgeCount();
                         storage.NoteClear();
                     }
-                }
-            }
-            // 오토 클리어
-            if (IsAuto)
-            {
-                if (storage.NoteLoad.Count > 0 && storage.NoteLoad.Peek().SendJudge() == Judge.PERFECT)
-                {
-                    JudgeCount();
-                    storage.NoteClear();
                 }
             }
         }

@@ -151,3 +151,36 @@ namespace PoliceNS
         };
     }
 }
+
+namespace ConversationNS
+{
+    public class TextNodeC
+    {
+        public int NowTextNum;  // 현재 텍스트 번호
+        public int[] NextTextNum;  // 현재 텍스트 번호 다음에 연결되어 있는 텍스트 번호들
+        public MethodS[] MethodSArr;    // 현재 텍스트 등장과 동시에 실행되어야 하는 함수들과 인자값을 넣어놓은 구조체의 배열
+        public bool[] NextTextIsAble;   // 현재 텍스트 번호 다음에 연결되어 있는 텍스트의 연결 여부
+
+        public TextNodeC (int nowTextNum, int[] nextTextNum, MethodS[] methodSArr, bool[] nextTextIsAble)
+        {
+            NowTextNum = nowTextNum;
+            NextTextNum = nextTextNum;
+            MethodSArr = methodSArr;
+            NextTextIsAble = nextTextIsAble;
+        }
+    }
+
+    public struct MethodS
+    {
+        public MethodEnum MethodNum;
+        public int[] MethodParameter;
+
+        public MethodS (MethodEnum methodNum, int[] methodParameter)
+        {
+            MethodNum = methodNum;
+            MethodParameter = methodParameter;
+        }
+    }
+
+    public enum MethodEnum { NONE, SETSIZECONTENTS, CHANGENPCIMAGE, CHANGEPLAYERIMAGE, SETRANDNPCTEXT, ENDPANEL, SPAWNPOLICE };
+}

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class JsonManager<T>
 {
-    private static string path = Application.dataPath + "/Json";
+    private static string path = Application.dataPath + "/StreamingAssets/Json";
 
     public static void Save(T userData, string fileName)
     {

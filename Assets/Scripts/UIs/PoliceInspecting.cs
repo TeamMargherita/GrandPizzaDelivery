@@ -37,6 +37,51 @@ public class PoliceInspecting : Conversation
         TextList = new List<TextNodeC>();
         InitTextList();
     }
+	protected override int Bifurcation(List<TextNodeC> tem)
+	{
+        int index = -1;
+
+        if (tem[0].NowTextNum == 8)
+		{
+            // 불법음식이 있는 경우
+
+            // 불법음식이 없는 경우
+            int[] obj = new int[1] {23};
+            index = TextList.FindIndex(
+                a => 
+                a.NowTextNum == 8 &&
+                -1 != System.Array.FindIndex<MethodS>(
+                    a.MethodSArr, b => b.MethodNum == MethodEnum.SETRANDNPCTEXT 
+                    && System.Linq.Enumerable.SequenceEqual(b.MethodParameter, new int[1] { 23 })));
+		}
+        else if (tem[0].NowTextNum == 9)
+		{
+            // 주사위를 굴려 설득에 성공
+
+            // 주사위를 굴려 설득에 실패
+		}
+        else if (tem[0].NowTextNum == 10)
+		{
+            // 처음으로 20000만원을 준다.
+		}
+        else if (tem[0].NowTextNum == 17)
+		{
+            // 첫번째 이후로 20000만원을 준다.
+		}
+        return index;
+	}
+    protected override bool Condition(int num)
+	{
+        if (num == 10)
+		{
+            // 만약 20000만원이 있을 경우
+            return true;
+            // 그렇지 못할 경우
+            return false;
+		}
+
+        return false;
+	}
 
     private void InitTextList()
     {
@@ -152,8 +197,8 @@ public class PoliceInspecting : Conversation
         nowTextNum = 19; nextTextNum = new int[1] { -1 }; nextTextIsAble = new bool[2] { true, true };
         methodSArr = new MethodS[2]
         {
-            new MethodS(MethodEnum.ENDPANEL, new int[1] { -1 } ),
-            new MethodS(MethodEnum.SPAWNPOLICE, new int[1] { 4 } )
+            new MethodS(MethodEnum.SPAWNPOLICE, new int[1] { 4 } ),
+            new MethodS(MethodEnum.ENDPANEL, new int[1] { -1 } )
         };
         AddTextList();
         nowTextNum = 21; nextTextNum = new int[1] { -1 }; nextTextIsAble = new bool[1] { false };

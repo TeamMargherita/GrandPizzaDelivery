@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using ConversationNS;
 // 한석호 작성
 
-public class InspectingUIControl : MonoBehaviour, IInspectingUIText
+public class InspectingUIControl : MonoBehaviour, IInspectingUIText, ICoroutineDice
 {
     [SerializeField] private GameObject[] diceObjArr;
     [SerializeField] private GameObject[] playerTextObjArr;
@@ -16,21 +16,25 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText
     [SerializeField] private GameObject spawnChaser;
     [SerializeField] private GameObject uiControl;
     [SerializeField] private RectTransform scrollContents;
-    [SerializeField] private Image policeFace;
+    [SerializeField] private Image npcFace;
     [SerializeField] private Image playerFace;
     [SerializeField] private Text diceSuccessText;
-    [SerializeField] private Text policeText;
+    [SerializeField] private Text npcText;
 
     private IInspectingPanelControl iInspectingPanelControl;
     private ISpawnCar iSpawnCar;
 
-    private List<TextNodeC> textNodeList = new List<TextNodeC>();
+    //private List<TextNodeC> textNodeList = new List<TextNodeC>();
     private RectTransform[] diceRectArr;
     private Image[] diceImgArr;
     private Text[] playerTextArr;
     private PlayerTexts[] playerTextsArr;
-    private Coroutine diceCoroutine;
-    
+    private Sprite[] npcSprArr; // 상대 이미지 0 : 기분좋음 1 : 기분 안좋음 2 : 화남 3 : 극대노
+    private Coroutine diceCoroutine;    // 주사위를 굴릴 때 쓰는 코루틴
+    private PoliceInspecting policeInspecting;  // 경찰의 불심검문이 담긴 대화 그래프 클래스
+    private Conversation temCon;
+    private bool isAwake = false;
+
     private string[] inspectingPoliceTextStart = new string[23] 
     {
         "잠깐 이쪽좀 볼까?",   // 0
@@ -62,6 +66,10 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText
 
     private void Awake()
     {
+        isAwake = true;
+
+        policeInspecting = new PoliceInspecting();
+
         playerTextArr = new Text[playerTextObjArr.Length];
         playerTextsArr = new PlayerTexts[playerTextObjArr.Length];
 
@@ -85,48 +93,94 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText
         iSpawnCar = spawnChaser.GetComponent<ISpawnCar>();
     }
 
-	private void OnEnable()
-    {
+	//private void OnEnable()
+ //   {
+ //       InitPoliceText();
+ //       InitPlayerText();
+ //       InitDice();
+ //       InitFace();
+
+
+ //       switch (Random.Range(0,3))
+	//	{
+ //           case 0:
+ //               SetPoliceText(0);
+ //               break;
+ //           case 1:
+ //               SetPoliceText(1);
+ //               break;
+ //           case 2:
+ //               SetPoliceText(2); 
+ //               break;
+	//	}
+
+ //       scrollContents.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 200);
+ //       SetPlayerText(0, 3, 1000);  // 무슨일인가요?
+ //       SetPlayerText(1, 4, 1001);  // 무시한다.
+
+ //       policeFace.sprite = policeSprArr[1];
+ //       playerFace.sprite = playerSprArr[0];
+
+ //   }
+    /// <summary>
+    /// 각종 이미지, 텍스트 초기화
+    /// </summary>
+    private void InitOnEnable()
+	{
+        this.gameObject.SetActive(true);
+        if (!isAwake) { Awake(); }
         InitPoliceText();
         InitPlayerText();
         InitDice();
         InitFace();
+    }
+    /// <summary>
+    /// 대화 내용을 선택함
+    /// </summary>
+    /// <param name="num"></param>
+    public void ChoiceConversation(int num)
+    {
+        InitOnEnable();
 
-        switch (Random.Range(0,3))
+        switch (num)
 		{
-            case 0:
-                SetPoliceText(0);
-                break;
             case 1:
-                SetPoliceText(1);
-                break;
-            case 2:
-                SetPoliceText(2); 
+                npcSprArr = Resources.LoadAll<Sprite>("UI/Police_400_500");
+                InitConversation(policeInspecting);
                 break;
 		}
-
-        scrollContents.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 200);
-        SetPlayerText(0, 3, 1000);  // 무슨일인가요?
-        SetPlayerText(1, 4, 1001);  // 무시한다.
-
-        policeFace.sprite = policeSprArr[1];
-        playerFace.sprite = playerSprArr[0];
-
+    }
+    /// <summary>
+    /// 대화 내용선택하기 위한 대화 클래스 멤버변수들 초기화
+    /// </summary>
+    /// <param name="con"></param>
+    public void InitConversation(Conversation con)
+	{
+        con.ScrollContents = scrollContents;
+        con.NpcFace = npcFace;
+        con.PlayerFace = playerFace;
+        con.NpcSprArr = npcSprArr;
+        con.PlayerSprArr = playerSprArr;
+        con.NpcText = npcText;
+        con.PlayerTextArr = playerTextArr;
+        con.PlayerTextsArr = playerTextsArr;
+        con.InspectingPanelControl = iInspectingPanelControl;
+        con.SpawnCar = iSpawnCar;
+        temCon = con;
     }
 
-    public void SetConversation(Conversation con)
-    {
-
-    }
-
-    // 초상화 초기화
+    /// <summary>
+    /// 초상화 초기화
+    /// </summary>
     private void InitFace()
     {
-        policeFace.sprite = policeSprArr[0];
+        npcFace.sprite = policeSprArr[0];
         playerFace.sprite = playerSprArr[0];
     }
 
-    // 주사위 초기화
+    /// <summary>
+    /// 주사위 1로 초기화
+    /// </summary>
     private void InitDice()
     {
         for (int i = 0; i < diceObjArr.Length; i++)
@@ -136,7 +190,9 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText
         diceSuccessText.text = "";
     }
 
-    // 플레이어 선택지창 지워줌
+    /// <summary>
+    /// 플레이어 선택지창 지워줌
+    /// </summary>
     private void InitPlayerText()
 	{
         for (int i = 0; i < playerTextArr.Length; i++)
@@ -144,6 +200,13 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText
             playerTextArr[i].gameObject.SetActive(false);
 		}
 	}
+    /// <summary>
+    /// 경찰차 대화창 지워줌
+    /// </summary>
+    private void InitPoliceText()
+    {
+        npcText.text = "";
+    }
 
     private void SetPlayerText(int n1, int n2, int n3)
 	{
@@ -154,13 +217,9 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText
 
     private void SetPoliceText(int n1)
 	{
-        policeText.text = inspectingPoliceTextStart[n1];
+        npcText.text = inspectingPoliceTextStart[n1];
 	}
-    // 경찰 대화창 지워줌
-    private void InitPoliceText()
-	{
-        policeText.text = "";
-	}
+    
 
     public void ChoiceText(int num)
 	{
@@ -168,93 +227,94 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText
         InitPlayerText();
         InitDice();
 
-        switch (num)
-		{
-            case 1000:  // 무슨 일인가요? ~
-                int r = Random.Range(0, 3);
-                if (r == 0) { SetPoliceText(5); }
-                else if (r == 1) { SetPoliceText(6); }
-                else if (r == 2) { SetPoliceText(7); }
+        temCon.NextText(num);
+  //      switch (num)
+		//{
+  //          case 1000:  // 무슨 일인가요? ~
+  //              int r = Random.Range(0, 3);
+  //              if (r == 0) { SetPoliceText(5); }
+  //              else if (r == 1) { SetPoliceText(6); }
+  //              else if (r == 2) { SetPoliceText(7); }
                 
-                scrollContents.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 400);
-                SetPlayerText(0, 8, 1002);  // 한 번 살펴보세요 ~
-                SetPlayerText(1, 9, 1003);  // 설마 이상한 거라도 ~
-                SetPlayerText(2, 10, 1004);  // 흠.. 그만 가봐도 ~
-                SetPlayerText(3, 4, 1001);  // 무시한다.
+  //              scrollContents.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 400);
+  //              SetPlayerText(0, 8, 1002);  // 한 번 살펴보세요 ~
+  //              SetPlayerText(1, 9, 1003);  // 설마 이상한 거라도 ~
+  //              SetPlayerText(2, 10, 1004);  // 흠.. 그만 가봐도 ~
+  //              SetPlayerText(3, 4, 1001);  // 무시한다.
 
-                policeFace.sprite = policeSprArr[2];
-                playerFace.sprite = playerSprArr[3];
-                break;
-            case 1001:  // 무시한다.
-                SetPoliceText(20);  // 시간을 낭비했군 ~
+  //              npcFace.sprite = policeSprArr[2];
+  //              playerFace.sprite = playerSprArr[3];
+  //              break;
+  //          case 1001:  // 무시한다.
+  //              SetPoliceText(20);  // 시간을 낭비했군 ~
 
-                scrollContents.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 100);
-                SetPlayerText(0, 19, 1005);
+  //              scrollContents.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 100);
+  //              SetPlayerText(0, 19, 1005);
 
-                policeFace.sprite = policeSprArr[3];
-                playerFace.sprite = playerSprArr[2];
-                break;
-            case 1002:  // 한 번 살펴보세요 ~, (검문을 받는다.)
-                // 일단 파인애플 피자가 없다고 가정
-                SetPoliceText(12);  // 가봐도 좋다 ~
+  //              npcFace.sprite = policeSprArr[3];
+  //              playerFace.sprite = playerSprArr[2];
+  //              break;
+  //          case 1002:  // 한 번 살펴보세요 ~, (검문을 받는다.)
+  //              // 일단 파인애플 피자가 없다고 가정
+  //              SetPoliceText(12);  // 가봐도 좋다 ~
 
-                scrollContents.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 100);
-                SetPlayerText(0, 21, 1006);
+  //              scrollContents.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 100);
+  //              SetPlayerText(0, 21, 1006);
 
-                policeFace.sprite = policeSprArr[0];
-                playerFace.sprite = playerSprArr[0];
-                break;
-            case 1003:  // 설마 이상한 거라도 ~        
-                // 설득 여부에 따라 경찰의 말이 달라짐
-                isDiceRoll = true;
-                diceCoroutine = StartCoroutine(DIceRoll(num));
-                break;
-            case 1004:  // 흠.. 그만 가봐도 ~
-                // 돈에 만족하냐에 안하냐에 따라 경찰의 말이 달라짐.
-                int r1 = Random.Range(0, 100);
-                if (r1 < 5) 
-                {
-                    SetPoliceText(16);  // 이 일은 참 ~
+  //              npcFace.sprite = policeSprArr[0];
+  //              playerFace.sprite = playerSprArr[0];
+  //              break;
+  //          case 1003:  // 설마 이상한 거라도 ~        
+  //              // 설득 여부에 따라 경찰의 말이 달라짐
+  //              isDiceRoll = true;
+  //              diceCoroutine = StartCoroutine(DiceRoll(num));
+  //              break;
+  //          case 1004:  // 흠.. 그만 가봐도 ~
+  //              // 돈에 만족하냐에 안하냐에 따라 경찰의 말이 달라짐.
+  //              int r1 = Random.Range(0, 100);
+  //              if (r1 < 5) 
+  //              {
+  //                  SetPoliceText(16);  // 이 일은 참 ~
 
-                    scrollContents.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 200);
-                    SetPlayerText(0, 17, 1004);
-                    SetPlayerText(1, 18, 1005);
+  //                  scrollContents.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 200);
+  //                  SetPlayerText(0, 17, 1004);
+  //                  SetPlayerText(1, 18, 1005);
 
-                    policeFace.sprite = policeSprArr[1];
-                    playerFace.sprite = playerSprArr[3];
+  //                  npcFace.sprite = policeSprArr[1];
+  //                  playerFace.sprite = playerSprArr[3];
 
-                }
-                else
-				{
-                    SetPoliceText(15);  // 이번엔 눈감아 ~
+  //              }
+  //              else
+		//		{
+  //                  SetPoliceText(15);  // 이번엔 눈감아 ~
 
-                    scrollContents.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 100);
-                    SetPlayerText(0, 21, 1006);
+  //                  scrollContents.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 100);
+  //                  SetPlayerText(0, 21, 1006);
 
-                    policeFace.sprite = policeSprArr[0];
-                    playerFace.sprite = playerSprArr[3];
-                }
-                break;
-            case 1005:  // 도망간다.
-                InitPoliceText();
-                iInspectingPanelControl.ControlInspectUI(false, null);
+  //                  npcFace.sprite = policeSprArr[0];
+  //                  playerFace.sprite = playerSprArr[3];
+  //              }
+  //              break;
+  //          case 1005:  // 도망간다.
+  //              InitPoliceText();
+  //              iInspectingPanelControl.ControlInspectUI(false, null);
 
-                policeFace.sprite = policeSprArr[3];
-                playerFace.sprite = playerSprArr[2];
-                // 경찰 추적
-                iSpawnCar.SpawnCar(4);
-                break;
-            case 1006:  // (간다.)
-                InitPoliceText();
-                iInspectingPanelControl.ControlInspectUI(false, null);
+  //              npcFace.sprite = policeSprArr[3];
+  //              playerFace.sprite = playerSprArr[2];
+  //              // 경찰 추적
+  //              iSpawnCar.SpawnCar(4);
+  //              break;
+  //          case 1006:  // (간다.)
+  //              InitPoliceText();
+  //              iInspectingPanelControl.ControlInspectUI(false, null);
 
-                policeFace.sprite = policeSprArr[0];
-                playerFace.sprite = playerSprArr[0];
-                break;
-		}
+  //              npcFace.sprite = policeSprArr[0];
+  //              playerFace.sprite = playerSprArr[0];
+  //              break;
+		//}
 	}
 
-    IEnumerator DIceRoll(int num)
+    public IEnumerator DiceRoll(int num)
     {
         var time = new WaitForSeconds(0.05f);
         int rand = 0;
@@ -307,7 +367,7 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText
                     scrollContents.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 100);
                     SetPlayerText(0, 21, 1006);
 
-                    policeFace.sprite = policeSprArr[0];
+                    npcFace.sprite = policeSprArr[0];
                     playerFace.sprite = playerSprArr[1];
                 }
                 else
@@ -318,7 +378,7 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText
                     scrollContents.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 100);
                     SetPlayerText(0, 22, 1002);
 
-                    policeFace.sprite = policeSprArr[2];
+                    npcFace.sprite = policeSprArr[2];
                     playerFace.sprite = playerSprArr[3];
                 }
 

@@ -182,3 +182,10 @@ public interface IUpdateCheckList
 {
     public void UpdateCheck(int num, bool isAdd);
 }
+/// <summary>
+/// 주사위 돌리는 코루틴을 가진 인터페이스
+/// </summary>
+public interface ICoroutineDice
+{
+    public IEnumerator DiceRoll(int num);
+}

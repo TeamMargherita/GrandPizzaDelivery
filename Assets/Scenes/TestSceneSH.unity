@@ -37153,7 +37153,7 @@ GameObject:
   - component: {fileID: 562629634}
   - component: {fileID: 562629633}
   m_Layer: 5
-  m_Name: PoliceFace
+  m_Name: NpcFace
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -42786,10 +42786,10 @@ MonoBehaviour:
   spawnChaser: {fileID: 541032900}
   uiControl: {fileID: 1930384846}
   scrollContents: {fileID: 633216447}
-  policeFace: {fileID: 562629633}
+  npcFace: {fileID: 562629633}
   playerFace: {fileID: 1414115076}
   diceSuccessText: {fileID: 1630007663}
-  policeText: {fileID: 2082767975}
+  npcText: {fileID: 2082767975}
 --- !u!1 &881107559
 GameObject:
   m_ObjectHideFlags: 0
@@ -52557,7 +52557,7 @@ GameObject:
   - component: {fileID: 1366049898}
   - component: {fileID: 1366049897}
   m_Layer: 5
-  m_Name: PoliceTextPanel
+  m_Name: NpcTextPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -53125,7 +53125,7 @@ GameObject:
   - component: {fileID: 1395878446}
   - component: {fileID: 1395878445}
   m_Layer: 5
-  m_Name: PoliceImage
+  m_Name: NpcImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -66962,7 +66962,7 @@ GameObject:
   - component: {fileID: 2082767976}
   - component: {fileID: 2082767975}
   m_Layer: 5
-  m_Name: PoliceText
+  m_Name: NpcText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -70671,6 +70671,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 430e9e23764a5a94987d25d704d46027, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hp: 200
   Braking: 0.98
   MaxSpeed: 10
   acceleration: 1

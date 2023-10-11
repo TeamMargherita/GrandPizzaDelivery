@@ -65,7 +65,7 @@ public interface IInspectingPoliceCarControl
 
 public interface IInspectingPanelControl
 {
-    public void ControlInspectUI(bool isOn, IEndInspecting iEndInspecting);
+    public void ControlInspectUI(bool isOn, IEndInspecting iEndInspecting, int type);
 }
 public interface IDeliveryPanelControl
 {
@@ -187,5 +187,5 @@ public interface IUpdateCheckList
 /// </summary>
 public interface ICoroutineDice
 {
-    public IEnumerator DiceRoll(int num);
+    public void StartDice(int num);
 }

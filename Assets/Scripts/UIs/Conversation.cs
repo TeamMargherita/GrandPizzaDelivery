@@ -19,6 +19,7 @@ public class Conversation
 
 	public IInspectingPanelControl InspectingPanelControl { get; set; }
 	public ISpawnCar SpawnCar { get; set; }
+	public ICoroutineDice CoroutineDice { get; set; }
 	public string[] NpcTextStrArr { get; protected set; }
 
 	public List<TextNodeC> TextList { get; protected set; }
@@ -68,6 +69,7 @@ public class Conversation
 	public void ChangeNPCImage(int index)
     {
 		NpcFace.sprite = NpcSprArr[index];
+		Debug.Log(NpcFace.sprite.name);
 	}
 	public void ChangePlayerImage(int index)
     {
@@ -79,7 +81,7 @@ public class Conversation
     }
 	public void EndPanel()
     {
-		InspectingPanelControl.ControlInspectUI(false, null);
+		InspectingPanelControl.ControlInspectUI(false, null, -1);
 	}
 	public void SpawnPolice(int cnt)
     {
@@ -87,7 +89,24 @@ public class Conversation
     }
 	public void DiceRoll(int num)
 	{
+		CoroutineDice.StartDice(num);
+	}
+	/// <summary>
+	/// 주사위의 결과
+	/// </summary>
+	/// <param name="bo"></param>
+	public virtual void DiceResult(bool bo)
+    {
 
+    }
+	protected int Findidx(int nowTextNum, int[] methodParamArr)
+    {
+		return TextList.FindIndex(
+							a =>
+							a.NowTextNum == nowTextNum &&
+								-1 != System.Array.FindIndex<MethodS>(
+								a.MethodSArr, b => b.MethodNum == MethodEnum.SETRANDNPCTEXT
+									&& System.Linq.Enumerable.SequenceEqual(b.MethodParameter,methodParamArr)));
 	}
 	public void StartText()
 	{
@@ -115,6 +134,8 @@ public class Conversation
 	}
 	protected void SettingConversation(int index2)
 	{
+		if (index2 == -100) { return; }
+
 		for (int i = 0; i < TextList[index2].MethodSArr.Length; i++)
 		{
 			PlayMethod(TextList[index2].MethodSArr[i]);
@@ -122,7 +143,7 @@ public class Conversation
 
 		if (TextList[index2].NextTextNum.Length == 1 && TextList[index2].NextTextNum[0] == -1) { return; }
 
-		for (int i = 0; i < PlayerTextArr.Length; i++)
+		for (int i = 0; i < TextList[index2].NextTextNum.Length; i++)
 		{
 			if (!TextList[index2].NextTextIsAble[i])
 			{

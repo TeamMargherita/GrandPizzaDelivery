@@ -4,6 +4,7 @@ using UnityEngine;
 using ConversationNS;
 public class PoliceInspecting : Conversation
 {
+    private int temInt = -1;
     public PoliceInspecting()
     {
         NpcTextStrArr = new string[24]
@@ -37,52 +38,119 @@ public class PoliceInspecting : Conversation
         TextList = new List<TextNodeC>();
         InitTextList();
     }
+    /// <summary>
+    /// 조건에 따른 대화 분기점
+    /// </summary>
+    /// <param name="tem"></param>
+    /// <returns></returns>
 	protected override int Bifurcation(List<TextNodeC> tem)
 	{
         int index = -1;
-
+        temInt = tem[0].NowTextNum;
         if (tem[0].NowTextNum == 8)
-		{
+        {
             // 불법음식이 있는 경우
 
             // 불법음식이 없는 경우
-            int[] obj = new int[1] {23};
-            index = TextList.FindIndex(
-                a => 
-                a.NowTextNum == 8 &&
-                -1 != System.Array.FindIndex<MethodS>(
-                    a.MethodSArr, b => b.MethodNum == MethodEnum.SETRANDNPCTEXT 
-                    && System.Linq.Enumerable.SequenceEqual(b.MethodParameter, new int[1] { 23 })));
+            index = Findidx(8, new int[1] { 12 });
 		}
         else if (tem[0].NowTextNum == 9)
 		{
-            // 주사위를 굴려 설득에 성공
-
-            // 주사위를 굴려 설득에 실패
+            DiceRoll(7);
+            index = -100;
 		}
         else if (tem[0].NowTextNum == 10)
 		{
-            // 처음으로 20000만원을 준다.
+            // 처음으로 20000원을 준다.
+            GameManager.Instance.Money -= 20000;
+
+            // 랜덤한 확률로 20000원에 만족한다.
+            if (Random.Range(0, 100) > 33)
+            {
+                index = Findidx(10, new int[1] { 15 });
+            }
+            else
+            {
+                index = Findidx(10, new int[1] { 16 });
+            }
 		}
         else if (tem[0].NowTextNum == 17)
 		{
-            // 첫번째 이후로 20000만원을 준다.
-		}
+            // 첫번째 이후로 20000원을 준다.
+            // 랜덤한 확률로 20000원에 만족한다.
+            GameManager.Instance.Money -= 20000;
+
+            if (Random.Range(0, 100) > 22)
+            {
+                index = Findidx(17, new int[1] { 15 });
+            }
+            else
+            {
+                index = Findidx(17, new int[1] { 16 });
+            }
+        }
         return index;
 	}
+    /// <summary>
+    /// 주사위 결과에 따른 대화 분기점
+    /// </summary>
+    /// <param name="bo"></param>
+    public override void DiceResult(bool bo)
+    {
+        int index = -1;
+        if (temInt == 9)
+        {
+            if (bo)
+            {
+                index = Findidx(9, new int[1] { 13 });
+            }
+            else
+            {
+                index = Findidx(9, new int[1] { 14 });
+            }
+        }
+
+        SettingConversation(index);
+
+    }
+    /// <summary>
+    /// 플레이어의 상태에 따른 대화 등장 유무
+    /// </summary>
+    /// <param name="num"></param>
+    /// <returns></returns>
     protected override bool Condition(int num)
 	{
         if (num == 10)
-		{
-            // 만약 20000만원이 있을 경우
-            return true;
-            // 그렇지 못할 경우
-            return false;
-		}
-
+        {
+            if (GameManager.Instance.Money >= 20000)
+            {
+                // 만약 20000만원이 있을 경우
+                return true;
+            }
+            else
+            {
+                // 그렇지 못할 경우
+                return false;
+            }
+        }
+        else if (num == 17)
+        {
+            if (GameManager.Instance.Money >= 20000)
+            {
+                // 만약 20000만원이 있을 경우
+                return true;
+            }
+            else
+            {
+                // 그렇지 못할 경우
+                return false;
+            }
+        }
         return false;
 	}
-
+    /// <summary>
+    /// 텍스트들을 연결해서 그래프로 만듦
+    /// </summary>
     private void InitTextList()
     {
         startText = new int[3] { 0, 1, 2 };
@@ -92,7 +160,7 @@ public class PoliceInspecting : Conversation
         {
             new MethodS(MethodEnum.SETRANDNPCTEXT, new int[3] { 0, 1, 2} ),
             new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 200 } ),
-            new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 1 } ),
+            new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 0 } ),
             new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 0 } )
         };
         AddTextList();
@@ -119,7 +187,7 @@ public class PoliceInspecting : Conversation
         {
             new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { 12 } ),
             new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 100 } ),
-            new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 0 } ),
+            new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 1 } ),
             new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 0 } )
         };
         AddTextList();
@@ -137,7 +205,7 @@ public class PoliceInspecting : Conversation
         {
             new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { 13 } ),
             new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 100 } ),
-            new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 0 } ),
+            new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 1 } ),
             new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 1 } )
         };
         AddTextList();
@@ -146,8 +214,8 @@ public class PoliceInspecting : Conversation
         {
             new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { 14 } ),
             new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 100 } ),
-            new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 0 } ),
-            new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 1 } )
+            new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 2 } ),
+            new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 3 } )
         };
         AddTextList();
         nowTextNum = 10; nextTextNum = new int[1] { 21 }; nextTextIsAble = new bool[1] { true };
@@ -155,16 +223,16 @@ public class PoliceInspecting : Conversation
         {
             new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { 15 } ),
             new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 100 } ),
-            new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 0 } ),
+            new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 1 } ),
             new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 3 } )
         };
         AddTextList();
-        nowTextNum = 10; nextTextNum = new int[2] { 17, 18 }; nextTextIsAble = new bool[2] { true, true };
+        nowTextNum = 10; nextTextNum = new int[2] { 17, 18 }; nextTextIsAble = new bool[2] { false, true };
         methodSArr = new MethodS[4]
         {
             new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { 16 } ),
             new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 200 } ),
-            new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 1 } ),
+            new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 0 } ),
             new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 3 } )
         };
         AddTextList();
@@ -173,15 +241,16 @@ public class PoliceInspecting : Conversation
         {
             new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { 15 } ),
             new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 100 } ),
-            new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 0 } ),
+            new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 1 } ),
             new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 3 } )
         };
-        nowTextNum = 17; nextTextNum = new int[2] { 17, 18 }; nextTextIsAble = new bool[2] { true, true };
+        AddTextList();
+        nowTextNum = 17; nextTextNum = new int[2] { 17, 18 }; nextTextIsAble = new bool[2] { false, true };
         methodSArr = new MethodS[4]
         {
             new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { 16 } ),
             new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 200 } ),
-            new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 1 } ),
+            new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 0 } ),
             new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 3 } )
         };
         AddTextList();
@@ -205,6 +274,15 @@ public class PoliceInspecting : Conversation
         methodSArr = new MethodS[1]
         {
             new MethodS(MethodEnum.ENDPANEL, new int[1] { -1 } )
+        };
+        AddTextList();
+        nowTextNum = 22; nextTextNum = new int[1] { 21 }; nextTextIsAble = new bool[1] { true };
+        methodSArr = new MethodS[4]
+        {
+            new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { 12 } ),
+            new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 100 } ),
+            new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 1 } ),
+            new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 0 } )
         };
         AddTextList();
         nowTextNum = 23; nextTextNum = new int[1] { -1 }; nextTextIsAble = new bool[1] { false };

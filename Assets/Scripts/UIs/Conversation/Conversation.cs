@@ -30,7 +30,7 @@ public class Conversation
 	protected int[] nextTextNum;
 	protected bool[] nextTextIsAble;
 	protected int[] startText;
-
+	protected int temInt = -1;
 	public void PlayMethod(MethodS met)
     {
 		switch(met.MethodNum)
@@ -174,4 +174,6 @@ public class Conversation
 
 		TextList.Add(t);
 	}
+
+	protected virtual void InitTextList() { }
 }

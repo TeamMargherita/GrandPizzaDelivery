@@ -4,7 +4,6 @@ using UnityEngine;
 using ConversationNS;
 public class PoliceInspecting : Conversation
 {
-    private int temInt = -1;
     public PoliceInspecting()
     {
         NpcTextStrArr = new string[24]
@@ -151,7 +150,7 @@ public class PoliceInspecting : Conversation
     /// <summary>
     /// 텍스트들을 연결해서 그래프로 만듦
     /// </summary>
-    private void InitTextList()
+    protected override void InitTextList()
     {
         startText = new int[3] { 0, 1, 2 };
 

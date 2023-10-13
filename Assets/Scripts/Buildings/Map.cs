@@ -51,7 +51,7 @@ public class Map : MonoBehaviour, IMap, IStop
     {   
         // 피자집에 마크를 붙인다.
         houseAddressList[36].IHouse.SetHouseType(houseMarkArr[0], HouseType.PIZZASTORE);
-
+        houseAddressList[66].IHouse.SetHouseType(houseMarkArr[1], HouseType.DICESTORE);
         MakeAPoliceCar(45);
     }
     private void test()

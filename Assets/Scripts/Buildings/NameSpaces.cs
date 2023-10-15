@@ -182,5 +182,28 @@ namespace ConversationNS
         }
     }
 
-    public enum MethodEnum { NONE, SETSIZECONTENTS, CHANGENPCIMAGE, CHANGEPLAYERIMAGE, SETRANDNPCTEXT, ENDPANEL, SPAWNPOLICE };
+    public enum MethodEnum { NONE, SETSIZECONTENTS, CHANGENPCIMAGE, CHANGEPLAYERIMAGE, SETRANDNPCTEXT, ENDPANEL, SPAWNPOLICE, OPENSTORE, SAVETEXTINDEX, SETISCONDITION };
+}
+
+namespace StoreNS
+{
+    public enum ItemType { NONE, DICE };
+
+    public struct ItemS
+	{
+        public ItemType Type;
+        public int MaxCnt;
+        public string Name;
+        public string Explain;
+        public int ItemNumber;
+
+        public ItemS (ItemType type, int maxCnt, string name, string explain, int itemNumber)
+		{
+            Type = type;
+            MaxCnt = maxCnt;
+            Name = name;
+            Explain = explain;
+            ItemNumber = itemNumber;
+		}
+	}
 }

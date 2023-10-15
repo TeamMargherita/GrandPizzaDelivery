@@ -15,6 +15,7 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText, ICoroutineD
 
     [SerializeField] private GameObject spawnChaser;
     [SerializeField] private GameObject uiControl;
+    [SerializeField] private GameObject storeManager;
     [SerializeField] private RectTransform scrollContents;
     [SerializeField] private Image npcFace;
     [SerializeField] private Image playerFace;
@@ -23,6 +24,7 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText, ICoroutineD
 
     private IInspectingPanelControl iInspectingPanelControl;
     private ISpawnCar iSpawnCar;
+    private IInitStore iInitStore;
 
     private RectTransform[] diceRectArr;
     private Image[] diceImgArr;
@@ -31,6 +33,7 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText, ICoroutineD
     private Sprite[] npcSprArr; // 상대 이미지 0 : 기분안좋음 1 : 기분좋음 2 : 화남 3 : 극대노
     private Coroutine diceCoroutine;    // 주사위를 굴릴 때 쓰는 코루틴
     private PoliceInspecting policeInspecting;  // 경찰의 불심검문이 담긴 대화 그래프 클래스
+    private DiceStore diceStore;    // 주사위 가게 대화 그래프 클래스
     private Conversation temCon;
     private bool isAwake = false;
 
@@ -41,6 +44,7 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText, ICoroutineD
         isAwake = true;
 
         policeInspecting = new PoliceInspecting();
+        diceStore = new DiceStore();
 
         playerTextArr = new Text[playerTextObjArr.Length];
         playerTextsArr = new PlayerTexts[playerTextObjArr.Length];
@@ -63,6 +67,7 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText, ICoroutineD
 
         iInspectingPanelControl = uiControl.GetComponent<IInspectingPanelControl>();
         iSpawnCar = spawnChaser.GetComponent<ISpawnCar>();
+        iInitStore = storeManager.GetComponent<IInitStore>();
     }
     /// <summary>
     /// 각종 이미지, 텍스트 초기화
@@ -90,30 +95,42 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText, ICoroutineD
                 npcSprArr = Resources.LoadAll<Sprite>("UI/Police_400_500");
                 InitConversation(policeInspecting);
                 break;
+            case 2:
+                npcSprArr = Resources.LoadAll<Sprite>("UI/DiceStore_400_500");
+                InitConversation(diceStore);
+                SetIInitStore();
+                break;
 		}
     }
     /// <summary>
     /// 대화 내용선택하기 위한 대화 클래스 멤버변수들 초기화
     /// </summary>
     /// <param name="con"></param>
-    public void InitConversation(Conversation con)
-	{
-        con.ScrollContents = scrollContents;
-        con.NpcFace = npcFace;
-        con.PlayerFace = playerFace;
-        con.NpcSprArr = npcSprArr;
-        con.PlayerSprArr = playerSprArr;
-        con.NpcText = npcText;
-        con.PlayerTextArr = playerTextArr;
-        con.PlayerTextsArr = playerTextsArr;
-        con.InspectingPanelControl = iInspectingPanelControl;
-        con.SpawnCar = iSpawnCar;
-        con.CoroutineDice = this;
+    private void InitConversation(Conversation con)
+    {
         temCon = con;
 
-        con.StartText();
-    }
+        temCon.ScrollContents = scrollContents;
+        temCon.NpcFace = npcFace;
+        temCon.PlayerFace = playerFace;
+        temCon.NpcSprArr = npcSprArr;
+        temCon.PlayerSprArr = playerSprArr;
+        temCon.NpcText = npcText;
+        temCon.PlayerTextArr = playerTextArr;
+        temCon.PlayerTextsArr = playerTextsArr;
+        temCon.InspectingPanelControl = iInspectingPanelControl;
+        temCon.SpawnCar = iSpawnCar;
+        temCon.CoroutineDice = this;
 
+        temCon.StartText();
+    }
+    /// <summary>
+    /// 가게 정보 초기화(가게 내에서 대화할 때만)
+    /// </summary>
+    private void SetIInitStore()
+	{
+        temCon.InitStore = iInitStore;
+	}
     /// <summary>
     /// 초상화 초기화
     /// </summary>
@@ -161,7 +178,7 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText, ICoroutineD
         if (isDiceRoll) { return; }
         InitPlayerText();
         InitDice();
-
+        Debug.Log($"{num} 전개 0");
         temCon.NextText(num);
 	}
     public void StartDice(int num)

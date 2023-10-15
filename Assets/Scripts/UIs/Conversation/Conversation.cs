@@ -4,7 +4,7 @@ using UnityEngine;
 using ConversationNS;
 using UnityEngine.UI;
 
-
+// 한석호 작성
 public class Conversation
 {
 
@@ -20,18 +20,45 @@ public class Conversation
 	public IInspectingPanelControl InspectingPanelControl { get; set; }
 	public ISpawnCar SpawnCar { get; set; }
 	public ICoroutineDice CoroutineDice { get; set; }
+	public IInitStore InitStore
+	{
+		get
+		{
+			return iInitStore;
+		}
+		set
+		{
+			iInitStore = value;
+			iInitStore.InitStore(store);
+		}
+	}
+	/// <summary>
+	/// 대사집. 
+	/// </summary>
 	public string[] NpcTextStrArr { get; protected set; }
 
 	public List<TextNodeC> TextList { get; protected set; }
+	/// <summary>
+	/// 상점에서 구입한 아이템 품목들
+	/// </summary>
+	protected Dictionary<StoreNS.ItemS, int> selectStoreItemDIc = new Dictionary<StoreNS.ItemS, int>();
+	protected Store store;
 
 	protected MethodS[] methodSArr;
-
+	
+	/// <summary>
+	/// 내가 선택한 대사의 번호. 예외로 -1은 시작지점, -5는 상점이 닫힌 직후 대사를 의미한다.
+	/// </summary>
 	protected int nowTextNum;
 	protected int[] nextTextNum;
 	protected bool[] nextTextIsAble;
 	protected int[] startText;
 	protected int temInt = -1;
-	public void PlayMethod(MethodS met)
+	protected bool isCondition = false;
+
+	private IInitStore iInitStore;
+	private bool isOpenStore = false;
+	public void PlayMethod(MethodS met, int num = -1)
     {
 		switch(met.MethodNum)
         {
@@ -45,13 +72,22 @@ public class Conversation
 				ChangePlayerImage(met.MethodParameter[0]);
 				break;
 			case MethodEnum.SETRANDNPCTEXT:
-				SetNpcText(met.MethodParameter);
+				SetNpcText(met.MethodParameter, num);
 				break;
 			case MethodEnum.ENDPANEL:
 				EndPanel();
 				break;
 			case MethodEnum.SPAWNPOLICE:
 				SpawnPolice(met.MethodParameter[0]);
+				break;
+			case MethodEnum.OPENSTORE:
+				OpenStore();
+				break;
+			case MethodEnum.SAVETEXTINDEX:
+				SaveTextIndex(met.MethodParameter[0]);
+				break;
+			case MethodEnum.SETISCONDITION:
+				SetISCondition();
 				break;
         }
     }
@@ -75,10 +111,33 @@ public class Conversation
     {
 		PlayerFace.sprite = PlayerSprArr[index];
 	}
-	public void SetNpcText(int[] arr)
-    {
-		NpcText.text = NpcTextStrArr[arr[Random.Range(0, arr.Length)]];
-    }
+	/// <summary>
+	/// 다음에 들어갈 NPC의 대사를 결정한다. -1이 들어가면 맨 처음 나온 대사가 재등장한다.
+	/// </summary>
+	/// <param name="arr"></param>
+	public void SetNpcText(int[] arr, int num = -1)
+	{
+		if (arr[0] == -1 && arr.Length == 1)
+		{
+			InitStartText();
+			NpcText.text = NpcTextStrArr[startText[Random.Range(0, startText.Length)]];
+		}
+		else
+		{
+			if (num == -1)
+			{
+				NpcText.text = NpcTextStrArr[arr[Random.Range(0, arr.Length)]];
+			}
+			else
+			{
+				NpcText.text = NpcTextStrArr[arr[Random.Range(0, arr.Length)]].Replace("$$$", num.ToString());
+			}
+		}
+	}
+	protected virtual void InitStartText()
+	{
+
+	}
 	public void EndPanel()
     {
 		InspectingPanelControl.ControlInspectUI(false, null, -1);
@@ -87,6 +146,50 @@ public class Conversation
     {
 		SpawnCar.SpawnCar(cnt);
     }
+	public void OpenStore()
+	{
+		isOpenStore = true;
+		InitStore.OpenStore();
+	}
+	public void CloseStore(int cost, Dictionary<StoreNS.ItemS, int> dic)
+	{
+		isOpenStore = false;
+		if (cost >= 0)
+		{
+			JumpConversation(cost);
+			selectStoreItemDIc = dic;
+		}
+		else
+		{
+			JumpConversation();
+			selectStoreItemDIc = dic;
+		}
+	}
+	protected void AddPlayerItemDic()
+	{
+		Debug.Log($"{selectStoreItemDIc.Count} 카운트 ");
+		foreach (var key in selectStoreItemDIc.Keys)
+		{
+			if (Constant.PlayerItemDIc.ContainsKey(key))
+			{
+				Constant.PlayerItemDIc[key] += selectStoreItemDIc[key];
+			}
+			else
+			{
+				Constant.PlayerItemDIc.Add(key, selectStoreItemDIc[key]);
+			}
+		}
+		InitStore.InitSelectItemCnt();
+		selectStoreItemDIc.Clear();
+	}
+	/// <summary>
+	/// 대화도중 다른 상황으로 넘어갔을 때 대화 진행을 저장하기 위함
+	/// </summary>
+	/// <param name="ind"></param>
+	public void SaveTextIndex(int ind)
+	{
+		temInt = ind;
+	}
 	public void DiceRoll(int num)
 	{
 		CoroutineDice.StartDice(num);
@@ -99,6 +202,21 @@ public class Conversation
     {
 
     }
+	public virtual void JumpConversation()
+	{
+
+	}
+	public virtual void JumpConversation(int num)
+	{
+
+	}
+	/// <summary>
+	/// 오버로딩된 SettingConversation 메소드를 사용하고 싶다면 isCondition을 켜주는 해당 메소드가 실행되어야 한다.
+	/// </summary>
+	protected void SetISCondition()
+	{
+		isCondition = true;
+	}
 	protected int Findidx(int nowTextNum, int[] methodParamArr)
     {
 		return TextList.FindIndex(
@@ -112,11 +230,13 @@ public class Conversation
 	{
 		NpcText.text = NpcTextStrArr[startText[Random.Range(0, startText.Length)]];
 
-		//int index = System.Array.FindIndex<string>(NpcTextStrArr, a => a.Equals(NpcText.text));
 		int index2 = TextList.FindIndex(a => a.NowTextNum == -1);
 		SettingConversation(index2);
 	}
-	
+	/// <summary>
+	/// 어느 텍스트로 넘어가야 할지 대사 인덱스를 결정해준다.
+	/// </summary>
+	/// <param name="ind"></param>
 	public void NextText(int ind)
 	{
 		List<TextNodeC> tem = TextList.FindAll(a => a.NowTextNum == ind);
@@ -125,23 +245,67 @@ public class Conversation
 		if (tem.Count > 1) 
 		{
 			index2 = Bifurcation(tem);
+			Debug.Log($"{index2} 전개 0.4");
+			if (isCondition) { isCondition = false; }
+		}
+		else if (isCondition)
+		{
+			isCondition = false;
+			Bifurcation(tem);
+			Debug.Log($"{tem} 전개 0.8");
+			return;
 		}
 		else 
 		{
 			index2 = TextList.FindIndex(a => a.NowTextNum == ind);
 		}
+		Debug.Log($"{index2} 전개 1");
 		SettingConversation(index2);
 	}
+	/// <summary>
+	/// 인덱스가 index2인 곳의 대사로 넘어가고, 그에 따른 메소드를 실행시켜 세팅을 한다. -100이 인덱스로 들어오면 즉시 반환한다.
+	/// </summary>
+	/// <param name="index2">대사 배열의 인덱스</param>
 	protected void SettingConversation(int index2)
 	{
 		if (index2 == -100) { return; }
 
 		for (int i = 0; i < TextList[index2].MethodSArr.Length; i++)
 		{
+			Debug.Log($"{index2} 전개 2");
 			PlayMethod(TextList[index2].MethodSArr[i]);
 		}
 
 		if (TextList[index2].NextTextNum.Length == 1 && TextList[index2].NextTextNum[0] == -1) { return; }
+		if (TextList[index2].NextTextNum.Length == 0) { return; }
+
+		for (int i = 0; i < TextList[index2].NextTextNum.Length; i++)
+		{
+			if (!TextList[index2].NextTextIsAble[i])
+			{
+				if (!Condition(TextList[index2].NextTextNum[i])) { continue; }
+			}
+			PlayerTextArr[i].gameObject.SetActive(true);
+			PlayerTextArr[i].text = NpcTextStrArr[TextList[index2].NextTextNum[i]];
+			PlayerTextsArr[i].TextNum = TextList[index2].NextTextNum[i];
+		}
+	}
+	/// <summary>
+	/// 인덱스가 index2인 곳의 대사로 넘어가고, 그에 따른 메소드를 실행시켜 세팅을 한다. -100이 인덱스로 들어오면 즉시 반환한다.
+	/// </summary>
+	/// <param name="index2">대사 배열의 인덱스</param>
+	/// <param name="num">치환할 수 </param>
+	protected void SettingConversation(int index2, int num)
+	{
+		if (index2 == -100) { return; }
+
+		for (int i = 0; i < TextList[index2].MethodSArr.Length; i++)
+		{
+			PlayMethod(TextList[index2].MethodSArr[i], num);
+		}
+
+		if (TextList[index2].NextTextNum.Length == 1 && TextList[index2].NextTextNum[0] == -1) { return; }
+		if (TextList[index2].NextTextNum.Length == 0) { return; }
 
 		for (int i = 0; i < TextList[index2].NextTextNum.Length; i++)
 		{

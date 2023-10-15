@@ -189,3 +189,19 @@ public interface ICoroutineDice
 {
     public void StartDice(int num);
 }
+/// <summary>
+/// 상점 정보 초기화하는 인터페이스
+/// </summary>
+public interface IInitStore
+{
+    public void InitStore(Store store);
+    public void OpenStore();
+    public void InitSelectItemCnt();
+}
+/// <summary>
+/// 상점을 닫는 인터페이스
+/// </summary>
+public interface ICloseStore
+{
+    public void CloseStore(int cost, Dictionary<StoreNS.ItemS, int> dic);
+}

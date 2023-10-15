@@ -102,7 +102,7 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
         isPizzaAddButtonBlank = true;
     }
     /// <summary>
-    /// 불심검문창 열고닫기
+    /// 대화창 열고닫기
     /// </summary>
     /// <param name="isOn"></param>
     /// <param name="iEndInspecting"></param>
@@ -122,8 +122,11 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
         else if (!isOn && inspectingHeight >= 1080)
         {
             isInspecting = false;
-            this.iEndInspecting.EndInspecting();
-            this.iEndInspecting = null;
+            if (this.iEndInspecting != null)
+            {
+                this.iEndInspecting.EndInspecting();
+                this.iEndInspecting = null;
+            }
         }
         ChasePoliceCar.isStop = isOn;
     }
@@ -223,8 +226,10 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
             inspectingHeight = 0;
             inspectTrans.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, inspectingHeight);
             inspectingPanel.SetActive(false);
+            iStop.StopMap(false);
+            ChasePoliceCar.isStop = false;
         }
-        
+
         if (isPizzaStore && pizzaStoreHeight < 1080)
         {
             pizzaStoreHeight += 40;
@@ -312,6 +317,10 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
                     iStop.StopMap(true);
                     // 피자창 활성화
                     ControlPizzaStore(true);
+                    break;
+                case HouseType.DICESTORE:
+                    iStop.StopMap(true);
+                    ControlInspectUI(true, null, 2);
                     break;
             }
         }

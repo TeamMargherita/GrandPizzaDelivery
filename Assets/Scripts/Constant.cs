@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using PizzaNS;
 using ClerkNS;
+using StoreNS;
 
 // 한석호 작성
 public static class Constant
@@ -50,5 +51,67 @@ public static class Constant
 	/// 고용한 점원 리스트
 	/// </summary>
 	public static List<ClerkC> ClerkList = new List<ClerkC>();
-	
+	/// <summary>
+	/// 플레이어가 소지한 아이템. ItemS의 ItemType으로 아이템들을 분류할 수 있다. int는 소지 개수
+	/// </summary>
+	public static Dictionary<ItemS, int> PlayerItemDIc = new Dictionary<ItemS, int>();
+	/// <summary>
+	/// 같은 타입의 아이템을 담은 딕셔너리만을 찾아서 Dictionary<ItemS, int> 형으로 리턴한다.
+	/// </summary>
+	/// <param name="dic"></param>
+	/// <param name="type"></param>
+	/// <returns></returns>
+	public static Dictionary<ItemS, int> FindAllItemS(this Dictionary<ItemS, int> dic, ItemType type)
+	{
+		Dictionary<ItemS, int> dictionary = new Dictionary<ItemS, int>();
+		foreach (var key in dic.Keys)
+		{
+			if (key.Type == type)
+			{
+				dictionary.Add(key, dic[key]);
+			}
+		}
+
+		return dictionary;
+	}
+	/// <summary>
+	/// 인덱스의 존재 여부를 확인하는 확장메서드
+	/// </summary>
+	/// <param name="dic"></param>
+	/// <param name="index"></param>
+	/// <returns></returns>
+	public static bool CheckIndexDic(this Dictionary<ItemS, int> dic, int index)
+	{
+		if (dic.Count > index) { return true; }
+		else { return false; }
+	}
+	/// <summary>
+	/// 인덱스에 맞는 키를 찾는 확장 메서드
+	/// </summary>
+	/// <param name="dic"></param>
+	/// <param name="index"></param>
+	/// <returns></returns>
+	public static ItemS? FindKeyForIndex(this Dictionary<ItemS, int> dic, int index)
+	{
+		if (dic.Count <= index) { return null; }
+		int n = 0;
+		foreach (var key in dic.Keys)
+		{
+			if (index == n) { return key; }
+			n++;
+		}
+		return null;
+	}
+	public static ItemS[] DiceItem = new ItemS[9]
+	{
+		new ItemS(ItemType.DICE, 1, "고무 주사위", "고무로 만든 주사위다. \n 주사위 각 면은 0,1,2,3,4,5 을 상징한다.", 0),
+		new ItemS(ItemType.DICE, 1, "금속 주사위", "금속으로 만든 주사위다. \n 주사위 각 면은 3,4,5,6,7,8 을 상징한다.", 1),
+		new ItemS(ItemType.DICE, 1, "8면 주사위", "8면으로 된 주사위다. \n 주사위 각 면은 2,2,3,3,4,4,5,6 을 상징한다.", 2),
+		new ItemS(ItemType.DICE, 1, "12면 주사위", "12면으로 된 주사위다. \n 주사위 각 면은 \n1,2,3,3,4,4,5,5,6,7,8,9 을 상징한다.", 3),
+		new ItemS(ItemType.DICE, 1, "짝수 주사위", "짝수만 존재하는 주사위다. \n 주사위 각 면은 2,2,4,4,6,6 을 상징한다.", 4),
+		new ItemS(ItemType.DICE, 1, "홀수 주사위", "홀수만 존재하는 주사위다. \n 주사위 각 면은 1,1,3,3,5,5 을 상징한다.", 5),
+		new ItemS(ItemType.DICE, 1, "소수 주사위", "소수만 존재하는 주사위다. \n 주사위 각 면은 2,3,5,7,11,13 을 상징한다.", 6),
+		new ItemS(ItemType.DICE, 1, "흑백 주사위", "숫자가 둘 뿐인 주사위다. \n 주사위 각 면은 1,1,1,1,1,15 을 상징한다.", 7),
+		new ItemS(ItemType.DICE, 1, "나무 주사위", "나무로 만든 주사위다. \n 주사위 각 면은 2,3,4,5,6,7 을 상징한다.", 8)
+	};
 }

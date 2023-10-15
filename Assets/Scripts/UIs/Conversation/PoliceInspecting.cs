@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using ConversationNS;
+
+// 한석호 작성
 public class PoliceInspecting : Conversation
 {
     public PoliceInspecting()
@@ -17,7 +19,7 @@ public class PoliceInspecting : Conversation
             "잠시 검문을 해야겠어.", // 6
             "피자 냄새가 나는거 같은데? 검문좀 해야겠어.",    // 7
             "한번 살펴보세요. 불법 음식같은 건 없어요.", // 8
-            "(설득 주사위 7 이상) 설마 이상한 거라도 있을까봐요? 이봐요, 이 도시에 피자집은 한 곳 뿐이고, \n저희는 언제든지 주문 내역을 공개할 의사가 있어요. 그러니 불시에 이런 짓은 하지 말아주세요.",   // 9
+            "(설득 주사위 합 7 이상) 설마 이상한 거라도 있을까봐요? 이봐요, 이 도시에 피자집은 한 곳 뿐이고, \n저희는 언제든지 주문 내역을 공개할 의사가 있어요. 그러니 불시에 이런 짓은 하지 말아주세요.",   // 9
             "(20000원을 준다.)흠...그만 가봐도 되겠습니까?",   // 10
             "이런 파인애플 피자잖아 ! 이런 불법음식을 소지하고 있다니...이건 압수야. \n벌금은 그쪽 가게에 통지할테니 다음부턴 이런 짓 하지마 !",  // 11
             "좋아. 가봐도 좋다.",  // 12
@@ -150,14 +152,14 @@ public class PoliceInspecting : Conversation
     /// <summary>
     /// 텍스트들을 연결해서 그래프로 만듦
     /// </summary>
+    /// 경찰 이미지  0 : 기분좋음 1 : 기분 안좋음 2 : 화남 3 : 극대노
     protected override void InitTextList()
     {
         startText = new int[3] { 0, 1, 2 };
 
         nowTextNum = -1; nextTextNum = new int[2] { 3, 4 }; nextTextIsAble = new bool[2] { true, true };
-        methodSArr = new MethodS[4]
+        methodSArr = new MethodS[3]
         {
-            new MethodS(MethodEnum.SETRANDNPCTEXT, new int[3] { 0, 1, 2} ),
             new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 200 } ),
             new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 0 } ),
             new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 0 } )

@@ -102,7 +102,7 @@ public static class Constant
 		}
 		return null;
 	}
-	public static ItemS[] DiceItem = new ItemS[9]
+	public static ItemS[] DiceItem = new ItemS[10]
 	{
 		new ItemS(ItemType.DICE, 1, "고무 주사위", "고무로 만든 주사위다. \n 주사위 각 면은 0,1,2,3,4,5 을 상징한다.", 0),
 		new ItemS(ItemType.DICE, 1, "금속 주사위", "금속으로 만든 주사위다. \n 주사위 각 면은 3,4,5,6,7,8 을 상징한다.", 1),
@@ -112,6 +112,23 @@ public static class Constant
 		new ItemS(ItemType.DICE, 1, "홀수 주사위", "홀수만 존재하는 주사위다. \n 주사위 각 면은 1,1,3,3,5,5 을 상징한다.", 5),
 		new ItemS(ItemType.DICE, 1, "소수 주사위", "소수만 존재하는 주사위다. \n 주사위 각 면은 2,3,5,7,11,13 을 상징한다.", 6),
 		new ItemS(ItemType.DICE, 1, "흑백 주사위", "숫자가 둘 뿐인 주사위다. \n 주사위 각 면은 1,1,1,1,1,15 을 상징한다.", 7),
-		new ItemS(ItemType.DICE, 1, "나무 주사위", "나무로 만든 주사위다. \n 주사위 각 면은 2,3,4,5,6,7 을 상징한다.", 8)
+		new ItemS(ItemType.DICE, 1, "나무 주사위", "나무로 만든 주사위다. \n 주사위 각 면은 2,3,4,5,6,7 을 상징한다.", 8),
+		new ItemS(ItemType.DICE, 1, "플라스틱 주사위", "플라스틱으로 만든 주사위다. \n 주사위 각 면은 1,2,3,4,5,6 을 상징한다.", 9)
 	};
+
+	public static DiceS[] DiceInfo = new DiceS[10]
+	{
+		new DiceS(6, new int[6] { 0, 1, 2, 3, 4, 5} , "UI/MiniDice_80_80"),
+		new DiceS(6, new int[6] { 3, 4, 5, 6, 7, 8} , "UI/MiniDice_80_80"),
+		new DiceS(8, new int[8] { 2, 2, 3, 3, 4, 4, 5, 6} , "UI/MiniDice_80_80"),
+		new DiceS(12, new int[12] { 1, 2, 3, 3, 4, 4, 5, 5, 6, 7, 8, 9} , "UI/MiniDice_80_80"),
+		new DiceS(6, new int[6] { 2, 2, 4, 4, 6, 6} , "UI/MiniDice_80_80"),
+		new DiceS(6, new int[6] { 1, 1, 3, 3, 5, 5} , "UI/MiniDice_80_80"),
+		new DiceS(6, new int[6] { 2, 3, 5, 7, 11, 13} , "UI/MiniDice_80_80"),
+		new DiceS(6, new int[6] { 1, 1, 1, 1, 1, 15} , "UI/MiniDice_80_80"),
+		new DiceS(6, new int[6] { 2, 3, 4, 5, 6, 7} , "UI/MiniDice_80_80"),
+		new DiceS(6, new int[6] { 0, 1, 2, 3, 4, 5} , "UI/MiniDice_80_80")
+	};
+
+	public static int[] nowDice = new int[2] { 9, 9 };
 }

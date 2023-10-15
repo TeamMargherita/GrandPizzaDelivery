@@ -206,4 +206,18 @@ namespace StoreNS
             ItemNumber = itemNumber;
 		}
 	}
+
+    public struct DiceS
+	{
+        public int DiceCnt;
+        public int[] DiceArr;
+        public string Path;
+
+        public DiceS(int diceCnt, int[] diceArr, string path)
+		{
+            DiceCnt = diceCnt;
+            DiceArr = diceArr;
+            Path = path;
+        }
+	}
 }

@@ -9,10 +9,8 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText, ICoroutineD
 {
     [SerializeField] private GameObject[] diceObjArr;
     [SerializeField] private GameObject[] playerTextObjArr;
-    [SerializeField] private Sprite[] diceSprArr;
     [SerializeField] private Sprite[] policeSprArr; // 0 : 기분좋음 1 : 기분 안좋음 2 : 화남 3 : 극대노
     [SerializeField] private Sprite[] playerSprArr; // 0 : 보통 1 : 설득중 2 : 개무시 3 : 쩔쩔맴
-
     [SerializeField] private GameObject spawnChaser;
     [SerializeField] private GameObject uiControl;
     [SerializeField] private GameObject storeManager;
@@ -31,6 +29,8 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText, ICoroutineD
     private Text[] playerTextArr;
     private PlayerTexts[] playerTextsArr;
     private Sprite[] npcSprArr; // 상대 이미지 0 : 기분안좋음 1 : 기분좋음 2 : 화남 3 : 극대노
+    private Sprite[] firstDiceSprArr;
+    private Sprite[] secondDiceSprArr;
     private Coroutine diceCoroutine;    // 주사위를 굴릴 때 쓰는 코루틴
     private PoliceInspecting policeInspecting;  // 경찰의 불심검문이 담긴 대화 그래프 클래스
     private DiceStore diceStore;    // 주사위 가게 대화 그래프 클래스
@@ -75,6 +75,8 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText, ICoroutineD
     private void InitOnEnable()
 	{
         this.gameObject.SetActive(true);
+        firstDiceSprArr = Resources.LoadAll<Sprite>(Constant.DiceInfo[Constant.nowDice[0]].Path);
+        secondDiceSprArr = Resources.LoadAll<Sprite>(Constant.DiceInfo[Constant.nowDice[1]].Path);
         if (!isAwake) { Awake(); }
         InitPoliceText();
         InitPlayerText();
@@ -145,10 +147,10 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText, ICoroutineD
     /// </summary>
     private void InitDice()
     {
-        for (int i = 0; i < diceObjArr.Length; i++)
-        {
-            diceImgArr[i].sprite = diceSprArr[0];
-        }
+
+        diceImgArr[0].sprite = firstDiceSprArr[0];
+        diceImgArr[1].sprite = secondDiceSprArr[0];
+
         diceSuccessText.text = "";
     }
 
@@ -204,18 +206,18 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText, ICoroutineD
             for (int i = 0; i < 20; i++)
             {
                 // 주사위 모양을 보여준다.
-                dice1 = Random.Range(1, 7);
-                dice2 = Random.Range(1, 7);
+                dice1 = Random.Range(0, firstDiceSprArr.Length);
+                dice2 = Random.Range(0, secondDiceSprArr.Length);
 
-                diceImgArr[0].sprite = diceSprArr[dice1 - 1];
-                diceImgArr[1].sprite = diceSprArr[dice2 - 1];
+                diceImgArr[0].sprite = firstDiceSprArr[dice1];
+                diceImgArr[1].sprite = secondDiceSprArr[dice2];
 
                 for (int j = 0; j < diceRectArr.Length; j++)
                 {
                     diceRectArr[j].anchoredPosition = originVec[j] + Vector3.Normalize(new Vector3(Random.Range(0, 100), 0, Random.Range(0, 100))) * 10f;
                 }
 
-                rand = dice1 + dice2;
+                rand = Constant.DiceInfo[Constant.nowDice[0]].DiceArr[dice1] + Constant.DiceInfo[Constant.nowDice[1]].DiceArr[dice2];
 
                 yield return Constant.OneTime;
                 yield return Constant.OneTime;

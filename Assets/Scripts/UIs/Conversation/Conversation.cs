@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using ConversationNS;
 using UnityEngine.UI;
+using StoreNS;
 
 // 한석호 작성
 public class Conversation
@@ -41,7 +42,7 @@ public class Conversation
 	/// <summary>
 	/// 상점에서 구입한 아이템 품목들
 	/// </summary>
-	protected Dictionary<StoreNS.ItemS, int> selectStoreItemDIc = new Dictionary<StoreNS.ItemS, int>();
+	protected Dictionary<ItemS, int> selectStoreItemDIc = new Dictionary<ItemS, int>();
 	protected Store store;
 
 	protected MethodS[] methodSArr;
@@ -151,7 +152,7 @@ public class Conversation
 		isOpenStore = true;
 		InitStore.OpenStore();
 	}
-	public void CloseStore(int cost, Dictionary<StoreNS.ItemS, int> dic)
+	public void CloseStore(int cost, Dictionary<ItemS, int> dic)
 	{
 		isOpenStore = false;
 		if (cost >= 0)

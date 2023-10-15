@@ -5,7 +5,7 @@ using PoliceNS.PolicePathNS;
 using PoliceNS.PoliceStateNS;
 using BuildingAddressNS;
 using BuildingNS.HouseNS;
-
+using StoreNS;
 // 한석호 작성
 
 public interface IAddress
@@ -203,5 +203,5 @@ public interface IInitStore
 /// </summary>
 public interface ICloseStore
 {
-    public void CloseStore(int cost, Dictionary<StoreNS.ItemS, int> dic);
+    public void CloseStore(int cost, Dictionary<ItemS, int> dic);
 }

@@ -29,7 +29,7 @@ public interface IBuilding
 public interface IPoliceCar
 {
     public void InitPoliceCarPath(List<PolicePath> policePathList);
-    public void SetIInspectingPanelControl(IInspectingPanelControl iInspectingPanelControl);
+    public void SetIInspectingPanelControl(IConversationPanelControl iInspectingPanelControl);
     public void SetPlayerMove(PlayerMove playerMove);
     //public void SetPoliceSmokeEffect(ISetTransform iSetTransform);
     public Rigidbody2D GetRigidBody2D();
@@ -62,10 +62,12 @@ public interface IInspectingPoliceCarControl
 {
     public void SetPoliceState(PoliceState policeState);
 }
-
-public interface IInspectingPanelControl
+/// <summary>
+/// 대화창 UI를 제어하기 위한 인터페이스
+/// </summary>
+public interface IConversationPanelControl
 {
-    public void ControlInspectUI(bool isOn, IEndInspecting iEndInspecting, int type);
+    public void ControlConversationUI(bool isOn, IEndConversation iEndInspecting, int type);
 }
 public interface IDeliveryPanelControl
 {
@@ -82,10 +84,12 @@ public interface IInspectingUIText
 {
     public void ChoiceText(int num);
 }
-
-public interface IEndInspecting
+/// <summary>
+/// 대화창 UI를 끝냈을 때 실행할 일들을 다루는 함수가 담긴 인터페이스
+/// </summary>
+public interface IEndConversation
 {
-    public void EndInspecting();
+    public void EndConversation();
 }
 public interface IHouse
 {
@@ -107,6 +111,9 @@ public interface IMap
     public void AddAddress(AddressS addressS);
     public float RemoveAddress(AddressS addressS);
 }
+/// <summary>
+/// 경찰을 전부 멈추거나(맵 일시정지 효과) 파괴된 경찰을 삭제하기 위한 함수를 담은 인터페이스. 
+/// </summary>
 public interface IStop
 {
     public void StopMap(bool bo);
@@ -204,4 +211,9 @@ public interface IInitStore
 public interface ICloseStore
 {
     public void CloseStore(int cost, Dictionary<ItemS, int> dic);
+}
+
+public interface ICheckIsGreen
+{
+    public bool CheckIsGreen();
 }

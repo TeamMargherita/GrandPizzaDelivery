@@ -136,4 +136,9 @@ public abstract class Police : MonoBehaviour
     {
         this.iStop = iStop;
     }
+
+    public virtual void PausePoliceCar(bool bo)
+    {
+
+    }
 }

@@ -5,7 +5,7 @@ using BuildingNS.HouseNS;
 
 // 한석호 작성
 
-public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelControl, IHouseActiveUIControl, IAlarmMessagePanel
+public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPanelControl, IHouseActiveUIControl, IAlarmMessagePanel
 {
     [SerializeField] private GameObject inspectingPanel;
     [SerializeField] private GameObject inspectingMaskPanel;
@@ -21,7 +21,7 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
     [SerializeField] private UnityEngine.UI.Image addPizzaImg;
     [SerializeField] private UnityEngine.UI.Text alarmMessageText;
 
-    private IEndInspecting iEndInspecting;
+    private IEndConversation iEndInspecting;
     private IHouse iHouse;
     private IStop iStop;
 
@@ -106,7 +106,7 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
     /// </summary>
     /// <param name="isOn"></param>
     /// <param name="iEndInspecting"></param>
-    public void ControlInspectUI(bool isOn, IEndInspecting iEndInspecting, int type)
+    public void ControlConversationUI(bool isOn, IEndConversation iEndInspecting, int type)
     {
         if (iEndInspecting != null)
 		{
@@ -124,7 +124,7 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
             isInspecting = false;
             if (this.iEndInspecting != null)
             {
-                this.iEndInspecting.EndInspecting();
+                this.iEndInspecting.EndConversation();
                 this.iEndInspecting = null;
             }
         }
@@ -320,7 +320,7 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
                     break;
                 case HouseType.DICESTORE:
                     iStop.StopMap(true);
-                    ControlInspectUI(true, null, 2);
+                    ControlConversationUI(true, null, 2);
                     break;
             }
         }

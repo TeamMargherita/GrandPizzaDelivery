@@ -6,7 +6,7 @@ using PoliceNS.PoliceStateNS;
 
 // 한석호 작성
 
-public class PoliceCar : Police, IPoliceCar, IMovingPoliceCarControl, IInspectingPoliceCarControl, IEndInspecting, IPriorityCode
+public class PoliceCar : Police, IPoliceCar, IMovingPoliceCarControl, IInspectingPoliceCarControl, IEndConversation, IPriorityCode
 {
     [SerializeField] private GameObject checkColObj;    // 이동 시 충돌을 방지하기 위한 콜라이더
     [SerializeField] private GameObject stopCheckColObj;    // 정지 시, 불심검문을 위한 콜라이더
@@ -339,6 +339,21 @@ public class PoliceCar : Police, IPoliceCar, IMovingPoliceCarControl, IInspectin
 	{
         iStop.RemovePoliceList(this);
 	}
+    /// <summary>
+    /// 경찰차 일시 정지. 풀리면 이동한다.
+    /// </summary>
+    /// <param name="bo"></param>
+    public override void PausePoliceCar(bool bo)
+    {
+        if (bo)
+        {
+            policeState = PoliceState.NONE;
+        }
+        else
+        {
+            policeState = PoliceState.MOVING;
+        }
+    }
     void FixedUpdate()
     {
         if (isStop) { return; }
@@ -418,14 +433,14 @@ public class PoliceCar : Police, IPoliceCar, IMovingPoliceCarControl, IInspectin
     /// 불심검문중 상태가 끝나고 경찰차의 상태를 이동 상태로 바꿔준다. 그 외에
     /// 플레이어 제어권이나, 불심검문중인 상태가 아님을 나타내기 위해 변수값을 바꿔준다.
     /// </summary>
-    public void EndInspecting()
+    public void EndConversation()
 	{
         playerMove.Stop = false;
         IsInspecting = false;
         this.policeState = PoliceState.MOVING;
         InitState(false);
 	}
-    public void SetIInspectingPanelControl(IInspectingPanelControl iInspectingPanelControl)
+    public void SetIInspectingPanelControl(IConversationPanelControl iInspectingPanelControl)
     {
         stopCheckColObj.GetComponent<StopPoliceCarCollisionCheck>().SetIInspectingPanelControl(iInspectingPanelControl);
     }

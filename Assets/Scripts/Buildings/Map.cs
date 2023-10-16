@@ -94,7 +94,7 @@ public class Map : MonoBehaviour, IMap, IStop
                     {
                         policeCar.GetComponent<IPoliceCar>().InitPoliceCarPath(buildingList[ran].GetPolicePath());
                     }
-                    policeCar.GetComponent<IPoliceCar>().SetIInspectingPanelControl(uiControlObj.GetComponent<IInspectingPanelControl>());
+                    policeCar.GetComponent<IPoliceCar>().SetIInspectingPanelControl(uiControlObj.GetComponent<IConversationPanelControl>());
                 }
                 if (policeCar.GetComponent<Police>() != null)
 				{

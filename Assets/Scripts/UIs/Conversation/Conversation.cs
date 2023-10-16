@@ -18,7 +18,7 @@ public class Conversation
 	public  Text[] PlayerTextArr { get; set; }
 	public  PlayerTexts[] PlayerTextsArr { get; set; }
 
-	public IInspectingPanelControl InspectingPanelControl { get; set; }
+	public IConversationPanelControl InspectingPanelControl { get; set; }
 	public ISpawnCar SpawnCar { get; set; }
 	public ICoroutineDice CoroutineDice { get; set; }
 	public IInitStore InitStore
@@ -141,7 +141,7 @@ public class Conversation
 	}
 	public void EndPanel()
     {
-		InspectingPanelControl.ControlInspectUI(false, null, -1);
+		InspectingPanelControl.ControlConversationUI(false, null, -1);
 	}
 	public void SpawnPolice(int cnt)
     {
@@ -168,7 +168,7 @@ public class Conversation
 	}
 	protected void AddPlayerItemDic()
 	{
-		Debug.Log($"{selectStoreItemDIc.Count} 카운트 ");
+		//Debug.Log($"{selectStoreItemDIc.Count} 카운트 ");
 		foreach (var key in selectStoreItemDIc.Keys)
 		{
 			if (Constant.PlayerItemDIc.ContainsKey(key))
@@ -246,21 +246,21 @@ public class Conversation
 		if (tem.Count > 1) 
 		{
 			index2 = Bifurcation(tem);
-			Debug.Log($"{index2} 전개 0.4");
+			//Debug.Log($"{index2} 전개 0.4");
 			if (isCondition) { isCondition = false; }
 		}
 		else if (isCondition)
 		{
 			isCondition = false;
 			Bifurcation(tem);
-			Debug.Log($"{tem} 전개 0.8");
+			//Debug.Log($"{tem} 전개 0.8");
 			return;
 		}
 		else 
 		{
 			index2 = TextList.FindIndex(a => a.NowTextNum == ind);
 		}
-		Debug.Log($"{index2} 전개 1");
+		//Debug.Log($"{index2} 전개 1");
 		SettingConversation(index2);
 	}
 	/// <summary>
@@ -273,7 +273,7 @@ public class Conversation
 
 		for (int i = 0; i < TextList[index2].MethodSArr.Length; i++)
 		{
-			Debug.Log($"{index2} 전개 2");
+			//Debug.Log($"{index2} 전개 2");
 			PlayMethod(TextList[index2].MethodSArr[i]);
 		}
 

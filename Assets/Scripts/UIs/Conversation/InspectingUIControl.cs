@@ -20,7 +20,7 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText, ICoroutineD
     [SerializeField] private Text diceSuccessText;
     [SerializeField] private Text npcText;
 
-    private IInspectingPanelControl iInspectingPanelControl;
+    private IConversationPanelControl iInspectingPanelControl;
     private ISpawnCar iSpawnCar;
     private IInitStore iInitStore;
 
@@ -65,7 +65,7 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText, ICoroutineD
             diceRectArr[i] = diceObjArr[i].GetComponent<RectTransform>();
 		}
 
-        iInspectingPanelControl = uiControl.GetComponent<IInspectingPanelControl>();
+        iInspectingPanelControl = uiControl.GetComponent<IConversationPanelControl>();
         iSpawnCar = spawnChaser.GetComponent<ISpawnCar>();
         iInitStore = storeManager.GetComponent<IInitStore>();
     }

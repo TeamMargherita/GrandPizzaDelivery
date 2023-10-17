@@ -165,7 +165,8 @@ public class MakingPizza : MonoBehaviour
 		{
             if (makingPizzaPanelClass[i].ComparePizza(temPizza))
 			{
-                makingPizzaPanelArr[i].SetActive(false);
+                makingPizzaPanelClass[i].SetMainPanelRect(0f);
+                makingPizzaPanelClass[i].gameObject.SetActive(false);
                 break;
 			}
 		}
@@ -173,7 +174,7 @@ public class MakingPizza : MonoBehaviour
         int ind = 0;
         for (int i = 0; i < makingPizzaPanelArr.Length; i++)
 		{
-            if (makingPizzaPanelArr[i].activeSelf)
+            if (makingPizzaPanelArr[i].activeSelf && makingPizzaPanelArr[i].transform.GetChild(1).GetComponent<RectTransform>().rect.width == 0f)
 			{
                 makingPizzaPanelRect[i].localPosition = new Vector3(0, 260 - (140 * ind));
                 ind++;

@@ -17,10 +17,11 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
     [SerializeField] private GameObject pizzaMenuPanel;
     [SerializeField] private GameObject employeeRecruitPanel;
     [SerializeField] private GameObject alarmMessagePanel;
+    [SerializeField] private GameObject DeliveryJudgmentPanel;
 
     [SerializeField] private UnityEngine.UI.Image addPizzaImg;
     [SerializeField] private UnityEngine.UI.Text alarmMessageText;
-
+     
     private IEndInspecting iEndInspecting;
     private IHouse iHouse;
     private IStop iStop;
@@ -50,7 +51,7 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
     private bool isAlarmMessage = false;    // 알람 메시지 창이 떠야하는지 여부
     private bool isColor = false;
 
-    public GameObject Inventory;
+    public GameObject PizzaInventory;
     public InventoryManager InventoryManager;
     void Awake()
     {
@@ -62,7 +63,7 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
 		{
             DirectADdPizzaMenu();
         }
-        Inventory = GameObject.FindWithTag("Inventory").transform.GetChild(0).gameObject;
+        //PizzaInventory = GameObject.FindWithTag("PizzaInventory");
     }
     private void Caching()
 	{
@@ -187,13 +188,20 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
 
         //iHouse.DisableHouse();
         deliveryPanel.SetActive(false);
-        Inventory.SetActive(true);
-        InventoryManager.InventoryActive = true;
-        InventoryManager.inventoryDisplay();
+        //PizzaInventory.SetActive(true);
+        //InventoryManager.InventoryActive = true;
+        //InventoryManager.CurrentInventory = PizzaInventory;
+        InventoryManager.OnClickDelivery();
+        InventoryManager.inventoryTextUpdate(PizzaInventory.name);
     }
     public void NODeliveryUI()
     {
         deliveryPanel.SetActive(false);
+    }
+
+    public void OKDeliveryJudgmentPanel()
+    {
+        DeliveryJudgmentPanel.SetActive(false);
     }
 
     public void ActiveTrueKeyExplainPanel(bool bo)

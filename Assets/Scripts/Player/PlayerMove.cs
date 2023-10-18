@@ -18,7 +18,7 @@ public class PlayerMove : PlayerStat
         if (Input.GetKeyDown(KeyCode.X))
         {
             InventoryManagerScript.InventoryAddItem(MakingPizzaScript.GetInvenPizzaList(0));
-            InventoryManagerScript.inventoryDisplay();
+            InventoryManagerScript.inventoryTextUpdate("PizzaInventory");
         }
         if (!Stop && !bananaTrigger)
         {
@@ -98,6 +98,12 @@ public class PlayerMove : PlayerStat
             }
             yield return null;
         }
+    }
+
+    IEnumerator HPBarUpdate()
+    {
+
+        yield return null;
     }
 
     private void OnTriggerEnter2D(Collider2D other)

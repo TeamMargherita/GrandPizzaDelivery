@@ -34,7 +34,6 @@ public class SendDeliveryRequest : MonoBehaviour
     {
         if (GameManager.Instance.PizzaMenu.Count > 0)
         {
-            Debug.Log("피자메뉴에 피자있어요");
             int sum = Random.Range(0, SumChrisma());
             RequestList.Add(new Request(GameManager.Instance.PizzaMenu[percentage(sum)], false));
         }
@@ -42,8 +41,9 @@ public class SendDeliveryRequest : MonoBehaviour
     }
     private void Update()
     {
-        time += Time.deltaTime;
-        if (time > 5 && RequestList.Count <= 5)
+        if(RequestList.Count < 5)
+            time += Time.deltaTime;
+        if (time > 5)
         {
             time = 0;
             RandomCall();

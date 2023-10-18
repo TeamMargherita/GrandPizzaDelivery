@@ -67,6 +67,7 @@ public class House : MonoBehaviour, IAddress, IHouse, IActiveHouse
     {
         houseNumber = number % 1000;
         houseAddress = new AddressS(number / 1000, houseNumber, this);
+        goalObj.GetComponent<GoalCheckCollider>().addr = houseAddress;
 
         addressSList.Add(houseAddress);
     }

@@ -6,124 +6,119 @@ using BuildingAddressNS;
 public class InventoryManager : MonoBehaviour
 {
     public GameObject Inventory;
+    public GameObject CurrentInventory;
     public bool InventoryActive;
-    public GameObject[] InventorySlot;
-    public GameObject ItemPanel;
-    public int SlotNum;
+    public GameObject[] PizzaInventorySlot;
     public GoalCheckCollider GoalAddressS;
     public SendDeliveryRequest SDR;
     public DeliveryScreen DeliveryScreen;
     public Minimap Minimap;
-
+    [SerializeField]
+    GameObject DeliveryJudgmentPanel;
     private void Awake()
     {
         if(GameManager.Instance.InventorySlotList.Count == 0)
         {
-            for (int i = 0; i < InventorySlot.Length; i++)
+            for (int i = 0; i < PizzaInventorySlot.Length; i++)
             {
-                GameManager.Instance.InventorySlotList.Add(new Slot(InventorySlot[i]));
+                GameManager.Instance.InventorySlotList.Add(new Slot(PizzaInventorySlot[i]));
             }
         }
-        
     }
-
     public void InventoryAddItem(Pizza pizza)
     {
-        foreach (var i in GameManager.Instance.InventorySlotList)
+        for (int i = 0; i < GameManager.Instance.PizzaInventoryData.Length; i++)
         {
-            if(i.Pizza?.Name == null)
-            {
-                i.Pizza = pizza;
-                break;
-            }
+            GameManager.Instance.PizzaInventoryData[i] = pizza;
+            break;
         }
     }
 
     void inventoryOpenClose()
     {
-        switch (Input.inputString)
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
-            case "i":
-                if (InventoryActive)
-                {
-                    Inventory.SetActive(false);
-                    InventoryActive = false;
-                }
-                else
-                {
-                    Inventory.SetActive(true);
-                    InventoryActive = true;
-                    inventoryDisplay();
-                }
-                Debug.Log("영문 'i' 문자가 입력되었습니다.");
-                break;
-
-            case "ㅑ":
-                if (InventoryActive)
-                {
-                    Inventory.SetActive(false);
-                    InventoryActive = false;
-                }
-                else
-                {
-                    Inventory.SetActive(true);
-                    InventoryActive = true;
-                    inventoryDisplay();
-                }
-                Debug.Log("한글 'ㅑ' 문자가 입력되었습니다.");
-                break;
+            if (InventoryActive)
+            {
+                if (CurrentInventory != null)
+                    CurrentInventory.SetActive(false);
+                Inventory.SetActive(false);
+                InventoryActive = false;
+            }
+            else
+            {
+                Inventory.SetActive(true);
+                InventoryActive = true;
+            }
+            Debug.Log("Tab 문자가 입력되었습니다.");
         }
     }
 
-    public void inventoryDisplay()
+    public void inventoryTextUpdate(string InventoryName)
     {
-        foreach(var i in GameManager.Instance.InventorySlotList)
+        if(InventoryName == "PizzaInventory")
         {
-            i.TextUpdate();
+            for (int i = 0; i < 5; i++)
+            {
+                if (GameManager.Instance.PizzaInventoryData[i] != null)
+                    PizzaInventorySlot[i].transform.GetChild(0).GetComponent<Text>().text = GameManager.Instance.PizzaInventoryData[i]?.Name;
+            }
+        }else if(InventoryName == "GunInventory")
+        {
+
+        }else if(InventoryName == "DiceInventory")
+        {
+
         }
     }
-
-    public void OnClickEat()
+    
+    public void OnClickEat(int index)
     {
-        if(GameManager.Instance.InventorySlotList[SlotNum - 1].Pizza != null)
+        if(GameManager.Instance.PizzaInventoryData[index] != null)
         {
-            GameManager.Instance.InventorySlotList[SlotNum - 1].InventorySlot.transform.GetChild(0).GetComponent<Text>().text = "";
-            GameManager.Instance.InventorySlotList[SlotNum - 1].Pizza = null;
-            ItemPanel.SetActive(false);
+            PizzaInventorySlot[index].transform.GetChild(0).GetComponent<Text>().text = "";
+            GameManager.Instance.PizzaInventoryData[index] = null;
         }
-        inventoryDisplay();
+        inventoryTextUpdate(CurrentInventory.name);
     }
 
     public void OnClickDelivery()
     {
-        if(GameManager.Instance.InventorySlotList[SlotNum - 1].Pizza != null && GoalAddressS != null)
+        Debug.Log("올클릭딜리버리");
+        if(/*GameManager.Instance.PizzaInventory[SlotNum - 1] != null && */GoalAddressS != null)
         {
-            int j = 0;
+            int SDRIndex = 0;
+            int SlotNum = 0;
             foreach(var i in SDR.RequestList)
             {
+                //주문리스트의 집주소 == 플레이어 위치 집주소
                 if(i.AddressS.HouseAddress == GoalAddressS.addr.HouseAddress)
                 {
-                    if(i.Pizza.Name.Equals(GameManager.Instance.InventorySlotList[SlotNum - 1].Pizza?.Name))
+                    //인벤토리에서 피자를 찾음
+                    foreach(var pizza in GameManager.Instance.PizzaInventoryData)
                     {
-                        GameManager.Instance.Money += (int)GameManager.Instance.InventorySlotList[SlotNum - 1].Pizza?.SellCost;
-                        GameManager.Instance.InventorySlotList[SlotNum - 1].InventorySlot.transform.GetChild(0).GetComponent<Text>().text = "";
-                        GameManager.Instance.InventorySlotList[SlotNum - 1].Pizza = null;
-                        Minimap.DeleteDestination(GoalAddressS.iHouse.GetLocation());
-                        GoalAddressS.iHouse.DisableHouse();
-                        DeliveryScreen.OnClickCancle(j);
-                        ItemPanel.SetActive(false);
-                        GoalAddressS = null;
-                        break;
+                        if (i.Pizza.Name.Equals(pizza?.Name))
+                        {
+                            GameManager.Instance.Money += (int)pizza?.SellCost;
+                            PizzaInventorySlot[SlotNum].transform.GetChild(0).GetComponent<Text>().text = "";
+                            GameManager.Instance.PizzaInventoryData[SlotNum] = null;
+                            Minimap.DeleteDestination(GoalAddressS.iHouse.GetLocation());
+                            GoalAddressS.iHouse.DisableHouse();
+                            DeliveryScreen.OnClickCancle(SDRIndex);
+                            GoalAddressS = null;
+                            DeliveryJudgmentPanel.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "배달이 완료 되었습니다.";
+                            DeliveryJudgmentPanel.SetActive(true);
+                            return;
+                        }
+                        SlotNum++;
                     }
-                    else
-                    {
-                        Debug.Log("다른 피자입니다.");
-                    }
-                    j++;
                 }
+                SDRIndex++;
             }
+            DeliveryJudgmentPanel.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "가방에 주문받은 피자가 없습니다.";
+            DeliveryJudgmentPanel.SetActive(true);
         }
-        inventoryDisplay();
+        inventoryTextUpdate("PizzaInventory");
     }
 
     public void ExitInventory()

@@ -42,14 +42,14 @@ public class Minimap : MonoBehaviour
         for(int i = 0; i < Destination.Count; i++)
         {
             Vector2 change = new Vector2((Destination[i].position.x - player.position.x) * 10, (Destination[i].position.y - player.position.y) * 10);
-            if (change.x < -190)
-                change.x = -190;
-            if (change.x > 190)
-                change.x = 190;
-            if (change.y < -190)
-                change.y = -190;
-            if (change.y > 190)
-                change.y = 190;
+            if (change.x < -135)
+                change.x = -135;
+            if (change.x > 135)
+                change.x = 135;
+            if (change.y < -135)
+                change.y = -135;
+            if (change.y > 135)
+                change.y = 135;
             destinationIcon[i].anchoredPosition = change;
         }
         

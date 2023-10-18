@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using BuildingNS.HouseNS;
 
-// ÇÑ¼®È£ ÀÛ¼º
+// ï¿½Ñ¼ï¿½È£ ï¿½Û¼ï¿½
 
 public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPanelControl, IHouseActiveUIControl, IAlarmMessagePanel
 {
@@ -17,6 +17,7 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
     [SerializeField] private GameObject pizzaMenuPanel;
     [SerializeField] private GameObject employeeRecruitPanel;
     [SerializeField] private GameObject alarmMessagePanel;
+    [SerializeField] private GameObject DeliveryJudgmentPanel;
 
     [SerializeField] private UnityEngine.UI.Image addPizzaImg;
     [SerializeField] private UnityEngine.UI.Text alarmMessageText;
@@ -37,20 +38,20 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
     private Vector3 alarmMessageStart = new Vector3(0, 590);
     private Vector3 alarmMessageEnd = new Vector3(0, 490);
 
-    private int inspectingHeight = 0;   // ºÒ½É°Ë¹® ÆÐ³ÎÃ¢ ³ôÀÌ
-    private int pizzaStoreHeight = 0;   // ÇÇÀÚÁý ÆÐ³ÎÃ¢ ³ôÀÌ
-    private int pizzaMakeWitdh = 0; // ÇÇÀÚ¸¸µé±â ÆÐ³ÎÃ¢ ³Êºñ
-    private int pizzaMenuHeight = 0;    // ÇÇÀÚ¸Þ´º ÆÐ³ÎÃ¢ ³ôÀÌ;
+    private int inspectingHeight = 0;   // ï¿½Ò½É°Ë¹ï¿½ ï¿½Ð³ï¿½Ã¢ ï¿½ï¿½ï¿½ï¿½
+    private int pizzaStoreHeight = 0;   // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ð³ï¿½Ã¢ ï¿½ï¿½ï¿½ï¿½
+    private int pizzaMakeWitdh = 0; // ï¿½ï¿½ï¿½Ú¸ï¿½ï¿½ï¿½ï¿½ ï¿½Ð³ï¿½Ã¢ ï¿½Êºï¿½
+    private int pizzaMenuHeight = 0;    // ï¿½ï¿½ï¿½Ú¸Þ´ï¿½ ï¿½Ð³ï¿½Ã¢ ï¿½ï¿½ï¿½ï¿½;
 
-    private bool isInspecting = false;  // ºÒ½É°Ë¹®Áß Ã¢ÀÌ ¶°¾ßÇÏ´ÂÁö ¿©ºÎ
-    private bool isPizzaStore = false;  // ÇÇÀÚÁý Ã¢ÀÌ ¶°¾ßÇÏ´ÂÁö ¿©ºÎ
+    private bool isInspecting = false;  // ï¿½Ò½É°Ë¹ï¿½ï¿½ï¿½ Ã¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    private bool isPizzaStore = false;  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     private bool isPizzaMake = false;
     private bool isPizzaMenu = false;
     private bool isPizzaAddButtonBlank = false;
-    private bool isAlarmMessage = false;    // ¾Ë¶÷ ¸Þ½ÃÁö Ã¢ÀÌ ¶°¾ßÇÏ´ÂÁö ¿©ºÎ
+    private bool isAlarmMessage = false;    // ï¿½Ë¶ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ Ã¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     private bool isColor = false;
 
-    public GameObject Inventory;
+    public GameObject PizzaInventory;
     public InventoryManager InventoryManager;
     void Awake()
     {
@@ -62,7 +63,7 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
 		{
             DirectADdPizzaMenu();
         }
-        Inventory = GameObject.FindWithTag("Inventory").transform.GetChild(0).gameObject;
+        //PizzaInventory = GameObject.FindWithTag("PizzaInventory");
     }
     private void Caching()
 	{
@@ -75,10 +76,10 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
         alarmMessageText = alarmMessagePanel.transform.GetChild(0).GetComponent<UnityEngine.UI.Text>();
 	}
     /// <summary>
-    /// ¾Ë¸² Ã¢ ¿­°í´Ý±â. ¾Ë¸²Ã¢¿¡ º¸¿©ÁÙ ÅØ½ºÆ®µµ ¼³Á¤ÇØ¾ßµÊ
+    /// ï¿½Ë¸ï¿½ Ã¢ ï¿½ï¿½ï¿½ï¿½Ý±ï¿½. ï¿½Ë¸ï¿½Ã¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ßµï¿½
     /// </summary>
     /// <param name="isOn"></param>
-    /// <param name="text">¶ç¿ï ÅØ½ºÆ®¸¦ Àû´Â´Ù.</param>
+    /// <param name="text">ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½Â´ï¿½.</param>
     public void ControlAlarmMessageUI(bool isOn, string text)
 	{
         alarmMessageText.text = text;
@@ -86,7 +87,7 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
 	}
 
     /// <summary>
-    /// ¸®µë°ÔÀÓÀÌ ³¡³­ ÈÄ ¹Ù·Î ÇÇÀÚ ¸Þ´º UI·Î °¥ ¶§ »ç¿ëÇÏ´Â ÇÔ¼ö
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ù·ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ UIï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Ô¼ï¿½
     /// </summary>
     private void DirectADdPizzaMenu()
 	{
@@ -102,7 +103,7 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
         isPizzaAddButtonBlank = true;
     }
     /// <summary>
-    /// ´ëÈ­Ã¢ ¿­°í´Ý±â
+    /// ï¿½ï¿½È­Ã¢ ï¿½ï¿½ï¿½ï¿½Ý±ï¿½
     /// </summary>
     /// <param name="isOn"></param>
     /// <param name="iEndInspecting"></param>
@@ -190,13 +191,20 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
 
         //iHouse.DisableHouse();
         deliveryPanel.SetActive(false);
-        Inventory.SetActive(true);
-        InventoryManager.InventoryActive = true;
-        InventoryManager.inventoryDisplay();
+        //PizzaInventory.SetActive(true);
+        //InventoryManager.InventoryActive = true;
+        //InventoryManager.CurrentInventory = PizzaInventory;
+        InventoryManager.OnClickDelivery();
+        InventoryManager.inventoryTextUpdate(PizzaInventory.name);
     }
     public void NODeliveryUI()
     {
         deliveryPanel.SetActive(false);
+    }
+
+    public void OKDeliveryJudgmentPanel()
+    {
+        DeliveryJudgmentPanel.SetActive(false);
     }
 
     public void ActiveTrueKeyExplainPanel(bool bo)
@@ -305,7 +313,7 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
 
     public void Update()
     {
-        // Æ¯º°ÇÑ Àå¼Ò¿¡¼­ ZÅ°¸¦ ´©¸¦ ½Ã
+        // Æ¯ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ò¿ï¿½ï¿½ï¿½ ZÅ°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
         if (houseType != HouseType.NONE && houseType != HouseType.HOUSE
             && Input.GetKeyDown(KeyCode.Z))
         {
@@ -313,9 +321,9 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
             {
                 case HouseType.PIZZASTORE:
                     //houseType = HouseType.NONE;
-                    //ÇÃ·¹ÀÌ¾î ¸ØÃß°í, °æÂûÂ÷ ¸ØÃç¾ßÇÔ.
+                    //ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ß°ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
                     iStop.StopMap(true);
-                    // ÇÇÀÚÃ¢ È°¼ºÈ­
+                    // ï¿½ï¿½ï¿½ï¿½Ã¢ È°ï¿½ï¿½È­
                     ControlPizzaStore(true);
                     break;
                 case HouseType.DICESTORE:

@@ -6,6 +6,7 @@ using BuildingAddressNS;
 public class InventoryManager : MonoBehaviour
 {
     public GameObject Inventory;
+    public GameObject CurrentInventory;
     public bool InventoryActive;
     public GameObject[] InventorySlot;
     public GameObject ItemPanel;
@@ -46,6 +47,8 @@ public class InventoryManager : MonoBehaviour
             case "i":
                 if (InventoryActive)
                 {
+                    ItemPanel.SetActive(false);
+                    CurrentInventory.SetActive(false);
                     Inventory.SetActive(false);
                     InventoryActive = false;
                 }
@@ -61,6 +64,8 @@ public class InventoryManager : MonoBehaviour
             case "¤Á":
                 if (InventoryActive)
                 {
+                    ItemPanel.SetActive(false);
+                    CurrentInventory.SetActive(false);
                     Inventory.SetActive(false);
                     InventoryActive = false;
                 }

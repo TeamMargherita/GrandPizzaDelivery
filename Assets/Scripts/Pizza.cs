@@ -85,10 +85,10 @@ namespace Inventory
             InventorySlot = inventorySlot;
         }
 
-        public void TextUpdate()
+        /*public void TextUpdate()
         {
             if(Pizza != null)
                 InventorySlot.transform.GetChild(0).GetComponent<Text>().text = Pizza?.GetName();
-        }
+        }*/
     }
 }

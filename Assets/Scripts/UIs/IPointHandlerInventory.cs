@@ -13,33 +13,37 @@ public class IPointHandlerInventory : MonoBehaviour, IPointerClickHandler, IPoin
     GameObject Inventory;
     [SerializeField]
     string InventoryName;
+    
     private void Awake()
     {
         transform.GetComponent<Image>().color = Color.white;
     }
     public void OnPointerClick(PointerEventData eventData)
     {
-        if(InventoryName == "Pizza" || InventoryName == "Gun" || InventoryName == "Dice")
+        if(InventoryName == "Pizza")
         {
-            if (eventData.button == PointerEventData.InputButton.Right)
+            if (eventData.button == PointerEventData.InputButton.Left)
             {
                 if (transform.GetChild(0).GetComponent<Text>().text != "")
                 {
-                    InventoryManager.ItemPanel.SetActive(true);
-                    InventoryManager.ItemPanel.transform.position = Input.mousePosition;
-                    InventoryManager.SlotNum = int.Parse(name);
-                    Debug.Log(name);
+                    InventoryManager.OnClickEat(int.Parse(name) - 1);
                 }
             }
-        }else if(InventoryName == "Main")
+        }else if(InventoryName == "Gun")
+        {
+
+        }else if(InventoryName == "Dice")
+        {
+
+        }
+        else if(InventoryName == "Main")
         {
             Inventory.SetActive(true);
+            InventoryManager.inventoryTextUpdate(Inventory.name);
             InventoryManager.CurrentInventory = Inventory;
             mainInventory.SetActive(false);
-            
         }
     }
-
     public void OnPointerEnter(PointerEventData eventData)
     {
         transform.GetComponent<Image>().color = new Color(190 / 255f, 197 / 255f, 253 / 255f);

@@ -37,7 +37,9 @@ public class Conversation
 	/// 대사집. 
 	/// </summary>
 	public string[] NpcTextStrArr { get; protected set; }
-
+	/// <summary>
+	/// 대사를 방향그래프로 연결한 것들
+	/// </summary>
 	public List<TextNodeC> TextList { get; protected set; }
 	/// <summary>
 	/// 상점에서 구입한 아이템 품목들

@@ -41,7 +41,7 @@ namespace BuildingNS
     
     namespace HouseNS
     {
-        public enum HouseType { NONE, PIZZASTORE, HOUSE};
+        public enum HouseType { NONE, PIZZASTORE, HOUSE, DICESTORE, PINEAPPLESTORE };
     }
 }
 namespace BuildingAddressNS
@@ -69,7 +69,7 @@ namespace BuildingAddressNS
 
 namespace PizzaNS
 {
-    public enum Ingredient { NONE, TOMATO, CHEESE, BASIL, POTATO, BACON, CORN, JALAPENO, CHICKEN, MEAT };
+    public enum Ingredient { PINEAPPLE, TOMATO, CHEESE, BASIL, POTATO, BACON, CORN, JALAPENO, CHICKEN, MEAT };
 
     public struct IngredientS
     {
@@ -182,5 +182,42 @@ namespace ConversationNS
         }
     }
 
-    public enum MethodEnum { NONE, SETSIZECONTENTS, CHANGENPCIMAGE, CHANGEPLAYERIMAGE, SETRANDNPCTEXT, ENDPANEL, SPAWNPOLICE };
+    public enum MethodEnum { NONE, SETSIZECONTENTS, CHANGENPCIMAGE, CHANGEPLAYERIMAGE, SETRANDNPCTEXT, ENDPANEL, SPAWNPOLICE, OPENSTORE, SAVETEXTINDEX, SETISCONDITION };
+}
+
+namespace StoreNS
+{
+    public enum ItemType { NONE, DICE };
+
+    public struct ItemS
+	{
+        public ItemType Type;
+        public int MaxCnt;
+        public string Name;
+        public string Explain;
+        public int ItemNumber;
+
+        public ItemS (ItemType type, int maxCnt, string name, string explain, int itemNumber)
+		{
+            Type = type;
+            MaxCnt = maxCnt;
+            Name = name;
+            Explain = explain;
+            ItemNumber = itemNumber;
+		}
+	}
+
+    public struct DiceS
+	{
+        public int DiceCnt;
+        public int[] DiceArr;
+        public string Path;
+
+        public DiceS(int diceCnt, int[] diceArr, string path)
+		{
+            DiceCnt = diceCnt;
+            DiceArr = diceArr;
+            Path = path;
+        }
+	}
 }

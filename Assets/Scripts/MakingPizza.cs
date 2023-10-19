@@ -57,6 +57,15 @@ public class MakingPizza : MonoBehaviour
         pizzaRequestList.Add(re);
 	}
     /// <summary>
+    /// 파인애플 피자 주문을 접수한다.
+    /// </summary>
+    /// <param name="request"></param>
+    public void AddRequestPineapplePizza(Request request)
+	{
+        if (Constant.PineappleCount <= 0) { return; }
+        pizzaRequestList.Add(request);
+	}
+    /// <summary>
     /// 자동으로 현재 만들 피자를 골라 만듭니다. 
     /// </summary>
     /// <returns></returns>
@@ -122,6 +131,11 @@ public class MakingPizza : MonoBehaviour
             }
             // 피자가 완성되었다. 완성된 피자는 피자집 인벤에 들어간다.
             completePizzaList.Add(pizzaRequestList[0].Pizza);
+            // 파인애플 피자였다면 파인애플이 하나 줄어든다.
+            if (pizzaRequestList[0].Pizza.Ingreds.FindIndex(a => a.Equals(PizzaNS.Ingredient.PINEAPPLE)) != -1)
+			{
+                Constant.PineappleCount--;
+			}
 
             // 알림이 뜬다.
             iAlarmMessagePanel.ControlAlarmMessageUI(true, $"{pizzaRequestList[0].Pizza.Name}가 완성되었습니다.");
@@ -165,7 +179,8 @@ public class MakingPizza : MonoBehaviour
 		{
             if (makingPizzaPanelClass[i].ComparePizza(temPizza))
 			{
-                makingPizzaPanelArr[i].SetActive(false);
+                makingPizzaPanelClass[i].SetMainPanelRect(0f);
+                makingPizzaPanelClass[i].gameObject.SetActive(false);
                 break;
 			}
 		}
@@ -173,7 +188,7 @@ public class MakingPizza : MonoBehaviour
         int ind = 0;
         for (int i = 0; i < makingPizzaPanelArr.Length; i++)
 		{
-            if (makingPizzaPanelArr[i].activeSelf)
+            if (makingPizzaPanelArr[i].activeSelf && makingPizzaPanelArr[i].transform.GetChild(1).GetComponent<RectTransform>().rect.width == 0f)
 			{
                 makingPizzaPanelRect[i].localPosition = new Vector3(0, 260 - (140 * ind));
                 ind++;

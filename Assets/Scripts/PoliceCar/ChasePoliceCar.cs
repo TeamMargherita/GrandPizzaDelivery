@@ -395,7 +395,10 @@ public class ChasePoliceCar : Police, ISetTransform, IUpdateCheckList
         policeState = state;
         time = 0f;
 	}
-
+    /// <summary>
+    /// 경찰차의 움직임을 제어한다.
+    /// </summary>
+    /// <returns></returns>
     private bool ControlMove()
 	{
         if (isStop)
@@ -417,6 +420,10 @@ public class ChasePoliceCar : Police, ISetTransform, IUpdateCheckList
 
         return isStop;
     }
+    /// <summary>
+    /// 경찰차 상태에 따른 시야의 색을 바꿔준다.
+    /// </summary>
+    /// <param name="state"></param>
     private void ChangeFOVColor(PoliceState state)
 	{
         if (temState != policeState)
@@ -441,11 +448,34 @@ public class ChasePoliceCar : Police, ISetTransform, IUpdateCheckList
             return;
 		}
 	}
-	private void FixedUpdate()
+    /// <summary>
+    /// 경찰차 일시 정지. 풀리면 이동한다.
+    /// </summary>
+    /// <param name="bo"></param>
+    public override void PausePoliceCar(bool bo)
+    {
+        if (bo)
+        {
+            if (temState == PoliceState.AUTOMOVE && temState == PoliceState.OUTMAP)
+            {
+                policeState = PoliceState.NONE;
+            }
+            else
+            {
+                policeState = temState;
+            }
+        }
+        else
+        {
+            policeState = temState;
+        }
+    }
+
+    private void FixedUpdate()
 	{
         // 특정상황에서 모든 추격 경찰차 정지
         if (ControlMove()) { return; }
-        if (policeState == PoliceState.DESTROY) { return; }
+        if (policeState == PoliceState.DESTROY ||  policeState == PoliceState.NONE) { return; }
 
         time += Time.deltaTime;
         ChangeFOVColor(policeState);

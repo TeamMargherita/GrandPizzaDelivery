@@ -25,7 +25,9 @@ public class House : MonoBehaviour, IAddress, IHouse, IActiveHouse
     private IHouseActiveUIControl iHouseActiveUIControl;
 
     private HouseType houseType;
-    
+
+    private Color houseColor;
+
     private CustomerS customerS;
     private AddressS houseAddress;  // 집주소
 
@@ -33,9 +35,12 @@ public class House : MonoBehaviour, IAddress, IHouse, IActiveHouse
     private int houseNumber;    // 건물 내에서 집 번호
     private bool isEnable = false;  // 해당 집에 주문을 해야되는지 여부
     private bool inHouse = false;
+    
 	private void Awake()
 	{
         spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
+        houseColor = Color.HSVToRGB(Random.Range(0, 361f) / 360f, 12 / 100f, 100 / 100f);
+        spriteRenderer.color = houseColor;
         goalTrans = goalObj.transform;
         Vector3 vec = Vector3.zero;
         if (direction == 0) { vec = new Vector3(0, 1); }
@@ -94,7 +99,7 @@ public class House : MonoBehaviour, IAddress, IHouse, IActiveHouse
     // 배달이 끝난 후 걸린 시간, 평점 등을 구조체 형식으로 묶어서 전달한다.
     public void DisableHouse()
 	{
-        spriteRenderer.color = Color.white;
+        spriteRenderer.color = houseColor;
         isEnable = false;
         goalObj.SetActive(false);
         spendingTime = iMap.RemoveAddress(houseAddress);
@@ -166,11 +171,11 @@ public class House : MonoBehaviour, IAddress, IHouse, IActiveHouse
         {
             if (bo)
             {
-                spriteRenderer.color = Color.cyan;
+                spriteRenderer.color = Color.red;
             }
             else
             {
-                spriteRenderer.color = Color.white;
+                spriteRenderer.color = houseColor;
             }
         }
     }

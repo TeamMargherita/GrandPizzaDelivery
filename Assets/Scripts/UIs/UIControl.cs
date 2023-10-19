@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using BuildingNS.HouseNS;
 
-// ÇÑ¼®È£ ÀÛ¼º
+// í•œì„í˜¸ ì‘ì„±
 
-public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelControl, IHouseActiveUIControl, IAlarmMessagePanel
+public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPanelControl, IHouseActiveUIControl, IAlarmMessagePanel
 {
     [SerializeField] private GameObject inspectingPanel;
     [SerializeField] private GameObject inspectingMaskPanel;
@@ -21,8 +21,8 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
 
     [SerializeField] private UnityEngine.UI.Image addPizzaImg;
     [SerializeField] private UnityEngine.UI.Text alarmMessageText;
-     
-    private IEndInspecting iEndInspecting;
+
+    private IEndConversation iEndInspecting;
     private IHouse iHouse;
     private IStop iStop;
 
@@ -38,17 +38,17 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
     private Vector3 alarmMessageStart = new Vector3(0, 590);
     private Vector3 alarmMessageEnd = new Vector3(0, 490);
 
-    private int inspectingHeight = 0;   // ºÒ½É°Ë¹® ÆĞ³ÎÃ¢ ³ôÀÌ
-    private int pizzaStoreHeight = 0;   // ÇÇÀÚÁı ÆĞ³ÎÃ¢ ³ôÀÌ
-    private int pizzaMakeWitdh = 0; // ÇÇÀÚ¸¸µé±â ÆĞ³ÎÃ¢ ³Êºñ
-    private int pizzaMenuHeight = 0;    // ÇÇÀÚ¸Ş´º ÆĞ³ÎÃ¢ ³ôÀÌ;
+    private int inspectingHeight = 0;   // íšŒí™”ì°½ ë†’ì´
+    private int pizzaStoreHeight = 0;   // í”¼ìê°€ê²Œ ì°½ ë†’ì´
+    private int pizzaMakeWitdh = 0; // í”¼ì ì¬ë£Œ ì„ íƒì°½ ë„ˆë¹„
+    private int pizzaMenuHeight = 0;    // í”¼ìë©”ë‰´ ì°½ ë†’ì´;
 
-    private bool isInspecting = false;  // ºÒ½É°Ë¹®Áß Ã¢ÀÌ ¶°¾ßÇÏ´ÂÁö ¿©ºÎ
-    private bool isPizzaStore = false;  // ÇÇÀÚÁı Ã¢ÀÌ ¶°¾ßÇÏ´ÂÁö ¿©ºÎ
+    private bool isInspecting = false;  // íšŒí™”ì°½ì´ ë‹¤ ì—´ë ¸ëŠ”ì§€ ì—¬ë¶€
+    private bool isPizzaStore = false;  // í”¼ì ê°€ê²Œ ì°½ì´ ë‹¤ ì—´ë ¸ëŠ”ì§€ ì—¬ë¶€
     private bool isPizzaMake = false;
     private bool isPizzaMenu = false;
     private bool isPizzaAddButtonBlank = false;
-    private bool isAlarmMessage = false;    // ¾Ë¶÷ ¸Ş½ÃÁö Ã¢ÀÌ ¶°¾ßÇÏ´ÂÁö ¿©ºÎ
+    private bool isAlarmMessage = false;    // ì•ŒëŒë©”ì„¸ì§€ ë‹¤ ë‚´ë ¤ì™”ëŠ”ì§€ ì—¬ë¶€
     private bool isColor = false;
 
     public GameObject PizzaInventory;
@@ -76,18 +76,19 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
         alarmMessageText = alarmMessagePanel.transform.GetChild(0).GetComponent<UnityEngine.UI.Text>();
 	}
     /// <summary>
-    /// ¾Ë¸² Ã¢ ¿­°í´İ±â. ¾Ë¸²Ã¢¿¡ º¸¿©ÁÙ ÅØ½ºÆ®µµ ¼³Á¤ÇØ¾ßµÊ
+    /// ì•ŒëŒë©”ì„¸ì§€ ë“±ì¥ì„ ì œì–´í•˜ëŠ” ë©”ì†Œë“œ
     /// </summary>
     /// <param name="isOn"></param>
-    /// <param name="text">¶ç¿ï ÅØ½ºÆ®¸¦ Àû´Â´Ù.</param>
+    /// <param name="text">ì•ŒëŒì„ í‘œì‹œí•  í…ìŠ¤íŠ¸ ë‚´ìš©</param>
     public void ControlAlarmMessageUI(bool isOn, string text)
 	{
+        // ë‚˜ì¤‘ì— ê°€ì„œ ì•ŒëŒë“¤ì´ ìŒ“ì¼ ìˆ˜ê°€ ìˆìœ¼ë‹ˆ ë¦¬ìŠ¤íŠ¸ì— ë„£ì–´ì„œ ê´€ë¦¬í•´ì•¼ë¨.
         alarmMessageText.text = text;
         isAlarmMessage = isOn;
 	}
 
     /// <summary>
-    /// ¸®µë°ÔÀÓÀÌ ³¡³­ ÈÄ ¹Ù·Î ÇÇÀÚ ¸Ş´º UI·Î °¥ ¶§ »ç¿ëÇÏ´Â ÇÔ¼ö
+    /// ê³§ë°”ë¡œ í”¼ì ë©”ë‰´ê¹Œì§€ ì—´ì–´ì£¼ëŠ” ë©”ì†Œë“œ
     /// </summary>
     private void DirectADdPizzaMenu()
 	{
@@ -103,11 +104,11 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
         isPizzaAddButtonBlank = true;
     }
     /// <summary>
-    /// ºÒ½É°Ë¹®Ã¢ ¿­°í´İ±â
+    /// ëŒ€í™”ì°½ì„ ì œì–´í•œë‹¤.(ì—´ê³  ë‹«ëŠ”ë‹¤.)
     /// </summary>
     /// <param name="isOn"></param>
     /// <param name="iEndInspecting"></param>
-    public void ControlInspectUI(bool isOn, IEndInspecting iEndInspecting, int type)
+    public void ControlConversationUI(bool isOn, IEndConversation iEndInspecting, int type)
     {
         if (iEndInspecting != null)
 		{
@@ -123,8 +124,11 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
         else if (!isOn && inspectingHeight >= 1080)
         {
             isInspecting = false;
-            this.iEndInspecting.EndInspecting();
-            this.iEndInspecting = null;
+            if (this.iEndInspecting != null)
+            {
+                this.iEndInspecting.EndConversation();
+                this.iEndInspecting = null;
+            }
         }
         ChasePoliceCar.isStop = isOn;
     }
@@ -231,8 +235,10 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
             inspectingHeight = 0;
             inspectTrans.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, inspectingHeight);
             inspectingPanel.SetActive(false);
+            iStop.StopMap(false);
+            ChasePoliceCar.isStop = false;
         }
-        
+
         if (isPizzaStore && pizzaStoreHeight < 1080)
         {
             pizzaStoreHeight += 40;
@@ -308,7 +314,7 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
 
     public void Update()
     {
-        // Æ¯º°ÇÑ Àå¼Ò¿¡¼­ ZÅ°¸¦ ´©¸¦ ½Ã
+        // ì¼ë°˜ ì§‘ì´ ì•„ë‹Œ ê³³ì—ì„œ zí‚¤ë¥¼ ëˆŒë €ì„ ë•Œ
         if (houseType != HouseType.NONE && houseType != HouseType.HOUSE
             && Input.GetKeyDown(KeyCode.Z))
         {
@@ -316,10 +322,18 @@ public class UIControl : MonoBehaviour, IInspectingPanelControl, IDeliveryPanelC
             {
                 case HouseType.PIZZASTORE:
                     //houseType = HouseType.NONE;
-                    //ÇÃ·¹ÀÌ¾î ¸ØÃß°í, °æÂûÂ÷ ¸ØÃç¾ßÇÔ.
+                    //ë§µì— ì˜¤ë¸Œì íŠ¸ë¥¼ ì •ì§€ì‹œí‚¨ë‹¤.
                     iStop.StopMap(true);
-                    // ÇÇÀÚÃ¢ È°¼ºÈ­
+                    // í”¼ìê°€ê²Œ ì°½ì„ ì—°ë‹¤
                     ControlPizzaStore(true);
+                    break;
+                case HouseType.DICESTORE:
+                    iStop.StopMap(true);
+                    ControlConversationUI(true, null, 2);
+                    break;
+                case HouseType.PINEAPPLESTORE:
+                    iStop.StopMap(true);
+                    ControlConversationUI(true, null, 3);
                     break;
             }
         }

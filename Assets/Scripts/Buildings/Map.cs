@@ -48,10 +48,12 @@ public class Map : MonoBehaviour, IMap, IStop
     }
 
     private void Start()
-    {   
+    {
+        Debug.Log(houseAddressList.Count);
         // 피자집에 마크를 붙인다.
         houseAddressList[36].IHouse.SetHouseType(houseMarkArr[0], HouseType.PIZZASTORE);
-
+        houseAddressList[66].IHouse.SetHouseType(houseMarkArr[1], HouseType.DICESTORE);
+        houseAddressList[55].IHouse.SetHouseType(houseMarkArr[2], HouseType.PINEAPPLESTORE);
         MakeAPoliceCar(45);
     }
     private void test()
@@ -94,7 +96,7 @@ public class Map : MonoBehaviour, IMap, IStop
                     {
                         policeCar.GetComponent<IPoliceCar>().InitPoliceCarPath(buildingList[ran].GetPolicePath());
                     }
-                    policeCar.GetComponent<IPoliceCar>().SetIInspectingPanelControl(uiControlObj.GetComponent<IInspectingPanelControl>());
+                    policeCar.GetComponent<IPoliceCar>().SetIInspectingPanelControl(uiControlObj.GetComponent<IConversationPanelControl>());
                 }
                 if (policeCar.GetComponent<Police>() != null)
 				{

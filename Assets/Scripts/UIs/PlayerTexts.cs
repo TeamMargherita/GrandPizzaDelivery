@@ -20,7 +20,7 @@ public class PlayerTexts : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-
+        Debug.Log(TextNum);
         iInspectingUIText.ChoiceText(TextNum);
     }
 }

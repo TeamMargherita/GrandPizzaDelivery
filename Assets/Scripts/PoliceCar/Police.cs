@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using PoliceNS.PoliceStateNS;
 
+// 한석호 작성
 // 경찰차가 가지는 공통적인 걸 담았다.
 public abstract class Police : MonoBehaviour
 {
@@ -134,5 +135,10 @@ public abstract class Police : MonoBehaviour
     public void SetMap(IStop iStop)
     {
         this.iStop = iStop;
+    }
+
+    public virtual void PausePoliceCar(bool bo)
+    {
+
     }
 }

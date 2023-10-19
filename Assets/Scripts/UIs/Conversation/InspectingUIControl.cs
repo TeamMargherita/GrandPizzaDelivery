@@ -9,28 +9,32 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText, ICoroutineD
 {
     [SerializeField] private GameObject[] diceObjArr;
     [SerializeField] private GameObject[] playerTextObjArr;
-    [SerializeField] private Sprite[] diceSprArr;
     [SerializeField] private Sprite[] policeSprArr; // 0 : 기분좋음 1 : 기분 안좋음 2 : 화남 3 : 극대노
     [SerializeField] private Sprite[] playerSprArr; // 0 : 보통 1 : 설득중 2 : 개무시 3 : 쩔쩔맴
-
     [SerializeField] private GameObject spawnChaser;
     [SerializeField] private GameObject uiControl;
+    [SerializeField] private GameObject storeManager;
     [SerializeField] private RectTransform scrollContents;
     [SerializeField] private Image npcFace;
     [SerializeField] private Image playerFace;
     [SerializeField] private Text diceSuccessText;
     [SerializeField] private Text npcText;
 
-    private IInspectingPanelControl iInspectingPanelControl;
+    private IConversationPanelControl iInspectingPanelControl;
     private ISpawnCar iSpawnCar;
+    private IInitStore iInitStore;
 
     private RectTransform[] diceRectArr;
     private Image[] diceImgArr;
     private Text[] playerTextArr;
     private PlayerTexts[] playerTextsArr;
     private Sprite[] npcSprArr; // 상대 이미지 0 : 기분안좋음 1 : 기분좋음 2 : 화남 3 : 극대노
+    private Sprite[] firstDiceSprArr;
+    private Sprite[] secondDiceSprArr;
     private Coroutine diceCoroutine;    // 주사위를 굴릴 때 쓰는 코루틴
     private PoliceInspecting policeInspecting;  // 경찰의 불심검문이 담긴 대화 그래프 클래스
+    private DiceStore diceStore;    // 주사위 가게 대화 그래프 클래스
+    private PineAppleStore pineappleStore;  // 파인애플 가게 대화 그래프 클래스
     private Conversation temCon;
     private bool isAwake = false;
 
@@ -41,6 +45,8 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText, ICoroutineD
         isAwake = true;
 
         policeInspecting = new PoliceInspecting();
+        diceStore = new DiceStore();
+        pineappleStore = new PineAppleStore();
 
         playerTextArr = new Text[playerTextObjArr.Length];
         playerTextsArr = new PlayerTexts[playerTextObjArr.Length];
@@ -61,8 +67,9 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText, ICoroutineD
             diceRectArr[i] = diceObjArr[i].GetComponent<RectTransform>();
 		}
 
-        iInspectingPanelControl = uiControl.GetComponent<IInspectingPanelControl>();
+        iInspectingPanelControl = uiControl.GetComponent<IConversationPanelControl>();
         iSpawnCar = spawnChaser.GetComponent<ISpawnCar>();
+        iInitStore = storeManager.GetComponent<IInitStore>();
     }
     /// <summary>
     /// 각종 이미지, 텍스트 초기화
@@ -70,6 +77,8 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText, ICoroutineD
     private void InitOnEnable()
 	{
         this.gameObject.SetActive(true);
+        firstDiceSprArr = Resources.LoadAll<Sprite>(Constant.DiceInfo[Constant.nowDice[0]].Path);
+        secondDiceSprArr = Resources.LoadAll<Sprite>(Constant.DiceInfo[Constant.nowDice[1]].Path);
         if (!isAwake) { Awake(); }
         InitPoliceText();
         InitPlayerText();
@@ -90,30 +99,46 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText, ICoroutineD
                 npcSprArr = Resources.LoadAll<Sprite>("UI/Police_400_500");
                 InitConversation(policeInspecting);
                 break;
+            case 2:
+                npcSprArr = Resources.LoadAll<Sprite>("UI/DiceStore_400_500");
+                InitConversation(diceStore);
+                SetIInitStore();
+                break;
+            case 3:
+                npcSprArr = Resources.LoadAll<Sprite>("UI/PineappleStore_400_500");
+                InitConversation(pineappleStore);
+                break;
 		}
     }
     /// <summary>
     /// 대화 내용선택하기 위한 대화 클래스 멤버변수들 초기화
     /// </summary>
     /// <param name="con"></param>
-    public void InitConversation(Conversation con)
-	{
-        con.ScrollContents = scrollContents;
-        con.NpcFace = npcFace;
-        con.PlayerFace = playerFace;
-        con.NpcSprArr = npcSprArr;
-        con.PlayerSprArr = playerSprArr;
-        con.NpcText = npcText;
-        con.PlayerTextArr = playerTextArr;
-        con.PlayerTextsArr = playerTextsArr;
-        con.InspectingPanelControl = iInspectingPanelControl;
-        con.SpawnCar = iSpawnCar;
-        con.CoroutineDice = this;
+    private void InitConversation(Conversation con)
+    {
         temCon = con;
 
-        con.StartText();
-    }
+        temCon.ScrollContents = scrollContents;
+        temCon.NpcFace = npcFace;
+        temCon.PlayerFace = playerFace;
+        temCon.NpcSprArr = npcSprArr;
+        temCon.PlayerSprArr = playerSprArr;
+        temCon.NpcText = npcText;
+        temCon.PlayerTextArr = playerTextArr;
+        temCon.PlayerTextsArr = playerTextsArr;
+        temCon.InspectingPanelControl = iInspectingPanelControl;
+        temCon.SpawnCar = iSpawnCar;
+        temCon.CoroutineDice = this;
 
+        temCon.StartText();
+    }
+    /// <summary>
+    /// 가게 정보 초기화(가게 내에서 대화할 때만)
+    /// </summary>
+    private void SetIInitStore()
+	{
+        temCon.InitStore = iInitStore;
+	}
     /// <summary>
     /// 초상화 초기화
     /// </summary>
@@ -128,10 +153,10 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText, ICoroutineD
     /// </summary>
     private void InitDice()
     {
-        for (int i = 0; i < diceObjArr.Length; i++)
-        {
-            diceImgArr[i].sprite = diceSprArr[0];
-        }
+
+        diceImgArr[0].sprite = firstDiceSprArr[0];
+        diceImgArr[1].sprite = secondDiceSprArr[0];
+
         diceSuccessText.text = "";
     }
 
@@ -161,7 +186,7 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText, ICoroutineD
         if (isDiceRoll) { return; }
         InitPlayerText();
         InitDice();
-
+        Debug.Log($"{num} 전개 0");
         temCon.NextText(num);
 	}
     public void StartDice(int num)
@@ -187,18 +212,18 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText, ICoroutineD
             for (int i = 0; i < 20; i++)
             {
                 // 주사위 모양을 보여준다.
-                dice1 = Random.Range(1, 7);
-                dice2 = Random.Range(1, 7);
+                dice1 = Random.Range(0, firstDiceSprArr.Length);
+                dice2 = Random.Range(0, secondDiceSprArr.Length);
 
-                diceImgArr[0].sprite = diceSprArr[dice1 - 1];
-                diceImgArr[1].sprite = diceSprArr[dice2 - 1];
+                diceImgArr[0].sprite = firstDiceSprArr[dice1];
+                diceImgArr[1].sprite = secondDiceSprArr[dice2];
 
                 for (int j = 0; j < diceRectArr.Length; j++)
                 {
                     diceRectArr[j].anchoredPosition = originVec[j] + Vector3.Normalize(new Vector3(Random.Range(0, 100), 0, Random.Range(0, 100))) * 10f;
                 }
 
-                rand = dice1 + dice2;
+                rand = Constant.DiceInfo[Constant.nowDice[0]].DiceArr[dice1] + Constant.DiceInfo[Constant.nowDice[1]].DiceArr[dice2];
 
                 yield return Constant.OneTime;
                 yield return Constant.OneTime;

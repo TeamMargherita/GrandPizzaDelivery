@@ -69,7 +69,7 @@ namespace BuildingAddressNS
 
 namespace PizzaNS
 {
-    public enum Ingredient { NONE, TOMATO, CHEESE, BASIL, POTATO, BACON, CORN, JALAPENO, CHICKEN, MEAT };
+    public enum Ingredient { PINEAPPLE, TOMATO, CHEESE, BASIL, POTATO, BACON, CORN, JALAPENO, CHICKEN, MEAT };
 
     public struct IngredientS
     {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using ConversationNS;
 
+// 한석호 작성
 public class PineAppleStore : Conversation
 {
 	public static bool isFirstTime = true;

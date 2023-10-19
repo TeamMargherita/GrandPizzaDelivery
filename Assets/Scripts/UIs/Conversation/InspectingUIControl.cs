@@ -34,6 +34,7 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText, ICoroutineD
     private Coroutine diceCoroutine;    // 주사위를 굴릴 때 쓰는 코루틴
     private PoliceInspecting policeInspecting;  // 경찰의 불심검문이 담긴 대화 그래프 클래스
     private DiceStore diceStore;    // 주사위 가게 대화 그래프 클래스
+    private PineAppleStore pineappleStore;  // 파인애플 가게 대화 그래프 클래스
     private Conversation temCon;
     private bool isAwake = false;
 
@@ -45,6 +46,7 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText, ICoroutineD
 
         policeInspecting = new PoliceInspecting();
         diceStore = new DiceStore();
+        pineappleStore = new PineAppleStore();
 
         playerTextArr = new Text[playerTextObjArr.Length];
         playerTextsArr = new PlayerTexts[playerTextObjArr.Length];
@@ -101,6 +103,10 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText, ICoroutineD
                 npcSprArr = Resources.LoadAll<Sprite>("UI/DiceStore_400_500");
                 InitConversation(diceStore);
                 SetIInitStore();
+                break;
+            case 3:
+                npcSprArr = Resources.LoadAll<Sprite>("UI/PineappleStore_400_500");
+                InitConversation(pineappleStore);
                 break;
 		}
     }

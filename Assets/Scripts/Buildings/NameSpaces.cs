@@ -41,7 +41,7 @@ namespace BuildingNS
     
     namespace HouseNS
     {
-        public enum HouseType { NONE, PIZZASTORE, HOUSE, DICESTORE };
+        public enum HouseType { NONE, PIZZASTORE, HOUSE, DICESTORE, PINEAPPLESTORE };
     }
 }
 namespace BuildingAddressNS

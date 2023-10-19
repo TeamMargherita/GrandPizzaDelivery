@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using BuildingNS.HouseNS;
 
-// �Ѽ�ȣ �ۼ�
+// 한석호 작성
 
 public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPanelControl, IHouseActiveUIControl, IAlarmMessagePanel
 {
@@ -38,17 +38,17 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
     private Vector3 alarmMessageStart = new Vector3(0, 590);
     private Vector3 alarmMessageEnd = new Vector3(0, 490);
 
-    private int inspectingHeight = 0;   // �ҽɰ˹� �г�â ����
-    private int pizzaStoreHeight = 0;   // ������ �г�â ����
-    private int pizzaMakeWitdh = 0; // ���ڸ���� �г�â �ʺ�
-    private int pizzaMenuHeight = 0;    // ���ڸ޴� �г�â ����;
+    private int inspectingHeight = 0;   // 회화창 높이
+    private int pizzaStoreHeight = 0;   // 피자가게 창 높이
+    private int pizzaMakeWitdh = 0; // 피자 재료 선택창 너비
+    private int pizzaMenuHeight = 0;    // 피자메뉴 창 높이;
 
-    private bool isInspecting = false;  // �ҽɰ˹��� â�� �����ϴ��� ����
-    private bool isPizzaStore = false;  // ������ â�� �����ϴ��� ����
+    private bool isInspecting = false;  // 회화창이 다 열렸는지 여부
+    private bool isPizzaStore = false;  // 피자 가게 창이 다 열렸는지 여부
     private bool isPizzaMake = false;
     private bool isPizzaMenu = false;
     private bool isPizzaAddButtonBlank = false;
-    private bool isAlarmMessage = false;    // �˶� �޽��� â�� �����ϴ��� ����
+    private bool isAlarmMessage = false;    // 알람메세지 다 내려왔는지 여부
     private bool isColor = false;
 
     public GameObject PizzaInventory;
@@ -76,18 +76,19 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
         alarmMessageText = alarmMessagePanel.transform.GetChild(0).GetComponent<UnityEngine.UI.Text>();
 	}
     /// <summary>
-    /// �˸� â ����ݱ�. �˸�â�� ������ �ؽ�Ʈ�� �����ؾߵ�
+    /// 알람메세지 등장을 제어하는 메소드
     /// </summary>
     /// <param name="isOn"></param>
-    /// <param name="text">��� �ؽ�Ʈ�� ���´�.</param>
+    /// <param name="text">알람을 표시할 텍스트 내용</param>
     public void ControlAlarmMessageUI(bool isOn, string text)
 	{
+        // 나중에 가서 알람들이 쌓일 수가 있으니 리스트에 넣어서 관리해야됨.
         alarmMessageText.text = text;
         isAlarmMessage = isOn;
 	}
 
     /// <summary>
-    /// ��������� ���� �� �ٷ� ���� �޴� UI�� �� �� ����ϴ� �Լ�
+    /// 곧바로 피자 메뉴까지 열어주는 메소드
     /// </summary>
     private void DirectADdPizzaMenu()
 	{
@@ -103,7 +104,7 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
         isPizzaAddButtonBlank = true;
     }
     /// <summary>
-    /// ��ȭâ ����ݱ�
+    /// 대화창을 제어한다.(열고 닫는다.)
     /// </summary>
     /// <param name="isOn"></param>
     /// <param name="iEndInspecting"></param>
@@ -313,7 +314,7 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
 
     public void Update()
     {
-        // Ư���� ��ҿ��� ZŰ�� ���� ��
+        // 일반 집이 아닌 곳에서 z키를 눌렀을 때
         if (houseType != HouseType.NONE && houseType != HouseType.HOUSE
             && Input.GetKeyDown(KeyCode.Z))
         {
@@ -321,14 +322,18 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
             {
                 case HouseType.PIZZASTORE:
                     //houseType = HouseType.NONE;
-                    //�÷��̾� ���߰�, ������ �������.
+                    //맵에 오브젝트를 정지시킨다.
                     iStop.StopMap(true);
-                    // ����â Ȱ��ȭ
+                    // 피자가게 창을 연다
                     ControlPizzaStore(true);
                     break;
                 case HouseType.DICESTORE:
                     iStop.StopMap(true);
                     ControlConversationUI(true, null, 2);
+                    break;
+                case HouseType.PINEAPPLESTORE:
+                    iStop.StopMap(true);
+                    ControlConversationUI(true, null, 3);
                     break;
             }
         }

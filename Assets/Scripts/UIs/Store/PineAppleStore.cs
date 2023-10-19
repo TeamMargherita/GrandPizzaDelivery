@@ -9,6 +9,7 @@ public class PineAppleStore : Conversation
 	public static bool isFineapple = true;
 
 	private int goodPoint = 0;
+	private int requireMoney = 0;
 	public PineAppleStore()
 	{
 		NpcTextStrArr = new string[42]
@@ -132,13 +133,94 @@ public class PineAppleStore : Conversation
 			goodPoint += 1;
 			index = -100;
 		}
+		else if (temInt == 25)
+		{
+			if (goodPoint == 0)
+			{
+				index = Findidx(25, new int[1] { 26 });
+				requireMoney = 600000;
+			}
+			else if (goodPoint == 1)
+			{
+				index = Findidx(25, new int[1] { 27 });
+				requireMoney = 400000;
+			}
+			else if (goodPoint == 2)
+			{
+				index = Findidx(25, new int[1] { 28 });
+				requireMoney = 200000;
+			}
+			else if (goodPoint >= 3)
+			{
+				index = Findidx(25, new int[1] { 29 });
+				requireMoney = 0;
+			}
+		}
+		else if (temInt == 30)
+		{
+			SettingConversation(Findidx(30, new int[1] { 32 }));
+			index = -100;
+		}
+		else if (temInt == 31)
+		{
+			GameManager.Instance.Money -= requireMoney;
+			Constant.PineappleCount++;
+			isFineapple = false;
+			SettingConversation(Findidx(31, new int[1] { 33 }));
+			index = -100;
+		}
+		else if (temInt == 37)
+		{
+			SettingConversation(Findidx(37, new int[1] { 39 }));
+			index = -100;
+		}
+		else if (temInt == 38)
+		{
+			GameManager.Instance.Money -= 600000;
+			Constant.PineappleCount++;
+			isFineapple = false;
+			SettingConversation(Findidx(38, new int[1] { 40 }));
+			index = -100;
+		}
 		return index;
 	}
+	protected override bool Condition(int num)
+	{
+		if (num == 30)
+		{
+			if (requireMoney > GameManager.Instance.Money)
+			{
+				return true;
+			}
+		}
+		else if (num == 31)
+		{
+			if (requireMoney <= GameManager.Instance.Money)
+			{
+				return true;
+			}
+		}
+		else if (num == 37)
+		{
+			if (600000 > GameManager.Instance.Money)
+			{
+				return true;
+			}
+		}
+		else if (num == 38)
+		{
+			if (600000 <= GameManager.Instance.Money)
+			{
+				return true;
+			}
+		}
 
+		return false;
+	}
 	/// <summary>
 	/// 텍스트들을 연결해서 그래프로 만듦
 	/// </summary>
-	/// 가게 주인 이미지  0 : 기분좋음 1 : 기분 안좋음 2 : 보통 3 : 의미심장
+	/// 가게 주인 이미지  0 : 기분좋음 1 : 관심없음 2 : 보통 3 : 의미심장
 	protected override void InitTextList()
 	{
 		startText = new int[3] { 0, 1, 2 };
@@ -264,6 +346,103 @@ public class PineAppleStore : Conversation
 			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 1 })
 		};
 		AddTextList();
-
+		nowTextNum = 25; nextTextNum = new int[2] { 30, 31 }; nextTextIsAble = new bool[2] { false, false };
+		methodSArr = new MethodS[5]
+		{
+			new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { 26 } ),
+			new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 200 } ),
+			new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 1 } ),
+			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 0 }),
+			new MethodS(MethodEnum.SETISCONDITION, new int[0])
+		};
+		AddTextList();
+		nowTextNum = 25; nextTextNum = new int[2] { 30, 31 }; nextTextIsAble = new bool[2] { false, false };
+		methodSArr = new MethodS[5]
+		{
+			new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { 27 } ),
+			new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 200 } ),
+			new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 2 } ),
+			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 0 }),
+			new MethodS(MethodEnum.SETISCONDITION, new int[0])
+		};
+		AddTextList();
+		nowTextNum = 25; nextTextNum = new int[2] { 30, 31 }; nextTextIsAble = new bool[2] { false, false };
+		methodSArr = new MethodS[5]
+		{
+			new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { 28 } ),
+			new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 200 } ),
+			new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 3 } ),
+			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 3 }),
+			new MethodS(MethodEnum.SETISCONDITION, new int[0])
+		};
+		AddTextList();
+		nowTextNum = 25; nextTextNum = new int[2] { 30, 31 }; nextTextIsAble = new bool[2] { false, false };
+		methodSArr = new MethodS[5]
+		{
+			new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { 29 } ),
+			new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 200 } ),
+			new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 2 } ),
+			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 2 }),
+			new MethodS(MethodEnum.SETISCONDITION, new int[0])
+		};
+		AddTextList();
+		nowTextNum = 30; nextTextNum = new int[1] { 34 }; nextTextIsAble = new bool[1] { true };
+		methodSArr = new MethodS[4]
+		{
+			new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { 32 } ),
+			new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 100 } ),
+			new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 2 } ),
+			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 3 })
+		};
+		AddTextList();
+		nowTextNum = 31; nextTextNum = new int[1] { 34 }; nextTextIsAble = new bool[1] { true };
+		methodSArr = new MethodS[4]
+		{
+			new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { 33 } ),
+			new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 100 } ),
+			new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 0 } ),
+			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 1 })
+		};
+		AddTextList();
+		nowTextNum = 34; nextTextNum = new int[1] { -1 }; nextTextIsAble = new bool[1] { false };
+		methodSArr = new MethodS[1]
+		{
+			new MethodS(MethodEnum.ENDPANEL, new int[1] { -1 } )
+		};
+		AddTextList();
+		nowTextNum = 35; nextTextNum = new int[2] { 37, 38 }; nextTextIsAble = new bool[2] { false, false };
+		methodSArr = new MethodS[5]
+		{
+			new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { 36 } ),
+			new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 200 } ),
+			new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 0 } ),
+			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 1 }),
+			new MethodS(MethodEnum.SETISCONDITION, new int[0])
+		};
+		AddTextList();
+		nowTextNum = 37; nextTextNum = new int[1] { 41 }; nextTextIsAble = new bool[1] { true };
+		methodSArr = new MethodS[4]
+		{
+			new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { 39 } ),
+			new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 100 } ),
+			new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 2 } ),
+			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 3 })
+		};
+		AddTextList();
+		nowTextNum = 38; nextTextNum = new int[1] { 41 }; nextTextIsAble = new bool[1] { true };
+		methodSArr = new MethodS[4]
+		{
+			new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { 40 } ),
+			new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 100 } ),
+			new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 0 } ),
+			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 1 })
+		};
+		AddTextList();
+		nowTextNum = 41; nextTextNum = new int[1] { -1 }; nextTextIsAble = new bool[1] { false };
+		methodSArr = new MethodS[1]
+		{
+			new MethodS(MethodEnum.ENDPANEL, new int[1] { -1 } )
+		};
+		AddTextList();
 	}
 }

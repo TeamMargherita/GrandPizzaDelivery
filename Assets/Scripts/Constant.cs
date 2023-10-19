@@ -41,8 +41,9 @@ public static class Constant
 	/// 개발한 피자 리스트
 	/// </summary>
 	public static List<Pizza> DevelopPizza = new List<Pizza>();
-
+	
 	public static bool IsMakePizza = false;
+	public static int PineappleCount = 0;
 	/// <summary>
 	/// 0.02초간의 텀
 	/// </summary>

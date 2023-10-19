@@ -18,6 +18,7 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
     [SerializeField] private GameObject employeeRecruitPanel;
     [SerializeField] private GameObject alarmMessagePanel;
     [SerializeField] private GameObject DeliveryJudgmentPanel;
+    [SerializeField] private GameObject SpecialPizzaDeliverySelectionPanel;
 
     [SerializeField] private UnityEngine.UI.Image addPizzaImg;
     [SerializeField] private UnityEngine.UI.Text alarmMessageText;
@@ -207,7 +208,19 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
     {
         DeliveryJudgmentPanel.SetActive(false);
     }
+    public void OKDarkDeliveryPanel()
+    {
+        SpecialPizzaDeliverySelectionPanel.SetActive(false);
+        GameManager.Instance.time = 0;
+        Time.timeScale = 1;
+    }
 
+    public void NoDarkDeliveryPanel()
+    {
+        SpecialPizzaDeliverySelectionPanel.SetActive(false);
+        GameManager.Instance.time = 0;
+        Time.timeScale = 1;
+    }
     public void ActiveTrueKeyExplainPanel(bool bo)
     {
         keyExplainPanel.SetActive(bo);

@@ -6,6 +6,7 @@ public class SendDeliveryRequest : MonoBehaviour
 {
     //주문리스트
     public List<Request> RequestList = new List<Request>();
+    [SerializeField] private GameObject DarkDeliveryOKPanel;
     private float time = 0;
     
     public int SumChrisma()
@@ -37,16 +38,28 @@ public class SendDeliveryRequest : MonoBehaviour
             int sum = Random.Range(0, SumChrisma());
             RequestList.Add(new Request(GameManager.Instance.PizzaMenu[percentage(sum)], false));
         }
-            
+    }
+
+    private void EndDelivery()
+    {
+        if((RequestList.Count <= 0 && GameManager.Instance.time >=75600) || GameManager.Instance.time >= 82800)
+        {
+            DarkDeliveryOKPanel.SetActive(true);
+            Time.timeScale = 0;
+        }
     }
     private void Update()
     {
-        if(RequestList.Count < 5)
-            time += Time.deltaTime;
-        if (time > 5)
+        if(GameManager.Instance.time < 75600)
         {
-            time = 0;
-            RandomCall();
+            if (RequestList.Count < 5)
+                time += Time.deltaTime;
+            if (time > 5)
+            {
+                time = 0;
+                RandomCall();
+            }
         }
+        EndDelivery();
     }
 }

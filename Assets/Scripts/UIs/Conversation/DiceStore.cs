@@ -217,6 +217,7 @@ public class DiceStore : Conversation , ICloseStore
 		{
 			if (bo)
 			{
+				Steel();
 				index = Findidx(11, new int[1] { 16 });
 			}
 			else

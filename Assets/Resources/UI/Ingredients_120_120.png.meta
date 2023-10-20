@@ -32,6 +32,15 @@ TextureImporter:
   - first:
       213: -939119030752730121
     second: Ingredients_120_120_9
+  - first:
+      213: 1583076485288712351
+    second: Ingredients_120_120_10
+  - first:
+      213: 242454144534793716
+    second: Ingredients_120_120_11
+  - first:
+      213: -1974030132446424362
+    second: Ingredients_120_120_12
   externalObjects: {}
   serializedVersion: 12
   mipmaps:
@@ -339,6 +348,69 @@ TextureImporter:
       bones: []
       spriteID: 7f3ac2a973497f2f0800000000000000
       internalID: -939119030752730121
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ingredients_120_120_10
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 0
+        width: 120
+        height: 120
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f9858e50da738f510800000000000000
+      internalID: 1583076485288712351
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ingredients_120_120_11
+      rect:
+        serializedVersion: 2
+        x: 1320
+        y: 0
+        width: 120
+        height: 120
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4fd415782ce5d5300800000000000000
+      internalID: 242454144534793716
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ingredients_120_120_12
+      rect:
+        serializedVersion: 2
+        x: 1440
+        y: 0
+        width: 120
+        height: 120
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6d21d9bad06da94e0800000000000000
+      internalID: -1974030132446424362
       vertices: []
       indices: 
       edges: []

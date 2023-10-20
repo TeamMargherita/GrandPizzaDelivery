@@ -283,8 +283,17 @@ public class Conversation
 	public void StartText()
 	{
 		NpcText.text = NpcTextStrArr[startText[Random.Range(0, startText.Length)]];
+		int index2 = -1;
+		List<TextNodeC> tem = TextList.FindAll(a => a.NowTextNum == -1);
+		if (tem.Count > 1)
+		{
+			index2 = Bifurcation(tem);
+		}
+		else
+		{
+			index2 = TextList.FindIndex(a => a.NowTextNum == -1);
+		}
 
-		int index2 = TextList.FindIndex(a => a.NowTextNum == -1);
 		SettingConversation(index2);
 	}
 	/// <summary>

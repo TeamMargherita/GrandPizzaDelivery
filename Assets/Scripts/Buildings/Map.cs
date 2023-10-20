@@ -55,6 +55,8 @@ public class Map : MonoBehaviour, IMap, IStop
         houseAddressList[66].IHouse.SetHouseType(houseMarkArr[1], HouseType.DICESTORE);
         houseAddressList[55].IHouse.SetHouseType(houseMarkArr[2], HouseType.PINEAPPLESTORE);
         houseAddressList[22].IHouse.SetHouseType(houseMarkArr[3], HouseType.INGREDIENTSTORE);
+        houseAddressList[78].IHouse.SetHouseType(houseMarkArr[2], HouseType.PINEAPPLESTORETWO);
+
         MakeAPoliceCar(45);
     }
     private void test()

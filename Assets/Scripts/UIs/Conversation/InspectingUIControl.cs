@@ -37,6 +37,7 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText, ICoroutineD
     private PineAppleStore pineappleStore;  // 파인애플 가게 대화 그래프 클래스
     private IngredientStore ingredientStore;    // 재료 가게 대화 그래프 클래스
     private PineAppleStoreTwo pineappleStoreTwo;    // 파인애플 가게2 대화 그래프 클래스
+    private GunStore gunStore;  // 총 가게 대화 그래프 클래스
     private Conversation temCon;
     private bool isAwake = false;
 
@@ -51,6 +52,7 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText, ICoroutineD
         pineappleStore = new PineAppleStore();
         ingredientStore = new IngredientStore();
         pineappleStoreTwo = new PineAppleStoreTwo();
+        gunStore = new GunStore();
 
         playerTextArr = new Text[playerTextObjArr.Length];
         playerTextsArr = new PlayerTexts[playerTextObjArr.Length];
@@ -119,6 +121,11 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText, ICoroutineD
             case 5:
                 npcSprArr = Resources.LoadAll<Sprite>("UI/PineappleStoreTwo_400_500");
                 InitConversation(pineappleStoreTwo);
+                break;
+            case 6:
+                npcSprArr = Resources.LoadAll<Sprite>("UI/GunStore_400_500");
+                InitConversation(gunStore);
+                SetIInitStore();
                 break;
 		}
     }

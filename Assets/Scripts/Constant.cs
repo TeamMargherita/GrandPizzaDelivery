@@ -146,4 +146,35 @@ public static class Constant
 	};
 
 	public static int[] nowDice = new int[2] { 9, 9 };
+
+	public static ItemS[] GunItem = new ItemS[8]
+	{
+		new ItemS(ItemType.GUN, 1, "Glick 19","장전방식 : 반자동 \n연사속도 : 중간 \n대미지 : 약함 \n명중률 : ", 0),
+		new ItemS(ItemType.GUN, 1, "S&U m500","장전방식 : 수동 \n연사속도 : 느림 \n대미지 : 강함 \n명중률 : ", 1),
+		new ItemS(ItemType.GUN, 1, "Mi1911","장전방식 : 반자동 \n연사속도 : 조금느림 \n대미지 : 매우약함 \n명중률 : ", 2),
+		new ItemS(ItemType.GUN, 1, "MiP9","장전방식 : 자동 \n연사속도 : 매우빠름 \n대미지 : 약함 \n명중률 : ", 3),
+		new ItemS(ItemType.GUN, 1, "MiPX","장전방식 : 자동 \n연사속도 : 빠름 \n대미지 : 중간 \n명중률 : ", 4),
+		new ItemS(ItemType.GUN, 1, "Pi90","장전방식 : 자동 \n연사속도 : 빠름 \n대미지 : 중간 \n명중률 : ", 5),
+		new ItemS(ItemType.GUN, 1, "Kress Victor","장전방식 : 자동 \n연사속도 : 매우매우빠름 \n대미지 : 약함 \n명중률 : ", 6),
+		new ItemS(ItemType.GUN, 1, "Thimpson SMG","장전방식 : 자동 \n연사속도 : 빠름 \n대미지 : 매우약함 \n명중률 : ", 7)
+	};
+	/// <summary>
+	/// 연사속도 - 10~19 : 매우느림 - 20~29 : 느림 - 30~39 : 조금 느림 - 40~55 : 중간 - 56~ 64 : 조금 빠름 - 65~79 : 빠름 - 80~89 : 매우 빠름 - 90~ : 매우매우빠름
+	/// 대미지 - 10~19 : 매우 약함 - 20~29 : 약함 - 30~39 : 조금 약함 -40~55 : 중간 - 56~74 : 조금 강함 - 75~85 : 강함 - 86~ : 매우 강함
+	/// </summary>
+	public static GunS[] GunInfo = new GunS[8]
+	{
+		new GunS(LoadEnum.SEMIAUTO, 50, 20, 100, "UI/Glick19_240_120"),
+		new GunS(LoadEnum.MANUAL, 20, 80, 100, "UI/S&Um500_240_120"),
+		new GunS(LoadEnum.SEMIAUTO, 30, 10, 100, "UI/Mi1911_240_120"),
+		new GunS(LoadEnum.AUTO, 80, 20, 100, "UI/MiP9_240_120"),
+		new GunS(LoadEnum.AUTO, 65, 50, 100, "UI/MiPX_240_120"),
+		new GunS(LoadEnum.AUTO, 65, 50, 100, "UI/Pi90_240_120"),
+		new GunS(LoadEnum.AUTO, 90, 20, 100, "UI/KressVictor_240_120"),
+		new GunS(LoadEnum.AUTO, 65, 10, 100, "UI/ThimpsonSMG_240_120")
+	};
+	/// <summary>
+	/// 현재 착용한 총. -1은 미착용 상태를 의미함.
+	/// </summary>
+	public static int[] nowGun = new int[1] { -1 };
 }

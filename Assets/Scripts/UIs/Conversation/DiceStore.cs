@@ -6,10 +6,10 @@ using ConversationNS;
 // 한석호 작성
 public class DiceStore : Conversation , ICloseStore
 {
-	public static bool isOneDayDiceStore = false;
+	public static bool IsOneDayDiceStore = false;
 	
-	private int DiceLuck = -1;
-	private int ItemSumCost = -1;
+	private int diceLuck = -1;
+	private int itemSumCost = -1;
 	private bool isDiscount = true;
 	public DiceStore()
 	{
@@ -64,17 +64,17 @@ public class DiceStore : Conversation , ICloseStore
 	}
 	protected override void InitStartText()
 	{
-		if (isOneDayDiceStore)
+		if (IsOneDayDiceStore)
 		{
-			startText = new int[3] { 0, 1, DiceLuck };
+			startText = new int[3] { 0, 1, diceLuck };
 		}
 		else
 		{
 			isDiscount = true;
 			//Debug.Log("디스카운트 실화?");
-			DiceLuck = Random.Range(2, 8);
-			startText = new int[1] { DiceLuck };
-			isOneDayDiceStore = true;
+			diceLuck = Random.Range(2, 8);
+			startText = new int[1] { diceLuck };
+			IsOneDayDiceStore = true;
 		}
 	}
 	public override void JumpConversation(int num)
@@ -83,7 +83,7 @@ public class DiceStore : Conversation , ICloseStore
 		// 플레이어가 물건을 고르고 구매하기를 눌렀을 때
 		if (temInt == -5)
 		{
-			ItemSumCost = num;
+			itemSumCost = num;
 			if (num <= 5000)
 			{
 				index = Findidx(-5, new int[1] { 19 });
@@ -96,7 +96,7 @@ public class DiceStore : Conversation , ICloseStore
 			{
 				index = Findidx(-5, new int[1] { 21 });
 			}
-			SettingConversation(index, ItemSumCost);
+			SettingConversation(index, itemSumCost);
 			return;
 		}
 		
@@ -107,7 +107,7 @@ public class DiceStore : Conversation , ICloseStore
 		// 플레이어가 고른 물건을 취소하고 상점 패널을 닫았을 때
 		if (temInt == -5)
 		{
-			ItemSumCost = -1;
+			itemSumCost = -1;
 			index = Findidx(-5, new int[1] { -1 });
 		}
 		SettingConversation(index);
@@ -131,20 +131,20 @@ public class DiceStore : Conversation , ICloseStore
 			// 산 물건들 인벤에 들어감
 			AddPlayerItemDic();
 			// 금액지불
-			GameManager.Instance.Money -= ItemSumCost;
-			ItemSumCost = -1;
+			GameManager.Instance.Money -= itemSumCost;
+			itemSumCost = -1;
 			SettingConversation(Findidx(22, new int[1] { 25 }));
 			index = -100;
 		}
 		else if (temInt == 23)
 		{
 			// 현재 가진 돈보다 가격이 10% 초과일 때
-			if (GameManager.Instance.Money * 1.1f < ItemSumCost)
+			if (GameManager.Instance.Money * 1.1f < itemSumCost)
 			{
 				index = Findidx(23, new int[1] { 26 });
 			}
 			// 현재 가진 돈보다 10% 이하로 비쌀 때, 오늘의 운세가 6이 나왔을 때
-			else if (GameManager.Instance.Money * 1.1f >= ItemSumCost && GameManager.Instance.Money < ItemSumCost && DiceLuck == 2)
+			else if (GameManager.Instance.Money * 1.1f >= itemSumCost && GameManager.Instance.Money < itemSumCost && diceLuck == 2)
 			{
 				index = Findidx(23, new int[1] { 28 });
 			}
@@ -182,7 +182,7 @@ public class DiceStore : Conversation , ICloseStore
 	{
 		if (num == 22)
 		{
-			if (GameManager.Instance.Money >= ItemSumCost)
+			if (GameManager.Instance.Money >= itemSumCost)
 			{
 				SetISCondition();
 				return true;
@@ -190,7 +190,7 @@ public class DiceStore : Conversation , ICloseStore
 		}
 		else if (num == 23)
 		{
-			if (GameManager.Instance.Money < ItemSumCost)
+			if (GameManager.Instance.Money < itemSumCost)
 			{
 				return true;
 			}
@@ -230,13 +230,13 @@ public class DiceStore : Conversation , ICloseStore
 			if (bo)
 			{
 				index = Findidx(31, new int[1] { 35 });
-				if (ItemSumCost > 2000)
+				if (itemSumCost > 2000)
 				{
-					ItemSumCost -= 2000;
+					itemSumCost -= 2000;
 				}
 				else
 				{
-					ItemSumCost = 0;
+					itemSumCost = 0;
 				}
 			}
 			else
@@ -244,7 +244,7 @@ public class DiceStore : Conversation , ICloseStore
 				index = Findidx(31, new int[1] { 36 });
 				isDiscount = false;
 			}
-			SettingConversation(index, ItemSumCost);
+			SettingConversation(index, itemSumCost);
 			return;
 		}
 		else if (temInt == 38)
@@ -252,15 +252,15 @@ public class DiceStore : Conversation , ICloseStore
 			if (bo)
 			{
 				index = Findidx(38, new int[1] { 32 });
-				if (ItemSumCost > 2000)
+				if (itemSumCost > 2000)
 				{
-					ItemSumCost -= 2000;
+					itemSumCost -= 2000;
 				}
 				else
 				{
-					ItemSumCost = 0;
+					itemSumCost = 0;
 				}
-				GameManager.Instance.Money -= ItemSumCost;
+				GameManager.Instance.Money -= itemSumCost;
 			}
 			else
 			{

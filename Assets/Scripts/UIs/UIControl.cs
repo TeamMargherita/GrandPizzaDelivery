@@ -355,6 +355,10 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
                     iStop.StopMap(true);
                     ControlConversationUI(true, null, 5);
                     break;
+                case HouseType.GUNSTORE:
+                    iStop.StopMap(true);
+                    ControlConversationUI(true, null, 6);
+                    break;
             }
         }
     }

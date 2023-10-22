@@ -61884,7 +61884,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 5465525691940280717}
-  gunShooting: {fileID: 5465525691940280723}
 --- !u!1 &1473831297
 GameObject:
   m_ObjectHideFlags: 0
@@ -80456,7 +80455,6 @@ GameObject:
   - component: {fileID: 5465525691940280721}
   - component: {fileID: 5465525691940280722}
   - component: {fileID: 5465525691940280720}
-  - component: {fileID: 5465525691940280723}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -80596,20 +80594,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.34104586, y: 0.80555457}
   m_EdgeRadius: 0
---- !u!114 &5465525691940280723
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5465525691940280717}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aca6225ab0b049c44a383627713da587, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShootingStance: 0
-  Point: {x: 0, y: 0, z: 0}
 --- !u!1001 &5937213409140301741
 PrefabInstance:
   m_ObjectHideFlags: 0

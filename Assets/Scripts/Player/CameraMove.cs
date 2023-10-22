@@ -7,7 +7,7 @@ public class CameraMove : MonoBehaviour
 {
     public GameObject player;
     //private Vector3 CameraPosition;
-    [SerializeField] private GunShooting gunShooting;
+    //[SerializeField] private GunShooting gunShooting;
     
     void Update()
     {

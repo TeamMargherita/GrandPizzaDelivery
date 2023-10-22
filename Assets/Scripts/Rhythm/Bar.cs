@@ -12,10 +12,10 @@ public class Bar : MonoBehaviour
     private decimal timing;                             // 남은 시간
     private Vector2 end = new Vector2(-8f, 0f);         // 도착 위치
     private Transform trans;
-
+    private RhythmManager manager;
     void Update()
     {
-        timing = arrive - RhythmManager.Instance.CurrentTime;
+        timing = arrive - manager.CurrentTime;
         BarMove();
     }
 
@@ -25,6 +25,7 @@ public class Bar : MonoBehaviour
     /// <param name="arriveTime">도착 시간</param>
     public void Init(decimal arriveTime, Vector2 _end)
     {
+        manager = RhythmManager.Instance;
         if (trans == null)
             trans = GetComponent<Transform>();
         arrive = arriveTime;
@@ -37,7 +38,7 @@ public class Bar : MonoBehaviour
     /// </summary>
     private void BarMove()
     {
-        speed = RhythmManager.Instance.Speed;
+        speed = manager.Speed;
         trans.localPosition = end + Vector2.right * (float)timing * speed * 5f;
     }
 }

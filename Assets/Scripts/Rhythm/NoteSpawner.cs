@@ -14,30 +14,26 @@ public class NoteSpawner : MonoBehaviour
     private int barCycle = 0;               // 마디 색 변경을 위한 임시 변수
     public GameObject[] Lines;
 
+    public RhythmStorage storage;
     private RhythmManager manager;
-    private RhythmStorage storage;
 
     private Sprite[] pizzaIngredientSprArr;
     private Sprite[] pizzaIngredientSprArrGolden;
 
     private Vector2 end = new Vector2(-8f, 0f);
 
-    void Start()
+    private void Start()
     {
         manager = RhythmManager.Instance;
-        storage = manager.Storage;
         pizzaIngredientSprArr = Resources.LoadAll<Sprite>("UI/Ingredients_120_120");
         pizzaIngredientSprArrGolden = Resources.LoadAll<Sprite>("UI/Golden_Ingredients_120_120");
         Init();
     }
 
-    void Update()
+    private void Update()
     {
         if (manager.Data != null)
             manager.Data.Sync = Sync;
-
-        // 나와있는 노트와 바를 다시 오브젝트 풀에 저장
-        storage.ReturnNote();
     }
     public void Init()
     {
@@ -67,7 +63,7 @@ public class NoteSpawner : MonoBehaviour
         float nextList = manager.Data.Length / ratio;
         for (int i = 0; i < Lines.Length; i++)
         {
-            foreach(var v in manager.Data.NoteLines[i])
+            foreach (var v in manager.Data.NoteLines[i])
             {
                 // 노트가 존재함
                 Note note;
@@ -97,6 +93,7 @@ public class NoteSpawner : MonoBehaviour
                 // 노트를 NoteLoad(나와있는 노트 모음)에 추가
                 storage.NoteLoad[i].Enqueue(note);
             }
+            menuList = 0;
         }
     }
 
@@ -110,8 +107,8 @@ public class NoteSpawner : MonoBehaviour
 
         // 생성
         barCycle = 0;
-        // 5000개의 마디를 생성(추후에 곡 길이에 따른 마디로 변경)
-        for(int i = 0; i < 2000; i++)
+        // 2000개의 마디를 생성(추후에 곡 길이에 따른 마디로 변경)
+        for (int i = 0; i < 2000; i++)
         {
             for (int j = 0; j < storage.BarLoad.Length; j++)
             {
@@ -119,7 +116,7 @@ public class NoteSpawner : MonoBehaviour
 
                 bar = storage.DequeueBar();
 
-                end.y = (j == 0) ? 0 : 2;
+                end.y = Lines[j].transform.position.y;
                 // 마디 초기화
                 bar.Init(nextBar, end);
                 bar.gameObject.SetActive(true);

@@ -7,7 +7,7 @@ using PizzaNS;
 public class GameManager : MonoBehaviour
 {
     private static GameManager _instance;
-
+    public Pizza?[] PizzaInventoryData = new Pizza?[5];
     public List<Pizza> PizzaMenu = new List<Pizza>();
     public List<Slot> InventorySlotList = new List<Slot>();
     public GameObject TimeText;

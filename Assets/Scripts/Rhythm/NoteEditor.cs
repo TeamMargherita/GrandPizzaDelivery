@@ -10,8 +10,9 @@ public class NoteEditor : MonoBehaviour
     public Button BackButton;       // 감기 버튼
     public AudioSource BgSound;     // 배경 음악
 
-    private decimal calculator;     // 노트 배열 인덱스 계산용
     private RhythmManager manager;
+    private decimal calculator;     // 노트 배열 인덱스 계산용
+    private int index;
 
     private void Start()
     {
@@ -26,6 +27,7 @@ public class NoteEditor : MonoBehaviour
         SetPitch();
         Playing();
     }
+
     public void Front(int second)
     {
         BgSound.time = Mathf.Clamp(BgSound.time - second, 0f, BgSound.clip.length);
@@ -53,13 +55,17 @@ public class NoteEditor : MonoBehaviour
     /// </summary>
     private void AddNote()
     {
-        if (Input.GetKeyDown(KeyCode.C) || Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKeyDown(KeyCode.Q) || Input.GetKey(KeyCode.W))
         {
-            calculator = (manager.CurrentTime) / NoteSpawner.BitSlice;
-            int index = calculator % NoteSpawner.BitSlice < NoteSpawner.BitSlice / 2 ? (int)calculator : (int)calculator + 1;
-            Debug.Log(index);
-            if (!manager.Data.IsNote.ContainsKey(index))
-                manager.Data.IsNote.Add(index, index * (float)NoteSpawner.BitSlice);
+            calculator = manager.CurrentTime / NoteSpawner.BitSlice;
+            if (!manager.Data.NoteLines[0].ContainsKey((int)calculator))
+                manager.Data.NoteLines[0].Add((int)calculator, (Input.GetKeyDown(KeyCode.Q)) ? NoteType.Normal : NoteType.Hold);
+        }
+        if (Input.GetKeyDown(KeyCode.O) || Input.GetKey(KeyCode.P))
+        {
+            calculator = manager.CurrentTime / NoteSpawner.BitSlice;
+            if (!manager.Data.NoteLines[1].ContainsKey((int)calculator))
+                manager.Data.NoteLines[1].Add((int)calculator, (Input.GetKeyDown(KeyCode.O)) ? NoteType.Normal : NoteType.Hold);
         }
     }
 
@@ -68,18 +74,17 @@ public class NoteEditor : MonoBehaviour
     /// </summary>
     private void RemoveNote()
     {
-        if (Input.GetKey(KeyCode.V))
+        if (Input.GetKey(KeyCode.LeftAlt))
         {
-            calculator = (manager.CurrentTime - (decimal)manager.Data.Sync) / NoteSpawner.BitSlice;
-            int index = calculator % NoteSpawner.BitSlice < NoteSpawner.BitSlice / 2 ? (int)calculator : (int)calculator + 1;
-
-            if (manager.Data.IsNote.ContainsKey(index))
-            {
-                Debug.Log(index);
-                if (NoteSpawner.NoteLoad.Count > 0)
-                    NoteSpawner.NoteClear();
-                manager.Data.IsNote.Remove(index);
-            }
+            calculator = manager.CurrentTime / NoteSpawner.BitSlice;
+            if (manager.Data.NoteLines[0].ContainsKey((int)calculator))
+                manager.Data.NoteLines[0].Remove((int)calculator);
+        }
+        if (Input.GetKey(KeyCode.LeftAlt))
+        {
+            calculator = manager.CurrentTime / NoteSpawner.BitSlice;
+            if (manager.Data.NoteLines[1].ContainsKey((int)calculator))
+                manager.Data.NoteLines[1].Remove((int)calculator);
         }
     }
 

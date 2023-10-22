@@ -1,15 +1,17 @@
 using System.Collections.Generic;
 
+public enum NoteType { None = 0, Normal, Hold }
+
 /// <summary>
 /// ∞Ó µ•¿Ã≈Õ∏¶ ¥„∞Ì ¿÷¥¬ ≈¨∑°Ω∫
 /// </summary>
 public class AudioData
 {
-    public string Name;                         // ∞Ó ¿Ã∏ß
-    public float BPM;                           // ∞Ó BPM
-    public float Length;                        // ∞Ó ±Ê¿Ã
-    public float Sync;                          // ∞Ó ΩÃ≈©
-    public SortedList<int, float> IsNote;       // ≥Î∆Æ ª˝º∫ Ω√∞£
+    public string Name;                             // ∞Ó ¿Ã∏ß
+    public float BPM;                               // ∞Ó BPM
+    public float Length;                            // ∞Ó ±Ê¿Ã
+    public float Sync;                              // ∞Ó ΩÃ≈©
+    public SortedList<int, NoteType>[] NoteLines;     // ≥Î∆Æ ª˝º∫ µ•¿Ã≈Õ
 
     public AudioData()
     {
@@ -17,7 +19,9 @@ public class AudioData
         BPM = 60f;
         Length = 0f;
         Sync = 0f;
-        IsNote = new SortedList<int, float>();
+        NoteLines = new SortedList<int, NoteType>[2];
+        NoteLines[0] = new SortedList<int, NoteType>();
+        NoteLines[1] = new SortedList<int, NoteType>();
     }
 
     public AudioData(string fileName)
@@ -31,6 +35,6 @@ public class AudioData
         BPM = data.BPM;
         Length = data.Length;
         Sync = data.Sync;
-        IsNote = data.IsNote;
+        NoteLines = data.NoteLines;
     }
 }

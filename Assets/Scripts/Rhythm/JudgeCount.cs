@@ -10,13 +10,20 @@ public class JudgeCount : MonoBehaviour
     public Text Good;
     public Text Miss;
 
+    private RhythmManager manager;
+
+    private void Start()
+    {
+        manager = RhythmManager.Instance;
+    }
+
     void Update()
     {
-        Attractive.text = "Attractive : " + RhythmManager.Instance.Attractive.ToString();
-        Accuracy.text = "Accuracy : " + RhythmManager.Instance.Accuracy.ToString("00.0") + "%";
-        Perfect.text = "Perfect : " + RhythmManager.Instance.Perfect.ToString();
-        Great.text = "Great : " + RhythmManager.Instance.Great.ToString();
-        Good.text = "Good : " + RhythmManager.Instance.Good.ToString();
-        Miss.text = "Miss : " + RhythmManager.Instance.Miss.ToString();
+        Attractive.text = "Attractive : " + manager.Judges.Attractive.ToString();
+        Accuracy.text = "Accuracy : " + manager.Judges.Accuracy.ToString("00.0") + "%";
+        Perfect.text = "Perfect : " + manager.Judges.Perfect.ToString();
+        Great.text = "Great : " + manager.Judges.Great.ToString();
+        Good.text = "Good : " + manager.Judges.Good.ToString();
+        Miss.text = "Miss : " + manager.Judges.Miss.ToString();
     }
 }

@@ -41,7 +41,7 @@ namespace BuildingNS
     
     namespace HouseNS
     {
-        public enum HouseType { NONE, PIZZASTORE, HOUSE};
+        public enum HouseType { NONE, PIZZASTORE, HOUSE, DICESTORE, PINEAPPLESTORE };
     }
 }
 namespace BuildingAddressNS
@@ -69,7 +69,7 @@ namespace BuildingAddressNS
 
 namespace PizzaNS
 {
-    public enum Ingredient { NONE, TOMATO, CHEESE, BASIL, POTATO, BACON, CORN, JALAPENO, CHICKEN, MEAT };
+    public enum Ingredient { PINEAPPLE, TOMATO, CHEESE, BASIL, POTATO, BACON, CORN, JALAPENO, CHICKEN, MEAT };
 
     public struct IngredientS
     {
@@ -147,7 +147,77 @@ namespace PoliceNS
         // 차례로 없음, 이동중, 불심검문을 위한 멈춤, 불심검문중 이다.
         public enum PoliceState
         {
-            NONE, MOVING, STOP, INSPECTING, DESTROY
+            NONE, MOVING, STOP, INSPECTING, DESTROY, SPUERCHASE, AUTOMOVE, OUTMAP
         };
     }
+}
+
+namespace ConversationNS
+{
+    public class TextNodeC
+    {
+        public int NowTextNum;  // 현재 텍스트 번호
+        public int[] NextTextNum;  // 현재 텍스트 번호 다음에 연결되어 있는 텍스트 번호들
+        public MethodS[] MethodSArr;    // 현재 텍스트 등장과 동시에 실행되어야 하는 함수들과 인자값을 넣어놓은 구조체의 배열
+        public bool[] NextTextIsAble;   // 현재 텍스트 번호 다음에 연결되어 있는 텍스트의 연결 여부
+
+        public TextNodeC (int nowTextNum, int[] nextTextNum, MethodS[] methodSArr, bool[] nextTextIsAble)
+        {
+            NowTextNum = nowTextNum;
+            NextTextNum = nextTextNum;
+            MethodSArr = methodSArr;
+            NextTextIsAble = nextTextIsAble;
+        }
+    }
+
+    public struct MethodS
+    {
+        public MethodEnum MethodNum;
+        public int[] MethodParameter;
+
+        public MethodS (MethodEnum methodNum, int[] methodParameter)
+        {
+            MethodNum = methodNum;
+            MethodParameter = methodParameter;
+        }
+    }
+
+    public enum MethodEnum { NONE, SETSIZECONTENTS, CHANGENPCIMAGE, CHANGEPLAYERIMAGE, SETRANDNPCTEXT, ENDPANEL, SPAWNPOLICE, OPENSTORE, SAVETEXTINDEX, SETISCONDITION };
+}
+
+namespace StoreNS
+{
+    public enum ItemType { NONE, DICE };
+
+    public struct ItemS
+	{
+        public ItemType Type;
+        public int MaxCnt;
+        public string Name;
+        public string Explain;
+        public int ItemNumber;
+
+        public ItemS (ItemType type, int maxCnt, string name, string explain, int itemNumber)
+		{
+            Type = type;
+            MaxCnt = maxCnt;
+            Name = name;
+            Explain = explain;
+            ItemNumber = itemNumber;
+		}
+	}
+
+    public struct DiceS
+	{
+        public int DiceCnt;
+        public int[] DiceArr;
+        public string Path;
+
+        public DiceS(int diceCnt, int[] diceArr, string path)
+		{
+            DiceCnt = diceCnt;
+            DiceArr = diceArr;
+            Path = path;
+        }
+	}
 }

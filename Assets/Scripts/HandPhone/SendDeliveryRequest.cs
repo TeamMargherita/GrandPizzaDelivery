@@ -40,26 +40,39 @@ public class SendDeliveryRequest : MonoBehaviour
         }
     }
 
-    private void EndDelivery()
+    private bool afternoonSDRON()
     {
-        if((RequestList.Count <= 0 && GameManager.Instance.time >=75600) || GameManager.Instance.time >= 82800)
+        if (GameManager.Instance.time >= 32400 && GameManager.Instance.time <= 75600)
         {
-            DarkDeliveryOKPanel.SetActive(true);
-            Time.timeScale = 0;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    private bool DarkSDRON()
+    {
+        if(GameManager.Instance.time >= 0 && GameManager.Instance.time <= 14400)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
     private void Update()
     {
-        if(GameManager.Instance.time < 75600)
+        if(afternoonSDRON() || DarkSDRON())
         {
             if (RequestList.Count < 5)
                 time += Time.deltaTime;
-            if (time > 5)
+            if (time > 1)
             {
                 time = 0;
                 RandomCall();
             }
         }
-        EndDelivery();
     }
 }

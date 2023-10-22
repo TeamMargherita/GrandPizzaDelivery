@@ -43,3 +43,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dbadaab4c1915142abc75b0e3de2c9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DarkDeliveryOKPanel: {fileID: 0}

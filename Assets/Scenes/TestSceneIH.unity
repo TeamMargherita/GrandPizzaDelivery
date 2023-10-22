@@ -1196,10 +1196,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 342047153}
     - target: {fileID: 9168485575465350141, guid: 58a0340469bb99a4186e7caf63948757, type: 3}
-      propertyPath: ItemPanel
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 9168485575465350141, guid: 58a0340469bb99a4186e7caf63948757, type: 3}
       propertyPath: DeliveryScreen
       value: 
       objectReference: {fileID: 1548952991}
@@ -1208,29 +1204,25 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1107713686}
     - target: {fileID: 9168485575465350141, guid: 58a0340469bb99a4186e7caf63948757, type: 3}
-      propertyPath: InventorySlot.Array.data[0]
+      propertyPath: MainInventorySlot.Array.data[0]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 803322158}
     - target: {fileID: 9168485575465350141, guid: 58a0340469bb99a4186e7caf63948757, type: 3}
-      propertyPath: InventorySlot.Array.data[1]
+      propertyPath: MainInventorySlot.Array.data[1]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 472862791}
     - target: {fileID: 9168485575465350141, guid: 58a0340469bb99a4186e7caf63948757, type: 3}
-      propertyPath: InventorySlot.Array.data[2]
+      propertyPath: MainInventorySlot.Array.data[2]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1201678816}
     - target: {fileID: 9168485575465350141, guid: 58a0340469bb99a4186e7caf63948757, type: 3}
-      propertyPath: InventorySlot.Array.data[3]
+      propertyPath: MainInventorySlot.Array.data[3]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1400136076}
     - target: {fileID: 9168485575465350141, guid: 58a0340469bb99a4186e7caf63948757, type: 3}
-      propertyPath: InventorySlot.Array.data[4]
+      propertyPath: MainInventorySlot.Array.data[4]
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 9168485575465350141, guid: 58a0340469bb99a4186e7caf63948757, type: 3}
-      propertyPath: PizzaInventorySlot.Array.size
-      value: 5
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 460405248}
     - target: {fileID: 9168485575465350141, guid: 58a0340469bb99a4186e7caf63948757, type: 3}
       propertyPath: PizzaInventorySlot.Array.data[0]
       value: 
@@ -2398,7 +2390,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 791406285}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -5128,7 +5120,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2971789020282506780, guid: e6a66398b0928e5469c18e83ce576710, type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 2971789020282506780, guid: e6a66398b0928e5469c18e83ce576710, type: 3}
       propertyPath: m_AnchorMax.x
@@ -33666,7 +33658,7 @@ RectTransform:
   - {fileID: 460405249}
   - {fileID: 1201411725}
   m_Father: {fileID: 791406285}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -36750,7 +36742,7 @@ Transform:
   - {fileID: 763051813}
   - {fileID: 1803018753}
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &465662766
 GameObject:
@@ -36940,7 +36932,7 @@ RectTransform:
   m_Children:
   - {fileID: 1943668619}
   m_Father: {fileID: 791406285}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -37250,7 +37242,7 @@ RectTransform:
   - {fileID: 1287464183}
   - {fileID: 1075781404}
   m_Father: {fileID: 791406285}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -38242,10 +38234,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 791406285}
     m_Modifications:
-    - target: {fileID: 275381824, guid: 924657db66813a54080377e7f494ef1e, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1232639671345604970, guid: 924657db66813a54080377e7f494ef1e, type: 3}
       propertyPath: ma
       value: 
@@ -39148,7 +39136,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &541032902
 MonoBehaviour:
@@ -44282,6 +44270,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 759928304}
   m_CullTransparentMesh: 1
+--- !u!1 &760369333 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1232639671490668043, guid: 924657db66813a54080377e7f494ef1e, type: 3}
+  m_PrefabInstance: {fileID: 512403448}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &760579533
 GameObject:
   m_ObjectHideFlags: 0
@@ -45110,13 +45103,13 @@ PrefabInstance:
       value: GameManager
       objectReference: {fileID: 0}
     - target: {fileID: 1449026133297216376, guid: 19b17f2f83dfdac4296edfec458fe98c, type: 3}
-      propertyPath: time
-      value: 82000
-      objectReference: {fileID: 0}
-    - target: {fileID: 1449026133297216376, guid: 19b17f2f83dfdac4296edfec458fe98c, type: 3}
-      propertyPath: TimeText
+      propertyPath: SDR
       value: 
-      objectReference: {fileID: 1520679751}
+      objectReference: {fileID: 1884514280}
+    - target: {fileID: 1449026133297216376, guid: 19b17f2f83dfdac4296edfec458fe98c, type: 3}
+      propertyPath: DarkDeliveryOKPanel
+      value: 
+      objectReference: {fileID: 1234315352}
     - target: {fileID: 1449026133297216377, guid: 19b17f2f83dfdac4296edfec458fe98c, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -45338,6 +45331,7 @@ RectTransform:
   - {fileID: 862639303}
   - {fileID: 324818749}
   - {fileID: 1107713689}
+  - {fileID: 1234315353}
   - {fileID: 470240755}
   - {fileID: 342047154}
   - {fileID: 1520679754}
@@ -45348,7 +45342,6 @@ RectTransform:
   - {fileID: 835308663}
   - {fileID: 476208791}
   - {fileID: 1296560652}
-  - {fileID: 1234315353}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -46079,7 +46072,7 @@ RectTransform:
   - {fileID: 1343243525}
   - {fileID: 96013961}
   m_Father: {fileID: 791406285}
-  m_RootOrder: 13
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -51334,7 +51327,7 @@ RectTransform:
   m_Children:
   - {fileID: 1221439731}
   m_Father: {fileID: 791406285}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -54929,7 +54922,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1188840104
 GameObject:
@@ -55094,6 +55087,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1188847973}
   m_CullTransparentMesh: 1
+--- !u!1 &1189275469 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 275381824, guid: 924657db66813a54080377e7f494ef1e, type: 3}
+  m_PrefabInstance: {fileID: 512403448}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1193609107
 GameObject:
   m_ObjectHideFlags: 0
@@ -55700,6 +55698,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1209686004}
   m_CullTransparentMesh: 1
+--- !u!1 &1211220454
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1211220455}
+  m_Layer: 0
+  m_Name: GunManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1211220455
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1211220454}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1074.0455, y: 508.83646, z: -115.516235}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1218969906
 GameObject:
   m_ObjectHideFlags: 0
@@ -56388,7 +56416,7 @@ GameObject:
   - component: {fileID: 1234315355}
   - component: {fileID: 1234315354}
   m_Layer: 5
-  m_Name: SpecialPizzaDeliverySelectionPanel
+  m_Name: DarkDeliveryOKPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -56407,7 +56435,7 @@ RectTransform:
   m_Children:
   - {fileID: 777732030}
   m_Father: {fileID: 791406285}
-  m_RootOrder: 16
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -57930,7 +57958,7 @@ RectTransform:
   - {fileID: 277467586}
   - {fileID: 353572473}
   m_Father: {fileID: 791406285}
-  m_RootOrder: 15
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -61856,6 +61884,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 5465525691940280717}
+  gunShooting: {fileID: 5465525691940280723}
 --- !u!1 &1473831297
 GameObject:
   m_ObjectHideFlags: 0
@@ -62861,7 +62890,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 791406285}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -71847,7 +71876,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1910013718
 GameObject:
@@ -72568,6 +72597,8 @@ MonoBehaviour:
   alarmMessagePanel: {fileID: 1221439730}
   DeliveryJudgmentPanel: {fileID: 1107713686}
   SpecialPizzaDeliverySelectionPanel: {fileID: 1234315352}
+  DeliveryAppButton: {fileID: 760369333}
+  DarkDeliveryAppButton: {fileID: 1189275469}
   addPizzaImg: {fileID: 1563996481}
   alarmMessageText: {fileID: 1788539172}
   PizzaInventory: {fileID: 835308662}
@@ -73512,7 +73543,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4261749777833074856, guid: 681e259147c5b1e4faaae98330ca1555, type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 4261749777833074856, guid: 681e259147c5b1e4faaae98330ca1555, type: 3}
       propertyPath: m_AnchorMax.x
@@ -80425,7 +80456,8 @@ GameObject:
   - component: {fileID: 5465525691940280721}
   - component: {fileID: 5465525691940280722}
   - component: {fileID: 5465525691940280720}
-  m_Layer: 6
+  - component: {fileID: 5465525691940280723}
+  m_Layer: 10
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -80564,6 +80596,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.34104586, y: 0.80555457}
   m_EdgeRadius: 0
+--- !u!114 &5465525691940280723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5465525691940280717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aca6225ab0b049c44a383627713da587, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShootingStance: 0
+  Point: {x: 0, y: 0, z: 0}
 --- !u!1001 &5937213409140301741
 PrefabInstance:
   m_ObjectHideFlags: 0

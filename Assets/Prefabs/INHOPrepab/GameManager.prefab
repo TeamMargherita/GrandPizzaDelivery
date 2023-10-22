@@ -43,5 +43,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfeb7969218a9fd47a2a74ee0fe3f85c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TimeText: {fileID: 0}
-  time: 0
+  SDR: {fileID: 0}
+  DarkDeliveryOKPanel: {fileID: 0}
+  time: 32400

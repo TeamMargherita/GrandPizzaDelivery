@@ -25,15 +25,12 @@ public class HandPhone : MonoBehaviour
     public void DarkDeliveryOnclick()//¾îµÒÀÇ ¹è´Þ¾Û ¹öÆ° ´­·¶À»½Ã
     {
         DarkDeliveryAppButton.SetActive(false);
+        DeliveryScreen.SetActive(true);
+        DSscript.TextUpdate();
     }
     public void HomeButtonOnClick()//È¨¹öÆ° ´­·¶À»½Ã
     {
         DeliveryAppButton.SetActive(true);
         DeliveryScreen.SetActive(false);
-    }
-
-    private void Update()
-    {
-        
     }
 }

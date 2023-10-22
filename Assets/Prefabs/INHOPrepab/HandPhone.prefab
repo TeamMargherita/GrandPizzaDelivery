@@ -97,7 +97,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &275381825
 RectTransform:
   m_ObjectHideFlags: 0
@@ -115,7 +115,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 129.1, y: 135}
+  m_AnchoredPosition: {x: -132, y: 135}
   m_SizeDelta: {x: 102.2738, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &275381828
@@ -202,7 +202,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1232639671884107107}
         m_TargetAssemblyTypeName: HandPhone, Assembly-CSharp
-        m_MethodName: DeliveryOnClick
+        m_MethodName: DarkDeliveryOnclick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1794,7 +1794,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DeliveryAppButton: {fileID: 1232639671490668043}
+  DarkDeliveryAppButton: {fileID: 275381824}
   DeliveryScreen: {fileID: 1232639671345604971}
+  StartDarkApp: 0
 --- !u!1 &1232639671901560985
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,12 +9,12 @@ using BuildingAddressNS;
 
 public class Building : MonoBehaviour, IAddress, IBuilding
 {
-    [SerializeField] private BuildingShape buildingShape;
-    [SerializeField] private Vector2 compositePos;
+    [SerializeField] private BuildingShape buildingShape;   // 빌딩의 모양
+    [SerializeField] private Vector2 compositePos;  // 복합적인 형태로 집이 갖춰졌을 때 경찰차의 시작 위치를 임의로 정하기 위한 변수
     [SerializeField] private float[] policeCarValue;    // 경찰차가 수행해야 하는 행동의 거리, 혹은 회전 값
     [SerializeField] private int[] policeCarBehaviour;  // 경찰차가 수행해야 하는 행동 번호
 
-    private List<PolicePath> pathList = new List<PolicePath>();
+    private List<PolicePath> pathList = new List<PolicePath>(); // 집마다 존재하는 경로 리스트
 
     private Vector2 policeCarDis; // 경찰차가 스폰될 때 이 건물과 경찰차의 거리입니다.
     private Vector2 buildingPos;    // 빌딩의 Position값
@@ -50,7 +50,11 @@ public class Building : MonoBehaviour, IAddress, IBuilding
             pathList.Add(new PolicePath(policeCarBehaviour[i], policeCarValue[i]));
         }
     }
-    // 주소값 초기화
+    /// <summary>
+    /// 주소값 초기화
+    /// </summary>
+    /// <param name="number">빌딩번호</param>
+    /// <param name="addressSList">집 주소 명단</param>
     public void InitAddress(int number, List<AddressS> addressSList)
     {
         buildingNumber = number;
@@ -64,6 +68,10 @@ public class Building : MonoBehaviour, IAddress, IBuilding
             }
         }
     }
+    /// <summary>
+    /// 집집마다 IMap 인터페이스를 전달하여 집 주소를 저장하기 위함
+    /// </summary>
+    /// <param name="iMap"></param>
     public void SetIMap(IMap iMap)
     {
         for (int i = 0; i < this.transform.childCount; i++)
@@ -74,31 +82,58 @@ public class Building : MonoBehaviour, IAddress, IBuilding
             }
         }
     }
+    /// <summary>
+    /// 빌딩 번호 반환
+    /// </summary>
+    /// <returns></returns>
     public int GetAddress()
     {
         return buildingNumber;
     }
-
+    /// <summary>
+    /// 해당 빌딩에 경찰차가 있는지 여부 반환
+    /// </summary>
+    /// <returns></returns>
     public bool GetIsPoliceCar()
     {
         return isPoliceCar;
     }
+    /// <summary>
+    /// 해당 빌딩을 돌아다니는 경찰차의 경로 반환
+    /// </summary>
+    /// <returns></returns>
     public List<PolicePath> GetPolicePath()
     {
         return pathList;
     }
+    /// <summary>
+    /// 해당 빌딩에 경찰차가 돌아다니는 지 아닌지 설정
+    /// </summary>
+    /// <param name="b"></param>
     public void SetIsPoliceCar(bool b)
     {
         isPoliceCar = b;
     }
+    /// <summary>
+    /// 경찰차의 시작위치에서 건물까지의 거리 반환
+    /// </summary>
+    /// <returns></returns>
     public Vector2 GetpoliceCarDis()
     {
         return policeCarDis;
     }
+    /// <summary>
+    /// 빌딩 위치 반환
+    /// </summary>
+    /// <returns></returns>
     public Vector2 GetBuildingPos()
     {
         return buildingPos;
     }
+    /// <summary>
+    /// 집마다 도달 시 배달 여부 UI가 뜰 수 있도록 인터페이스를 집집마다 전달 
+    /// </summary>
+    /// <param name="iDeliveryPanelControl"></param>
     public void SetIDeliveryPanelControl(IDeliveryPanelControl iDeliveryPanelControl)
     {
         for (int i = 0; i < this.transform.childCount; i++)
@@ -109,6 +144,10 @@ public class Building : MonoBehaviour, IAddress, IBuilding
             }
         }
     }
+    /// <summary>
+    /// 집집마다 인터페이스를 전달
+    /// </summary>
+    /// <param name="iHouseActiveControl"></param>
     public void SetIHouseActiveUIControl(IHouseActiveUIControl iHouseActiveControl)
     {
         for (int i = 0; i < this.transform.childCount; i++)

@@ -7,7 +7,9 @@ using BuildingAddressNS;
 using BuildingNS.HouseNS;
 using StoreNS;
 // 한석호 작성
-
+/// <summary>
+/// 건물, 집 주소와 관련된 인터페이스
+/// </summary>
 public interface IAddress
 {
     public void InitAddress(int number, List<AddressS> addressSList);
@@ -16,7 +18,9 @@ public interface IAddress
     public void SetIDeliveryPanelControl(IDeliveryPanelControl iDeliveryPanelControl);
     public void SetIHouseActiveUIControl(IHouseActiveUIControl iHouseActiveControl);
 }
-
+/// <summary>
+/// 건물별 경찰차를 할당하고 경로를 설정하기 위한 인터페이스
+/// </summary>
 public interface IBuilding
 {
     public bool GetIsPoliceCar();
@@ -25,13 +29,14 @@ public interface IBuilding
     public Vector2 GetBuildingPos();
     public List<PolicePath> GetPolicePath();
 }
-
+/// <summary>
+/// 경찰차의 속성과 관련된 인터페이스
+/// </summary>
 public interface IPoliceCar
 {
     public void InitPoliceCarPath(List<PolicePath> policePathList);
     public void SetIInspectingPanelControl(IConversationPanelControl iInspectingPanelControl);
     public void SetPlayerMove(PlayerMove playerMove);
-    //public void SetPoliceSmokeEffect(ISetTransform iSetTransform);
     public Rigidbody2D GetRigidBody2D();
     public float GetSpeed();
     public PoliceState GetPoliceState();
@@ -57,7 +62,9 @@ public interface IPriorityCode
     public int GetPriorityCode();
 }
 
-
+/// <summary>
+/// 경찰차의 상태에 따른 불심검문 여부를 따지기 위한 인터페이스
+/// </summary>
 public interface IInspectingPoliceCarControl
 {
     public void SetPoliceState(PoliceState policeState);
@@ -69,17 +76,26 @@ public interface IConversationPanelControl
 {
     public void ControlConversationUI(bool isOn, IEndConversation iEndInspecting, int type);
 }
+/// <summary>
+/// 배달 도착여부를 따지는 인터페이스
+/// </summary>
 public interface IDeliveryPanelControl
 {
     public void ControlDeliveryUI(bool isOn);
     public void SetIHouseDeliveryUI(IHouse iHouse);
 }
+/// <summary>
+///  집 타입에 따라 집 근처에서 행할 수 있는 조작키 설명 패널을 켜주는 인터페이스
+/// </summary>
 public interface IHouseActiveUIControl
 {
     public void ActiveTrueKeyExplainPanel(bool bo);
     public void SetHouseType(HouseType houseType);
 
 }
+/// <summary>
+/// 대화 도중 선택지를 고르게 해주는 인터페이스
+/// </summary>
 public interface IInspectingUIText
 {
     public void ChoiceText(int num);
@@ -91,6 +107,9 @@ public interface IEndConversation
 {
     public void EndConversation();
 }
+/// <summary>
+/// 집 타입을 바꿔주거나 배달 여부에 따른 집의 상태를 바꿔주기 위한 인터페이스
+/// </summary>
 public interface IHouse
 {
     public void EnableHouse();
@@ -101,11 +120,17 @@ public interface IHouse
     public Transform GetLocation();
 
 }
+/// <summary>
+/// 활성화된 집 근처에 왔는지 따지고 그에 따른 상태를 변화하기 위한 인터페이스
+/// </summary>
 public interface IActiveHouse
 { 
     public bool ActiveHouse(bool bo);
     public void IntoHouse(bool bo);
 }
+/// <summary>
+/// 맵에 있는 모든 집의 주소를 저장하기 위한 인터페이스
+/// </summary>
 public interface IMap
 {
     public void AddAddress(AddressS addressS);
@@ -119,12 +144,17 @@ public interface IStop
     public void StopMap(bool bo);
     public void RemovePoliceList(IPoliceCar iPoliceCar);
 }
+/// <summary>
+/// 음식 재료 중 무엇을 선택했는지 그리고 선택한 재료의 설명을 보여주기 위한 인터페이스
+/// </summary>
 public interface IIngredientSlot
 {
     public void IngredientExplain(int ingNum);
     public void ChoiceIngredient(int ingNum, int index);
 }
-
+/// <summary>
+///  피자 설명을 위한 인터페이스
+/// </summary>
 public interface IAddPizza
 {
     public void SetAddPizzaExplain(int num);
@@ -212,7 +242,9 @@ public interface ICloseStore
 {
     public void CloseStore(int cost, Dictionary<ItemS, int> dic);
 }
-
+/// <summary>
+/// 신호등이 초록불인지 확인하기 위한 인터페이스
+/// </summary>
 public interface ICheckIsGreen
 {
     public bool CheckIsGreen();

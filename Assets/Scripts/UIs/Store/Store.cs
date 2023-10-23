@@ -16,7 +16,10 @@ public class Store
 			Cost = cost;
 		}
 	}
-	public List<StoreItemS> StoreItemList { get; protected set; } // 판매 상품 목록. int는 가격
+	/// <summary>
+	/// 판매 상품 목록
+	/// </summary>
+	public List<StoreItemS> StoreItemList { get; protected set; }
 	public ICloseStore CloseStore { get; protected set; }
 
 	protected ItemType itemType;

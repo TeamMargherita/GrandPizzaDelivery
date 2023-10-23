@@ -30,16 +30,7 @@ public class IPointHandlerInventory : MonoBehaviour, IPointerClickHandler, IPoin
                     InventoryManager.OnClickEat(int.Parse(name) - 1);
                 }
             }
-        }else if(InventoryName == "Gun")
-        {
-
-        }/*else if(InventoryName == "Dice")
-        {
-            if (eventData.button == PointerEventData.InputButton.Left)
-            {
-                DragDrop.SetActive(false);
-            }
-        }*/
+        }
         else if(InventoryName == "Main")
         {
             Inventory.SetActive(true);
@@ -58,7 +49,18 @@ public class IPointHandlerInventory : MonoBehaviour, IPointerClickHandler, IPoin
                 if (transform.GetChild(0).GetComponent<Image>().enabled)
                 {
                     DragDrop.GetComponent<Image>().enabled = true;
-                    DragDrop.GetComponent<Image>().sprite = InventoryManager.GetItemImage(int.Parse(name) - 1);
+                    DragDrop.GetComponent<Image>().sprite = InventoryManager.GetItemImage(int.Parse(name) - 1, StoreNS.ItemType.DICE);
+                }
+                else
+                {
+                    DragDrop.GetComponent<Image>().enabled = false;
+                }
+            }else if(InventoryName == "Gun")
+            {
+                if (transform.GetChild(0).GetComponent<Image>().enabled)
+                {
+                    DragDrop.GetComponent<Image>().enabled = true;
+                    DragDrop.GetComponent<Image>().sprite = InventoryManager.GetItemImage(int.Parse(name) - 1, StoreNS.ItemType.GUN);
                 }
                 else
                 {
@@ -81,11 +83,20 @@ public class IPointHandlerInventory : MonoBehaviour, IPointerClickHandler, IPoin
             DragDrop.transform.position = eventData.position;
             InventoryManager.CurrentDragItem = InventoryManager.DiceInventorySlotParams[int.Parse(name) - 1];
         }
+        else if(InventoryName == "Gun")
+        {
+            DragDrop.SetActive(true);
+            DragDrop.transform.position = eventData.position;
+            InventoryManager.CurrentDragItem = InventoryManager.GunInventorySlotParams[int.Parse(name) - 1];
+        }
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
         if(InventoryName == "Dice")
+        {
+            DragDrop.SetActive(false);
+        }else if(InventoryName == "Gun")
         {
             DragDrop.SetActive(false);
         }

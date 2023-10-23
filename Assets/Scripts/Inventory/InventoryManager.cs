@@ -16,8 +16,10 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private GameObject[] GunInventorySlot;
     [SerializeField] private GameObject[] DiceInventorySlot;
     public ItemS[] DiceInventorySlotParams = new ItemS[5];
+    public ItemS[] GunInventorySlotParams = new ItemS[5];
 
     public Dictionary<ItemS, int> Dice;
+    public Dictionary<ItemS, int> Gun;
 
     public GoalCheckCollider GoalAddressS;
     public SendDeliveryRequest SDR;
@@ -26,7 +28,8 @@ public class InventoryManager : MonoBehaviour
     [SerializeField]
     GameObject DeliveryJudgmentPanel;
 
-    public int Page;
+    public int DicePage;
+    public int GunPage;
     public object CurrentDragItem;
 
     private void Awake()
@@ -53,9 +56,19 @@ public class InventoryManager : MonoBehaviour
         DiceInventorySlot[index].transform.GetChild(1).GetComponent<Text>().text = "x " + count;
     }
 
-    public Sprite GetItemImage(int index)
+    public Sprite GetItemImage(int index, ItemType type)
     {
-        return DiceInventorySlot[index].transform.GetChild(0).GetComponent<Image>().sprite;
+        if(type == ItemType.DICE)
+        {
+            return DiceInventorySlot[index].transform.GetChild(0).GetComponent<Image>().sprite;
+        }else if(type == ItemType.GUN)
+        {
+            return GunInventorySlot[index].transform.GetChild(0).GetComponent<Image>().sprite;
+        }
+        else
+        {
+            return null;
+        }
     }
     
     /// <summary>
@@ -64,8 +77,8 @@ public class InventoryManager : MonoBehaviour
     private void DiceInventoryUpdate()
     {
         Dice = Constant.FindAllItemS(Constant.PlayerItemDIc, ItemType.DICE);
-        int index = Page * 5;
-        int count = (Page - 1) * 5;
+        int index = DicePage * 5;
+        int count = (DicePage - 1) * 5;
         int itemIndex = 0;
         foreach(var i in Dice)
         {
@@ -83,6 +96,31 @@ public class InventoryManager : MonoBehaviour
             DiceInventorySlot[count].transform.GetChild(1).GetComponent<Text>().text = "";
             count++;
         }
+    }
+
+    private void GunInventoryUpdate()
+    {
+        Gun = Constant.FindAllItemS(Constant.PlayerItemDIc, ItemType.GUN);
+        int index = GunPage * 5;
+        int count = (GunPage - 1) * 5;
+        int itemIndex = 0;
+        foreach (var i in Gun)
+        {
+            if (count < index)
+            {
+                SystemIOFileLoad(Constant.GunInfo[i.Key.ItemNumber].Path, count, i.Value);
+                GunInventorySlotParams[itemIndex] = i.Key;
+                itemIndex++;
+                count++;
+            }
+        }
+        while (count < index)
+        {
+            GunInventorySlot[count].transform.GetChild(0).GetComponent<Image>().enabled = false;
+            GunInventorySlot[count].transform.GetChild(1).GetComponent<Text>().text = "";
+            count++;
+        }
+
     }
     public void InventoryAddItem(Pizza pizza)
     {
@@ -106,6 +144,7 @@ public class InventoryManager : MonoBehaviour
             }
             else
             {
+                GunInventoryUpdate();
                 DiceInventoryUpdate();
                 foreach (var i in MainInventorySlot)
                 {
@@ -122,7 +161,6 @@ public class InventoryManager : MonoBehaviour
                 foreach (var i in DiceInventorySlot)
                 {
                     i.GetComponent<Image>().color = Color.white;
-                    //i.transform.GetChild(0).GetComponent<Image>().color = Color.clear;
                 }
                 Inventory.SetActive(true);
                 InventoryActive = true;

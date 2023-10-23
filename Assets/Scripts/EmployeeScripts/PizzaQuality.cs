@@ -41,8 +41,8 @@ public class PizzaQuality : MonoBehaviour
         {
             PizzaQualitys += Employees[i].GetComponent<EmployeeStat>().Handy;
 
-            min += Employees[i].GetComponent<EmployeeStat>().Career;
-            max += Employees[i].GetComponent<EmployeeStat>().Creativity;
+            min += (int)Employees[i].GetComponent<EmployeeStat>().Career;
+            max += (int)Employees[i].GetComponent<EmployeeStat>().Creativity;
         }
 
         min /= EmployeesCount;
@@ -67,7 +67,7 @@ public class PizzaQuality : MonoBehaviour
 
         for (int i = 0; i < EmployeesCount; i++)
         {
-            result += Employees[i].GetComponent<EmployeeStat>().Agility;
+            result += (int)Employees[i].GetComponent<EmployeeStat>().Agility;
         }
 
         result = result / EmployeesCount;

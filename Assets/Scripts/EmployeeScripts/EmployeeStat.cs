@@ -3,21 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using ClerkNS;
 
-// 스텟 단계별 수치(경력, 창의력)
-enum StatRate
-{
-    Bad = -1,
-    Normal = 1,
-    Good = 3,
-    Perfect = 6
-}
-
 public class EmployeeStat : MonoBehaviour
 {
-    public int Career { get; set; } = -1;// 경력. 피자의 완성도가 낮아질 확률을 줄여준다.
+    public Tier Career { get; set; } = Tier.ONE;// 경력. 피자의 완성도가 낮아질 확률을 줄여준다.
     public int Handy { get; set; } = 20; // 기본 손재주
-    public int Creativity { get; set; } = -1;// 창의력. 피자의 완성도가 높아질 확률을 높여준다.
-    public int Agility { get; set; } = -1; // 순발력. 피자의 완성 속도를 높여준다.
+    public Tier Creativity { get; set; } = Tier.ONE;// 창의력. 피자의 완성도가 높아질 확률을 높여준다.
+    public Tier Agility { get; set; } = Tier.ONE; // 순발력. 피자의 완성 속도를 높여준다.
     public int Pay { get; set; } // 주급.
     public int Stress { get; set; } = 0;// 스트레스 지수
 
@@ -27,6 +18,6 @@ public class EmployeeStat : MonoBehaviour
 
     private void Awake()
     {
-        Pay = Handy - Agility + Creativity + Career + Random.Range(-10, 11);
+        Pay = Handy - (int)Agility + (int)Creativity + (int)Career + Random.Range(-10, 11);
     }
 }

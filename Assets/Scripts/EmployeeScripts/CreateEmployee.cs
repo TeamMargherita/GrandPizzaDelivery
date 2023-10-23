@@ -1,6 +1,8 @@
 using ClerkNS;
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -32,7 +34,7 @@ public class CreateEmployee : MonoBehaviour
         }
         else // 인원 초과 시 경고창 띄우기
         {
-            NoticeMessage("고용 가능한 인원을 초과합니다.");
+            NoticeMessage("고용 가능한 인원을 초과했습니다.");
         }
     }
 
@@ -48,12 +50,46 @@ public class CreateEmployee : MonoBehaviour
         EmployeeMother.GetChild(Gvalue).GetComponent<EmployeeStat>().Handy 
             = EmployeeRecruitMother.GetComponent<EmployeeRecruit>().Handy[SValue];
         EmployeeMother.GetChild(Gvalue).GetComponent<EmployeeStat>().Agility
-            = EmployeeRecruitMother.GetComponent<EmployeeRecruit>().Agility[SValue];
+            = (Tier)EmployeeRecruitMother.GetComponent<EmployeeRecruit>().Agility[SValue];
         EmployeeMother.GetChild(Gvalue).GetComponent<EmployeeStat>().Career
-            = EmployeeRecruitMother.GetComponent<EmployeeRecruit>().Career[SValue];
+            = (Tier)EmployeeRecruitMother.GetComponent<EmployeeRecruit>().Career[SValue];
         EmployeeMother.GetChild(Gvalue).GetComponent<EmployeeStat>().Creativity
-            = EmployeeRecruitMother.GetComponent<EmployeeRecruit>().Creativity[SValue];
+            = (Tier)EmployeeRecruitMother.GetComponent<EmployeeRecruit>().Creativity[SValue];
         EmployeeMother.GetChild(Gvalue).GetComponent<EmployeeStat>().Pay
             = EmployeeRecruitMother.GetComponent<EmployeeRecruit>().Pay[SValue];
+    }
+
+    private void Awake()
+    {
+        SaveEmployeeData(0, false);
+    }
+
+    public void SaveEmployeeData(int Employeeindex, bool IsFire)
+    {
+        EmployeeStat employeeStat = EmployeeMother.GetChild(Employeeindex).GetComponent<EmployeeStat>();
+
+        switch (Employeeindex)
+        {
+            case 0:
+                ClerkC clerkC1 =
+           new ClerkC(employeeStat.Handy, employeeStat.Agility, employeeStat.Creativity, employeeStat.Career, employeeStat.Stress, employeeStat.Pay);
+                break;
+            case 1:
+                ClerkC clerkC2 =
+          new ClerkC(employeeStat.Handy, employeeStat.Agility, employeeStat.Creativity, employeeStat.Career, employeeStat.Stress, employeeStat.Pay);
+                break;
+            case 2:
+                ClerkC clerkC3 =
+          new ClerkC(employeeStat.Handy, employeeStat.Agility, employeeStat.Creativity, employeeStat.Career, employeeStat.Stress, employeeStat.Pay);
+                break;
+            case 3:
+                ClerkC clerkC4 =
+          new ClerkC(employeeStat.Handy, employeeStat.Agility, employeeStat.Creativity, employeeStat.Career, employeeStat.Stress, employeeStat.Pay);
+                break;
+            case 4:
+                ClerkC clerkC5 =
+          new ClerkC(employeeStat.Handy, employeeStat.Agility, employeeStat.Creativity, employeeStat.Career, employeeStat.Stress, employeeStat.Pay);
+                break;
+        }
     }
 }

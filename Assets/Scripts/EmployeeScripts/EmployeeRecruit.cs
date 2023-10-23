@@ -20,7 +20,7 @@ public class EmployeeRecruit : MonoBehaviour
 
     private bool isMondayMorning = false;
 
-    StatRate statRate = StatRate.Bad;
+    Tier tier = Tier.ONE;
 
     private void Start()
     {
@@ -130,20 +130,20 @@ public class EmployeeRecruit : MonoBehaviour
         switch (RanCount)
         {
             case 0:
-                statRate = StatRate.Bad;
+                tier = Tier.ONE;
                 break;
             case 1:
-                statRate = StatRate.Normal;
+                tier = Tier.TWO;
                 break;
             case 2:
-                statRate = StatRate.Good;
+                tier = Tier.THREE;
                 break;
             case 3:
-                statRate = StatRate.Perfect;
+                tier = Tier.FOUR;
                 break;
         }
 
-        RanCount = (int)statRate;
+        RanCount = (int)tier;
 
         return RanCount;
     }

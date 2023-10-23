@@ -29,8 +29,6 @@ namespace ClerkNS
 
             Max = (this.Handicraft + 8) + (int)Creativity;
             Min = (this.Handicraft - 8) + (int)Career;
-
-            this.Pay = this.Handicraft + (int)this.Career + (int)this.Creativity + (int)this.Agility + Random.Range(-10, 11);
 		}
     }
 }

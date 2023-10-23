@@ -67,7 +67,7 @@ public class MakingPizzaPanel : MonoBehaviour
 	}
 	public float GetMainPanelRect()
 	{
-		Debug.Log(mainPanelRect.rect.width);
+		//Debug.Log(mainPanelRect.rect.width);
 		return mainPanelRect.rect.width;
 	}
 }

@@ -7,21 +7,21 @@ using BuildingNS.HouseNS;
 
 public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPanelControl, IHouseActiveUIControl, IAlarmMessagePanel
 {
-    [SerializeField] private GameObject inspectingPanel;
-    [SerializeField] private GameObject inspectingMaskPanel;
-    [SerializeField] private GameObject deliveryPanel;
-    [SerializeField] private GameObject keyExplainPanel;
-    [SerializeField] private GameObject pizzaStorePanel;
-    [SerializeField] private GameObject pizzaStoreMaskPanel;
-    [SerializeField] private GameObject pizzaMakePanel;
-    [SerializeField] private GameObject pizzaMenuPanel;
-    [SerializeField] private GameObject employeeRecruitPanel;
-    [SerializeField] private GameObject alarmMessagePanel;
+    [SerializeField] private GameObject inspectingPanel;    // 대화 패널
+    [SerializeField] private GameObject inspectingMaskPanel;    // 대화 마스크 패널
+    [SerializeField] private GameObject deliveryPanel;  // 배달 패널
+    [SerializeField] private GameObject keyExplainPanel;    // 조작 설명 패널
+    [SerializeField] private GameObject pizzaStorePanel;    // 피자 가게 패널
+    [SerializeField] private GameObject pizzaStoreMaskPanel;    // 피자 가게 마스크 패널
+    [SerializeField] private GameObject pizzaMakePanel; // 피자 만들기 패널
+    [SerializeField] private GameObject pizzaMenuPanel; // 피자 메뉴 패널
+    [SerializeField] private GameObject employeeRecruitPanel;   // 
+    [SerializeField] private GameObject alarmMessagePanel;  // 알람 메세지 패널
     [SerializeField] private GameObject DeliveryJudgmentPanel;
     [SerializeField] private GameObject SpecialPizzaDeliverySelectionPanel;
     [SerializeField] private GameObject DeliveryAppButton;
     [SerializeField] private GameObject DarkDeliveryAppButton;
-    [SerializeField] private GameObject player;
+    [SerializeField] private GameObject player; // 플레이어
 
     [SerializeField] private UnityEngine.UI.Image addPizzaImg;
     [SerializeField] private UnityEngine.UI.Text alarmMessageText;
@@ -32,15 +32,15 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
 
     private HouseType houseType;
     
-    private RectTransform inspectTrans;
-    private RectTransform pizzaStoreTrans;
-    private RectTransform pizzaMakeTrans;
-    private RectTransform pizzaMenuTrans;
+    private RectTransform inspectTrans; // 대화창 RectTransform
+    private RectTransform pizzaStoreTrans;  // 피자 가게 RectTransform
+    private RectTransform pizzaMakeTrans;   // 피자 만들기 RectTransform
+    private RectTransform pizzaMenuTrans;   // 피자 메뉴 RectTransform
     private RectTransform employeeRecruitTrans;
-    private RectTransform alarmMessageTrans;
+    private RectTransform alarmMessageTrans;    // 알람 메시지 RectTransform
 
-    private Vector3 alarmMessageStart = new Vector3(0, 590);
-    private Vector3 alarmMessageEnd = new Vector3(0, 490);
+    private Vector3 alarmMessageStart = new Vector3(0, 590);    // 알람 메시지 이동 시작 위치(위)
+    private Vector3 alarmMessageEnd = new Vector3(0, 490);  // 알람 메시지 이동 종료 위치(아래)
 
     private int inspectingHeight = 0;   // 회화창 높이
     private int pizzaStoreHeight = 0;   // 피자가게 창 높이
@@ -49,8 +49,8 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
 
     private bool isInspecting = false;  // 회화창이 다 열렸는지 여부
     private bool isPizzaStore = false;  // 피자 가게 창이 다 열렸는지 여부
-    private bool isPizzaMake = false;
-    private bool isPizzaMenu = false;
+    private bool isPizzaMake = false;   // 피자 만들기 창이 다 열렸는지 여부
+    private bool isPizzaMenu = false;   // 피자 메뉴창이 다 열렸는지 여부
     private bool isPizzaAddButtonBlank = false;
     private bool isAlarmMessage = false;    // 알람메세지 다 내려왔는지 여부
     private bool isColor = false;
@@ -161,6 +161,10 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
         ChasePoliceCar.isStop = isOn;
         Constant.StopTime = true;
     }
+    /// <summary>
+    ///  피자 가게 창을 제어한다.
+    /// </summary>
+    /// <param name="isOn"></param>
     public void ControlPizzaStore(bool isOn)
     {
         if (pizzaStoreTrans.rect.height != 0 && pizzaStoreTrans.rect.height != 1080) { return; }
@@ -177,6 +181,10 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
             isPizzaStore = isOn;
         }
     }
+    /// <summary>
+    /// 피자 만들기 창을 제어한다.
+    /// </summary>
+    /// <param name="isOn"></param>
     public void ControlPizzaMake(bool isOn)
     {
         if (pizzaMakeTrans.rect.width != 0 && pizzaMakeTrans.rect.width != 1920) { return; }
@@ -191,7 +199,10 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
             isPizzaMake = isOn;
         }
     }
-
+    /// <summary>
+    ///  피자 메뉴 창을 제어한다.
+    /// </summary>
+    /// <param name="isOn"></param>
     public void ControlPizzaMenu(bool isOn)
     {
         if (pizzaMenuTrans.rect.height != 0 && pizzaMenuTrans.rect.height != 1080) { return; }
@@ -213,7 +224,10 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
 	{
 		employeeRecruitPanel.SetActive(isOn);
 	}
-
+    /// <summary>
+    /// 배달 패널을 제어한다.
+    /// </summary>
+    /// <param name="isOn"></param>
 	public void ControlDeliveryUI(bool isOn)
     {
         deliveryPanel.SetActive(isOn);
@@ -272,7 +286,9 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
     {
         this.iStop = iStop;
     }
-
+    /// <summary>
+    /// 패널창이 서서히 열리는 것을 표현하기 위함
+    /// </summary>
     void FixedUpdate()
     {
         if (isInspecting && inspectingHeight < 1080)
@@ -317,6 +333,7 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
             pizzaMakeWitdh = 0;
             pizzaMakeTrans.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, pizzaMakeWitdh);
             pizzaMakePanel.SetActive(false);
+            isIn = false;
         }
 
         if (isPizzaMenu && pizzaMenuHeight < 1080)
@@ -329,6 +346,7 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
             pizzaMenuHeight = 0;
             pizzaMenuTrans.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, pizzaMenuHeight);
             pizzaMenuPanel.SetActive(false);
+            isIn = false;
         }
 
         if (isPizzaAddButtonBlank)
@@ -344,7 +362,8 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
                 if (addPizzaImg.color.r <= 0) { isColor = true; }
             }
         }
-
+        // 알람 메시지를 띄우기 위함.
+        // 알람 메시지를 아래로 내려서 화면상에 보이게 함.
         if (isAlarmMessage && alarmMessageTrans.localPosition != alarmMessageEnd)
 		{
             alarmMessageTrans.localPosition = Vector3.Lerp(alarmMessageTrans.localPosition, alarmMessageEnd, 0.1f);
@@ -355,6 +374,7 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
                 isAlarmMessage = false;
 			}
 		}
+        // 알람 메시지를 위로 올려서 화면상에 안 보이게 함.
         else if (!isAlarmMessage && alarmMessageTrans.localPosition != alarmMessageStart)
 		{
             alarmMessageTrans.localPosition = Vector3.Lerp(alarmMessageTrans.localPosition, alarmMessageStart, 0.1f);
@@ -372,7 +392,7 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
         if (houseType != HouseType.NONE && houseType != HouseType.HOUSE
             && Input.GetKeyDown(KeyCode.Z) && !isIn)
         {
-            isIn = true;
+            isIn = true;    // 들어갔음을 표시
             switch (houseType)
             {
                 case HouseType.PIZZASTORE:
@@ -383,23 +403,33 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
                     ControlPizzaStore(true);
                     break;
                 case HouseType.DICESTORE:
+                    // 맵에 오브젝트를 정지시킨다.
                     iStop.StopMap(true);
+                    // 대화창을 연다.
                     ControlConversationUI(true, null, 2);
                     break;
                 case HouseType.PINEAPPLESTORE:
+                    // 맵에 오브젝트를 정지시킨다.
                     iStop.StopMap(true);
+                    // 대화창을 연다.
                     ControlConversationUI(true, null, 3);
                     break;
                 case HouseType.INGREDIENTSTORE:
+                    // 맵에 오브젝트를 정지시킨다.
                     iStop.StopMap(true);
+                    // 대화창을 연다.
                     ControlConversationUI(true, null, 4);
                     break;
                 case HouseType.PINEAPPLESTORETWO:
+                    // 맵에 오브젝트를 정지시킨다.
                     iStop.StopMap(true);
+                    // 대화창을 연다.
                     ControlConversationUI(true, null, 5);
                     break;
                 case HouseType.GUNSTORE:
+                    // 맵에 오브젝트를 정지시킨다.
                     iStop.StopMap(true);
+                    // 대화창을 연다.
                     ControlConversationUI(true, null, 6);
                     break;
             }

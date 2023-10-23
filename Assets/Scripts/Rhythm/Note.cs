@@ -17,24 +17,13 @@ public class Note : MonoBehaviour
     private decimal timing;                                 // 남은 시간
     private Vector2 end;                                    // 도착 위치
     private Transform trans;
-    private bool Effect;
-    private float fade = 1f;
+    private RhythmManager manager;
 
     private void Update()
     {
-        if (Effect)
-        {
-            GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, fade);
-            fade -= Time.deltaTime * 5f;
-            if (fade <= 0f)
-                gameObject.SetActive(false);
-        }
-        else
-        {
-            timing = arrive - RhythmManager.Instance.CurrentTime;
-            NoteMove();
-            NoteDrop();
-        }
+        timing = arrive - manager.CurrentTime;
+        NoteMove();
+        NoteDrop();
     }
 
     /// <summary>
@@ -43,12 +32,10 @@ public class Note : MonoBehaviour
     /// <param name="arriveTime">도착 시간</param>
     public void Init(decimal arriveTime, Vector2 _end)
     {
+        manager = RhythmManager.Instance;
         if (trans == null)
             trans = GetComponent<Transform>();
-        GetComponent<SpriteRenderer>().color = Color.white;
-        Effect = false;
         arrive = arriveTime;
-        fade = 1f;
         timing = 300m;
         end = _end;
     }
@@ -69,17 +56,12 @@ public class Note : MonoBehaviour
             return Judge.GOOD;
     }
 
-    public void ActiveEffect()
-    {
-        Effect = true;
-    }
-
     /// <summary>
     /// 노트 이동
     /// </summary>
     private void NoteMove()
     {
-        speed = RhythmManager.Instance.Speed;
+        speed = manager.Speed;
         trans.localPosition = end + Vector2.right * (float)timing * speed * 5f;
     }
 

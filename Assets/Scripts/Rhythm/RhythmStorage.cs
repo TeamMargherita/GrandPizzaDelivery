@@ -5,13 +5,14 @@ public class RhythmStorage : MonoBehaviour
 {
     public Note NotePrefab;                         // 노트
     public Bar BarPrefab;                           // 마디
-    public AudioSource NoteSound;                   // 노트 소리
 
-    public Queue<Bar> Bars = new Queue<Bar>();          // 마디 오브젝트 풀
-    public Queue<Note> Notes = new Queue<Note>();       // 노트 오브젝트 풀
+    public static Queue<Bar> Bars = new Queue<Bar>();          // 마디 오브젝트 풀
+    public static Queue<Note> Notes = new Queue<Note>();       // 노트 오브젝트 풀
 
     public Queue<Bar>[] BarLoad = new Queue<Bar>[2];       // 나와있는 마디
     public Queue<Note>[] NoteLoad = new Queue<Note>[2];    // 나와있는 노트
+
+    private RhythmManager manager;
 
     private void Awake()
     {
@@ -20,6 +21,17 @@ public class RhythmStorage : MonoBehaviour
             BarLoad[i] = new Queue<Bar>();
             NoteLoad[i] = new Queue<Note>();
         }
+    }
+
+    private void Start()
+    {
+        manager = RhythmManager.Instance;
+    }
+
+    private void Update()
+    {
+        // 나와있는 노트와 바를 다시 오브젝트 풀에 저장
+        ReturnNote();
     }
 
     public Note DequeueNote()
@@ -57,21 +69,19 @@ public class RhythmStorage : MonoBehaviour
     /// </summary>
     public void NoteClear(int line)
     {
-        NoteSound.PlayOneShot(NoteSound.clip);
         Note n = NoteLoad[line].Peek();
-        n.ActiveEffect();
+        n.gameObject.SetActive(false);
         Notes.Enqueue(NoteLoad[line].Dequeue());
     }
 
     public void ReturnNote()
     {
-        foreach(var load in NoteLoad)
+        foreach (var load in NoteLoad)
         {
             if (load.Count > 0 && load.Peek().Timing < -0.12501m)
             {
                 Notes.Enqueue(load.Dequeue());
-                RhythmManager.Instance.Judges.Miss++;
-                Debug.Log("Return Note");
+                manager.Judges.Miss++;
             }
         }
     }

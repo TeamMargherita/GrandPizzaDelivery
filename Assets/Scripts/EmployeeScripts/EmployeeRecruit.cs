@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using ClerkNS;
 
 public class EmployeeRecruit : MonoBehaviour
 {
@@ -11,13 +12,15 @@ public class EmployeeRecruit : MonoBehaviour
 
     [SerializeField] string[] Stat = new string[5];
 
-    public int[] handy = new int[3];
-    public int[] career = new int[3];
-    public int[] creativity = new int[3];
-    public int[] agility = new int[3];
-    public int[] pay = new int[3];
+    public int[] Handy = new int[3];
+    public int[] Career = new int[3];
+    public int[] Creativity = new int[3];
+    public int[] Agility = new int[3];
+    public int[] Pay = new int[3];
 
-    private bool IsMondayMorning = false;
+    private bool isMondayMorning = false;
+
+    Tier tier = Tier.ONE;
 
     private void Start()
     {
@@ -28,7 +31,7 @@ public class EmployeeRecruit : MonoBehaviour
     {
         ShowApplicant();
 
-        IsMondayMorning = false;
+        isMondayMorning = false;
     }
 
     public void ShowRecruitWin()
@@ -56,129 +59,120 @@ public class EmployeeRecruit : MonoBehaviour
 
     void ShowApplicant()
     {
-        if (IsMondayMorning == true)
+        string StatText = null;
+
+        if (isMondayMorning == true)
         {
             for (int i = 0; i < limitCount; i++)
             {
                 for (int j = 0; j < Stat.Length; j++)
                 {
-                    RecruitWin.transform.GetChild(i).GetChild(j).
-                        GetComponent<Text>().text = Stat[j] +
-                        State(i, j, RecruitWin.transform.GetChild(i).
-                        gameObject);
+                    StatText += Stat[j] +
+                     State(i, j, RecruitWin.transform.GetChild(i)) + "\n";
                 }
 
-                RecruitWin.transform.GetChild(i).GetChild(Stat.Length).GetComponent<Button>().interactable
+                RecruitWin.transform.GetChild(i).GetChild(0).
+                        GetComponent<Text>().text = StatText;
+
+                RecruitWin.transform.GetChild(i).GetChild(1).GetComponent<Button>().interactable
                     = true;
+
+                StatText = null;
             }
 
-            IsMondayMorning = false;
+            isMondayMorning = false;
         }
     }
 
-    string State(int index, int statValue, GameObject employee)
+    string State(int index, int statValue, Transform employee)
     {
         string result = null;
 
         switch (statValue)
         {
             case 0:
-                handy[index] = Random.Range(20, 81);
+                Handy[index] = Random.Range(20, 81);
 
-                result = handy[index].ToString();
+                result = Handy[index].ToString();
                 break;
             case 1:
-                agility[index] = RandomStat(employee);
+                Agility[index] = RandomStat();
 
-                switch (agility[index])
-                {
-                    case -1:
-                        result = employee.GetComponent<EmployeeStat>().AgilityStat[0].ToString();
-                        break;
-                    case 1:
-                        result = employee.GetComponent<EmployeeStat>().AgilityStat[1].ToString();
-                        break;
-                    case 3:
-                        result = employee.GetComponent<EmployeeStat>().AgilityStat[2].ToString();
-                        break;
-                    case 6:
-                        result = employee.GetComponent<EmployeeStat>().AgilityStat[3].ToString();
-                        break;
-                }
+                result = employee.GetComponent<EmployeeStat>().CreativityStat[ChangeStatMark(Agility[index])];
                 break;
             case 2:
-                career[index] = RandomStat(employee);
+                Career[index] = RandomStat();
 
-                switch (career[index])
-                {
-                    case -1:
-                        result = employee.GetComponent<EmployeeStat>().CareerStat[0].ToString();
-                        break;
-                    case 1:
-                        result = employee.GetComponent<EmployeeStat>().CareerStat[1].ToString();
-                        break;
-                    case 3:
-                        result = employee.GetComponent<EmployeeStat>().CareerStat[2].ToString();
-                        break;
-                    case 6:
-                        result = employee.GetComponent<EmployeeStat>().CareerStat[3].ToString();
-                        break;
-                }
+                result = employee.GetComponent<EmployeeStat>().CreativityStat[ChangeStatMark(Career[index])];
                 break;
             case 3:
-                creativity[index] = RandomStat(employee);
+                Creativity[index] = RandomStat();
 
-                switch (creativity[index])
-                {
-                    case -1:
-                        result = employee.GetComponent<EmployeeStat>().CreativityStat[0].ToString();
-                        break;
-                    case 1:
-                        result = employee.GetComponent<EmployeeStat>().CreativityStat[1].ToString();
-                        break;
-                    case 3:
-                        result = employee.GetComponent<EmployeeStat>().CreativityStat[2].ToString();
-                        break;
-                    case 6:
-                        result = employee.GetComponent<EmployeeStat>().CreativityStat[3].ToString();
-                        break;
-                }
+                result = employee.GetComponent<EmployeeStat>().CreativityStat[ChangeStatMark(Creativity[index])];
                 break;
             case 4:
-                pay[index] = handy[index] + agility[index] + creativity[index] + career[index] + Random.Range(-10, 11);
+                Pay[index] = Handy[index] + Agility[index] + Creativity[index] + Career[index] + Random.Range(-10, 11);
 
-                result = pay[index].ToString();
+                result = Pay[index].ToString();
+                break;
+            case 5:
+                result = employee.GetComponent<EmployeeStat>().Stress.ToString();
                 break;
         }
 
         return result;
     }
 
-    int RandomStat(GameObject employee)
+    int RandomStat()
     {
         int RanCount = Random.Range(0, 4);
 
         switch (RanCount)
         {
             case 0:
-                RanCount = employee.GetComponent<EmployeeStat>().bad;
+                tier = Tier.ONE;
                 break;
             case 1:
-                RanCount = employee.GetComponent<EmployeeStat>().normal;
+                tier = Tier.TWO;
                 break;
             case 2:
-                RanCount = employee.GetComponent<EmployeeStat>().good;
+                tier = Tier.THREE;
                 break;
             case 3:
-                RanCount = employee.GetComponent<EmployeeStat>().perfect;
+                tier = Tier.FOUR;
                 break;
         }
+
+        RanCount = (int)tier;
 
         return RanCount;
     }
 
+    int ChangeStatMark(int value)
+    {
+        int StringValue = 0;
+
+        switch (value)
+        {
+            case -1:
+                StringValue = 0;
+                break;
+            case 1:
+                StringValue = 1;
+                break;
+            case 3:
+                StringValue = 2;
+                break;
+            case 6:
+                StringValue = 3;
+                break;
+        }
+
+        return StringValue;
+    }
+
     public void EmployeeDataReset()
     {
-        IsMondayMorning = true;
+        isMondayMorning = true;
     }// 나중에 시간 설정되면 날짜 바뀔때마다 설정되게 바꾸기~
 }

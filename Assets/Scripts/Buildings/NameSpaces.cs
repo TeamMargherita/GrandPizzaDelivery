@@ -17,7 +17,7 @@ namespace ClerkNS
         public Tier Creativity { get; private set; }  // 창의력
         public int Handicraft { get; private set; }  // 손재주
         public int Stress { get; set; } // 스트레스
-        public int Pay { get; private set; } // 주급
+        public int Pay { get; set; } // 주급
         public int Max { get; private set; }    // 최종 능력치 최대치
         public int Min { get; private set; }    // 최종 능력치 최소치
         public ClerkC (int Handicraft, Tier Agility, Tier Career, Tier Creativity, int Stress, int Pay)
@@ -31,8 +31,6 @@ namespace ClerkNS
 
             Max = (this.Handicraft + 8) + (int)Creativity;
             Min = (this.Handicraft - 8) + (int)Career;
-
-            this.Pay = this.Handicraft + (int)this.Career + (int)this.Creativity + (int)this.Agility + Random.Range(-10, 11);
 		}
     }
 }

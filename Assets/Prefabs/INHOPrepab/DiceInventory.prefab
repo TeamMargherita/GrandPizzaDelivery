@@ -323,13 +323,14 @@ GameObject:
   - component: {fileID: 701768859}
   - component: {fileID: 701768861}
   - component: {fileID: 701768860}
+  - component: {fileID: 1147639717}
   m_Layer: 5
   m_Name: ExplainPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &701768859
 RectTransform:
   m_ObjectHideFlags: 0
@@ -345,11 +346,11 @@ RectTransform:
   m_Father: {fileID: 3478207454367761308}
   m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 260, y: -260}
+  m_SizeDelta: {x: 200, y: 200}
+  m_Pivot: {x: 0, y: 1}
 --- !u!222 &701768861
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -371,7 +372,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.7058824}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -388,6 +389,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1147639717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 701768858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc2e4202018a2a44f97088867080af65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1000636939
 GameObject:
   m_ObjectHideFlags: 0
@@ -399,14 +412,13 @@ GameObject:
   - component: {fileID: 1000636940}
   - component: {fileID: 1000636942}
   - component: {fileID: 1000636941}
-  - component: {fileID: 491023535775662558}
   m_Layer: 5
   m_Name: ExplainText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1000636940
 RectTransform:
   m_ObjectHideFlags: 0
@@ -421,11 +433,11 @@ RectTransform:
   m_Father: {fileID: 701768859}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 210, y: -210}
-  m_SizeDelta: {x: 300, y: 300}
-  m_Pivot: {x: 0, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1000636942
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -447,7 +459,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -456,10 +468,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 16
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 1
     m_MaxSize: 40
     m_Alignment: 0
     m_AlignByGeometry: 0
@@ -468,18 +480,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: New Text
---- !u!114 &491023535775662558
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000636939}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc2e4202018a2a44f97088867080af65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1333004329
 GameObject:
   m_ObjectHideFlags: 0
@@ -786,7 +786,7 @@ MonoBehaviour:
   Inventory: {fileID: 3478207454367761307}
   InventoryName: Dice
   DragDrop: {fileID: 3478207453676299013}
-  exPlainPanel: {fileID: 1000636939}
+  exPlainPanel: {fileID: 701768858}
 --- !u!1 &3478207452894210024
 GameObject:
   m_ObjectHideFlags: 0
@@ -957,7 +957,7 @@ MonoBehaviour:
   Inventory: {fileID: 3478207454367761307}
   InventoryName: Dice
   DragDrop: {fileID: 3478207453676299013}
-  exPlainPanel: {fileID: 1000636939}
+  exPlainPanel: {fileID: 701768858}
 --- !u!1 &3478207453166045802
 GameObject:
   m_ObjectHideFlags: 0
@@ -1361,7 +1361,7 @@ MonoBehaviour:
   Inventory: {fileID: 3478207454367761307}
   InventoryName: Dice
   DragDrop: {fileID: 3478207453676299013}
-  exPlainPanel: {fileID: 1000636939}
+  exPlainPanel: {fileID: 701768858}
 --- !u!1 &3478207453271984434
 GameObject:
   m_ObjectHideFlags: 0
@@ -2115,7 +2115,7 @@ MonoBehaviour:
   Inventory: {fileID: 3478207454367761307}
   InventoryName: Dice
   DragDrop: {fileID: 3478207453676299013}
-  exPlainPanel: {fileID: 1000636939}
+  exPlainPanel: {fileID: 701768858}
 --- !u!1 &3478207454863898915
 GameObject:
   m_ObjectHideFlags: 0
@@ -2290,4 +2290,4 @@ MonoBehaviour:
   Inventory: {fileID: 3478207454367761307}
   InventoryName: Dice
   DragDrop: {fileID: 3478207453676299013}
-  exPlainPanel: {fileID: 1000636939}
+  exPlainPanel: {fileID: 701768858}

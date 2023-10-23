@@ -70,6 +70,50 @@ public class Request//피자주문
         Accept = accept;
     }
 }
+namespace Gun
+{
+    public class GunStat
+    {
+        string Name;
+        string Type;
+        float FireRate;
+        int Damage;
+        float Accuracy;
+        public GunStat(string name, string type, float fireRate, int damage, float accuracy)
+        {
+            Name = name;
+            Type = type;
+            FireRate = fireRate;
+            Damage = damage;
+            Accuracy = accuracy;
+        }
+    }
+
+    public interface GunShooting
+    {
+        /// <summary>
+        /// 타겟 위치 받아오는 함수
+        /// </summary>
+        /// <returns></returns>
+        public Vector3 GetTargetPos();
+        /// <summary>
+        /// 레이캐스트를 쏠 방향 지정
+        /// </summary>
+        void aiming();
+        /// <summary>
+        /// 레이캐스트 발사
+        /// </summary>
+        /// <param name="exception">예외처리할 레이어 이름</param>
+        void ShootRaycast(string exception);
+        /// <summary>
+        /// 실사격 함수
+        /// </summary>
+        /// <param name="exeption">예외처리할 레이어 이름</param>
+        void Fire(string exeption);
+    }
+}
+
+
 namespace Inventory
 {
 

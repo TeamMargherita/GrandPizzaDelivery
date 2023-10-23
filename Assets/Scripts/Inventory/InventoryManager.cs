@@ -8,7 +8,12 @@ public class InventoryManager : MonoBehaviour
     public GameObject Inventory;
     public GameObject CurrentInventory;
     public bool InventoryActive;
+
     public GameObject[] PizzaInventorySlot;
+    [SerializeField] private GameObject[] MainInventorySlot;
+    [SerializeField] private GameObject[] GunInventorySlot;
+    [SerializeField] private GameObject[] DiceInventorySlot;
+
     public GoalCheckCollider GoalAddressS;
     public SendDeliveryRequest SDR;
     public DeliveryScreen DeliveryScreen;
@@ -47,6 +52,22 @@ public class InventoryManager : MonoBehaviour
             }
             else
             {
+                foreach (var i in MainInventorySlot)
+                {
+                    i.GetComponent<Image>().color = Color.white;
+                }
+                foreach(var i in PizzaInventorySlot)
+                {
+                    i.GetComponent<Image>().color = Color.white;
+                }
+                foreach (var i in GunInventorySlot)
+                {
+                    i.GetComponent<Image>().color = Color.white;
+                }
+                foreach (var i in DiceInventorySlot)
+                {
+                    i.GetComponent<Image>().color = Color.white;
+                }
                 Inventory.SetActive(true);
                 InventoryActive = true;
             }

@@ -19,7 +19,7 @@ public class PlayerGunShooting : GunShooting
                 Input.mousePosition.y, -Camera.main.transform.position.z));
         return point;
     }
-
+    
     public void aiming()
     {
         if (Input.GetKey(KeyCode.Mouse1))

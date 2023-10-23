@@ -51,6 +51,7 @@ public static class Constant
 	
 	public static bool IsMakePizza = false;
 	public static bool isStartGame = false;
+	public static bool StopTime = false;
 	/// <summary>
 	/// 소지한 파인애플 개수
 	/// </summary>

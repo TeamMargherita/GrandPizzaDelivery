@@ -63911,6 +63911,7 @@ MonoBehaviour:
   SpecialPizzaDeliverySelectionPanel: {fileID: 0}
   DeliveryAppButton: {fileID: 0}
   DarkDeliveryAppButton: {fileID: 0}
+  player: {fileID: 0}
   addPizzaImg: {fileID: 1563996481}
   alarmMessageText: {fileID: 0}
   PizzaInventory: {fileID: 0}

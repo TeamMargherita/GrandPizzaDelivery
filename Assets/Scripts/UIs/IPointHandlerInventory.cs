@@ -7,14 +7,12 @@ using UnityEngine.EventSystems;
 public class IPointHandlerInventory : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IDragHandler, IEndDragHandler
 {
     public InventoryManager InventoryManager;
-    [SerializeField]
-    GameObject mainInventory;
-    [SerializeField]
-    GameObject Inventory;
-    [SerializeField]
-    string InventoryName;
-
+    [SerializeField] GameObject mainInventory;
+    [SerializeField] GameObject Inventory;
+    [SerializeField] string InventoryName;
     [SerializeField] private GameObject DragDrop;
+    [SerializeField] private GameObject exPlainPanel;
+
     private void Awake()
     {
         transform.GetComponent<Image>().color = Color.white;
@@ -39,6 +37,7 @@ public class IPointHandlerInventory : MonoBehaviour, IPointerClickHandler, IPoin
             mainInventory.SetActive(false);
         }
     }
+    
     public void OnPointerEnter(PointerEventData eventData)
     {
         transform.GetComponent<Image>().color = new Color(190 / 255f, 197 / 255f, 253 / 255f);
@@ -48,6 +47,10 @@ public class IPointHandlerInventory : MonoBehaviour, IPointerClickHandler, IPoin
             {
                 if (transform.GetChild(0).GetComponent<Image>().enabled)
                 {
+                    //exPlainPanel.transform.SetParent(this.transform);
+                    exPlainPanel.SetActive(true);
+                    exPlainPanel.transform.GetChild(0).GetComponent<Text>().text = InventoryManager.DiceInventorySlotParams[int.Parse(name) - 1].Explain;
+                    exPlainPanel.transform.position = new Vector3(Input.mousePosition.x + 10, Input.mousePosition.y - 30, Input.mousePosition.z);
                     DragDrop.GetComponent<Image>().enabled = true;
                     DragDrop.GetComponent<Image>().sprite = InventoryManager.GetItemImage(int.Parse(name) - 1, StoreNS.ItemType.DICE);
                 }
@@ -59,6 +62,9 @@ public class IPointHandlerInventory : MonoBehaviour, IPointerClickHandler, IPoin
             {
                 if (transform.GetChild(0).GetComponent<Image>().enabled)
                 {
+                    exPlainPanel.SetActive(true);
+                    exPlainPanel.transform.GetChild(0).GetComponent<Text>().text = InventoryManager.GunInventorySlotParams[int.Parse(name) - 1].Explain;
+                    exPlainPanel.transform.position = new Vector3(Input.mousePosition.x + 10, Input.mousePosition.y - 30, Input.mousePosition.z);
                     DragDrop.GetComponent<Image>().enabled = true;
                     DragDrop.GetComponent<Image>().sprite = InventoryManager.GetItemImage(int.Parse(name) - 1, StoreNS.ItemType.GUN);
                 }
@@ -73,6 +79,8 @@ public class IPointHandlerInventory : MonoBehaviour, IPointerClickHandler, IPoin
     public void OnPointerExit(PointerEventData eventData)
     {
         transform.GetComponent<Image>().color = Color.white;
+        if(exPlainPanel != null)
+            exPlainPanel.SetActive(false);
     }
 
     public void OnDrag(PointerEventData eventData)

@@ -24,7 +24,8 @@ public class PlayerMove : PlayerStat
         gunMethod.Fire("Player");
         if (Input.GetKeyDown(KeyCode.X))
         {
-            InventoryManagerScript.InventoryAddItem(MakingPizzaScript.GetInvenPizzaList(0));
+            if(MakingPizzaScript.CompletePizzaList.Count > 0)
+                InventoryManagerScript.InventoryAddItem(MakingPizzaScript.GetInvenPizzaList(0));
             InventoryManagerScript.inventoryTextUpdate("PizzaInventory");
         }
         if (!Stop && !bananaTrigger)

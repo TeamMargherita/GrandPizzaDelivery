@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 리듬게임 오브젝트를 저장할 저장소 클래스
+/// </summary>
 public class RhythmStorage : MonoBehaviour
 {
     public Note NotePrefab;                         // 노트
@@ -12,7 +15,7 @@ public class RhythmStorage : MonoBehaviour
     public Queue<Bar>[] BarLoad = new Queue<Bar>[2];       // 나와있는 마디
     public Queue<Note>[] NoteLoad = new Queue<Note>[2];    // 나와있는 노트
 
-    private RhythmManager manager;
+    private RhythmManager manager;                  // 리듬 매니저 캐싱
 
     private void Awake()
     {
@@ -25,6 +28,7 @@ public class RhythmStorage : MonoBehaviour
 
     private void Start()
     {
+        // 리듬 매니저 캐싱
         manager = RhythmManager.Instance;
     }
 
@@ -65,19 +69,29 @@ public class RhythmStorage : MonoBehaviour
     }
 
     /// <summary>
-    /// 노트 클리어 함수
+    /// 입력받은 라인의 노트를 클리어 하는 함수
     /// </summary>
     public void NoteClear(int line)
     {
+        // 해당 라인의 큐에 담긴 노트 담기
         Note n = NoteLoad[line].Peek();
+
+        // 해당 노트 비활성화
         n.gameObject.SetActive(false);
+
+        // 노트를 다시 오브젝트 풀에 담기
         Notes.Enqueue(NoteLoad[line].Dequeue());
     }
 
+    /// <summary>
+    /// 나와있는 오래된 노트를 돌려받는 함수
+    /// </summary>
     public void ReturnNote()
     {
+        // 모든 로드 탐색
         foreach (var load in NoteLoad)
         {
+            // 해당 로드에 있는 노트가 지나간 노트면 돌려받고 Miss 카운팅
             if (load.Count > 0 && load.Peek().Timing < -0.12501m)
             {
                 Notes.Enqueue(load.Dequeue());
@@ -91,8 +105,10 @@ public class RhythmStorage : MonoBehaviour
     /// </summary>
     public void NoteLoadReset()
     {
+        // 모든 로드 탐색
         foreach (var load in NoteLoad)
         {
+            // 로드에 남은 노트가 없어질 때 까지 오브젝트 풀에 돌려주기
             while (load.Count > 0)
             {
                 Note note = load.Peek();
@@ -107,8 +123,10 @@ public class RhythmStorage : MonoBehaviour
     /// </summary>
     public void BarLoadReset()
     {
+        // 모든 로드 탐색
         foreach (var load in BarLoad)
         {
+            // 로드에 남은 노트가 없어질 때 까지 오브젝트 풀에 돌려주기
             while (load.Count > 0)
             {
                 Bar bar = load.Peek();

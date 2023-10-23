@@ -1,8 +1,10 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Inventory;
 using BuildingAddressNS;
-
+using StoreNS;
 public class InventoryManager : MonoBehaviour
 {
     public GameObject Inventory;
@@ -13,6 +15,9 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private GameObject[] MainInventorySlot;
     [SerializeField] private GameObject[] GunInventorySlot;
     [SerializeField] private GameObject[] DiceInventorySlot;
+    public ItemS[] DiceInventorySlotParams = new ItemS[5];
+
+    public Dictionary<ItemS, int> Dice;
 
     public GoalCheckCollider GoalAddressS;
     public SendDeliveryRequest SDR;
@@ -20,6 +25,10 @@ public class InventoryManager : MonoBehaviour
     public Minimap Minimap;
     [SerializeField]
     GameObject DeliveryJudgmentPanel;
+
+    public int Page;
+    public object CurrentDragItem;
+
     private void Awake()
     {
         if(GameManager.Instance.InventorySlotList.Count == 0)
@@ -28,6 +37,51 @@ public class InventoryManager : MonoBehaviour
             {
                 GameManager.Instance.InventorySlotList.Add(new Slot(PizzaInventorySlot[i]));
             }
+        }
+    }
+    /// <summary>
+    /// 인벤토리에 주사위 이미지 불러오기
+    /// </summary>
+    /// <param name="path">이미지 경로</param>
+    /// <param name="index">슬롯 주소</param>
+    /// <param name="count">플레이어가 가지고 있는 아이템 갯수</param>
+    private void SystemIOFileLoad(string path, int index, int count)
+    {
+        DiceInventorySlot[index].transform.GetChild(0).GetComponent<Image>().enabled = true;
+        DiceInventorySlot[index].transform.GetChild(0).GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(path)[0];
+        DiceInventorySlot[index].transform.GetChild(0).GetComponent<Image>().color = Color.white;
+        DiceInventorySlot[index].transform.GetChild(1).GetComponent<Text>().text = "x " + count;
+    }
+
+    public Sprite GetItemImage(int index)
+    {
+        return DiceInventorySlot[index].transform.GetChild(0).GetComponent<Image>().sprite;
+    }
+    
+    /// <summary>
+    /// 인벤토리 최신화
+    /// </summary>
+    private void DiceInventoryUpdate()
+    {
+        Dice = Constant.FindAllItemS(Constant.PlayerItemDIc, ItemType.DICE);
+        int index = Page * 5;
+        int count = (Page - 1) * 5;
+        int itemIndex = 0;
+        foreach(var i in Dice)
+        {
+            if(count < index)
+            {
+                SystemIOFileLoad(Constant.DiceInfo[i.Key.ItemNumber].Path, count, i.Value);
+                DiceInventorySlotParams[itemIndex] = i.Key;
+                itemIndex++;
+                count++;
+            }
+        }
+        while(count < index)
+        {
+            DiceInventorySlot[count].transform.GetChild(0).GetComponent<Image>().enabled = false;
+            DiceInventorySlot[count].transform.GetChild(1).GetComponent<Text>().text = "";
+            count++;
         }
     }
     public void InventoryAddItem(Pizza pizza)
@@ -52,6 +106,7 @@ public class InventoryManager : MonoBehaviour
             }
             else
             {
+                DiceInventoryUpdate();
                 foreach (var i in MainInventorySlot)
                 {
                     i.GetComponent<Image>().color = Color.white;
@@ -67,6 +122,7 @@ public class InventoryManager : MonoBehaviour
                 foreach (var i in DiceInventorySlot)
                 {
                     i.GetComponent<Image>().color = Color.white;
+                    //i.transform.GetChild(0).GetComponent<Image>().color = Color.clear;
                 }
                 Inventory.SetActive(true);
                 InventoryActive = true;

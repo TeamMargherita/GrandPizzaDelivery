@@ -41,7 +41,7 @@ namespace BuildingNS
     
     namespace HouseNS
     {
-        public enum HouseType { NONE, PIZZASTORE, HOUSE, DICESTORE, PINEAPPLESTORE };
+        public enum HouseType { NONE, PIZZASTORE, HOUSE, DICESTORE, PINEAPPLESTORE, INGREDIENTSTORE, PINEAPPLESTORETWO, GUNSTORE };
     }
 }
 namespace BuildingAddressNS
@@ -187,7 +187,7 @@ namespace ConversationNS
 
 namespace StoreNS
 {
-    public enum ItemType { NONE, DICE };
+    public enum ItemType { NONE, DICE, GUN };
 
     public struct ItemS
 	{
@@ -219,5 +219,24 @@ namespace StoreNS
             DiceArr = diceArr;
             Path = path;
         }
+	}
+
+    public enum LoadEnum : short { NONE, AUTO, SEMIAUTO, MANUAL }
+    public struct GunS
+	{
+        public LoadEnum LoadType;
+        public short Speed;
+        public short Damage;
+        public short Accuracy;
+        public string Path;
+
+        public GunS(LoadEnum loadType, short speed, short damage, short accuracy, string path)
+		{
+            LoadType = loadType;
+            Speed = speed;
+            Damage = damage;
+            Accuracy = accuracy;
+            Path = path;
+		}
 	}
 }

@@ -185,6 +185,11 @@ public class PineAppleStore : Conversation
 		}
 		return index;
 	}
+	/// <summary>
+	/// 플레이어의 상태에 따른 대화 등장 유무
+	/// </summary>
+	/// <param name="num"></param>
+	/// <returns></returns>
 	protected override bool Condition(int num)
 	{
 		if (num == 30)

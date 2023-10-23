@@ -186,6 +186,57 @@ public class Conversation
 		selectStoreItemDIc.Clear();
 	}
 	/// <summary>
+	/// 물건 훔치기
+	/// </summary>
+	protected void Steel()
+	{
+		int r = -1;
+		bool isFull = true;	// 더 이상 훔칠수 없음 여부
+		// 가게에서 더이상 훔칠 것이 없는지 판별함
+		for (int i = 0; i < store.StoreItemList.Count; i++)
+		{
+			if (Constant.PlayerItemDIc.ContainsKey(store.StoreItemList[i].Item))
+			{
+				if (Constant.PlayerItemDIc[store.StoreItemList[i].Item] < store.StoreItemList[i].Item.MaxCnt)
+				{
+					isFull = false;
+					break;
+				}
+			}
+			else
+			{
+				isFull = false;
+				break;
+			}
+		}
+
+		if (isFull) { return; }
+
+		while(true)
+		{
+			r = Random.Range(0, store.StoreItemList.Count);
+
+			if (Constant.PlayerItemDIc.ContainsKey(store.StoreItemList[r].Item))
+			{
+				// 훔치려는 물건을 이미 최대로 가지고 있는 지 판별함
+				if (Constant.PlayerItemDIc[store.StoreItemList[r].Item] < store.StoreItemList[r].Item.MaxCnt)
+				{
+					Constant.PlayerItemDIc[store.StoreItemList[r].Item]++;
+					break;
+				}
+				else
+				{
+					continue;
+				}
+			}
+			else
+			{
+				Constant.PlayerItemDIc.Add(store.StoreItemList[r].Item, 1);
+				break;
+			}
+		}
+	}
+	/// <summary>
 	/// 대화도중 다른 상황으로 넘어갔을 때 대화 진행을 저장하기 위함
 	/// </summary>
 	/// <param name="ind"></param>
@@ -232,8 +283,17 @@ public class Conversation
 	public void StartText()
 	{
 		NpcText.text = NpcTextStrArr[startText[Random.Range(0, startText.Length)]];
+		int index2 = -1;
+		List<TextNodeC> tem = TextList.FindAll(a => a.NowTextNum == -1);
+		if (tem.Count > 1)
+		{
+			index2 = Bifurcation(tem);
+		}
+		else
+		{
+			index2 = TextList.FindIndex(a => a.NowTextNum == -1);
+		}
 
-		int index2 = TextList.FindIndex(a => a.NowTextNum == -1);
 		SettingConversation(index2);
 	}
 	/// <summary>

@@ -15,6 +15,9 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private GameObject[] MainInventorySlot;
     [SerializeField] private GameObject[] GunInventorySlot;
     [SerializeField] private GameObject[] DiceInventorySlot;
+    [SerializeField] private GameObject[] DiceEquipmentSlot;
+    [SerializeField] private GameObject GunEquipmentSlot;
+
     public ItemS[] DiceInventorySlotParams = new ItemS[5];
     public ItemS[] GunInventorySlotParams = new ItemS[5];
 
@@ -31,7 +34,8 @@ public class InventoryManager : MonoBehaviour
     public int DicePage;
     public int GunPage;
     public object CurrentDragItem;
-
+    [SerializeField] private Text DiceText;
+    [SerializeField] private Text GunText;
     private void Awake()
     {
         if(GameManager.Instance.InventorySlotList.Count == 0)
@@ -59,7 +63,10 @@ public class InventoryManager : MonoBehaviour
         }else if(type == ItemType.GUN)
         {
             GunInventorySlot[index].transform.GetChild(0).GetComponent<Image>().enabled = true;
+
             GunInventorySlot[index].transform.GetChild(0).GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(path)[0];
+            //GunInventorySlot[index].transform.GetChild(0).GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 240);
+           // GunInventorySlot[index].transform.GetChild(0).GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 120);
             GunInventorySlot[index].transform.GetChild(0).GetComponent<Image>().color = Color.white;
             GunInventorySlot[index].transform.GetChild(1).GetComponent<Text>().text = "x " + count;
         }
@@ -88,22 +95,25 @@ public class InventoryManager : MonoBehaviour
     {
         Dice = Constant.FindAllItemS(Constant.PlayerItemDIc, ItemType.DICE);
         int index = DicePage * 5;
-        int count = (DicePage - 1) * 5;
+        int startcount = (DicePage - 1) * 5;
+        int count = 0;
         int itemIndex = 0;
         foreach(var i in Dice)
         {
-            if(count < index)
+            if(startcount <= count && count < index)
             {
-                SystemIOFileLoad(Constant.DiceInfo[i.Key.ItemNumber].Path, count, i.Value, ItemType.DICE);
+                SystemIOFileLoad(Constant.DiceInfo[i.Key.ItemNumber].Path, count - startcount, i.Value, ItemType.DICE);
                 DiceInventorySlotParams[itemIndex] = i.Key;
                 itemIndex++;
-                count++;
             }
+            count++;
         }
         while(count < index)
         {
-            DiceInventorySlot[count].transform.GetChild(0).GetComponent<Image>().enabled = false;
-            DiceInventorySlot[count].transform.GetChild(1).GetComponent<Text>().text = "";
+            if (itemIndex == 5) { break; }
+            DiceInventorySlot[itemIndex].transform.GetChild(0).GetComponent<Image>().enabled = false;
+            DiceInventorySlot[itemIndex].transform.GetChild(1).GetComponent<Text>().text = "";
+            itemIndex++;
             count++;
         }
     }
@@ -112,22 +122,26 @@ public class InventoryManager : MonoBehaviour
     {
         Gun = Constant.FindAllItemS(Constant.PlayerItemDIc, ItemType.GUN);
         int index = GunPage * 5;
-        int count = (GunPage - 1) * 5;
+        int startcount = (GunPage - 1) * 5;
+        int count = 0;
         int itemIndex = 0;
         foreach (var i in Gun)
         {
-            if (count < index)
+            if (startcount <= count && count < index)
             {
-                SystemIOFileLoad(Constant.GunInfo[i.Key.ItemNumber].Path, count, i.Value, ItemType.GUN);
+                SystemIOFileLoad(Constant.GunInfo[i.Key.ItemNumber].Path, count - startcount, i.Value, ItemType.GUN);
                 GunInventorySlotParams[itemIndex] = i.Key;
                 itemIndex++;
-                count++;
             }
+            count++;
         }
         while (count < index)
         {
-            GunInventorySlot[count].transform.GetChild(0).GetComponent<Image>().enabled = false;
-            GunInventorySlot[count].transform.GetChild(1).GetComponent<Text>().text = "";
+            if (itemIndex == 5) { break; }
+            GunInventorySlot[itemIndex].transform.GetChild(0).GetComponent<Image>().enabled = false;
+            GunInventorySlot[itemIndex].transform.GetChild(1).GetComponent<Text>().text = "";
+            GunInventorySlotParams[itemIndex] = new ItemS(ItemType.GUN, 0, "", "", -1);
+            itemIndex++;
             count++;
         }
 
@@ -136,8 +150,11 @@ public class InventoryManager : MonoBehaviour
     {
         for (int i = 0; i < GameManager.Instance.PizzaInventoryData.Length; i++)
         {
-            GameManager.Instance.PizzaInventoryData[i] = pizza;
-            break;
+            if(GameManager.Instance.PizzaInventoryData[i] == null)
+            {
+                GameManager.Instance.PizzaInventoryData[i] = pizza;
+                break;
+            }
         }
     }
 
@@ -186,17 +203,38 @@ public class InventoryManager : MonoBehaviour
             for (int i = 0; i < 5; i++)
             {
                 if (GameManager.Instance.PizzaInventoryData[i] != null)
+                {
                     PizzaInventorySlot[i].transform.GetChild(0).GetComponent<Text>().text = GameManager.Instance.PizzaInventoryData[i]?.Name;
+                    Debug.Log("텍스트 수정하는 슬롯" + i);
+                }
+                    
             }
-        }else if(InventoryName == "GunInventory")
-        {
-
-        }else if(InventoryName == "DiceInventory")
-        {
-
         }
     }
     
+    public void EquipmentSlotUpdate()
+    {
+        int index = 0;
+        foreach(var i in DiceEquipmentSlot)
+        {
+            if (Constant.nowDice[index] != -1)
+            {
+                i.GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(Constant.DiceInfo[Constant.nowDice[index]].Path)[0];
+                i.GetComponent<Image>().color = Color.white;
+            }
+            else
+                i.GetComponent<Image>().color = Color.clear;
+           index++;
+        }
+        if (Constant.nowGun[0] != -1)
+        {
+            GunEquipmentSlot.GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(Constant.GunInfo[Constant.nowGun[0]].Path)[0];
+            GunEquipmentSlot.GetComponent<Image>().color = Color.white;
+        }
+        else
+            GunEquipmentSlot.GetComponent<Image>().color = Color.clear;
+    }
+
     public void OnClickEat(int index)
     {
         if(GameManager.Instance.PizzaInventoryData[index] != null)
@@ -244,6 +282,20 @@ public class InventoryManager : MonoBehaviour
             DeliveryJudgmentPanel.SetActive(true);
         }
         inventoryTextUpdate("PizzaInventory");
+    }
+
+    public void OnclickDicePageButton(int i)
+    {
+        DicePage += i;
+        DiceText.text = "" + DicePage;
+        DiceInventoryUpdate();
+    }
+
+    public void OnclickGunPageButton(int i)
+    {
+        GunPage += i;
+        GunText.text = "" + GunPage;
+        GunInventoryUpdate();
     }
 
     public void ExitInventory()

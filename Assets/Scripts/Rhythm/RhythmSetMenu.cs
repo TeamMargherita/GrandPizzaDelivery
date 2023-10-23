@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// SelectScene에서 메뉴 관리를 위한 클래스
+/// </summary>
 public class RhythmSetMenu : MonoBehaviour
 {
     public GameObject Menu;

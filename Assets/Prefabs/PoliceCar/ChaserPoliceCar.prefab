@@ -553,6 +553,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbada35e8b02bf343bbb37f341b8961f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PoliceHp: 0
   Speed: 0
   colArr:
   - {fileID: 7561573416107725112}
@@ -577,7 +578,7 @@ MonoBehaviour:
   ViewAngle: 100
   TargetMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 1088
   ObstacleMask:
     serializedVersion: 2
     m_Bits: 128

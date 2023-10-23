@@ -110,7 +110,6 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
         pizzaStoreHeight = 1080;
         pizzaStoreTrans.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, pizzaStoreHeight);
         iStop.StopMap(true);
-        Constant.StopTime = true;
     }
     /// <summary>
     /// 곧바로 피자 메뉴까지 열어주는 메소드
@@ -122,7 +121,6 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
         pizzaStoreHeight = 1080;
         pizzaStoreTrans.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, pizzaStoreHeight);
         iStop.StopMap(true);
-        Constant.StopTime = true;
         pizzaMenuPanel.SetActive(true);
         isPizzaMenu = true;
         pizzaMenuHeight = 1080;
@@ -172,7 +170,6 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
         if (isOn)
         {
             ChasePoliceCar.isStop = isOn;
-            Constant.StopTime = true;
             pizzaStorePanel.SetActive(isOn);
             isPizzaStore = isOn;
         }
@@ -317,7 +314,6 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
             iStop.StopMap(false);
             isIn = false;
             ChasePoliceCar.isStop = false;
-            Constant.StopTime = false;
         }
 
         if (isPizzaMake && pizzaMakeWitdh < 1920)

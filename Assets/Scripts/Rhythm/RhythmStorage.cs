@@ -6,8 +6,8 @@ public class RhythmStorage : MonoBehaviour
     public Note NotePrefab;                         // 노트
     public Bar BarPrefab;                           // 마디
 
-    public static Queue<Bar> Bars = new Queue<Bar>();          // 마디 오브젝트 풀
-    public static Queue<Note> Notes = new Queue<Note>();       // 노트 오브젝트 풀
+    public Queue<Bar> Bars = new Queue<Bar>();          // 마디 오브젝트 풀
+    public Queue<Note> Notes = new Queue<Note>();       // 노트 오브젝트 풀
 
     public Queue<Bar>[] BarLoad = new Queue<Bar>[2];       // 나와있는 마디
     public Queue<Note>[] NoteLoad = new Queue<Note>[2];    // 나와있는 노트

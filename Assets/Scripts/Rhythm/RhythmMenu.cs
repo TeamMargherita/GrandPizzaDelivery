@@ -6,6 +6,9 @@ public class RhythmMenu : MonoBehaviour
     public AudioSource BgSound;
     void Update()
     {
+        if (BgSound.time <= 0f)
+            return;
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Menu.SetActive(!Menu.activeSelf);

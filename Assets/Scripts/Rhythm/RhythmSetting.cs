@@ -72,7 +72,7 @@ public class RhythmSetting : MonoBehaviour
     {
         float value = float.Parse(volume);
         value = Mathf.Clamp(value, 0.1f, 5);
-        manager.MusicSound = value;
+        manager.Speed = value;
         SpeedSync();
     }
     private void SpeedSync()

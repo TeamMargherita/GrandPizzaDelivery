@@ -48,7 +48,7 @@ public class RhythmManager : MonoBehaviour
         {
             EndScene();
         }
-        if (Input.GetKeyDown(KeyCode.F5) && SceneManager.GetActiveScene().name == "RhythmScene")
+        if (Input.GetKeyDown(KeyCode.F5) && SceneManager.GetActiveScene().name == "RhythmScene" && !SceneChange)
         {
             EndScene();
         }

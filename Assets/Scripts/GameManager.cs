@@ -52,7 +52,7 @@ public class GameManager : MonoBehaviour
     public float time;
     private float timeSpeed = 60; //하루기준시간
 
-    private int money = 0;
+    private int money = 1000000000;
     public int Money
     {
         get {
@@ -78,7 +78,10 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        time += Time.deltaTime * timeSpeed; //게임기준1분 = 현실시간2초
+        if (!Constant.StopTime)
+        {
+            time += Time.deltaTime * timeSpeed; //게임기준1분 = 현실시간2초
+        }
         //게임1초 * timeSpeed = 현실시간1초
         //TimeText.GetComponent<Text>().text = (int)time/3600 + " : " + (int)(time / 60 % 60);
         EndDelivery();

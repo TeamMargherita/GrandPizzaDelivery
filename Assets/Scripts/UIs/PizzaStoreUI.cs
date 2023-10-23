@@ -151,7 +151,9 @@ public class PizzaStoreUI : MonoBehaviour, IIngredientSlot
 		else
 		{
 			ingredientExplainText.text
-			= "매력도 : " + Constant.IngredientsArray[ingNum, 1] + "\n"
+			= 
+			"재료이름 : " + Constant.IngredientsArray[ingNum, 4] + "\n"
+			+ "매력도 : " + Constant.IngredientsArray[ingNum, 1] + "\n"
 			+ "매력하락도 : " + Constant.IngredientsArray[ingNum, 2] + "\n"
 			+ "재료값 : " + Constant.IngredientsArray[ingNum, 3];
 		}

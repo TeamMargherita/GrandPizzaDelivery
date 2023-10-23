@@ -128,6 +128,11 @@ public class MakingPizza : MonoBehaviour
                 {
                     yield return Constant.OneTime;
                 }
+                while (Constant.StopTime)
+                {
+                    yield return Constant.OneTime;
+                    yield return Constant.OneTime;
+                }
             }
             // 피자가 완성되었다. 완성된 피자는 피자집 인벤에 들어간다.
             CompletePizzaList.Add(pizzaRequestList[0].Pizza);

@@ -13,7 +13,7 @@ public class MakingPizza : MonoBehaviour
 
     private List<Request> pizzaRequestList = new List<Request>();   // 만들어야할 피자 리스트
 
-    private List<Pizza> completePizzaList = new List<Pizza>();  // 완성된 피자 리스트
+    public List<Pizza> CompletePizzaList = new List<Pizza>();  // 완성된 피자 리스트
 
     private RectTransform[] makingPizzaPanelRect;
     private MakingPizzaPanel[] makingPizzaPanelClass;
@@ -130,7 +130,7 @@ public class MakingPizza : MonoBehaviour
                 }
             }
             // 피자가 완성되었다. 완성된 피자는 피자집 인벤에 들어간다.
-            completePizzaList.Add(pizzaRequestList[0].Pizza);
+            CompletePizzaList.Add(pizzaRequestList[0].Pizza);
             // 파인애플 피자였다면 파인애플이 하나 줄어든다.
             if (pizzaRequestList[0].Pizza.Ingreds.FindIndex(a => a.Equals(PizzaNS.Ingredient.PINEAPPLE)) != -1)
 			{
@@ -167,14 +167,14 @@ public class MakingPizza : MonoBehaviour
     public Pizza GetInvenPizzaList(int index)
 	{
         // 가져올 수 없는 범위에 있다면 빈 피자를 반환함
-        if (completePizzaList.Count <= index) { return new Pizza(); }
+        if (CompletePizzaList.Count <= index) { return new Pizza(); }
 
         // 피자를 임시로 저장한다.
-        Pizza temPizza = completePizzaList[index];
+        Pizza temPizza = CompletePizzaList[index];
         // 피자집에 있는 피자들 명단에서 제외한다.
         //Debug.Log(temPizza.Name);
-        completePizzaList.RemoveAt(index);
-        Debug.Log(index + " " + completePizzaList.Count);
+        CompletePizzaList.RemoveAt(index);
+        Debug.Log(index + " " + CompletePizzaList.Count);
         // 명단에서 제외했으므로, 피자집 피자 패널을 꺼준다.
         for (int i = 0; i < makingPizzaPanelArr.Length; i++)
 		{

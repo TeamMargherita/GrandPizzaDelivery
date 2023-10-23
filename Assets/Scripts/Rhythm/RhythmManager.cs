@@ -15,10 +15,10 @@ public class RhythmManager : MonoBehaviour
     public decimal CurrentTime;                     // 현재 시간
     public AudioData Data;                          // 곡 데이터
     public float Speed;                             // 속도
-    public float MusicSound;
-    public float KeySound;
-    public bool SceneChange;
-    public JudgeStorage Judges;
+    public float MusicSound;                        // 배경음
+    public float KeySound;                          // 키음
+    public bool SceneChange;                        // 씬 전환 여부
+    public JudgeStorage Judges;                     // 판정 저장소
 
     private static RhythmManager instance = null;
 
@@ -44,11 +44,13 @@ public class RhythmManager : MonoBehaviour
     {
         Judges.SetAttractive();
 
+        // 음악이 끝났을 경우
         if ((float)CurrentTime >= Data.Length && !SceneChange)
         {
             EndScene();
         }
-        if (Input.GetKeyDown(KeyCode.F5) && SceneManager.GetActiveScene().name == "RhythmScene" && !SceneChange)
+        // 중도 스킵 = F5
+        else if (Input.GetKeyDown(KeyCode.F5) && SceneManager.GetActiveScene().name == "RhythmScene" && !SceneChange)
         {
             EndScene();
         }
@@ -70,18 +72,36 @@ public class RhythmManager : MonoBehaviour
         Data = new AudioData(Title);
     }
 
+    /// <summary>
+    /// 리듬게임 시작 시 데이터 초기화를 위한 함수
+    /// </summary>
     public void Init()
     {
+        // 현재 갖고 있는 Title을 통해 Json데이터를 불러옴
         LoadData();
+
+        // 현재 시간 초기화
         CurrentTime = 0;
+
+        // 판정 초기화
         Judges.Init();
+
+        // 씬 전환 여부 초기화
         SceneChange = false;
     }
 
+    /// <summary>
+    /// 씬을 전환하며 매력도를 전달하는 함수
+    /// </summary>
     private void EndScene()
     {
+        // 씬 전환
         SceneChange = true;
+
+        // 매력도 전달
         Constant.PizzaAttractiveness = Judges.Attractive;
+
+        // 피자 구조체 생성 함수 호출
         LoadScene.Instance.LoadPizzaMenu();
     }
 }

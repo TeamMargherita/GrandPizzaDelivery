@@ -225,18 +225,15 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
     public void OKDeliveryUI()
     {
         if (iHouse == null) { return; }
-
-        //iHouse.DisableHouse();
+        player.GetComponent<PlayerMove>().Stop = false;
         deliveryPanel.SetActive(false);
-        //PizzaInventory.SetActive(true);
-        //InventoryManager.InventoryActive = true;
-        //InventoryManager.CurrentInventory = PizzaInventory;
         InventoryManager.OnClickDelivery();
         InventoryManager.inventoryTextUpdate(PizzaInventory.name);
     }
     public void NODeliveryUI()
     {
         deliveryPanel.SetActive(false);
+        player.GetComponent<PlayerMove>().Stop = false;
     }
 
     public void OKDeliveryJudgmentPanel()

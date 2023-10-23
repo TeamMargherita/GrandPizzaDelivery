@@ -48,12 +48,22 @@ public class InventoryManager : MonoBehaviour
     /// <param name="path">이미지 경로</param>
     /// <param name="index">슬롯 주소</param>
     /// <param name="count">플레이어가 가지고 있는 아이템 갯수</param>
-    private void SystemIOFileLoad(string path, int index, int count)
+    private void SystemIOFileLoad(string path, int index, int count, ItemType type)
     {
-        DiceInventorySlot[index].transform.GetChild(0).GetComponent<Image>().enabled = true;
-        DiceInventorySlot[index].transform.GetChild(0).GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(path)[0];
-        DiceInventorySlot[index].transform.GetChild(0).GetComponent<Image>().color = Color.white;
-        DiceInventorySlot[index].transform.GetChild(1).GetComponent<Text>().text = "x " + count;
+        if(type == ItemType.DICE)
+        {
+            DiceInventorySlot[index].transform.GetChild(0).GetComponent<Image>().enabled = true;
+            DiceInventorySlot[index].transform.GetChild(0).GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(path)[0];
+            DiceInventorySlot[index].transform.GetChild(0).GetComponent<Image>().color = Color.white;
+            DiceInventorySlot[index].transform.GetChild(1).GetComponent<Text>().text = "x " + count;
+        }else if(type == ItemType.GUN)
+        {
+            GunInventorySlot[index].transform.GetChild(0).GetComponent<Image>().enabled = true;
+            GunInventorySlot[index].transform.GetChild(0).GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(path)[0];
+            GunInventorySlot[index].transform.GetChild(0).GetComponent<Image>().color = Color.white;
+            GunInventorySlot[index].transform.GetChild(1).GetComponent<Text>().text = "x " + count;
+        }
+       
     }
 
     public Sprite GetItemImage(int index, ItemType type)
@@ -84,7 +94,7 @@ public class InventoryManager : MonoBehaviour
         {
             if(count < index)
             {
-                SystemIOFileLoad(Constant.DiceInfo[i.Key.ItemNumber].Path, count, i.Value);
+                SystemIOFileLoad(Constant.DiceInfo[i.Key.ItemNumber].Path, count, i.Value, ItemType.DICE);
                 DiceInventorySlotParams[itemIndex] = i.Key;
                 itemIndex++;
                 count++;
@@ -108,7 +118,7 @@ public class InventoryManager : MonoBehaviour
         {
             if (count < index)
             {
-                SystemIOFileLoad(Constant.GunInfo[i.Key.ItemNumber].Path, count, i.Value);
+                SystemIOFileLoad(Constant.GunInfo[i.Key.ItemNumber].Path, count, i.Value, ItemType.GUN);
                 GunInventorySlotParams[itemIndex] = i.Key;
                 itemIndex++;
                 count++;

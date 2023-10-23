@@ -103,6 +103,7 @@ MonoBehaviour:
   MaxSpeed: 10
   acceleration: 1
   Stop: 0
+  CurrentMagagine: 0
   MakingPizzaScript: {fileID: 0}
   InventoryManagerScript: {fileID: 0}
 --- !u!61 &6833447561727001596

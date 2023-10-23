@@ -259,14 +259,15 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
         SpecialPizzaDeliverySelectionPanel.SetActive(false);
         DeliveryAppButton.SetActive(false);
         DarkDeliveryAppButton.SetActive(true);
-        GameManager.Instance.time = 7200;
+        GameManager.Instance.time = 0;
+        GameManager.Instance.isDarkDelivery = true;
         Time.timeScale = 1;
     }
 
     public void NoDarkDeliveryPanel()
     {
         SpecialPizzaDeliverySelectionPanel.SetActive(false);
-        GameManager.Instance.time = 0;
+        GameManager.Instance.PlayerDead();
         Time.timeScale = 1;
     }
     public void ActiveTrueKeyExplainPanel(bool bo)

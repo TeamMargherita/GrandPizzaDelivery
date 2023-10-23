@@ -17,6 +17,8 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private GameObject[] DiceInventorySlot;
     [SerializeField] private GameObject[] DiceEquipmentSlot;
     [SerializeField] private GameObject GunEquipmentSlot;
+    [SerializeField] private GameObject UIGunImage;
+    [SerializeField] private Text MagagineText;
 
     public ItemS[] DiceInventorySlotParams = new ItemS[5];
     public ItemS[] GunInventorySlotParams = new ItemS[5];
@@ -244,10 +246,30 @@ public class InventoryManager : MonoBehaviour
         }
         inventoryTextUpdate(CurrentInventory.name);
     }
+    private void UIGunImageUpdate()
+    {
+        if(Constant.nowGun[0] == -1)
+            UIGunImage.GetComponent<Image>().color = Color.clear;
+        else
+        {
+            UIGunImage.GetComponent<Image>().sprite = GunEquipmentSlot.GetComponent<Image>().sprite;
+            UIGunImage.GetComponent<Image>().color = Color.white;
+        }
+    }
 
+    
+    public void UIMagagineTextUpdate(short currentMagagine)
+    {
+        if (Constant.nowGun[0] == -1)
+            MagagineText.text = "";
+        else
+        {
+            MagagineText.text = "" + currentMagagine;
+        }
+    }
     public void OnClickDelivery()
     {
-        Debug.Log("올클릭딜리버리");
+        Debug.Log("온클릭딜리버리");
         if(/*GameManager.Instance.PizzaInventory[SlotNum - 1] != null && */GoalAddressS != null)
         {
             int SDRIndex = 0;
@@ -307,5 +329,6 @@ public class InventoryManager : MonoBehaviour
     void Update()
     {
         inventoryOpenClose();
+        UIGunImageUpdate();
     }
 }

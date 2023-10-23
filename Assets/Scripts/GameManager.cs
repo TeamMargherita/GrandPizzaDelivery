@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private SendDeliveryRequest SDR;
     [SerializeField] private GameObject DarkDeliveryOKPanel;
 
+    public bool isDarkDelivery = false;
     public static GameManager Instance
     {
         get
@@ -70,14 +71,28 @@ public class GameManager : MonoBehaviour
         {
             if ((SDR.RequestList.Count <= 0 && time >= 75600) || time >= 82800)
             {
+                SDR.RequestList.Clear();
                 DarkDeliveryOKPanel.SetActive(true);
                 Time.timeScale = 0;
             }
         }
     }
 
+    public void PlayerDead()
+    {
+        LoadScene.Instance.ActiveTrueFade("InGameScene");
+        isDarkDelivery = false;
+        time = 32400;
+    }
+
+    private void TimeSkip()
+    {
+        if(Input.GetKeyDown(KeyCode.Backspace))
+            time = 82800;
+    }
     private void Update()
     {
+        TimeSkip();
         if (!Constant.StopTime)
         {
             time += Time.deltaTime * timeSpeed; //게임기준1분 = 현실시간2초

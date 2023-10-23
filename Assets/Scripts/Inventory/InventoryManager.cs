@@ -19,6 +19,7 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private GameObject GunEquipmentSlot;
     [SerializeField] private GameObject UIGunImage;
     [SerializeField] private Text MagagineText;
+    [SerializeField] private PlayerMove Player;
 
     public ItemS[] DiceInventorySlotParams = new ItemS[5];
     public ItemS[] GunInventorySlotParams = new ItemS[5];
@@ -232,6 +233,7 @@ public class InventoryManager : MonoBehaviour
         {
             GunEquipmentSlot.GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(Constant.GunInfo[Constant.nowGun[0]].Path)[0];
             GunEquipmentSlot.GetComponent<Image>().color = Color.white;
+            Player.CurrentMagagine = 0;
         }
         else
             GunEquipmentSlot.GetComponent<Image>().color = Color.clear;

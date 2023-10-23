@@ -22,23 +22,23 @@ public static class Constant
 	public static int TotalDeclineAt;
 	public static List<Ingredient> ingreds = new List<Ingredient>();
 	/// <summary>
-	/// 피자 재료값. [,0]은 재료번호, [,1]은 매력도, [,2]는 매력하락도, [,3]은 재료값. [0,]은 재료없음임.
+	/// 피자 재료값. [,0]은 재료번호, [,1]은 매력도, [,2]는 매력하락도, [,3]은 재료값, [,4]은 재료이름 [0,]은 재료없음임.
 	/// </summary>
-	public static string[,] IngredientsArray = new string[13, 4]
+	public static string[,] IngredientsArray = new string[13, 5]
 	{
-		{"0","-1","-1","-1" },	// 없음
-		{"1","25","3","150" },	// 토마토
-		{"2","30","2","160" },	// 치즈
-		{"3","15","2","80" },	// 바질
-		{"4","20","1","120" },	// 감자
-		{"5","45","7","500" },	// 베이컨
-		{"6","27","3","140" },	// 옥수수
-		{"7","40","5","320" },	// 할라피뇨
-		{"8","65","12","960" },	// 닭고기
-		{"9","78","20","1350" },    // 소고기
-		{"10","32","4","150" }, // 사과
-		{"11","27","2","200" }, // 당근
-		{"12","17","1","100" }	// 대파
+		{"0","-1","-1","-1" ,"없음"},	// 없음
+		{"1","25","3","150","토마토" },	// 토마토
+		{"2","30","2","160","치즈"},	// 치즈
+		{"3","15","2","80","바질" },	// 바질
+		{"4","20","1","120","감자" },	// 감자
+		{"5","45","7","500","베이컨" },	// 베이컨
+		{"6","27","3","140","옥수수" },	// 옥수수
+		{"7","40","5","320","할라피뇨" },	// 할라피뇨
+		{"8","65","12","960","닭고기" },	// 닭고기
+		{"9","78","20","1350","소고기" },    // 소고기
+		{"10","32","4","150","사과" }, // 사과
+		{"11","27","2","200","당근" }, // 당근
+		{"12","17","1","100","대파" }	// 대파
 	};
 	/// <summary>
 	/// 사용 가능한 피자 재료의 번호들
@@ -135,15 +135,15 @@ public static class Constant
 	public static Dictionary<ItemS, int> PlayerItemDIc = new Dictionary<ItemS, int>() { { DiceItem[9], 2 } };
 	public static DiceS[] DiceInfo = new DiceS[10]
 	{
-		new DiceS(6, new int[6] { 0, 1, 2, 3, 4, 5} , "UI/MiniDice_80_80"),
-		new DiceS(6, new int[6] { 3, 4, 5, 6, 7, 8} , "UI/MiniDice_80_80"),
-		new DiceS(8, new int[8] { 2, 2, 3, 3, 4, 4, 5, 6} , "UI/MiniDice_80_80"),
-		new DiceS(12, new int[12] { 1, 2, 3, 3, 4, 4, 5, 5, 6, 7, 8, 9} , "UI/MiniDice_80_80"),
-		new DiceS(6, new int[6] { 2, 2, 4, 4, 6, 6} , "UI/MiniDice_80_80"),
-		new DiceS(6, new int[6] { 1, 1, 3, 3, 5, 5} , "UI/MiniDice_80_80"),
-		new DiceS(6, new int[6] { 2, 3, 5, 7, 11, 13} , "UI/MiniDice_80_80"),
-		new DiceS(6, new int[6] { 1, 1, 1, 1, 1, 15} , "UI/MiniDice_80_80"),
-		new DiceS(6, new int[6] { 2, 3, 4, 5, 6, 7} , "UI/MiniDice_80_80"),
+		new DiceS(6, new int[6] { 0, 1, 2, 3, 4, 5} , "UI/RubberDice_80_80"),
+		new DiceS(6, new int[6] { 3, 4, 5, 6, 7, 8} , "UI/MetalDice_80_80"),
+		new DiceS(8, new int[8] { 2, 2, 3, 3, 4, 4, 5, 6} , "UI/EightDice_80_80"),
+		new DiceS(12, new int[12] { 1, 2, 3, 3, 4, 4, 5, 5, 6, 7, 8, 9} , "UI/TwelveDice_80_80"),
+		new DiceS(6, new int[6] { 2, 2, 4, 4, 6, 6} , "UI/EvenDice_80_80"),
+		new DiceS(6, new int[6] { 1, 1, 3, 3, 5, 5} , "UI/OddDice_80_80"),
+		new DiceS(6, new int[6] { 2, 3, 5, 7, 11, 13} , "UI/PrimeDice_80_80"),
+		new DiceS(6, new int[6] { 1, 1, 1, 1, 1, 15} , "UI/TwoDice_80_80"),
+		new DiceS(6, new int[6] { 2, 3, 4, 5, 6, 7} , "UI/WoodDice_80_80"),
 		new DiceS(6, new int[6] { 1, 2, 3, 4, 5, 6} , "UI/MiniDice_80_80")
 	};
 

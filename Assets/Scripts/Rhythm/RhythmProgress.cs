@@ -23,6 +23,8 @@ public class RhythmProgress : MonoBehaviour
         }
         else
         {
+            if(Front.fillAmount < 1f)
+                Front.fillAmount = 1f;
             Back.fillAmount = (float)manager.CurrentTime / manager.Data.Length;
         }
     }

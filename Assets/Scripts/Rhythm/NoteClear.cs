@@ -48,14 +48,7 @@ public class NoteClear : MonoBehaviour
             // 오토 클리어
             if (IsAuto)
             {
-                if (storage.NoteLoad[i].Peek().Timing <= 0)
-                {
-                    JudgeCount(judge);
-                    storage.NoteClear(i);
-                    Effects[i].GetJudge(judge);
-                    NoteSound.PlayOneShot(NoteSound.clip);
-                }
-                if (storage.NoteLoad[i].Peek().Timing <= 0)
+                if (storage.NoteLoad[i].Count > 0 && storage.NoteLoad[i].Peek().Timing <= 0)
                 {
                     JudgeCount(judge);
                     storage.NoteClear(i);

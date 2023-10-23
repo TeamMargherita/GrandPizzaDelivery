@@ -43,7 +43,7 @@ public class LoadScene : MonoBehaviour
 	{
 		if (Constant.ChoiceIngredientList.Count > 0)
 		{
-            ActiveTrueFade("RhythmScene");
+            ActiveTrueFade("SelectScene");
 		}
 	}
     public void LoadPrologueToInGameScene()
@@ -57,6 +57,6 @@ public class LoadScene : MonoBehaviour
         Constant.IsMakePizza = true;
         Constant.DevelopPizza.Add(new Pizza("Pizza" + System.DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss"), Random.Range(20,80) + 20, Constant.ProductionCost
             ,Random.Range(5000,30000) + 10000,Constant.PizzaAttractiveness, Constant.ingreds, Constant.TotalDeclineAt));
-        ActiveTrueFade("InGameScene");
+        ActiveTrueFade("TestSceneSH");
 	}
 }

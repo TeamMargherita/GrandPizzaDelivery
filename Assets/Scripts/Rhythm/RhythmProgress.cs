@@ -6,7 +6,8 @@ using UnityEngine.UI;
 /// </summary>
 public class RhythmProgress : MonoBehaviour
 {
-    public Image pizza;      // 피자 이미지
+    public Image Front;
+    public Image Back;      // 피자 이미지
     private RhythmManager manager;
 
     private void Start()
@@ -16,6 +17,13 @@ public class RhythmProgress : MonoBehaviour
 
     void Update()
     {
-        pizza.fillAmount = (float)manager.CurrentTime / manager.Data.Length;
+        if((float)manager.CurrentTime <= 0f)
+        {
+            Front.fillAmount = (2 + (float)manager.CurrentTime) / 2;
+        }
+        else
+        {
+            Back.fillAmount = (float)manager.CurrentTime / manager.Data.Length;
+        }
     }
 }

@@ -58,14 +58,22 @@ public class NoteEditor : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q) || Input.GetKey(KeyCode.W))
         {
             calculator = manager.CurrentTime / NoteSpawner.BitSlice;
+            calculator = decimal.Round(calculator);
             if (!manager.Data.NoteLines[0].ContainsKey((int)calculator))
+            {
                 manager.Data.NoteLines[0].Add((int)calculator, (Input.GetKeyDown(KeyCode.Q)) ? NoteType.Normal : NoteType.Hold);
+                Debug.Log("AddNumber : " + calculator);
+            }
         }
         if (Input.GetKeyDown(KeyCode.O) || Input.GetKey(KeyCode.P))
         {
             calculator = manager.CurrentTime / NoteSpawner.BitSlice;
+            calculator = decimal.Round(calculator);
             if (!manager.Data.NoteLines[1].ContainsKey((int)calculator))
+            {
                 manager.Data.NoteLines[1].Add((int)calculator, (Input.GetKeyDown(KeyCode.O)) ? NoteType.Normal : NoteType.Hold);
+                Debug.Log("AddNumber : " + calculator);
+            }
         }
     }
 
@@ -77,14 +85,22 @@ public class NoteEditor : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftAlt))
         {
             calculator = manager.CurrentTime / NoteSpawner.BitSlice;
+            calculator = decimal.Round(calculator);
             if (manager.Data.NoteLines[0].ContainsKey((int)calculator))
+            {
                 manager.Data.NoteLines[0].Remove((int)calculator);
+                Debug.Log("RemoveNumber : " + calculator);
+            }
         }
-        if (Input.GetKey(KeyCode.LeftAlt))
+        if (Input.GetKey(KeyCode.M))
         {
             calculator = manager.CurrentTime / NoteSpawner.BitSlice;
+            calculator = decimal.Round(calculator);
             if (manager.Data.NoteLines[1].ContainsKey((int)calculator))
+            {
                 manager.Data.NoteLines[1].Remove((int)calculator);
+                Debug.Log("RemoveNumber : " + calculator);
+            }
         }
     }
 

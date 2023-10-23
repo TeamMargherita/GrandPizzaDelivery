@@ -292,9 +292,13 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1044286199950050072, guid: a83cc78eea476dd48b0a466ead8e257d, type: 3}
+      propertyPath: Title
+      value: Pluck It Up
+      objectReference: {fileID: 0}
+    - target: {fileID: 1044286199950050072, guid: a83cc78eea476dd48b0a466ead8e257d, type: 3}
       propertyPath: AudioClip
       value: 
-      objectReference: {fileID: 8300000, guid: 7e0de08ad5978bb41b85afa07f7f32f0, type: 3}
+      objectReference: {fileID: 8300000, guid: efbccec9e0e570445bf9e09550101a0d, type: 3}
     - target: {fileID: 1044286199950050073, guid: a83cc78eea476dd48b0a466ead8e257d, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -432,10 +436,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Titles:
-  - "\uC624\uB298\uC758 \uC5EC\uD589"
+  - Pluck It Up
+  - River Crossing
+  - The Movement of India
   Sound: {fileID: 1926065681}
   Clips:
-  - {fileID: 8300000, guid: 8a6e8962e2b41aa408ed74a296e6815f, type: 3}
+  - {fileID: 8300000, guid: efbccec9e0e570445bf9e09550101a0d, type: 3}
+  - {fileID: 8300000, guid: 0a02c2afe76ba6d419faef0957db5ce0, type: 3}
+  - {fileID: 8300000, guid: 4efc0c00ec032d545ad076da5876e3b6, type: 3}
   Title: {fileID: 1648601356}
   Bpm: {fileID: 76532623}
   Level: {fileID: 1982851427}
@@ -1020,7 +1028,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 1be1d1bc94ee66f40abf819c9ce9acb2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e39a56dd29d21c04db0bc688c2724775, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1359,7 +1367,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 1be1d1bc94ee66f40abf819c9ce9acb2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e39a56dd29d21c04db0bc688c2724775, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1434,7 +1442,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 1be1d1bc94ee66f40abf819c9ce9acb2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e39a56dd29d21c04db0bc688c2724775, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1483,7 +1491,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -1715,7 +1723,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 1be1d1bc94ee66f40abf819c9ce9acb2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e39a56dd29d21c04db0bc688c2724775, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

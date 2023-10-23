@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Gun;
 public class PlayerMove : PlayerStat
 {
     private Vector3 angle = new Vector3(0, 0, 300);
@@ -13,8 +13,15 @@ public class PlayerMove : PlayerStat
     private MakingPizza MakingPizzaScript;
     [SerializeField]
     private InventoryManager InventoryManagerScript;
+
+    GunShooting gunMethod;
+    private void Awake()
+    {
+        gunMethod = new PlayerGunShooting(transform);
+    }
     void Update()
     {
+        gunMethod.Fire("Player");
         if (Input.GetKeyDown(KeyCode.X))
         {
             InventoryManagerScript.InventoryAddItem(MakingPizzaScript.GetInvenPizzaList(0));

@@ -9,6 +9,6 @@ public class TestMoneyText : MonoBehaviour
 
     void Update()
     {
-        money.GetComponent<Text>().text = ""+GameManager.Instance.Money;
+        money.GetComponent<Text>().text = GameManager.Instance.Money + "¿ø";
     }
 }

@@ -10,7 +10,10 @@ public class GameManager : MonoBehaviour
     public Pizza?[] PizzaInventoryData = new Pizza?[5];
     public List<Pizza> PizzaMenu = new List<Pizza>();
     public List<Slot> InventorySlotList = new List<Slot>();
-    public GameObject TimeText;
+
+    [SerializeField] private SendDeliveryRequest SDR;
+    [SerializeField] private GameObject DarkDeliveryOKPanel;
+
     public static GameManager Instance
     {
         get
@@ -61,12 +64,23 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    
-    
+    private void EndDelivery()
+    {
+        if(SDR != null && DarkDeliveryOKPanel != null)
+        {
+            if ((SDR.RequestList.Count <= 0 && time >= 75600) || time >= 82800)
+            {
+                DarkDeliveryOKPanel.SetActive(true);
+                Time.timeScale = 0;
+            }
+        }
+    }
+
     private void Update()
     {
         time += Time.deltaTime * timeSpeed; //게임기준1분 = 현실시간2초
         //게임1초 * timeSpeed = 현실시간1초
         //TimeText.GetComponent<Text>().text = (int)time/3600 + " : " + (int)(time / 60 % 60);
+        EndDelivery();
     }
 }

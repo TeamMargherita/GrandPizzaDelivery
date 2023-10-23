@@ -9,10 +9,8 @@ public class GoPizza : MonoBehaviour, IPointerClickHandler
     {
         if (GameManager.Instance.time < 64800 && GameManager.Instance.time >= 21600)
         {
-            return;
+            GameManager.Instance.time += 3600;
+            LoadScene.Instance.LoadRhythm();
         }
-
-        GameManager.Instance.time += 3600;
-        LoadScene.Instance.LoadRhythm();
     }
 }

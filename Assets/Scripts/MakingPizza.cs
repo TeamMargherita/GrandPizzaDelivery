@@ -183,7 +183,7 @@ public class MakingPizza : MonoBehaviour
         // 명단에서 제외했으므로, 피자집 피자 패널을 꺼준다.
         for (int i = 0; i < makingPizzaPanelArr.Length; i++)
 		{
-            if (makingPizzaPanelClass[i].ComparePizza(temPizza) && makingPizzaPanelClass[i].gameObject.activeSelf)
+            if (makingPizzaPanelClass[i].ComparePizza(temPizza) && makingPizzaPanelClass[i].gameObject.activeSelf && makingPizzaPanelClass[i].GetMainPanelRect() == 0f)
 			{
                 makingPizzaPanelClass[i].SetMainPanelRect(0f);
                 makingPizzaPanelClass[i].gameObject.SetActive(false);

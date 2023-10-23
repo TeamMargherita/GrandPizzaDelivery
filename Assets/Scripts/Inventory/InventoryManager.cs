@@ -15,6 +15,9 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private GameObject[] MainInventorySlot;
     [SerializeField] private GameObject[] GunInventorySlot;
     [SerializeField] private GameObject[] DiceInventorySlot;
+    [SerializeField] private GameObject[] DiceEquipmentSlot;
+    [SerializeField] private GameObject GunEquipmentSlot;
+
     public ItemS[] DiceInventorySlotParams = new ItemS[5];
     public ItemS[] GunInventorySlotParams = new ItemS[5];
 
@@ -206,15 +209,32 @@ public class InventoryManager : MonoBehaviour
                 }
                     
             }
-        }else if(InventoryName == "GunInventory")
-        {
-
-        }else if(InventoryName == "DiceInventory")
-        {
-
         }
     }
     
+    public void EquipmentSlotUpdate()
+    {
+        int index = 0;
+        foreach(var i in DiceEquipmentSlot)
+        {
+            if (Constant.nowDice[index] != -1)
+            {
+                i.GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(Constant.DiceInfo[Constant.nowDice[index]].Path)[0];
+                i.GetComponent<Image>().color = Color.white;
+            }
+            else
+                i.GetComponent<Image>().color = Color.clear;
+           index++;
+        }
+        if (Constant.nowGun[0] != -1)
+        {
+            GunEquipmentSlot.GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(Constant.GunInfo[Constant.nowGun[0]].Path)[0];
+            GunEquipmentSlot.GetComponent<Image>().color = Color.white;
+        }
+        else
+            GunEquipmentSlot.GetComponent<Image>().color = Color.clear;
+    }
+
     public void OnClickEat(int index)
     {
         if(GameManager.Instance.PizzaInventoryData[index] != null)

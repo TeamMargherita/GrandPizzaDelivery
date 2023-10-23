@@ -13,20 +13,59 @@ public class EquipmentSlot : MonoBehaviour , IDropHandler, IPointerEnterHandler,
     {
         if(name == "DiceSlot1")
         {
-            Constant.nowDice[0] = ((ItemS)inventoryManager.CurrentDragItem).ItemNumber;
-            GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(Constant.DiceInfo[Constant.nowDice[0]].Path)[0];
+            if(Constant.PlayerItemDIc[(ItemS)inventoryManager.CurrentDragItem] > 1)
+            {
+                Constant.nowDice[0] = ((ItemS)inventoryManager.CurrentDragItem).ItemNumber;
+                inventoryManager.EquipmentSlotUpdate();
+                //GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(Constant.DiceInfo[Constant.nowDice[0]].Path)[0];
+            }
+            else
+            {
+                if (Constant.nowDice[1] == ((ItemS)inventoryManager.CurrentDragItem).ItemNumber)
+                {
+                    Constant.nowDice[1] = Constant.nowDice[0];
+                    Constant.nowDice[0] = ((ItemS)inventoryManager.CurrentDragItem).ItemNumber;
+                    inventoryManager.EquipmentSlotUpdate();
+                    //GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(Constant.DiceInfo[Constant.nowDice[0]].Path)[0];
+                }
+                else
+                {
+                    Constant.nowDice[0] = ((ItemS)inventoryManager.CurrentDragItem).ItemNumber;
+                    inventoryManager.EquipmentSlotUpdate();
+                }
+            }
+            
         }
         else if(name == "DiceSlot2")
         {
-            Constant.nowDice[1] = ((ItemS)inventoryManager.CurrentDragItem).ItemNumber;
-            GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(Constant.DiceInfo[Constant.nowDice[1]].Path)[0];
+            if (Constant.PlayerItemDIc[(ItemS)inventoryManager.CurrentDragItem] > 1)
+            {
+                Constant.nowDice[1] = ((ItemS)inventoryManager.CurrentDragItem).ItemNumber;
+                inventoryManager.EquipmentSlotUpdate();
+                //GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(Constant.DiceInfo[Constant.nowDice[1]].Path)[0];
+            }
+            else
+            {
+                if (Constant.nowDice[0] == ((ItemS)inventoryManager.CurrentDragItem).ItemNumber)
+                {
+                    Constant.nowDice[0] = Constant.nowDice[1];
+                    Constant.nowDice[1] = ((ItemS)inventoryManager.CurrentDragItem).ItemNumber;
+                    inventoryManager.EquipmentSlotUpdate();
+                    //GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(Constant.DiceInfo[Constant.nowDice[0]].Path)[0];
+                }
+                else
+                {
+                    Constant.nowDice[1] = ((ItemS)inventoryManager.CurrentDragItem).ItemNumber;
+                    inventoryManager.EquipmentSlotUpdate();
+                }
+            }
         }
         else if(name == "GunSlot1")
         {
             Constant.nowGun[0] = ((ItemS)inventoryManager.CurrentDragItem).ItemNumber;
             if(Constant.nowGun[0] != -1)
             {
-                GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(Constant.GunInfo[Constant.nowGun[0]].Path)[0];
+                inventoryManager.EquipmentSlotUpdate();
                 GetComponent<Image>().color = Color.white;
             }
                 

@@ -17,7 +17,10 @@ public class PlayerStat : MonoBehaviour
         get { return hp; }
         set {
             if (value <= 0)
+            {
                 Debug.Log("플레이어 사망");
+                GameManager.Instance.PlayerDead();
+            }
             else if (value > 0)
                 Debug.Log("플레이어 생존");
             hp = value;

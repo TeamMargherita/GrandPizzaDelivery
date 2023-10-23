@@ -30,7 +30,15 @@ public class HandPhone : MonoBehaviour
     }
     public void HomeButtonOnClick()//홈버튼 눌렀을시
     {
-        DeliveryAppButton.SetActive(true);
-        DeliveryScreen.SetActive(false);
+        if (GameManager.Instance.isDarkDelivery)
+        {
+            DarkDeliveryAppButton.SetActive(true);
+            DeliveryScreen.SetActive(false);
+        }
+        else
+        {
+            DeliveryAppButton.SetActive(true);
+            DeliveryScreen.SetActive(false);
+        }
     }
 }

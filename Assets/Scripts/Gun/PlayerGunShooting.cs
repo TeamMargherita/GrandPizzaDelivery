@@ -33,24 +33,36 @@ public class PlayerGunShooting : GunShooting
             ShootingStance = false;
         }
     }
-
-    public void ShootRaycast(string exception)
+    float time;
+    public bool ShootRaycast(string exception, float fireRate, short damage)
     {
-        if (ShootingStance)
+        time += Time.deltaTime;
+        if(fireRate < time)
         {
-            if (Input.GetKey(KeyCode.Mouse0))
+            if (ShootingStance)
             {
-                int layerMask = ((1 << LayerMask.NameToLayer(exception)) | (1 << LayerMask.NameToLayer("WallObstacle"))); ;  // Everything에서 Player, WallObstacle 레이어만 제외하고 충돌 체크함
-                layerMask = ~layerMask;
-                RaycastHit2D hit = Physics2D.Raycast(MyTransform.position, dir.normalized, 1000, layerMask);
-                Debug.Log(hit.transform.name);
+                if (Input.GetKey(KeyCode.Mouse0))
+                {
+                    int layerMask = ((1 << LayerMask.NameToLayer(exception)) | (1 << LayerMask.NameToLayer("WallObstacle"))); ;  // Everything에서 Player, WallObstacle 레이어만 제외하고 충돌 체크함
+                    layerMask = ~layerMask;
+                    RaycastHit2D hit = Physics2D.Raycast(MyTransform.position, dir.normalized, 1000, layerMask);
+                    if (hit.transform.CompareTag("Police"))
+                    {
+                        hit.transform.GetComponent<Police>().PoliceHp -= damage;
+                    }
+                    time = 0;
+                    Debug.Log("발사");
+                    return true;
+                    //Debug.Log(hit.transform.name);
+                }
             }
         }
+        return false;
     }
 
-    public void Fire(string exception)
+    public bool Fire(string exception, float fireRate, short damage)
     {
         aiming();
-        ShootRaycast(exception);
+        return ShootRaycast(exception, fireRate, damage);
     }
 }

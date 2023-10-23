@@ -7,8 +7,10 @@ public class PlayerMove : PlayerStat
     private Vector3 angle = new Vector3(0, 0, 300);
 
     private float time;
+    private float reloadTime;
     public bool Stop = false;
     private bool bananaTrigger = false;
+    public short CurrentMagagine;
     [SerializeField]
     private MakingPizza MakingPizzaScript;
     [SerializeField]
@@ -19,9 +21,36 @@ public class PlayerMove : PlayerStat
     {
         gunMethod = new PlayerGunShooting(transform);
     }
+
+    void PlayerFire()
+    {
+        if(CurrentMagagine > 0)
+        {
+            if(Constant.nowGun[0] != -1)
+            {
+                if (gunMethod.Fire("Player", 1 - Constant.GunInfo[Constant.nowGun[0]].Speed, Constant.GunInfo[Constant.nowGun[0]].Damage))
+                {
+                    CurrentMagagine -= 1;
+                }
+            }
+        }
+        else
+        {
+            if (Constant.nowGun[0] != -1)
+            {
+                reloadTime += Time.deltaTime;
+                if (Constant.GunInfo[Constant.nowGun[0]].ReloadSpeed <= reloadTime)
+                {
+                    reloadTime = 0;
+                    CurrentMagagine = Constant.GunInfo[Constant.nowGun[0]].Magazine;
+                }
+            }
+        }
+    }
     void Update()
     {
-        gunMethod.Fire("Player");
+        PlayerFire();
+        InventoryManagerScript.UIMagagineTextUpdate(CurrentMagagine);
         if (Input.GetKeyDown(KeyCode.X))
         {
             if(MakingPizzaScript.CompletePizzaList.Count > 0)

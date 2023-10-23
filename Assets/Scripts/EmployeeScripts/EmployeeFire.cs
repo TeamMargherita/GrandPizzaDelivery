@@ -74,7 +74,7 @@ public class EmployeeFire : MonoBehaviour
         {
             FireWinBG.gameObject.SetActive(false);
 
-            for (int i = 0; i < FireWinParent.childCount / 2; i++)
+            for (int i = 0; i < FireWinParent.childCount-1; i+=2)
             {
                 FireWinParent.GetChild(i).gameObject.SetActive(false);
                 FireWinParent.GetChild(i + 1).gameObject.SetActive(false);

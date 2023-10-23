@@ -24,7 +24,7 @@ public class MakingPizza : MonoBehaviour
     private IAlarmMessagePanel iAlarmMessagePanel;
     private void Awake()
 	{
-        Constant.ClerkList.Add(new ClerkC(47, Tier.THREE, Tier.ONE, Tier.FOUR, 0, 20000));  // 임의로 점원 생성
+        //Constant.ClerkList.Add(new ClerkC(47, Tier.THREE, Tier.ONE, Tier.FOUR, 0, 20000));  // 임의로 점원 생성
         iAlarmMessagePanel = uiControl.GetComponent<IAlarmMessagePanel>();
         InitArr();
     }

@@ -1176,6 +1176,10 @@ PrefabInstance:
       value: NoteSound
       objectReference: {fileID: 0}
     - target: {fileID: 3489562485681704539, guid: cce559ef0d4fcbe4ea06e3b7f576ddf8, type: 3}
+      propertyPath: m_Volume
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3489562485681704539, guid: cce559ef0d4fcbe4ea06e3b7f576ddf8, type: 3}
       propertyPath: m_audioClip
       value: 
       objectReference: {fileID: 8300000, guid: 1813d7a4f0f815149b820c8ef32aaac2, type: 3}
@@ -1607,6 +1611,11 @@ PrefabInstance:
 --- !u!1 &1119652083 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8438432328281067601, guid: aecdb814ac0800d4f9925fb52ad68671, type: 3}
+  m_PrefabInstance: {fileID: 1119652082}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1119652084 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8438432328281067600, guid: aecdb814ac0800d4f9925fb52ad68671, type: 3}
   m_PrefabInstance: {fileID: 1119652082}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1127820268
@@ -3962,6 +3971,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3602636657353566329, guid: 9d5c3005a10121a4e8ad0344a8e2b2ac, type: 3}
+      propertyPath: Line1
+      value: 
+      objectReference: {fileID: 8438432326741943897}
+    - target: {fileID: 3602636657353566329, guid: 9d5c3005a10121a4e8ad0344a8e2b2ac, type: 3}
+      propertyPath: Line2
+      value: 
+      objectReference: {fileID: 1119652084}
+    - target: {fileID: 3602636657353566329, guid: 9d5c3005a10121a4e8ad0344a8e2b2ac, type: 3}
       propertyPath: BgSound
       value: 
       objectReference: {fileID: 961984728}
@@ -4132,5 +4149,10 @@ PrefabInstance:
 --- !u!1 &8438432326741943896 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8438432328281067601, guid: aecdb814ac0800d4f9925fb52ad68671, type: 3}
+  m_PrefabInstance: {fileID: 8438432326741943895}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8438432326741943897 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8438432328281067600, guid: aecdb814ac0800d4f9925fb52ad68671, type: 3}
   m_PrefabInstance: {fileID: 8438432326741943895}
   m_PrefabAsset: {fileID: 0}

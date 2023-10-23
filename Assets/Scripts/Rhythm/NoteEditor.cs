@@ -9,6 +9,8 @@ public class NoteEditor : MonoBehaviour
     public Button FrontButton;      // 되감기 버튼
     public Button BackButton;       // 감기 버튼
     public AudioSource BgSound;     // 배경 음악
+    public Transform Line1;
+    public Transform Line2;
 
     private RhythmManager manager;
     private decimal calculator;     // 노트 배열 인덱스 계산용
@@ -21,11 +23,15 @@ public class NoteEditor : MonoBehaviour
 
     void Update()
     {
+        if (manager.CurrentTime < 0m)
+            return;
+
         AddNote();
         RemoveNote();
         Wind();
         SetPitch();
         Playing();
+        MouseInput();
     }
 
     public void Front(int second)
@@ -47,6 +53,7 @@ public class NoteEditor : MonoBehaviour
     }
     public void Stop()
     {
+        BgSound.time = 0;
         BgSound.Stop();
     }
 
@@ -149,6 +156,36 @@ public class NoteEditor : MonoBehaviour
                 Pause();
             else
                 Play();
+        }
+    }
+
+    private void MouseInput()
+    {
+        if (Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            Vector3 vector = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            int line;
+            if (Mathf.Abs(Line1.position.y - vector.y) < 0.4f)
+                line = 0;
+            else if (Mathf.Abs(Line2.position.y - vector.y) < 0.4f)
+                line = 1;
+            else
+                return;
+            
+            float timing = (8 + vector.x) / (manager.Speed * 5f);
+            calculator = (decimal)timing / NoteSpawner.BitSlice + manager.CurrentTime / NoteSpawner.BitSlice;
+            calculator = decimal.Round(calculator);
+
+            if (!manager.Data.NoteLines[line].ContainsKey((int)calculator))
+            {
+                manager.Data.NoteLines[line].Add((int)calculator, (Input.GetKeyDown(KeyCode.Mouse0)) ? NoteType.Normal : NoteType.Hold);
+                Debug.Log("AddNumber : " + calculator);
+            }
+            else
+            {
+                manager.Data.NoteLines[line].Remove((int)calculator);
+                Debug.Log("RemoveNumber : " + calculator);
+            }
         }
     }
 }

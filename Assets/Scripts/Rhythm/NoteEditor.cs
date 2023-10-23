@@ -53,6 +53,7 @@ public class NoteEditor : MonoBehaviour
     }
     public void Stop()
     {
+        BgSound.time = 0;
         BgSound.Stop();
     }
 

@@ -48,7 +48,7 @@ public class NoteClear : MonoBehaviour
             // 오토 클리어
             if (IsAuto)
             {
-                if (storage.NoteLoad[i].Count > 0 && storage.NoteLoad[i].Peek().Timing <= 0)
+                if (storage.NoteLoad[i].Count > 0 && storage.NoteLoad[i].Peek().Timing <= 0 && (float)storage.NoteLoad[i].Peek().Timing > -0.12501f)
                 {
                     JudgeCount(judge);
                     storage.NoteClear(i);

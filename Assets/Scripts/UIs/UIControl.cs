@@ -21,6 +21,7 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
     [SerializeField] private GameObject SpecialPizzaDeliverySelectionPanel;
     [SerializeField] private GameObject DeliveryAppButton;
     [SerializeField] private GameObject DarkDeliveryAppButton;
+    [SerializeField] private GameObject player;
 
     [SerializeField] private UnityEngine.UI.Image addPizzaImg;
     [SerializeField] private UnityEngine.UI.Text alarmMessageText;
@@ -65,7 +66,16 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
 
         if (Constant.IsMakePizza)
 		{
+            Constant.IsMakePizza = false;
             DirectADdPizzaMenu();
+            player.transform.position = new Vector3(9f, 3.8f);
+
+        }
+        else if (Constant.isStartGame)
+        {
+            Constant.isStartGame = false;
+            DirectPizzaStore();
+            player.transform.position = new Vector3(9f, 3.8f);
         }
         //PizzaInventory = GameObject.FindWithTag("PizzaInventory");
     }
@@ -90,7 +100,17 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
         alarmMessageText.text = text;
         isAlarmMessage = isOn;
 	}
-
+    /// <summary>
+    /// 곧바로 피자 가게까지 열어주는 메소드
+    /// </summary>
+    private void DirectPizzaStore()
+    {
+        pizzaStorePanel.SetActive(true);
+        isPizzaStore = true;
+        pizzaStoreHeight = 1080;
+        pizzaStoreTrans.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, pizzaStoreHeight);
+        iStop.StopMap(true);
+    }
     /// <summary>
     /// 곧바로 피자 메뉴까지 열어주는 메소드
     /// </summary>

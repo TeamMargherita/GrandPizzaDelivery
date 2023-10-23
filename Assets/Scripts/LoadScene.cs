@@ -46,6 +46,11 @@ public class LoadScene : MonoBehaviour
             ActiveTrueFade("RhythmScene");
 		}
 	}
+    public void LoadPrologueToInGameScene()
+    {
+        Constant.isStartGame = true;
+        ActiveTrueFade("TestSceneSH");
+    }
 
     public void LoadPizzaMenu()
 	{

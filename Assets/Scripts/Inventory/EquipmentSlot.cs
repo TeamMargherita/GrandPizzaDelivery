@@ -20,10 +20,10 @@ public class EquipmentSlot : MonoBehaviour , IDropHandler
             Constant.nowDice[1] = ((ItemS)inventoryManager.CurrentDragItem).ItemNumber;
             GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(Constant.DiceInfo[Constant.nowDice[1]].Path)[0];
         }
-        else if(name == "GunSlot")
+        else if(name == "GunSlot1")
         {
             Constant.nowGun[0] = ((ItemS)inventoryManager.CurrentDragItem).ItemNumber;
-            GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(Constant.DiceInfo[Constant.nowGun[0]].Path)[0];
+            GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(Constant.GunInfo[Constant.nowGun[0]].Path)[0];
         }
     }
     private void Awake()

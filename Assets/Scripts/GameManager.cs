@@ -52,7 +52,7 @@ public class GameManager : MonoBehaviour
     public float time;
     private float timeSpeed = 60; //하루기준시간
 
-    private int money = 0;
+    private int money = 1000000000;
     public int Money
     {
         get {

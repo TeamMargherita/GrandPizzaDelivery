@@ -174,10 +174,11 @@ public class MakingPizza : MonoBehaviour
         // 피자집에 있는 피자들 명단에서 제외한다.
         //Debug.Log(temPizza.Name);
         completePizzaList.RemoveAt(index);
+        Debug.Log(index + " " + completePizzaList.Count);
         // 명단에서 제외했으므로, 피자집 피자 패널을 꺼준다.
         for (int i = 0; i < makingPizzaPanelArr.Length; i++)
 		{
-            if (makingPizzaPanelClass[i].ComparePizza(temPizza))
+            if (makingPizzaPanelClass[i].ComparePizza(temPizza) && makingPizzaPanelClass[i].gameObject.activeSelf)
 			{
                 makingPizzaPanelClass[i].SetMainPanelRect(0f);
                 makingPizzaPanelClass[i].gameObject.SetActive(false);

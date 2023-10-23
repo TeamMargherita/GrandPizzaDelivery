@@ -124,10 +124,17 @@ public class PizzaStoreUI : MonoBehaviour, IIngredientSlot
 			else
 			{
 				// 해금된 과일들만 정보를 넣어줘야함
-
-				// + 1 을 해주는 이유는 이미지의 0 값이 '없음'을 의미하기 때문.
-				pizzaIngredientSlotsArr[i].IngredientNumber = i + (nowPage * slotObjArr.Length) + 1;
-				pizzaIngredientSlotsArr[i].SetIngredientsSpr(pizzaIngredientSprArr[i + (nowPage * slotObjArr.Length) + 1]);
+				if (Constant.UsableIngredient.FindIndex(a => a == i + (nowPage * slotObjArr.Length) + 1) != -1)
+				{
+					// + 1 을 해주는 이유는 이미지의 0 값이 '없음'을 의미하기 때문.
+					pizzaIngredientSlotsArr[i].IngredientNumber = i + (nowPage * slotObjArr.Length) + 1;
+					pizzaIngredientSlotsArr[i].SetIngredientsSpr(pizzaIngredientSprArr[i + (nowPage * slotObjArr.Length) + 1]);
+				}
+				else
+				{
+					pizzaIngredientSlotsArr[i].IngredientNumber = 0;
+					pizzaIngredientSlotsArr[i].SetIngredientsSpr(pizzaIngredientSprArr[0]);
+				}
 			}
 		}
 	}

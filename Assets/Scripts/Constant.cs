@@ -24,19 +24,26 @@ public static class Constant
 	/// <summary>
 	/// 피자 재료값. [,0]은 재료번호, [,1]은 매력도, [,2]는 매력하락도, [,3]은 재료값. [0,]은 재료없음임.
 	/// </summary>
-	public static string[,] IngredientsArray = new string[10, 4]
+	public static string[,] IngredientsArray = new string[13, 4]
 	{
-		{"0","-1","-1","-1" },
-		{"1","25","3","150" },
-		{"2","30","2","160" },
-		{"3","15","2","80" },
-		{"4","20","1","120" },
-		{"5","45","7","500" },
-		{"6","27","3","140" },
-		{"7","40","5","320" },
-		{"8","65","12","960" },
-		{"9","78","20","1350" }
+		{"0","-1","-1","-1" },	// 없음
+		{"1","25","3","150" },	// 토마토
+		{"2","30","2","160" },	// 치즈
+		{"3","15","2","80" },	// 바질
+		{"4","20","1","120" },	// 감자
+		{"5","45","7","500" },	// 베이컨
+		{"6","27","3","140" },	// 옥수수
+		{"7","40","5","320" },	// 할라피뇨
+		{"8","65","12","960" },	// 닭고기
+		{"9","78","20","1350" },    // 소고기
+		{"10","32","4","150" }, // 사과
+		{"11","27","2","200" }, // 당근
+		{"12","17","1","100" }	// 대파
 	};
+	/// <summary>
+	/// 사용 가능한 피자 재료의 번호들
+	/// </summary>
+	public static List<int> UsableIngredient = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 	/// <summary>
 	/// 개발한 피자 리스트
 	/// </summary>
@@ -135,8 +142,39 @@ public static class Constant
 		new DiceS(6, new int[6] { 2, 3, 5, 7, 11, 13} , "UI/MiniDice_80_80"),
 		new DiceS(6, new int[6] { 1, 1, 1, 1, 1, 15} , "UI/MiniDice_80_80"),
 		new DiceS(6, new int[6] { 2, 3, 4, 5, 6, 7} , "UI/MiniDice_80_80"),
-		new DiceS(6, new int[6] { 0, 1, 2, 3, 4, 5} , "UI/MiniDice_80_80")
+		new DiceS(6, new int[6] { 1, 2, 3, 4, 5, 6} , "UI/MiniDice_80_80")
 	};
 
 	public static int[] nowDice = new int[2] { 9, 9 };
+
+	public static ItemS[] GunItem = new ItemS[8]
+	{
+		new ItemS(ItemType.GUN, 1, "Glick 19","장전방식 : 반자동 \n연사속도 : 중간 \n대미지 : 약함 \n명중률 : ", 0),
+		new ItemS(ItemType.GUN, 1, "S&U m500","장전방식 : 수동 \n연사속도 : 느림 \n대미지 : 강함 \n명중률 : ", 1),
+		new ItemS(ItemType.GUN, 1, "Mi1911","장전방식 : 반자동 \n연사속도 : 조금느림 \n대미지 : 매우약함 \n명중률 : ", 2),
+		new ItemS(ItemType.GUN, 1, "MiP9","장전방식 : 자동 \n연사속도 : 매우빠름 \n대미지 : 약함 \n명중률 : ", 3),
+		new ItemS(ItemType.GUN, 1, "MiPX","장전방식 : 자동 \n연사속도 : 빠름 \n대미지 : 중간 \n명중률 : ", 4),
+		new ItemS(ItemType.GUN, 1, "Pi90","장전방식 : 자동 \n연사속도 : 빠름 \n대미지 : 중간 \n명중률 : ", 5),
+		new ItemS(ItemType.GUN, 1, "Kress Victor","장전방식 : 자동 \n연사속도 : 매우매우빠름 \n대미지 : 약함 \n명중률 : ", 6),
+		new ItemS(ItemType.GUN, 1, "Thimpson SMG","장전방식 : 자동 \n연사속도 : 빠름 \n대미지 : 매우약함 \n명중률 : ", 7)
+	};
+	/// <summary>
+	/// 연사속도 - 10~19 : 매우느림 - 20~29 : 느림 - 30~39 : 조금 느림 - 40~55 : 중간 - 56~ 64 : 조금 빠름 - 65~79 : 빠름 - 80~89 : 매우 빠름 - 90~ : 매우매우빠름
+	/// 대미지 - 10~19 : 매우 약함 - 20~29 : 약함 - 30~39 : 조금 약함 -40~55 : 중간 - 56~74 : 조금 강함 - 75~85 : 강함 - 86~ : 매우 강함
+	/// </summary>
+	public static GunS[] GunInfo = new GunS[8]
+	{
+		new GunS(LoadEnum.SEMIAUTO, 50, 20, 100, "UI/Glick19_240_120"),
+		new GunS(LoadEnum.MANUAL, 20, 80, 100, "UI/S&Um500_240_120"),
+		new GunS(LoadEnum.SEMIAUTO, 30, 10, 100, "UI/Mi1911_240_120"),
+		new GunS(LoadEnum.AUTO, 80, 20, 100, "UI/MiP9_240_120"),
+		new GunS(LoadEnum.AUTO, 65, 50, 100, "UI/MiPX_240_120"),
+		new GunS(LoadEnum.AUTO, 65, 50, 100, "UI/Pi90_240_120"),
+		new GunS(LoadEnum.AUTO, 90, 20, 100, "UI/KressVictor_240_120"),
+		new GunS(LoadEnum.AUTO, 65, 10, 100, "UI/ThimpsonSMG_240_120")
+	};
+	/// <summary>
+	/// 현재 착용한 총. -1은 미착용 상태를 의미함.
+	/// </summary>
+	public static int[] nowGun = new int[1] { -1 };
 }

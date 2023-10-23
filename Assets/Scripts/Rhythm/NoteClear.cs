@@ -3,37 +3,45 @@ using UnityEngine;
 public class NoteClear : MonoBehaviour
 {
     public bool IsAuto;                     // 노트 자동 클리어
-
+    public AudioSource NoteSound;
+    public RhythmStorage storage;
+    public ClearEffect[] Effects;
+    public AudioSource BgSound;
     private RhythmManager manager;
-    private RhythmStorage storage;
-
+    private Judge judge;
 
     void Start()
     {
         manager = RhythmManager.Instance;
-        storage = manager.Storage;
     }
 
     void Update()
     {
-        for(int i = 0; i < storage.NoteLoad.Length; i++)
+        if (!BgSound.isPlaying)
+            return;
+
+        for (int i = 0; i < storage.NoteLoad.Length; i++)
         {
             if (storage.NoteLoad[i].Count > 0)
             {
-                if (KeyDownInput(i) && storage.NoteLoad[i].Peek().SendJudge() != Judge.NONE)
+                judge = storage.NoteLoad[i].Peek().SendJudge();
+                if (KeyDownInput(i) && judge != Judge.NONE)
                 {
-                    // 노트 클리어   
-                    JudgeCount(i);
+                    // 노트 클리어
+                    JudgeCount(judge);
                     storage.NoteClear(i);
+                    Effects[i].GetJudge(judge);
+                    NoteSound.PlayOneShot(NoteSound.clip);
                 }
-
                 else if (storage.NoteLoad[i].Peek().Type == NoteType.Hold)
                 {
-                    if (KeyHoldInput(i) && (storage.NoteLoad[i].Peek().SendJudge() == Judge.PERFECT || storage.NoteLoad[i].Peek().Timing <= 0))
+                    if (KeyHoldInput(i) && (judge == Judge.PERFECT || storage.NoteLoad[i].Peek().Timing <= 0))
                     {
                         // 노트 클리어
-                        JudgeCount(i);
+                        JudgeCount(judge);
                         storage.NoteClear(i);
+                        Effects[i].GetJudge(judge);
+                        NoteSound.PlayOneShot(NoteSound.clip);
                     }
                 }
             }
@@ -42,25 +50,28 @@ public class NoteClear : MonoBehaviour
             {
                 if (storage.NoteLoad[i].Peek().Timing <= 0)
                 {
-                    JudgeCount(i);
+                    JudgeCount(judge);
                     storage.NoteClear(i);
+                    Effects[i].GetJudge(judge);
+                    NoteSound.PlayOneShot(NoteSound.clip);
                 }
                 if (storage.NoteLoad[i].Peek().Timing <= 0)
                 {
-                    JudgeCount(i);
+                    JudgeCount(judge);
                     storage.NoteClear(i);
+                    Effects[i].GetJudge(judge);
+                    NoteSound.PlayOneShot(NoteSound.clip);
                 }
             }
         }
-
     }
 
     /// <summary>
     /// 받은 판정을 카운트 해주는 함수
     /// </summary>
-    private void JudgeCount(int index)
+    private void JudgeCount(Judge judge)
     {
-        switch (storage.NoteLoad[index].Peek().SendJudge())
+        switch (judge)
         {
             case Judge.PERFECT:
                 manager.Judges.Perfect++;

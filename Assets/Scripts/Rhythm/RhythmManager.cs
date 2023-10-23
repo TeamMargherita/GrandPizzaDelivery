@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
 /// <summary>
@@ -7,29 +6,44 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class RhythmManager : MonoBehaviour
 {
-    public static RhythmManager Instance = null;    // ½Ì±ÛÅæ ÀÎ½ºÅÏ½Ì
+    public static RhythmManager Instance             // ½Ì±ÛÅæ ÀÎ½ºÅÏ½Ì
+    {
+        get { return instance; }
+    }
     public string Title;                            // °ü¸® ÇÒ °î Á¦¸ñ
+    public AudioClip AudioClip;                     // Àç»ýÇÒ °î Å¬¸³
     public decimal CurrentTime;                     // ÇöÀç ½Ã°£
     public AudioData Data;                          // °î µ¥ÀÌÅÍ
     public float Speed;                             // ¼Óµµ
+    public float MusicSound;
+    public float KeySound;
     public bool SceneChange;
-    public AudioSource BgSound;
-    public RhythmStorage Storage;
     public JudgeStorage Judges;
+
+    private static RhythmManager instance = null;
 
     private void Awake()
     {
-        if (Instance != null)
-            Destroy(this);
+        if (instance != null)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
 
-        Instance = this;
         Judges = new JudgeStorage();
-        DontDestroyOnLoad(Instance);
+        Data = new AudioData();
+        MusicSound = 0.5f;
+        KeySound = 0.5f;
     }
 
     private void Update()
     {
         Judges.SetAttractive();
+
         if ((float)CurrentTime >= Data.Length && !SceneChange)
         {
             EndScene();
@@ -58,21 +72,16 @@ public class RhythmManager : MonoBehaviour
 
     public void Init()
     {
-        BgSound.Stop();
         LoadData();
         CurrentTime = 0;
         Judges.Init();
-        
         SceneChange = false;
-        if (BgSound == null)
-            BgSound = GameObject.Find("BGSound").GetComponent<AudioSource>();
-        BgSound.Play();
     }
 
     private void EndScene()
     {
-        LoadScene.Instance.LoadPizzaMenu();
-        Constant.PizzaAttractiveness = Judges.Attractive;
         SceneChange = true;
+        Constant.PizzaAttractiveness = Judges.Attractive;
+        LoadScene.Instance.LoadPizzaMenu();
     }
 }

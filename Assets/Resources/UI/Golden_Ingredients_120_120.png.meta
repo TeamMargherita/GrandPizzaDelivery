@@ -32,6 +32,15 @@ TextureImporter:
   - first:
       213: 7738209370933274945
     second: Golden_Ingredients_120_120_9
+  - first:
+      213: 7916901605977683845
+    second: Golden_Ingredients_120_120_10
+  - first:
+      213: -5268124573970155532
+    second: Golden_Ingredients_120_120_11
+  - first:
+      213: -3150068975164717947
+    second: Golden_Ingredients_120_120_12
   externalObjects: {}
   serializedVersion: 12
   mipmaps:
@@ -339,6 +348,69 @@ TextureImporter:
       bones: []
       spriteID: 149a3109c64a36b60800000000000000
       internalID: 7738209370933274945
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Golden_Ingredients_120_120_10
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 0
+        width: 120
+        height: 120
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 587f40aa01c7edd60800000000000000
+      internalID: 7916901605977683845
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Golden_Ingredients_120_120_11
+      rect:
+        serializedVersion: 2
+        x: 1320
+        y: 0
+        width: 120
+        height: 120
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4f7b0089c9cd3e6b0800000000000000
+      internalID: -5268124573970155532
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Golden_Ingredients_120_120_12
+      rect:
+        serializedVersion: 2
+        x: 1440
+        y: 0
+        width: 120
+        height: 120
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5840455f4f4b844d0800000000000000
+      internalID: -3150068975164717947
       vertices: []
       indices: 
       edges: []

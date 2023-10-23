@@ -18,6 +18,9 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
     [SerializeField] private GameObject employeeRecruitPanel;
     [SerializeField] private GameObject alarmMessagePanel;
     [SerializeField] private GameObject DeliveryJudgmentPanel;
+    [SerializeField] private GameObject SpecialPizzaDeliverySelectionPanel;
+    [SerializeField] private GameObject DeliveryAppButton;
+    [SerializeField] private GameObject DarkDeliveryAppButton;
 
     [SerializeField] private UnityEngine.UI.Image addPizzaImg;
     [SerializeField] private UnityEngine.UI.Text alarmMessageText;
@@ -50,6 +53,7 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
     private bool isPizzaAddButtonBlank = false;
     private bool isAlarmMessage = false;    // 알람메세지 다 내려왔는지 여부
     private bool isColor = false;
+    private bool isIn = false;  // 대화창, 가게 안으로 들어갔는지 여부
 
     public GameObject PizzaInventory;
     public InventoryManager InventoryManager;
@@ -110,6 +114,8 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
     /// <param name="iEndInspecting"></param>
     public void ControlConversationUI(bool isOn, IEndConversation iEndInspecting, int type)
     {
+        if (inspectTrans.rect.height != 0 && inspectTrans.rect.height != 1080) { return; }
+
         if (iEndInspecting != null)
 		{
             this.iEndInspecting = iEndInspecting; 
@@ -134,6 +140,8 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
     }
     public void ControlPizzaStore(bool isOn)
     {
+        if (pizzaStoreTrans.rect.height != 0 && pizzaStoreTrans.rect.height != 1080) { return; }
+
         if (isOn)
         {
             ChasePoliceCar.isStop = isOn;
@@ -147,6 +155,8 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
     }
     public void ControlPizzaMake(bool isOn)
     {
+        if (pizzaMakeTrans.rect.width != 0 && pizzaMakeTrans.rect.width != 1920) { return; }
+
         if (isOn)
         {
             pizzaMakePanel.SetActive(isOn);
@@ -159,7 +169,9 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
     }
 
     public void ControlPizzaMenu(bool isOn)
-	{
+    {
+        if (pizzaMenuTrans.rect.height != 0 && pizzaMenuTrans.rect.height != 1080) { return; }
+
         if (isOn)
 		{
             pizzaMenuPanel.SetActive(isOn);
@@ -207,7 +219,21 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
     {
         DeliveryJudgmentPanel.SetActive(false);
     }
+    public void OKDarkDeliveryPanel()
+    {
+        SpecialPizzaDeliverySelectionPanel.SetActive(false);
+        DeliveryAppButton.SetActive(false);
+        DarkDeliveryAppButton.SetActive(true);
+        GameManager.Instance.time = 7200;
+        Time.timeScale = 1;
+    }
 
+    public void NoDarkDeliveryPanel()
+    {
+        SpecialPizzaDeliverySelectionPanel.SetActive(false);
+        GameManager.Instance.time = 0;
+        Time.timeScale = 1;
+    }
     public void ActiveTrueKeyExplainPanel(bool bo)
     {
         keyExplainPanel.SetActive(bo);
@@ -236,6 +262,7 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
             inspectTrans.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, inspectingHeight);
             inspectingPanel.SetActive(false);
             iStop.StopMap(false);
+            isIn = false;
             ChasePoliceCar.isStop = false;
         }
 
@@ -250,6 +277,7 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
             pizzaStoreTrans.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, pizzaStoreHeight);
             pizzaStorePanel.SetActive(false);
             iStop.StopMap(false);
+            isIn = false;
             ChasePoliceCar.isStop = false;
         }
 
@@ -316,9 +344,10 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
     {
         // 일반 집이 아닌 곳에서 z키를 눌렀을 때
         if (houseType != HouseType.NONE && houseType != HouseType.HOUSE
-            && Input.GetKeyDown(KeyCode.Z))
+            && Input.GetKeyDown(KeyCode.Z) && !isIn)
         {
-            switch(houseType)
+            isIn = true;
+            switch (houseType)
             {
                 case HouseType.PIZZASTORE:
                     //houseType = HouseType.NONE;
@@ -334,6 +363,18 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
                 case HouseType.PINEAPPLESTORE:
                     iStop.StopMap(true);
                     ControlConversationUI(true, null, 3);
+                    break;
+                case HouseType.INGREDIENTSTORE:
+                    iStop.StopMap(true);
+                    ControlConversationUI(true, null, 4);
+                    break;
+                case HouseType.PINEAPPLESTORETWO:
+                    iStop.StopMap(true);
+                    ControlConversationUI(true, null, 5);
+                    break;
+                case HouseType.GUNSTORE:
+                    iStop.StopMap(true);
+                    ControlConversationUI(true, null, 6);
                     break;
             }
         }

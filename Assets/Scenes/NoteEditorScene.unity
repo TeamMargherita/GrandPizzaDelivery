@@ -1890,6 +1890,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3859223624834147056, guid: 6432a7a4ba6635c4a9726e6f6e60c00b, type: 3}
+      propertyPath: BgSound
+      value: 
+      objectReference: {fileID: 961984728}
+    - target: {fileID: 3859223624834147056, guid: 6432a7a4ba6635c4a9726e6f6e60c00b, type: 3}
       propertyPath: storage
       value: 
       objectReference: {fileID: 1546192685}
@@ -3790,6 +3794,10 @@ PrefabInstance:
       propertyPath: Title
       value: "\uC624\uB298\uC758 \uC5EC\uD589"
       objectReference: {fileID: 0}
+    - target: {fileID: 1044286199950050072, guid: a83cc78eea476dd48b0a466ead8e257d, type: 3}
+      propertyPath: AudioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 8a6e8962e2b41aa408ed74a296e6815f, type: 3}
     - target: {fileID: 1044286199950050073, guid: a83cc78eea476dd48b0a466ead8e257d, type: 3}
       propertyPath: m_RootOrder
       value: 4

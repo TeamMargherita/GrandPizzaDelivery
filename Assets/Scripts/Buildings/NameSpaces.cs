@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // 한석호 작성
-
+/// <summary>
+/// 점원과 관련된 네임스페이스
+/// </summary>
 namespace ClerkNS
 {
     public enum Tier{ ONE = -1, TWO = 1, THREE = 3, FOUR = 6 };
@@ -32,16 +34,23 @@ namespace ClerkNS
 		}
     }
 }
-
+/// <summary>
+/// 빌딩 형태에 관한 네임스페이스
+/// </summary>
 namespace BuildingNS
 {
     public enum BuildingShape {SQUARE, WIDTHLONG, LENGTHLONG, COMPOSITE }; 
-    
+    /// <summary>
+    /// 집 상태에 관한 네임스페이스
+    /// </summary>
     namespace HouseNS
     {
         public enum HouseType { NONE, PIZZASTORE, HOUSE, DICESTORE, PINEAPPLESTORE, INGREDIENTSTORE, PINEAPPLESTORETWO, GUNSTORE };
     }
 }
+/// <summary>
+/// 집 주소에 관한 네임스페이스
+/// </summary>
 namespace BuildingAddressNS
 {
     public struct AddressS
@@ -64,11 +73,15 @@ namespace BuildingAddressNS
 		}
 	}
 }
-
+/// <summary>
+/// 피자 재료에 관한 네임스페이스
+/// </summary>
 namespace PizzaNS
 {
     public enum Ingredient { PINEAPPLE, TOMATO, CHEESE, BASIL, POTATO, BACON, CORN, JALAPENO, CHICKEN, MEAT };
-
+    /// <summary>
+    /// 재료 네임스페이스
+    /// </summary>
     public struct IngredientS
     {
         public Ingredient Ingred;   // 재료
@@ -84,11 +97,13 @@ namespace PizzaNS
             this.IngredientPrice = ingredientPrice;
 		}
     }
-
+    /// <summary>
+    /// 완성된 피자의 설명을 위한 구조체
+    /// </summary>
     public struct PizzaExplain
 	{
-        public List<Ingredient> Ingreds;
-        public int TotalDeclineAt;
+        public List<Ingredient> Ingreds;    // 피자에 들어간 재료들
+        public int TotalDeclineAt;  // 총 매력하락도 
 
 		public PizzaExplain(List<Ingredient> Ingreds, int TotalDeclineAt)
 		{
@@ -100,15 +115,15 @@ namespace PizzaNS
             this.TotalDeclineAt = TotalDeclineAt; 
 		}
 	}
-
+    /// <summary>
+    /// 고객에 관련된 네임스페이스
+    /// </summary>
 	namespace CustomerNS
     {
         public struct CustomerS
         {
-            //선호 재료
-            public List<Ingredient> IngredList;
-            //피자 완성도 커트라인
-            public int PizzaCutLine;
+            public List<Ingredient> IngredList;  //선호 재료
+            public int PizzaCutLine;    //피자 완성도 커트라인
 
             public CustomerS(int pizzaCutLine, List<Ingredient> ingredList)
             {
@@ -123,14 +138,17 @@ namespace PizzaNS
         }
     }
 }
+/// <summary>
+/// 경찰과 관련된 네임스페이스
+/// </summary>
 namespace PoliceNS
 {
     namespace PolicePathNS
     {
         public struct PolicePath
         {
-            public int Behaviour;
-            public float Value;
+            public int Behaviour;   // 경찰의 행동 번호
+            public float Value; // 행동과 관련된 값(예. 이동거리, 회전 각도 등)
 
             public PolicePath(int behaviour, float value)
             {
@@ -139,17 +157,21 @@ namespace PoliceNS
             }
         }
     }
-
+    /// <summary>
+    /// 경찰차의 상태를 따지기 위한 네임스페이스이다.
+    /// </summary>
     namespace PoliceStateNS
     {
-        // 차례로 없음, 이동중, 불심검문을 위한 멈춤, 불심검문중 이다.
+        // 차례로 없음, 이동중, 불심검문을 위한 멈춤, 불심검문중, 파괴됨, 무조건 플레이어 쫓아옴, 자동 주행, 맵 밖으로 탈출 이다.
         public enum PoliceState
         {
             NONE, MOVING, STOP, INSPECTING, DESTROY, SPUERCHASE, AUTOMOVE, OUTMAP
         };
     }
 }
-
+/// <summary>
+/// 대화를 위한 네임스페이스이다.
+/// </summary>
 namespace ConversationNS
 {
     public class TextNodeC
@@ -167,11 +189,13 @@ namespace ConversationNS
             NextTextIsAble = nextTextIsAble;
         }
     }
-
+    /// <summary>
+    /// 대화 선택지를 하나 고를 때마다 실행되어야 하는 메소드에 관한 구조체이다.
+    /// </summary>
     public struct MethodS
     {
-        public MethodEnum MethodNum;
-        public int[] MethodParameter;
+        public MethodEnum MethodNum;    // 실행할 메소드 번호
+        public int[] MethodParameter;   // 실행할 메소드의 파라미터 값
 
         public MethodS (MethodEnum methodNum, int[] methodParameter)
         {
@@ -179,21 +203,30 @@ namespace ConversationNS
             MethodParameter = methodParameter;
         }
     }
-
+    /// <summary>
+    /// 실행할 메소드의 종류
+    /// </summary>
     public enum MethodEnum { NONE, SETSIZECONTENTS, CHANGENPCIMAGE, CHANGEPLAYERIMAGE, SETRANDNPCTEXT, ENDPANEL, SPAWNPOLICE, OPENSTORE, SAVETEXTINDEX, SETISCONDITION };
 }
-
+/// <summary>
+/// 가게와 관련된 네임스페이스이다.
+/// </summary>
 namespace StoreNS
 {
+    /// <summary>
+    /// 가게 종류
+    /// </summary>
     public enum ItemType { NONE, DICE, GUN };
-
+    /// <summary>
+    /// 아이템 구조체
+    /// </summary>
     public struct ItemS
 	{
-        public ItemType Type;
-        public int MaxCnt;
-        public string Name;
-        public string Explain;
-        public int ItemNumber;
+        public ItemType Type;   // 아이템 타입
+        public int MaxCnt;  // 아이템 최대 소지 개수 
+        public string Name; // 아이템 이름
+        public string Explain;  // 아이템 설명
+        public int ItemNumber;  // 아이템 번호
 
         public ItemS (ItemType type, int maxCnt, string name, string explain, int itemNumber)
 		{
@@ -204,12 +237,14 @@ namespace StoreNS
             ItemNumber = itemNumber;
 		}
 	}
-
+    /// <summary>
+    /// 주사위 아이템 구조체
+    /// </summary>
     public struct DiceS
 	{
-        public int DiceCnt;
-        public int[] DiceArr;
-        public string Path;
+        public int DiceCnt; // 주사위의 면 개수
+        public int[] DiceArr;   // 면마다 적혀있는 번호
+        public string Path; // 주사위 이미지의 경로
 
         public DiceS(int diceCnt, int[] diceArr, string path)
 		{
@@ -218,15 +253,20 @@ namespace StoreNS
             Path = path;
         }
 	}
-
+    /// <summary>
+    /// 총의 장전방식 열거형
+    /// </summary>
     public enum LoadEnum : short { NONE, AUTO, SEMIAUTO, MANUAL }
+    /// <summary>
+    /// 총 아이템 구조체
+    /// </summary>
     public struct GunS
 	{
-        public LoadEnum LoadType;
-        public short Speed;
-        public short Damage;
-        public short Accuracy;
-        public string Path;
+        public LoadEnum LoadType;   // 총의 장전방식
+        public short Speed; // 발사속도
+        public short Damage;    // 발사 대미지
+        public short Accuracy;  // 발사 정확도
+        public string Path; //총 이미지 경로
 
         public GunS(LoadEnum loadType, short speed, short damage, short accuracy, string path)
 		{

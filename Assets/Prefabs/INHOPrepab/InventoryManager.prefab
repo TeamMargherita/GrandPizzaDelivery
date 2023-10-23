@@ -70,6 +70,12 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  DiceEquipmentSlot:
+  - {fileID: 0}
+  - {fileID: 0}
+  GunEquipmentSlot: {fileID: 0}
+  UIGunImage: {fileID: 0}
+  MagagineText: {fileID: 0}
   GoalAddressS: {fileID: 0}
   SDR: {fileID: 0}
   DeliveryScreen: {fileID: 0}
@@ -77,3 +83,5 @@ MonoBehaviour:
   DeliveryJudgmentPanel: {fileID: 0}
   DicePage: 1
   GunPage: 1
+  DiceText: {fileID: 0}
+  GunText: {fileID: 0}

@@ -263,17 +263,21 @@ namespace StoreNS
     public struct GunS
 	{
         public LoadEnum LoadType;   // 총의 장전방식
-        public short Speed; // 발사속도
+        public float Speed; // 발사속도
         public short Damage;    // 발사 대미지
         public short Accuracy;  // 발사 정확도
+        public short Magazine; // 장탄수
+        public short ReloadSpeed; //재장전 속도
         public string Path; //총 이미지 경로
 
-        public GunS(LoadEnum loadType, short speed, short damage, short accuracy, string path)
+        public GunS(LoadEnum loadType, float speed, short damage, short accuracy, short magazine, short reloadSpeed, string path)
 		{
             LoadType = loadType;
             Speed = speed;
             Damage = damage;
             Accuracy = accuracy;
+            Magazine = magazine;
+            ReloadSpeed = reloadSpeed;
             Path = path;
 		}
 	}

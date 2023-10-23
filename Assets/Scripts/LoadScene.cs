@@ -46,6 +46,11 @@ public class LoadScene : MonoBehaviour
             ActiveTrueFade("SelectScene");
 		}
 	}
+    public void LoadPrologueToInGameScene()
+    {
+        Constant.isStartGame = true;
+        ActiveTrueFade("TestSceneSH");
+    }
 
     public void LoadPizzaMenu()
 	{

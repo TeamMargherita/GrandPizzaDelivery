@@ -58,10 +58,22 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  GunInventorySlot: []
-  DiceInventorySlot: []
+  GunInventorySlot:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  DiceInventorySlot:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   GoalAddressS: {fileID: 0}
   SDR: {fileID: 0}
   DeliveryScreen: {fileID: 0}
   Minimap: {fileID: 0}
   DeliveryJudgmentPanel: {fileID: 0}
+  DicePage: 1
+  GunPage: 1

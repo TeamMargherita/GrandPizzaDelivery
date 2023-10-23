@@ -1193,6 +1193,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1884514280}
     - target: {fileID: 9168485575465350141, guid: 58a0340469bb99a4186e7caf63948757, type: 3}
+      propertyPath: Player
+      value: 
+      objectReference: {fileID: 1586257779}
+    - target: {fileID: 9168485575465350141, guid: 58a0340469bb99a4186e7caf63948757, type: 3}
       propertyPath: GunText
       value: 
       objectReference: {fileID: 1383765154}

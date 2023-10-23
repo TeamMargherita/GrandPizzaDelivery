@@ -13,7 +13,7 @@ public class ClearEffect : MonoBehaviour
     {
         render = GetComponent<SpriteRenderer>();
         color = new Color[] { Color.cyan, Color.green, Color.yellow };
-        startColor = Color.white;
+        startColor = render.color;
     }
 
     void Update()

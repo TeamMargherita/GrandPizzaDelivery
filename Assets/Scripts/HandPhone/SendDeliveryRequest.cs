@@ -39,7 +39,18 @@ public class SendDeliveryRequest : MonoBehaviour
             RequestList.Add(new Request(GameManager.Instance.PizzaMenu[percentage(sum)], false));
         }
     }
-
+    private void EndDelivery()
+    {
+        if (DarkDeliveryOKPanel != null)
+        {
+            if ((RequestList.Count <= 0 && GameManager.Instance.time >= 75600) || GameManager.Instance.time >= 82800)
+            {
+                RequestList.Clear();
+                DarkDeliveryOKPanel.SetActive(true);
+                Time.timeScale = 0;
+            }
+        }
+    }
     private bool afternoonSDRON()
     {
         if (GameManager.Instance.time >= 32400 && GameManager.Instance.time <= 75600)
@@ -74,5 +85,6 @@ public class SendDeliveryRequest : MonoBehaviour
                 RandomCall();
             }
         }
+        EndDelivery();
     }
 }

@@ -61,6 +61,8 @@ public class CreateEmployee : MonoBehaviour
 
     private void Awake()
     {
+        Constant.ClerkList.Clear();
+
         SaveEmployeeData(0, false);
     }
 
@@ -68,28 +70,8 @@ public class CreateEmployee : MonoBehaviour
     {
         EmployeeStat employeeStat = EmployeeMother.GetChild(Employeeindex).GetComponent<EmployeeStat>();
 
-        switch (Employeeindex)
-        {
-            case 0:
-                ClerkC clerkC1 =
-           new ClerkC(employeeStat.Handy, employeeStat.Agility, employeeStat.Creativity, employeeStat.Career, employeeStat.Stress, employeeStat.Pay);
-                break;
-            case 1:
-                ClerkC clerkC2 =
-          new ClerkC(employeeStat.Handy, employeeStat.Agility, employeeStat.Creativity, employeeStat.Career, employeeStat.Stress, employeeStat.Pay);
-                break;
-            case 2:
-                ClerkC clerkC3 =
-          new ClerkC(employeeStat.Handy, employeeStat.Agility, employeeStat.Creativity, employeeStat.Career, employeeStat.Stress, employeeStat.Pay);
-                break;
-            case 3:
-                ClerkC clerkC4 =
-          new ClerkC(employeeStat.Handy, employeeStat.Agility, employeeStat.Creativity, employeeStat.Career, employeeStat.Stress, employeeStat.Pay);
-                break;
-            case 4:
-                ClerkC clerkC5 =
-          new ClerkC(employeeStat.Handy, employeeStat.Agility, employeeStat.Creativity, employeeStat.Career, employeeStat.Stress, employeeStat.Pay);
-                break;
-        }
+        ClerkC clerk = new ClerkC(employeeStat.Handy, employeeStat.Agility, employeeStat.Creativity, employeeStat.Career, employeeStat.Stress, employeeStat.Pay);
+
+        Constant.ClerkList.Add(clerk);
     }
 }

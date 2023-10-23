@@ -215,6 +215,8 @@ public class EmployeeFire : MonoBehaviour
 
             FireWinParent.GetChild(value).GetChild(5).GetChild(0).
                 GetComponent<Text>().text = "해고완료";
+
+            Constant.ClerkList.RemoveAt(value);
         }
         else
         {
@@ -275,6 +277,8 @@ public class EmployeeFire : MonoBehaviour
     public void SavePayRate(int value)
     {
         EmployeeParent.GetChild(value).GetComponent<EmployeeStat>().Pay += pay[value];
+
+        Constant.ClerkList[value].Pay = EmployeeParent.GetChild(value).GetComponent<EmployeeStat>().Pay;
 
         pay[value] = 0;
 

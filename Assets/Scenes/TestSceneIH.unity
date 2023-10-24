@@ -57206,6 +57206,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GunInventory
       objectReference: {fileID: 0}
+    - target: {fileID: 6103396867438077714, guid: 2a4baa0872ecc1745b04444a6151c666, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6103396867438077715, guid: 2a4baa0872ecc1745b04444a6151c666, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -57314,6 +57318,10 @@ PrefabInstance:
       propertyPath: InventoryManager
       value: 
       objectReference: {fileID: 32887005}
+    - target: {fileID: 6103396868753846305, guid: 2a4baa0872ecc1745b04444a6151c666, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6103396868893633862, guid: 2a4baa0872ecc1745b04444a6151c666, type: 3}
       propertyPath: mainInventory
       value: 

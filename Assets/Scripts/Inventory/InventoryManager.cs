@@ -97,6 +97,10 @@ public class InventoryManager : MonoBehaviour
     /// </summary>
     private void DiceInventoryUpdate()
     {
+        foreach(var i in DiceEquipmentSlot)
+        {
+            i.GetComponent<EquipmentSlot>().BaseSlotColorClear();
+        }
         Dice = Constant.FindAllItemS(Constant.PlayerItemDIc, ItemType.DICE);
         int index = DicePage * 5;
         int startcount = (DicePage - 1) * 5;
@@ -124,6 +128,7 @@ public class InventoryManager : MonoBehaviour
 
     private void GunInventoryUpdate()
     {
+        GunEquipmentSlot.GetComponent<EquipmentSlot>().BaseSlotColorClear();
         Gun = Constant.FindAllItemS(Constant.PlayerItemDIc, ItemType.GUN);
         int index = GunPage * 5;
         int startcount = (GunPage - 1) * 5;

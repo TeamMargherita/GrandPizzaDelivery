@@ -7,10 +7,12 @@ public class PlayerGunShooting : GunShooting
     private bool ShootingStance = false;
     private Vector3 dir;
     private Transform MyTransform;
-
-    public PlayerGunShooting(Transform myTransform)
+    int layerMask;
+    public PlayerGunShooting(Transform myTransform, string exception)
     {
         MyTransform = myTransform;
+        layerMask = ((1 << LayerMask.NameToLayer(exception)) | (1 << LayerMask.NameToLayer("WallObstacle"))
+            | (1 << LayerMask.NameToLayer("CrossWalk")));// Everything에서 Player, WallObstacle, CrossWalk 레이어만 제외하고 충돌 체크함
     }
 
     public Vector3 GetTargetPos()
@@ -34,7 +36,8 @@ public class PlayerGunShooting : GunShooting
         }
     }
     float time;
-    public bool ShootRaycast(string exception, float fireRate, short damage)
+    
+    public bool ShootRaycast(float fireRate, short damage)
     {
         time += Time.deltaTime;
         if(fireRate < time)
@@ -43,10 +46,9 @@ public class PlayerGunShooting : GunShooting
             {
                 if (Input.GetKey(KeyCode.Mouse0))
                 {
-                    int layerMask = ((1 << LayerMask.NameToLayer(exception)) | (1 << LayerMask.NameToLayer("WallObstacle"))); ;  // Everything에서 Player, WallObstacle 레이어만 제외하고 충돌 체크함
                     layerMask = ~layerMask;
                     RaycastHit2D hit = Physics2D.Raycast(MyTransform.position, dir.normalized, 1000, layerMask);
-                    if (hit.transform.CompareTag("Police"))
+                    if (hit.transform.CompareTag("Police") || hit.transform.CompareTag("ChaserPoliceCar"))
                     {
                         hit.transform.GetComponent<Police>().PoliceHp -= damage;
                     }
@@ -60,9 +62,9 @@ public class PlayerGunShooting : GunShooting
         return false;
     }
 
-    public bool Fire(string exception, float fireRate, short damage)
+    public bool Fire(float fireRate, short damage)
     {
         aiming();
-        return ShootRaycast(exception, fireRate, damage);
+        return ShootRaycast(fireRate, damage);
     }
 }

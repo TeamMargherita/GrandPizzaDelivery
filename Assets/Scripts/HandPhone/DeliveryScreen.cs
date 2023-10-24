@@ -53,6 +53,7 @@ public class DeliveryScreen : MonoBehaviour
     
     public void OnClickCancle(int i)//피자주문취소버튼클릭
     {
+        MyChildRefreshB[i].SetActive(false);
         AcceptB[i].SetActive(false);
         RequestTextList[i].text = "";
         SDR.RequestList.RemoveAt(i);

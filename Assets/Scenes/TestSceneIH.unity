@@ -4034,11 +4034,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 139701663}
   m_CullTransparentMesh: 1
---- !u!1 &141765461 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 141765461, guid: 924657db66813a54080377e7f494ef1e, type: 3}
-  m_PrefabInstance: {fileID: 512403448}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &143402218
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6956,11 +6951,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 256170897}
   m_CullTransparentMesh: 1
---- !u!1 &262071309 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 262071309, guid: 924657db66813a54080377e7f494ef1e, type: 3}
-  m_PrefabInstance: {fileID: 512403448}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &269564969
 GameObject:
   m_ObjectHideFlags: 0
@@ -37600,10 +37590,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 791406285}
     m_Modifications:
-    - target: {fileID: 262071309, guid: 924657db66813a54080377e7f494ef1e, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1232639671345604970, guid: 924657db66813a54080377e7f494ef1e, type: 3}
       propertyPath: ma
       value: 
@@ -37620,34 +37606,6 @@ PrefabInstance:
       propertyPath: Minimap
       value: 
       objectReference: {fileID: 973720033}
-    - target: {fileID: 1232639671345604970, guid: 924657db66813a54080377e7f494ef1e, type: 3}
-      propertyPath: MyChildRefreshB.Array.size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1232639671345604970, guid: 924657db66813a54080377e7f494ef1e, type: 3}
-      propertyPath: MyChildRefreshB.Array.data[0]
-      value: 
-      objectReference: {fileID: 262071309}
-    - target: {fileID: 1232639671345604970, guid: 924657db66813a54080377e7f494ef1e, type: 3}
-      propertyPath: MyChildRefreshB.Array.data[1]
-      value: 
-      objectReference: {fileID: 141765461}
-    - target: {fileID: 1232639671345604970, guid: 924657db66813a54080377e7f494ef1e, type: 3}
-      propertyPath: MyChildRefreshB.Array.data[2]
-      value: 
-      objectReference: {fileID: 675494046}
-    - target: {fileID: 1232639671345604970, guid: 924657db66813a54080377e7f494ef1e, type: 3}
-      propertyPath: MyChildRefreshB.Array.data[3]
-      value: 
-      objectReference: {fileID: 1022419819}
-    - target: {fileID: 1232639671345604970, guid: 924657db66813a54080377e7f494ef1e, type: 3}
-      propertyPath: MyChildRefreshB.Array.data[4]
-      value: 
-      objectReference: {fileID: 1940466826}
-    - target: {fileID: 1232639671345604971, guid: 924657db66813a54080377e7f494ef1e, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1232639671884107108, guid: 924657db66813a54080377e7f494ef1e, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -41194,11 +41152,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 673324340}
   m_CullTransparentMesh: 1
---- !u!1 &675494046 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 675494046, guid: 924657db66813a54080377e7f494ef1e, type: 3}
-  m_PrefabInstance: {fileID: 512403448}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &678417641
 GameObject:
   m_ObjectHideFlags: 0
@@ -49100,11 +49053,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1019904242}
   m_CullTransparentMesh: 1
---- !u!1 &1022419819 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1022419819, guid: 924657db66813a54080377e7f494ef1e, type: 3}
-  m_PrefabInstance: {fileID: 512403448}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1025635682
 GameObject:
   m_ObjectHideFlags: 0
@@ -69733,11 +69681,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1940466826 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1940466826, guid: 924657db66813a54080377e7f494ef1e, type: 3}
-  m_PrefabInstance: {fileID: 512403448}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1943122548
 GameObject:
   m_ObjectHideFlags: 0

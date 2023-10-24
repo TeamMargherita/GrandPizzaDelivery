@@ -311,6 +311,10 @@ public class InventoryManager : MonoBehaviour
     public void OnclickDicePageButton(int i)
     {
         DicePage += i;
+        if (DicePage < 1)
+            DicePage = 1;
+        else if (DicePage > 5)
+            DicePage = 5;
         DiceText.text = "" + DicePage;
         DiceInventoryUpdate();
     }
@@ -318,6 +322,10 @@ public class InventoryManager : MonoBehaviour
     public void OnclickGunPageButton(int i)
     {
         GunPage += i;
+        if (GunPage < 1)
+            GunPage = 1;
+        else if (GunPage > 5)
+            GunPage = 5;
         GunText.text = "" + GunPage;
         GunInventoryUpdate();
     }

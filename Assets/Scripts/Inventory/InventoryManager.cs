@@ -41,7 +41,8 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private Text GunText;
     private void Awake()
     {
-        if(GameManager.Instance.InventorySlotList.Count == 0)
+        UIGunImage.GetComponent<Image>().color = Color.clear;
+        if (GameManager.Instance.InventorySlotList.Count == 0)
         {
             for (int i = 0; i < PizzaInventorySlot.Length; i++)
             {
@@ -272,7 +273,7 @@ public class InventoryManager : MonoBehaviour
     public void OnClickDelivery()
     {
         Debug.Log("온클릭딜리버리");
-        if(/*GameManager.Instance.PizzaInventory[SlotNum - 1] != null && */GoalAddressS != null)
+        if(GoalAddressS != null)
         {
             int SDRIndex = 0;
             int SlotNum = 0;

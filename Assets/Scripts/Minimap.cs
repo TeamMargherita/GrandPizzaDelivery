@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Minimap : MonoBehaviour
 {
@@ -35,23 +36,41 @@ public class Minimap : MonoBehaviour
                 destinationIcon[i].gameObject.SetActive(false);
         }
     }
+    float width = 1920 / 280;
+    float height = 1080 / 280;
     void Update()
     {
+        PlayerIcon.rotation = player.rotation;
         if (Destination.Count <= 0)
             return;
         for(int i = 0; i < Destination.Count; i++)
         {
-            Vector2 change = new Vector2((Destination[i].position.x - player.position.x) * 10, (Destination[i].position.y - player.position.y) * 10);
+            Vector2 change = (Destination[i].position - player.position) * 18;
             if (change.x < -135)
+            {
                 change.x = -135;
+            }
             if (change.x > 135)
+            {
                 change.x = 135;
+            }
             if (change.y < -135)
+            {
                 change.y = -135;
+            }
             if (change.y > 135)
+            {
                 change.y = 135;
+            }
+            if(change.x <= -135 || change.x >= 135 || change.y <= -135 || change.y >= 135)
+            {
+                destinationIcon[i].GetComponent<Image>().color = Color.red;
+            }
+            else
+            {
+                destinationIcon[i].GetComponent<Image>().color = Color.clear;
+            }
             destinationIcon[i].anchoredPosition = change;
         }
-        
     }
 }

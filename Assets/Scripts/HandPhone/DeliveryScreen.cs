@@ -26,12 +26,19 @@ public class DeliveryScreen : MonoBehaviour
                 {
                     RequestTextList[i].text = SDR.RequestList[i].Pizza.Name;
                     if (!SDR.RequestList[i].Accept)
+                    {
                         AcceptB[i].SetActive(true);
+                    }
+                    else
+                    {
+                        MyChildRefreshB[i].SetActive(true);
+                    }
                 }
                 else
                 {
                     RequestTextList[i].text = "";
                     AcceptB[i].SetActive(false);
+                    MyChildRefreshB[i].SetActive(false);
                 }
             }
         }

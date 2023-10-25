@@ -268,6 +268,7 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
     {
         SpecialPizzaDeliverySelectionPanel.SetActive(false);
         GameManager.Instance.PlayerDead();
+        //GameManager.Instance.isDarkDelivery = false;
         Time.timeScale = 1;
     }
     public void ActiveTrueKeyExplainPanel(bool bo)

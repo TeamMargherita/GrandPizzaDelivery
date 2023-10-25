@@ -25,6 +25,7 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
     [SerializeField] private Light2D light2D;
     [SerializeField] private UnityEngine.UI.Image addPizzaImg;
     [SerializeField] private UnityEngine.UI.Text alarmMessageText;
+    [SerializeField] private Map map;
 
     private IEndConversation iEndInspecting;
     private IHouse iHouse;
@@ -260,6 +261,7 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
         GameManager.Instance.isDarkDelivery = true;
         Time.timeScale = 1;
         light2D.color = new Color(80 / 255f, 80 / 255f, 80 / 255f);
+        map.OnStreetLamp();
     }
 
     public void NoDarkDeliveryPanel()

@@ -13,9 +13,10 @@ public class Map : MonoBehaviour, IMap, IStop
     [SerializeField] private GameObject policeCar;
     [SerializeField] private GameObject banana;
     [SerializeField] private GameObject effectControl;
+    [SerializeField] private GameObject streetLamps;
     [SerializeField] private PlayerMove playerMove;
     [SerializeField] private Sprite[] houseMarkArr;
-
+    
     // addressList를 통해 빌딩의 주소를 초기화하거나 받아올 수 있습니다.
     private List<IAddress> addressList = new List<IAddress>();
     // 각 건물에 경찰차를 배정하기 위한 리스트입니다.
@@ -235,5 +236,16 @@ public class Map : MonoBehaviour, IMap, IStop
     public void RemovePoliceList(IPoliceCar iPoliceCar)
     {
         policeList.Remove(iPoliceCar);
+    }
+    /// <summary>
+    /// 가로등을 킴
+    /// </summary>
+    public void OnStreetLamp()
+    {
+        for (int i = 0; i < streetLamps.transform.childCount; i++)
+        {
+            if (streetLamps.transform.GetChild(i).GetComponent<StreetLamp>() != null)
+            streetLamps.transform.GetChild(i).GetComponent<StreetLamp>().ChangeLight2D(true);
+        }
     }
 }

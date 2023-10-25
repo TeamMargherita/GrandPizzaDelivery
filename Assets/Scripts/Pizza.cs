@@ -104,12 +104,12 @@ namespace Gun
         /// 레이캐스트 발사
         /// </summary>
         /// <param name="exception">예외처리할 레이어 이름</param>
-        bool ShootRaycast(string exception, float fireRate, short damage);
+        bool ShootRaycast(float fireRate, short damage);
         /// <summary>
         /// 실사격 함수
         /// </summary>
         /// <param name="exeption">예외처리할 레이어 이름</param>
-        bool Fire(string exeption, float fireRate, short damage);
+        bool Fire(float fireRate, short damage);
     }
 }
 

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using BuildingNS.HouseNS;
-
+using UnityEngine.Experimental.Rendering.Universal;
 // 한석호 작성
 
 public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPanelControl, IHouseActiveUIControl, IAlarmMessagePanel
@@ -22,7 +22,7 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
     [SerializeField] private GameObject DeliveryAppButton;
     [SerializeField] private GameObject DarkDeliveryAppButton;
     [SerializeField] private GameObject player; // 플레이어
-
+    [SerializeField] private Light2D light2D;
     [SerializeField] private UnityEngine.UI.Image addPizzaImg;
     [SerializeField] private UnityEngine.UI.Text alarmMessageText;
 
@@ -259,6 +259,7 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
         GameManager.Instance.time = 0;
         GameManager.Instance.isDarkDelivery = true;
         Time.timeScale = 1;
+        light2D.color = new Color(80 / 255f, 80 / 255f, 80 / 255f);
     }
 
     public void NoDarkDeliveryPanel()

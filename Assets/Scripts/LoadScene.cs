@@ -43,9 +43,14 @@ public class LoadScene : MonoBehaviour
 	{
 		if (Constant.ChoiceIngredientList.Count > 0)
 		{
-            ActiveTrueFade("RhythmScene");
+            ActiveTrueFade("SelectScene");
 		}
 	}
+    public void LoadPrologueToInGameScene()
+    {
+        Constant.isStartGame = true;
+        ActiveTrueFade("InGameScene");
+    }
 
     public void LoadPizzaMenu()
 	{

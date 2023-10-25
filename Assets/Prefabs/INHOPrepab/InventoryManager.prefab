@@ -44,16 +44,44 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Inventory: {fileID: 0}
+  CurrentInventory: {fileID: 0}
   InventoryActive: 0
-  InventorySlot:
+  PizzaInventorySlot:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  ItemPanel: {fileID: 0}
-  SlotNum: 0
+  MainInventorySlot:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  GunInventorySlot:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  DiceInventorySlot:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  DiceEquipmentSlot:
+  - {fileID: 0}
+  - {fileID: 0}
+  GunEquipmentSlot: {fileID: 0}
+  UIGunImage: {fileID: 0}
+  MagagineText: {fileID: 0}
   GoalAddressS: {fileID: 0}
   SDR: {fileID: 0}
   DeliveryScreen: {fileID: 0}
   Minimap: {fileID: 0}
+  DeliveryJudgmentPanel: {fileID: 0}
+  DicePage: 1
+  GunPage: 1
+  DiceText: {fileID: 0}
+  GunText: {fileID: 0}

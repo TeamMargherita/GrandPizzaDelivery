@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6762844971063744694}
   - component: {fileID: 983003206231698222}
-  - component: {fileID: 3912432625341133289}
+  - component: {fileID: 8359065015433555299}
   m_Layer: 0
   m_Name: Note
   m_TagString: Untagged
@@ -51,7 +51,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -83,7 +83,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &3912432625341133289
+--- !u!114 &8359065015433555299
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -92,6 +92,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3496708519887760850}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be33d8985cee27b4190a0af22c176105, type: 3}
+  m_Script: {fileID: 11500000, guid: 80136c8fcd135ab439c070c9bb294743, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Type: 0

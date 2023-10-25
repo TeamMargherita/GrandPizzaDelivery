@@ -48,10 +48,15 @@ public class Map : MonoBehaviour, IMap, IStop
     }
 
     private void Start()
-    {   
-        // 피자집에 마크를 붙인다.
+    {
+        // 집집마다 맞는 마크를 붙인다.
         houseAddressList[36].IHouse.SetHouseType(houseMarkArr[0], HouseType.PIZZASTORE);
-
+        houseAddressList[66].IHouse.SetHouseType(houseMarkArr[1], HouseType.DICESTORE);
+        houseAddressList[55].IHouse.SetHouseType(houseMarkArr[2], HouseType.PINEAPPLESTORE);
+        houseAddressList[22].IHouse.SetHouseType(houseMarkArr[3], HouseType.INGREDIENTSTORE);
+        houseAddressList[78].IHouse.SetHouseType(houseMarkArr[2], HouseType.PINEAPPLESTORETWO);
+        houseAddressList[43].IHouse.SetHouseType(houseMarkArr[4], HouseType.GUNSTORE);
+        // 경찰차를 생성한다.
         MakeAPoliceCar(45);
     }
     private void test()
@@ -65,7 +70,7 @@ public class Map : MonoBehaviour, IMap, IStop
     /// <summary>
     /// 경찰차를 랜덤한 건물마다 배정해주는 함수입니다.
     /// </summary>
-    /// <param name="cnt"></param>
+    /// <param name="cnt">생성할 경찰차의 개수</param>
     private void MakeAPoliceCar(int cnt)
     {
         if (cnt >= buildingList.Count) { cnt = buildingList.Count; }
@@ -81,12 +86,12 @@ public class Map : MonoBehaviour, IMap, IStop
                 // 건물의 모양에 따라 경찰차의 위치도 달라진다.
                 GameObject policeCar = Instantiate(this.policeCar);
                 policeCar.transform.position = buildingList[ran].GetpoliceCarDis() + buildingList[ran].GetBuildingPos();
-
+                // 경찰차에 각종 주소를 넘겨준다.
                 if (policeCar.GetComponent<IPoliceCar>() != null)
                 {
                     policeList.Add(policeCar.GetComponent<IPoliceCar>());
                     policeCar.GetComponent<IPoliceCar>().SetPlayerMove(playerMove);
-                    policeCar.GetComponent<IPoliceCar>().SetPoliceSmokeEffect(effectControl.GetComponent<ISetTransform>());
+                    //policeCar.GetComponent<IPoliceCar>().SetPoliceSmokeEffect(effectControl.GetComponent<ISetTransform>());
                     policeCar.GetComponent<IPoliceCar>().SetMap(this);
                     policeCar.GetComponent<IPoliceCar>().SetBanana(banana);
                     // 각 경찰차에게 건물에 맞는 루트를 짜서 넘겨야한다.
@@ -94,14 +99,22 @@ public class Map : MonoBehaviour, IMap, IStop
                     {
                         policeCar.GetComponent<IPoliceCar>().InitPoliceCarPath(buildingList[ran].GetPolicePath());
                     }
-                    policeCar.GetComponent<IPoliceCar>().SetIInspectingPanelControl(uiControlObj.GetComponent<IInspectingPanelControl>());
+                    policeCar.GetComponent<IPoliceCar>().SetIInspectingPanelControl(uiControlObj.GetComponent<IConversationPanelControl>());
                 }
+                if (policeCar.GetComponent<Police>() != null)
+				{
+                    policeCar.GetComponent<Police>().SetSmokeEffectTrans(effectControl.GetComponent<ISetTransform>());
+				}
                 // 경찰차가 배정되었으므로 cnt를 하나 내리고, 경찰차가 배정되었음을 건물(Building)에 알립니다.
                 buildingList[ran].SetIsPoliceCar(true);
                 cnt--;
             }
         }
     }
+    /// <summary>
+    /// 배달 시간을 재기 위해 주소에 따른 넣은 시간을 저장합니다.
+    /// </summary>
+    /// <param name="addressS"></param>
     public void AddAddress(AddressS addressS)
     {
         deliveryTimeDic.Add(addressS, GameManager.Instance.time);
@@ -215,7 +228,10 @@ public class Map : MonoBehaviour, IMap, IStop
             playerMove.Stop = false;
         }
     }
-
+    /// <summary>
+    /// 경찰차가 파괴되었을 때 경찰차 명단에서 제거해준다. 
+    /// </summary>
+    /// <param name="iPoliceCar"></param>
     public void RemovePoliceList(IPoliceCar iPoliceCar)
     {
         policeList.Remove(iPoliceCar);

@@ -7,13 +7,15 @@ using PizzaNS;
 // 한석호 작성
 public class PizzaStoreUI : MonoBehaviour, IIngredientSlot
 {
-	[SerializeField] private GameObject[] slotObjArr;
-	[SerializeField] private GameObject[] choiceSlotArr;
+	[SerializeField] private GameObject[] slotObjArr;	// 재료 슬롯
+	[SerializeField] private GameObject[] choiceSlotArr;	// 선택한 재료가 담긴 슬롯
 	[SerializeField] private Text ingredientExplainText;
 	[SerializeField] private Text choiceIngredientExplainText;
 
 	//private List<int> choiceIngredientList = new List<int>();
-
+	/// <summary>
+	/// 재료 스프라이트
+	/// </summary>
 	private Sprite[] pizzaIngredientSprArr;
 	private PizzaIngredientSlots[] pizzaIngredientSlotsArr;
 	private ChoiceIngredientSlot[] choiceIngredientSlotArr;
@@ -54,6 +56,9 @@ public class PizzaStoreUI : MonoBehaviour, IIngredientSlot
 		// 스프라이트가 재료 슬롯에 들어가야됨
 		BackMakePizza();
 	}
+	/// <summary>
+	/// 피자 재료판 초기화. 피자 재료판 화면이 켜질 때 호출
+	/// </summary>
 	public void BackMakePizza()
 	{
 		InitPage(0);
@@ -61,6 +66,9 @@ public class PizzaStoreUI : MonoBehaviour, IIngredientSlot
 		InitChoiceIngredient();
 		Constant.PizzaAttractiveness = 0;
 	}
+	/// <summary>
+	/// 만드려는 피자의 능력치 초기화
+	/// </summary>
 	private void InitValue()
 	{
 		attractiveness = 0;
@@ -68,7 +76,10 @@ public class PizzaStoreUI : MonoBehaviour, IIngredientSlot
 		ingredientPrice = 0;
 	}
 
-	// 재료 페이지 넘김
+	/// <summary>
+	/// 재료 페이지 넘김
+	/// </summary>
+	/// <param name="next"></param>
 	public void Page(bool next)
 	{
 		if (next)
@@ -94,13 +105,17 @@ public class PizzaStoreUI : MonoBehaviour, IIngredientSlot
 			}
 		}
 	}
-
+	/// <summary>
+	/// 페이지에 해당하는 재료들로 이미지, 정보 갱신
+	/// </summary>
+	/// <param name="page"></param>
 	private void InitPage(int page)
 	{
 		nowPage = page;
 
 		for (int i = 0; i < slotObjArr.Length; i++)
 		{
+			// 과일 배열 범위를 초과하는 슬롯은 전부 없음으로 상태를 변경
 			if (i + (nowPage * slotObjArr.Length) + 1 >= Constant.IngredientsArray.GetLength(0))
 			{
 				pizzaIngredientSlotsArr[i].IngredientNumber = 0;
@@ -108,12 +123,25 @@ public class PizzaStoreUI : MonoBehaviour, IIngredientSlot
 			}
 			else
 			{
-				pizzaIngredientSlotsArr[i].IngredientNumber = i + (nowPage * slotObjArr.Length) + 1;
-				pizzaIngredientSlotsArr[i].SetIngredientsSpr(pizzaIngredientSprArr[i + (nowPage * slotObjArr.Length) + 1]);
+				// 해금된 과일들만 정보를 넣어줘야함
+				if (Constant.UsableIngredient.FindIndex(a => a == i + (nowPage * slotObjArr.Length) + 1) != -1)
+				{
+					// + 1 을 해주는 이유는 이미지의 0 값이 '없음'을 의미하기 때문.
+					pizzaIngredientSlotsArr[i].IngredientNumber = i + (nowPage * slotObjArr.Length) + 1;
+					pizzaIngredientSlotsArr[i].SetIngredientsSpr(pizzaIngredientSprArr[i + (nowPage * slotObjArr.Length) + 1]);
+				}
+				else
+				{
+					pizzaIngredientSlotsArr[i].IngredientNumber = 0;
+					pizzaIngredientSlotsArr[i].SetIngredientsSpr(pizzaIngredientSprArr[0]);
+				}
 			}
 		}
 	}
-
+	/// <summary>
+	/// 피자 재료에 대한 설명
+	/// </summary>
+	/// <param name="ingNum"></param>
 	public void IngredientExplain(int ingNum)
 	{
 		if (ingNum == 0)
@@ -123,7 +151,9 @@ public class PizzaStoreUI : MonoBehaviour, IIngredientSlot
 		else
 		{
 			ingredientExplainText.text
-			= "매력도 : " + Constant.IngredientsArray[ingNum, 1] + "\n"
+			= 
+			"재료이름 : " + Constant.IngredientsArray[ingNum, 4] + "\n"
+			+ "매력도 : " + Constant.IngredientsArray[ingNum, 1] + "\n"
 			+ "매력하락도 : " + Constant.IngredientsArray[ingNum, 2] + "\n"
 			+ "재료값 : " + Constant.IngredientsArray[ingNum, 3];
 		}

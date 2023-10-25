@@ -7,6 +7,7 @@ public class SpawnChaserPoliceCar : MonoBehaviour, ISpawnCar
 {
 	[SerializeField] private GameObject chaserPoliceCar;
 	[SerializeField] private Transform playerTrans;
+	[SerializeField] private GameObject effectControl;
 
 	private List<Vector3> vecList = new List<Vector3>();
     public void SpawnCar(int count)
@@ -23,7 +24,7 @@ public class SpawnChaserPoliceCar : MonoBehaviour, ISpawnCar
 					GameObject obj = Instantiate(chaserPoliceCar, this.transform);
 					obj.transform.localPosition = ve;
 					obj.GetComponent<ISetTransform>().SetTransform(playerTrans);
-					
+					obj.GetComponent<Police>().SetSmokeEffectTrans(effectControl.GetComponent<ISetTransform>());
 					break;
 				}
 		} }

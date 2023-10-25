@@ -7,10 +7,11 @@ using PizzaNS;
 public class GameManager : MonoBehaviour
 {
     private static GameManager _instance;
-
-    public List<Pizza> PizzaMenu = new List<Pizza>();
+    public Pizza?[] PizzaInventoryData = new Pizza?[5];
+    public List<Pizza> PizzaMenu = new List<Pizza>() { new Pizza("CheesePizza", 60, 5000, 10000, 800, new List<Ingredient>() { Ingredient.CHEESE }, 250) };
     public List<Slot> InventorySlotList = new List<Slot>();
-    public GameObject TimeText;
+
+    public bool isDarkDelivery = false;
     public static GameManager Instance
     {
         get
@@ -28,12 +29,12 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         
-        for (int i = 0; i < 5; i++)
-        {
-            List<Ingredient> ing = new List<Ingredient>();
-            ing.Add(Ingredient.CHEESE);
-            GameManager.Instance.PizzaMenu.Add(new Pizza("CheesePizza5", 60, 5000, 10000, Random.Range(0, 500) + 500, ing, Random.Range(0, 100) + 200));
-        }
+        //for (int i = 0; i < 5; i++)
+        //{
+        //    List<Ingredient> ing = new List<Ingredient>();
+        //    ing.Add(Ingredient.CHEESE);
+        //    GameManager.Instance.PizzaMenu.Add(new Pizza("CheesePizza5", 60, 5000, 10000, Random.Range(0, 500) + 500, ing, Random.Range(0, 100) + 200));
+        //}
         if (_instance == null)
         {
             _instance = this;
@@ -49,7 +50,7 @@ public class GameManager : MonoBehaviour
     public float time;
     private float timeSpeed = 60; //하루기준시간
 
-    private int money = 0;
+    private int money = 1000000000;
     public int Money
     {
         get {
@@ -62,10 +63,26 @@ public class GameManager : MonoBehaviour
     }
 
     
-    
+
+    public void PlayerDead()
+    {
+        LoadScene.Instance.ActiveTrueFade("InGameScene");
+        isDarkDelivery = false;
+        time = 32400;
+    }
+
+    private void TimeSkip()
+    {
+        if(Input.GetKeyDown(KeyCode.Backspace))
+            time = 82800;
+    }
     private void Update()
     {
-        time += Time.deltaTime * timeSpeed; //게임기준1분 = 현실시간2초
+        TimeSkip();
+        if (!Constant.StopTime)
+        {
+            time += Time.deltaTime * timeSpeed; //게임기준1분 = 현실시간2초
+        }
         //게임1초 * timeSpeed = 현실시간1초
         //TimeText.GetComponent<Text>().text = (int)time/3600 + " : " + (int)(time / 60 % 60);
     }

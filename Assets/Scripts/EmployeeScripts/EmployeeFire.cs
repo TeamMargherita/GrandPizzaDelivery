@@ -1,5 +1,8 @@
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,6 +10,7 @@ using UnityEngine.UI;
 public class EmployeeFire : MonoBehaviour
 {
     [SerializeField] Transform FireWinParent;
+    [SerializeField] Transform FireWinBG;
     [SerializeField] Transform EmployeeParent;
 
     private void Start()
@@ -16,7 +20,7 @@ public class EmployeeFire : MonoBehaviour
 
     void WinOff()
     {
-        FireWinParent.gameObject.SetActive(false);
+        FireWinBG.gameObject.SetActive(false);
 
         for (int i = 0; i < FireWinParent.childCount; i++)
         {
@@ -24,53 +28,90 @@ public class EmployeeFire : MonoBehaviour
         }
     }
 
-    public void ShowFireWin()
+    [SerializeField] bool isApear = false;
+
+    public void ApearCheck()
     {
-        bool value = true;
-
-        if (FireWinParent.gameObject.activeInHierarchy)
+        if (FireWinBG.gameObject.activeInHierarchy)
         {
-            value = false;
+            isApear = false;
         }
         else
         {
-            value = true;
+            isApear = true;
+
+            FireWinBG.gameObject.SetActive(true);
+
+            for (int i = 0; i < EmployeeParent.childCount; i++)
+            {
+                FireWinParent.GetChild(i * 2).gameObject.SetActive(true);
+                FireWinParent.GetChild(i * 2).GetComponent<Button>().interactable = true;
+            }
         }
 
-        if (value == true)
-        {
-            FireWinParent.gameObject.SetActive(true);
+        ShowFireWin();
+    }
 
-            FindEmployeeData();
+    void ShowFireWin()
+    {
+        string EmployeeStat = null;
+
+        EmployeeStat Employee = null;
+
+        if (isApear == true)
+        {
+            for (int i = 0; i < EmployeeParent.childCount; i++)
+            {
+                Employee = EmployeeParent.GetChild(i).GetComponent<EmployeeStat>();
+
+                EmployeeStat = "스텟 : " + Employee.Handy.ToString() + "\n" + "급여 : " + Employee.Pay.ToString();
+
+                FireWinParent.GetChild(i * 2).GetChild(0).
+                  GetComponent<Text>().text = EmployeeStat;
+            }
         }
         else
         {
-            FireWinParent.gameObject.SetActive(false);
+            FireWinBG.gameObject.SetActive(false);
 
-            for (int i = 0; i < FireWinParent.childCount; i++)
+            for (int i = 0; i < FireWinParent.childCount-1; i+=2)
             {
                 FireWinParent.GetChild(i).gameObject.SetActive(false);
+                FireWinParent.GetChild(i + 1).gameObject.SetActive(false);
 
-                FireWinParent.GetChild(i).GetChild(5).
+                FireWinParent.GetChild(i + 1).GetChild(1).
                    GetComponent<Button>().interactable = true;
 
-                FireWinParent.GetChild(i).GetChild(5).GetChild(0).
+                FireWinParent.GetChild(i + 1).GetChild(1).GetChild(0).
                     GetComponent<Text>().text = "해고하기";
             }
         }
     }
 
-    void FindEmployeeData()
+    public void ShowDetail(int value)
     {
+        FireWinParent.GetChild(value + 1).gameObject.SetActive(true);
+
+        FireWinParent.GetChild(value).GetComponent<Button>().interactable = false; 
+
+        FindEmployeeData(1);
+
+        pay[value] = 0;
+    }
+
+    void FindEmployeeData(int value)
+    {
+        string EmployeeStat = null;
+
         for (int i = 0; i < EmployeeParent.childCount; i++)
         {
-            FireWinParent.GetChild(i).gameObject.SetActive(true);
-
-            for (int j = 0; j < 5; j++)
+            for (int j = 0; j < 6; j++)
             {
-                FireWinParent.GetChild(i).GetChild(j).
-                    GetComponent<Text>().text = Stat(i, j);
+                EmployeeStat += Stat(i, j) + "\n";
             }
+
+            FireWinParent.GetChild(i * 2 + value).GetChild(0).
+                   GetComponent<Text>().text = EmployeeStat;
         }
     }
 
@@ -87,19 +128,19 @@ public class EmployeeFire : MonoBehaviour
             case 1:
                 switch (EmployeeParent.GetChild(Evalue).GetComponent<EmployeeStat>().Agility)
                 {
-                    case -1:
+                    case ClerkNS.Tier.ONE:
                         result = "순발력 : " + EmployeeParent.GetChild(Evalue).
                   GetComponent<EmployeeStat>().AgilityStat[0].ToString();
                         break;
-                    case 1:
+                    case ClerkNS.Tier.TWO:
                         result = "순발력 : " + EmployeeParent.GetChild(Evalue).
                   GetComponent<EmployeeStat>().AgilityStat[1].ToString();
                         break;
-                    case 3:
+                    case ClerkNS.Tier.THREE:
                         result = "순발력 : " + EmployeeParent.GetChild(Evalue).
                   GetComponent<EmployeeStat>().AgilityStat[2].ToString();
                         break;
-                    case 6:
+                    case ClerkNS.Tier.FOUR:
                         result = "순발력 : " + EmployeeParent.GetChild(Evalue).
                   GetComponent<EmployeeStat>().AgilityStat[3].ToString();
                         break;
@@ -108,19 +149,19 @@ public class EmployeeFire : MonoBehaviour
             case 2:
                 switch (EmployeeParent.GetChild(Evalue).GetComponent<EmployeeStat>().Career)
                 {
-                    case -1:
+                    case ClerkNS.Tier.ONE:
                         result = "경력 : " + EmployeeParent.GetChild(Evalue).
                   GetComponent<EmployeeStat>().CareerStat[0].ToString();
                         break;
-                    case 1:
+                    case ClerkNS.Tier.TWO:
                         result = "경력 : " + EmployeeParent.GetChild(Evalue).
                   GetComponent<EmployeeStat>().CareerStat[1].ToString();
                         break;
-                    case 3:
+                    case ClerkNS.Tier.THREE:
                         result = "경력 : " + EmployeeParent.GetChild(Evalue).
                   GetComponent<EmployeeStat>().CareerStat[2].ToString();
                         break;
-                    case 6:
+                    case ClerkNS.Tier.FOUR:
                         result = "경력 : " + EmployeeParent.GetChild(Evalue).
                  GetComponent<EmployeeStat>().CareerStat[3].ToString();
                         break;
@@ -129,29 +170,31 @@ public class EmployeeFire : MonoBehaviour
             case 3:
                 switch (EmployeeParent.GetChild(Evalue).GetComponent<EmployeeStat>().Creativity)
                 {
-                    case -1:
+                    case ClerkNS.Tier.ONE:
                         result = "창의력 : " + EmployeeParent.GetChild(Evalue).
                   GetComponent<EmployeeStat>().CreativityStat[0].ToString();
                         break;
-                    case 1:
+                    case ClerkNS.Tier.TWO:
                         result = "창의력 : " + EmployeeParent.GetChild(Evalue).
                   GetComponent<EmployeeStat>().CreativityStat[1].ToString();
                         break;
-                    case 3:
+                    case ClerkNS.Tier.THREE:
                         result = "창의력 : " + EmployeeParent.GetChild(Evalue).
                   GetComponent<EmployeeStat>().CreativityStat[2].ToString();
                         break;
-                    case 6:
+                    case ClerkNS.Tier.FOUR:
                         result = "창의력 : " + EmployeeParent.GetChild(Evalue).
                  GetComponent<EmployeeStat>().CreativityStat[3].ToString();
                         break;
                 }
                 break;
             case 4:
-                result = "주급 : " + EmployeeParent.GetChild(Evalue).
-                   GetComponent<EmployeeStat>().Pay.ToString();
+                result = "스트레스 : " + EmployeeParent.GetChild(Evalue).
+                   GetComponent<EmployeeStat>().Stress.ToString();
                 break;
-            default:
+            case 5:
+                result = "주급 :     " + EmployeeParent.GetChild(Evalue).
+                  GetComponent<EmployeeStat>().Pay.ToString();
                 break;
         }
 
@@ -172,10 +215,82 @@ public class EmployeeFire : MonoBehaviour
 
             FireWinParent.GetChild(value).GetChild(5).GetChild(0).
                 GetComponent<Text>().text = "해고완료";
+
+            Constant.ClerkList.RemoveAt(value);
         }
         else
         {
-            Debug.Log("사장님 나빠요");
+            NoticeMessage("직원은 최소 한명 이상이 필요합니다.");
         }
+    }
+
+    int[] pay = new int[5];
+
+    public void PayRateButton(int value)// 창을 열때 pay값 저장 후 확인 버튼 누르면 고정 닫으면 초기화
+    {
+        string EmployeeStat = null;
+
+        if (value > 0)
+        {
+            pay[value - 1]++;
+
+            for (int j = 0; j < 5; j++)
+            {
+                EmployeeStat += Stat(value - 1, j) + "\n";
+            }
+
+            EmployeeStat += "주급 :     " + (EmployeeParent.GetChild(value - 1).GetComponent<EmployeeStat>().Pay + pay[value - 1]).ToString() + "\n";
+
+            FireWinParent.GetChild((value - 1) * 2 + 1).GetChild(0).
+                   GetComponent<Text>().text = EmployeeStat;
+        }
+        else if(value < 0)
+        {
+            pay[(value + 1) * -1]--;
+
+            for (int j = 0; j < 5; j++)
+            {
+                EmployeeStat += Stat((value + 1) * -1, j) + "\n";
+            }
+
+            EmployeeStat += "주급 :     " + (EmployeeParent.GetChild((value + 1) * -1).GetComponent<EmployeeStat>().Pay + pay[(value + 1) * -1]).ToString() + "\n";
+
+            FireWinParent.GetChild(((value + 1) * -1) * 2 + 1).GetChild(0).
+                   GetComponent<Text>().text = EmployeeStat;
+        }
+    }
+
+    public void FireWinHeightCon(bool value)
+    {
+        RectTransform rect = FireWinParent.GetComponent<RectTransform>();
+
+        if (value)
+        {
+            rect.sizeDelta = new Vector3(rect.sizeDelta.x, rect.sizeDelta.y + 150);
+        }
+        else
+        {
+            rect.sizeDelta = new Vector3(rect.sizeDelta.x, rect.sizeDelta.y - 150);
+        }
+    }
+
+    public void SavePayRate(int value)
+    {
+        EmployeeParent.GetChild(value).GetComponent<EmployeeStat>().Pay += pay[value];
+
+        Constant.ClerkList[value].Pay = EmployeeParent.GetChild(value).GetComponent<EmployeeStat>().Pay;
+
+        pay[value] = 0;
+
+        ShowFireWin();
+    }
+
+    [SerializeField] GameObject NoticeWin;
+
+    void NoticeMessage(string Message)
+    {
+        NoticeWin.SetActive(true);
+
+        NoticeWin.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = Message;
     }
 }

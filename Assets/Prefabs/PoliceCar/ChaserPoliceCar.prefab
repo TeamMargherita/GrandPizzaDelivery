@@ -417,7 +417,7 @@ GameObject:
   - component: {fileID: 8802107263603550942}
   m_Layer: 0
   m_Name: ChaserPoliceCar
-  m_TagString: Untagged
+  m_TagString: ChaserPoliceCar
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -462,7 +462,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -553,6 +553,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbada35e8b02bf343bbb37f341b8961f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PoliceHp: 0
   Speed: 0
   colArr:
   - {fileID: 7561573416107725112}
@@ -577,7 +578,7 @@ MonoBehaviour:
   ViewAngle: 100
   TargetMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 1088
   ObstacleMask:
     serializedVersion: 2
     m_Bits: 128

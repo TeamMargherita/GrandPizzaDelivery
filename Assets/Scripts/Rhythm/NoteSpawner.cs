@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -9,68 +8,43 @@ public class NoteSpawner : MonoBehaviour
     [Range(-1f, 1f)]
     public float Sync;                      // 곡 싱크 (추후 로직 수정 필요)
     public static decimal BitSlice;         // 1 비트를 8 등분
-    public bool IsAuto;                     // 노트 자동 클리어
     public float BarInterval = 1f;          // 바 간격
-
-    public static Queue<Bar> Bars = new Queue<Bar>();       // 마디 오브젝트 풀
-    public static Queue<Note> Notes = new Queue<Note>();    // 노트 오브젝트 풀
-
-    public static Queue<Bar> BarLoad = new Queue<Bar>();    // 나와있는 마디
-    public static Queue<Note> NoteLoad = new Queue<Note>(); // 나와있는 노트
-
     private decimal oneBar;                 // 4 비트당 1 마디
     private decimal nextBar;                // 현재 마디
-    private int barCycle = 0;               // 마디 색 변경을 위한 임시 변수
+    public GameObject[] Lines;              // 리듬게임 오브젝트들이 다닐 라인
 
-    private Note notePrefab;                // 노트
-    private Bar barPrefab;                  // 마디
-    private Sprite[] pizzaIngredientSprArr;
+    public RhythmStorage storage;           // 리듬게임 오브젝트를 담는 클래스
+    private RhythmManager manager;          // 리듬 매니저 캐싱
 
-    private RhythmManager manager;
-    void Start()
+    private Sprite[] pizzaIngredientSprArr;         // 피자 만들기에서 선택한 재료를 불러올 배열(일반 노트)
+    private Sprite[] pizzaIngredientSprArrGolden;   // 피자 만들기에서 선택한 재료를 불러올 배열(홀드 노트)
+
+    private Vector2 end = new Vector2(-8f, 0f);     // 노트 및 마디가 향할 좌표
+
+    private void Start()
     {
+        // 리듬 매니저 캐싱
         manager = RhythmManager.Instance;
-        notePrefab = manager.NotePrefab;
-        barPrefab = manager.BarPrefab;
+
+        // 일반 노트 이미지 불러오기
         pizzaIngredientSprArr = Resources.LoadAll<Sprite>("UI/Ingredients_120_120");
 
+        // 홀드 노트 이미지 불러오기
+        pizzaIngredientSprArrGolden = Resources.LoadAll<Sprite>("UI/Golden_Ingredients_120_120");
+
+        // 초기화 함수 호출
         Init();
     }
 
-    void Update()
+    private void Update()
     {
         if (manager.Data != null)
             manager.Data.Sync = Sync;
-
-        // 나와있는 노트가 존재
-        if (NoteLoad.Count > 0)
-        {
-            // 노트 클리어용 키 바인딩
-            if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) ||
-                Input.GetKeyDown(KeyCode.Semicolon) || Input.GetKeyDown(KeyCode.Quote))
-            {
-                // 노트 클리어
-                if (NoteLoad.Peek().SendJudge() != Judge.NONE)
-                {
-                    JudgeCount();
-                    NoteClear();
-                }
-            }
-
-            // 오토 클리어
-            if (IsAuto)
-            {
-                if (NoteLoad.Count > 0 && NoteLoad.Peek().SendJudge() == Judge.PERFECT)
-                {
-                    JudgeCount();
-                    NoteClear();
-                }
-            }
-        }
-
-        // 나와있는 노트와 바를 다시 오브젝트 풀에 저장
-        ReturnNote();
     }
+
+    /// <summary>
+    /// 스포너를 초기화 하는 함수
+    /// </summary>
     public void Init()
     {
         // 판정 초기화
@@ -87,53 +61,62 @@ public class NoteSpawner : MonoBehaviour
     }
 
     /// <summary>
-    /// 노트 클리어 함수 (추후에 다른 클래스로 이동)
-    /// </summary>
-    public static void NoteClear()
-    {
-        Note n = NoteLoad.Peek();
-        n.ActiveEffect();
-        QueueSwaping(NoteLoad, Notes);
-        RhythmManager.Instance.NoteSound.PlayOneShot(RhythmManager.Instance.NoteSound.clip);
-    }
-
-    /// <summary>
     /// 노트를 생성하는 함수
     /// </summary>
     public void CreateNote()
     {
         // 리셋
-        NoteLoadReset();
+        storage.NoteLoadReset();
+
         // 생성
-        int ratio = Constant.ChoiceIngredientList.Count;
-        int curList = 0;
-        float nextList = manager.Data.Length / ratio;
-        foreach (var v in manager.Data.IsNote)
+        int ratio = Constant.ChoiceIngredientList.Count;        // 재료 개수
+        int menuList = 0;                                       // 메뉴 리스트에 담긴 재료들 첫 인덱스 부터 탐색
+        float nextList = manager.Data.Length / ratio;           // 노래 길이 / 재료 개수로 출력할 이미지 분기를 나눔
+
+        // 모든 라인 반복
+        for (int i = 0; i < Lines.Length; i++)
         {
-            // 노트가 존재함
-            Note n;
+            // 로드한 데이터에 해당라인에 담긴 노트 탐색
+            foreach (var v in manager.Data.NoteLines[i])
+            {
+                Note note;
 
-            // 오브젝트 풀에 노트가 존재 (재사용)
-            if (Notes.Count > 0)
-                n = Notes.Dequeue();
+                // 리듬 저장소에서 빼온다
+                note = storage.DequeueNote();
 
-            // 오브젝트 풀에 노트가 존재하지 않음 (새로 생성)
-            else
-                n = Instantiate(notePrefab, transform);
+                // 데이터에 들어있는 타입으로 초기화
+                note.Type = v.Value;
 
-            // 노트 초기화
-            n.Init(BitSlice * v.Key + (decimal)Sync);
-            if ((curList + 1) * nextList < (float)(BitSlice * v.Key + (decimal)Sync))
-                curList++;
+                // 노트 타이밍이 설정한 분기를 넘기면 다음 재료 이미지로 인덱스 이동
+                if ((menuList + 1) * nextList < (float)(BitSlice * v.Key))
+                    menuList++;
 
-            if (Constant.ChoiceIngredientList.Count > 0)
-                n.GetComponent<SpriteRenderer>().sprite =
-                pizzaIngredientSprArr[Constant.ChoiceIngredientList[curList]];
+                // 넘겨 받은 재료 리스트가 있는 경우
+                if (Constant.ChoiceIngredientList.Count > 0)
+                {
+                    // 노트 타입에 맞는 이미지 할당
+                    if (note.Type == NoteType.Normal)
+                        note.GetComponent<SpriteRenderer>().sprite =
+                        pizzaIngredientSprArr[Constant.ChoiceIngredientList[menuList]];
 
-            n.gameObject.SetActive(true);
+                    else if (note.Type == NoteType.Hold)
+                        note.GetComponent<SpriteRenderer>().sprite =
+                        pizzaIngredientSprArrGolden[Constant.ChoiceIngredientList[menuList]];
+                }
+                // 해당 노트가 있는 라인의 y좌표로 초기화
+                end.y = Lines[i].transform.position.y;
 
-            // 노트를 NoteLoad(나와있는 노트 모음)에 추가
-            NoteLoad.Enqueue(n);
+                // 노트 초기화
+                note.Init(BitSlice * v.Key, end);
+
+                // 모든 정보를 초기화 한 후 활성화
+                note.gameObject.SetActive(true);
+
+                // 노트를 NoteLoad(나와있는 노트 모음)에 추가
+                storage.NoteLoad[i].Enqueue(note);
+            }
+            // 새로운 라인에 첫 재료부터 다시 탐색
+            menuList = 0;
         }
     }
 
@@ -143,83 +126,35 @@ public class NoteSpawner : MonoBehaviour
     private void CreateBar()
     {
         // 리셋
-        BarLoadReset();
+        storage.BarLoadReset();
 
         // 생성
-        barCycle = 0;
-        // 5000개의 마디를 생성(추후에 곡 길이에 따른 마디로 변경)
-        for (int i = 0; i < 5000; i++)
+        // 2000개의 마디를 생성(추후에 곡 길이에 따른 마디로 변경)
+        for (int i = 0; i < 2000; i++)
         {
-            Bar bar;
+            // 모든 라인 반복
+            for (int j = 0; j < storage.BarLoad.Length; j++)    
+            {
+                Bar bar;
+                // 리듬 저장소에서 빼온다
+                bar = storage.DequeueBar();
 
-            // 오브젝트 풀에 마디가 존재 (재사용)
-            if (Bars.Count > 0)
-                bar = Bars.Dequeue();
+                // 해당 마디가 있는 라인의 y좌표로 초기화
+                end.y = Lines[j].transform.position.y;
 
-            // 오브젝트 풀에 마디가 존재하지 않음 (새로 생성)
-            else
-                bar = Instantiate(barPrefab, transform);
+                // 마디 초기화
+                bar.Init(nextBar, end);
 
-            // 마디 초기화
-            bar.Init(nextBar);
-            bar.gameObject.SetActive(true);
+                // 모든 정보를 초기화 한 후 활성화
+                bar.gameObject.SetActive(true);
 
-            // 마디를 BarLoad(나와있는 마디 모음)에 추가
-            BarLoad.Enqueue(bar);
+                // 마디를 BarLoad(나와있는 마디 모음)에 추가
+                storage.BarLoad[j].Enqueue(bar);           
+            }
 
-
+            // 마디 사이 간격 만큼 더해서 다음 마디 위치 표현
             nextBar += (oneBar / (decimal)BarInterval);
-            barCycle++;
         }
-    }
-
-    /// <summary>
-    /// 나와있는 모든 노트들을 풀에 돌려놓는 함수
-    /// </summary>
-    private void NoteLoadReset()
-    {
-        while (NoteLoad.Count > 0)
-        {
-            Note note = NoteLoad.Peek();
-            note.gameObject.SetActive(false);
-            QueueSwaping(NoteLoad, Notes);
-        }
-    }
-
-    /// <summary>
-    /// 나와있는 모든 마디들을 풀에 돌려놓는 함수
-    /// </summary>
-    private void BarLoadReset()
-    {
-        while (BarLoad.Count > 0)
-        {
-            Bar bar = BarLoad.Peek();
-            bar.gameObject.SetActive(false);
-            QueueSwaping(BarLoad, Bars);
-        }
-    }
-
-    /// <summary>
-    /// 지나간 노트를 돌려놓는 함수
-    /// </summary>
-    private void ReturnNote()
-    {
-        if (NoteLoad.Count > 0 && NoteLoad.Peek().Timing < -0.12501m)
-        {
-            QueueSwaping(NoteLoad, Notes);
-            RhythmManager.Instance.Miss++;
-        }
-    }
-
-    /// <summary>
-    /// 큐 끼리 교환하는 함수
-    /// </summary>
-    /// <typeparam name="T">제네릭 타입</typeparam>
-    /// <param name="start">뽑아낼 큐</param>
-    /// <param name="end">넣어줄 큐</param>
-    private static void QueueSwaping<T>(Queue<T> start, Queue<T> end)
-    {
-        end.Enqueue(start.Dequeue());
     }
 
     /// <summary>
@@ -235,30 +170,5 @@ public class NoteSpawner : MonoBehaviour
 
         // BitSlice = 비트 / 8 = 마디 / 32
         BitSlice = oneBar / 32m;
-    }
-
-    /// <summary>
-    /// 받은 판정을 카운트 해주는 함수
-    /// </summary>
-    private void JudgeCount()
-    {
-        switch (NoteLoad.Peek().SendJudge())
-        {
-            case Judge.PERFECT:
-                manager.Perfect++;
-                break;
-            case Judge.GREAT:
-                manager.Great++;
-                break;
-            case Judge.GOOD:
-                manager.Good++;
-                break;
-            case Judge.MISS:
-                manager.Miss++;
-                break;
-            default:
-                Debug.LogError("잘못된 정보 (Judge)");
-                return;
-        }
     }
 }

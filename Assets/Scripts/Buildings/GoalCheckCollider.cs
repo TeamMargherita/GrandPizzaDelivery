@@ -39,6 +39,7 @@ public class GoalCheckCollider : MonoBehaviour, IPriorityCode
             iDeliveryPanelControl.SetIHouseDeliveryUI(iHouse);
             iDeliveryPanelControl.ControlDeliveryUI(true);
             InventoryManager.GoalAddressS = this.GetComponent<GoalCheckCollider>();
+            collision.GetComponent<PlayerMove>().Stop = true;
         }
     }
     private bool CheckPriority()

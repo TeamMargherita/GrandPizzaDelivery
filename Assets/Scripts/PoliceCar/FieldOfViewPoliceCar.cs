@@ -44,8 +44,11 @@ public class FieldOfViewPoliceCar : MonoBehaviour, IGetBool
 	{
 		while(true)
 		{
-			yield return Constant.OneTime;
-			yield return Constant.OneTime;
+			for (int i = 0; i < 5; i++)
+			{
+				yield return Constant.OneTime;
+				yield return Constant.OneTime;
+			}
 			isFindPlayer = FindVisibleTargets();
 		}
 	}

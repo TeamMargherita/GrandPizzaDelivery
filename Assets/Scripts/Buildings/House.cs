@@ -25,7 +25,9 @@ public class House : MonoBehaviour, IAddress, IHouse, IActiveHouse
     private IHouseActiveUIControl iHouseActiveUIControl;
 
     private HouseType houseType;
-    
+
+    private Color houseColor;
+
     private CustomerS customerS;
     private AddressS houseAddress;  // 집주소
 
@@ -33,9 +35,12 @@ public class House : MonoBehaviour, IAddress, IHouse, IActiveHouse
     private int houseNumber;    // 건물 내에서 집 번호
     private bool isEnable = false;  // 해당 집에 주문을 해야되는지 여부
     private bool inHouse = false;
+    
 	private void Awake()
 	{
         spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
+        houseColor = Color.HSVToRGB(Random.Range(0, 361f) / 360f, 12 / 100f, 100 / 100f);
+        spriteRenderer.color = houseColor;
         goalTrans = goalObj.transform;
         Vector3 vec = Vector3.zero;
         if (direction == 0) { vec = new Vector3(0, 1); }
@@ -49,7 +54,9 @@ public class House : MonoBehaviour, IAddress, IHouse, IActiveHouse
         houseType = HouseType.HOUSE;
         SetCustomer();
 	}
-    // 고객 생성
+    /// <summary>
+    /// 고객 생성
+    /// </summary>
     private void SetCustomer()
     {
         List<Ingredient> ing = new List<Ingredient>();
@@ -63,10 +70,16 @@ public class House : MonoBehaviour, IAddress, IHouse, IActiveHouse
             }
         }
     }
+    /// <summary>
+    /// 주소 초기화
+    /// </summary>
+    /// <param name="number"></param>
+    /// <param name="addressSList"></param>
 	public void InitAddress(int number, List<AddressS> addressSList)
     {
         houseNumber = number % 1000;
         houseAddress = new AddressS(number / 1000, houseNumber, this);
+        goalObj.GetComponent<GoalCheckCollider>().addr = houseAddress;
 
         addressSList.Add(houseAddress);
     }
@@ -78,22 +91,24 @@ public class House : MonoBehaviour, IAddress, IHouse, IActiveHouse
     {
         return houseNumber;
     }
-
-    // 집이 반짝이며 활성화된다.
-    // 활성화되면 맵에 해당 집이 표시되며, Map 클래스에서 시간을 재기 시작한다.
+    /// <summary>
+    /// 집이 반짝이며 활성화된다.
+    /// 활성화되면 맵에 해당 집이 표시되며, Map 클래스에서 시간을 재기 시작한다.
+    /// </summary>
     public void EnableHouse()
 	{
         spriteRenderer.color = activeColor;
         isEnable = true;
         goalObj.SetActive(true);
         iMap.AddAddress(houseAddress);
-	}
-
-    // 피자 배달을 끝마쳤을 때
-    // 배달이 끝난 후 걸린 시간, 평점 등을 구조체 형식으로 묶어서 전달한다.
+    }
+    /// <summary>
+    /// 피자 배달을 끝마쳤을 때
+    /// 배달이 끝난 후 걸린 시간, 평점 등을 구조체 형식으로 묶어서 전달한다.
+    /// </summary> 
     public void DisableHouse()
 	{
-        spriteRenderer.color = Color.white;
+        spriteRenderer.color = houseColor;
         isEnable = false;
         goalObj.SetActive(false);
         spendingTime = iMap.RemoveAddress(houseAddress);
@@ -103,19 +118,30 @@ public class House : MonoBehaviour, IAddress, IHouse, IActiveHouse
 	{
         return isEnable;
 	}
-
+    /// <summary>
+    /// 배달 도착 여부를 따지는 인터페이스 전달.
+    /// </summary>
+    /// <param name="iDeliveryPanelControl"></param>
     public void SetIDeliveryPanelControl(IDeliveryPanelControl iDeliveryPanelControl)
     {
         this.iDeliveryPanelControl = iDeliveryPanelControl;
         goalObj.GetComponent<GoalCheckCollider>().SetIDeliveryPanelControl(iDeliveryPanelControl, this);
     }
+    /// <summary>
+    /// 집 근처에서 조작할 수 있는 방식을 설명한 패널에 관한 인터페이스 전달
+    /// </summary>
+    /// <param name="iHouseActiveControl"></param>
     public void SetIHouseActiveUIControl(IHouseActiveUIControl iHouseActiveControl)
     {
         this.iHouseActiveUIControl = iHouseActiveControl;
         activeObj.GetComponent<HouseActiveCheck>().SetIHouseActiveUIControl(iHouseActiveControl);
 
     }
-    // 특정 집에는 로고를 붙인다.
+    /// <summary>
+    /// 특정 집에는 로고를 붙인다.
+    /// </summary>
+    /// <param name="mark">로고 스프라이트</param>
+    /// <param name="houseType">집 타입</param>
     public void SetHouseType(Sprite mark, HouseType houseType)
     {
         GameObject obj = new GameObject();
@@ -126,6 +152,10 @@ public class House : MonoBehaviour, IAddress, IHouse, IActiveHouse
         obj.GetComponent<SpriteRenderer>().sortingOrder = 200;
         this.houseType = houseType;
     }
+    /// <summary>
+    /// 집 근처에 왔을 때 타입에 따라 가능한 조작을 다르게 함
+    /// </summary>
+    /// <param name="bo"></param>
     public void IntoHouse(bool bo)
     {
         if (bo)
@@ -141,11 +171,17 @@ public class House : MonoBehaviour, IAddress, IHouse, IActiveHouse
     {
         return houseType;
     }
+    /// <summary>
+    /// 일반 집인 경우에는 집 근처로 가도 집의 색상이 변하지 않음
+    /// </summary>
+    /// <param name="bo"></param>
+    /// <returns></returns>
     public bool ActiveHouse(bool bo)
     {
         if (houseType != HouseType.NONE && houseType != HouseType.HOUSE)
         {
             SetInHouse(bo);
+            // 집의 색상을 바꿔줌
             ChangeColor(bo);
             return true;
         }
@@ -158,18 +194,21 @@ public class House : MonoBehaviour, IAddress, IHouse, IActiveHouse
     {
         inHouse = bo;
     }
-    // 집 근처로 가면 집의 색 바꿔주기.
+    /// <summary>
+    /// 집 근처로 가면 집의 색 바꿔줌
+    /// </summary>
+    /// <param name="bo"></param>
     private void ChangeColor(bool bo)
     {
         if (!isEnable)
         {
             if (bo)
             {
-                spriteRenderer.color = Color.cyan;
+                spriteRenderer.color = Color.red;
             }
             else
             {
-                spriteRenderer.color = Color.white;
+                spriteRenderer.color = houseColor;
             }
         }
     }

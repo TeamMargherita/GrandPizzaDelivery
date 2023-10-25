@@ -13,14 +13,6 @@ public class PlayerTexts : MonoBehaviour, IPointerClickHandler
 
     private IInspectingUIText iInspectingUIText;
 
-    private Text playerText;
-    
-
-    void Awake()
-    {
-        playerText = this.gameObject.GetComponent<Text>();
-    }
-
     public void SetIInspectingUIText(IInspectingUIText iInspectingUIText)
 	{
         this.iInspectingUIText = iInspectingUIText;
@@ -28,11 +20,7 @@ public class PlayerTexts : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (TextNum / 1000 == 1)
-        {
-            iInspectingUIText.ChoiceText(TextNum);
-        }
-
-
+        Debug.Log(TextNum);
+        iInspectingUIText.ChoiceText(TextNum);
     }
 }

@@ -8,6 +8,8 @@ TagManager:
   - Banana
   - Police
   - Inventory
+  - ChaserPoliceCar
+  - PizzaInventory
   layers:
   - Default
   - TransparentFX
@@ -19,7 +21,7 @@ TagManager:
   - Obstacles
   - WallObstacle
   - MoveObstacle
-  - 
+  - Player
   - 
   - 
   - 

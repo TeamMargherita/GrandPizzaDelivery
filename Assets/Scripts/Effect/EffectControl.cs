@@ -16,7 +16,10 @@ public class EffectControl : MonoBehaviour, ISetTransform
     {
         
     }
-
+    /// <summary>
+    /// 오브젝트 풀링을 사용해서 연기를 생성
+    /// </summary>
+    /// <param name="trans"></param>
     public void SetTransform(Transform trans)
 	{
         for (int i = 0; i < policeSmokeEffectList.Count; i++)

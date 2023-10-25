@@ -1,24 +1,61 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Gun;
 public class PlayerMove : PlayerStat
 {
     private Vector3 angle = new Vector3(0, 0, 300);
 
     private float time;
+    private float reloadTime;
     public bool Stop = false;
     private bool bananaTrigger = false;
+    public short CurrentMagagine;
     [SerializeField]
     private MakingPizza MakingPizzaScript;
     [SerializeField]
     private InventoryManager InventoryManagerScript;
+
+    GunShooting gunMethod;
+    private void Awake()
+    {
+        gunMethod = new PlayerGunShooting(transform);
+    }
+
+    void PlayerFire()
+    {
+        if(CurrentMagagine > 0)
+        {
+            if(Constant.nowGun[0] != -1)
+            {
+                if (gunMethod.Fire("Player", 1 - Constant.GunInfo[Constant.nowGun[0]].Speed, Constant.GunInfo[Constant.nowGun[0]].Damage))
+                {
+                    CurrentMagagine -= 1;
+                }
+            }
+        }
+        else
+        {
+            if (Constant.nowGun[0] != -1)
+            {
+                reloadTime += Time.deltaTime;
+                if (Constant.GunInfo[Constant.nowGun[0]].ReloadSpeed <= reloadTime)
+                {
+                    reloadTime = 0;
+                    CurrentMagagine = Constant.GunInfo[Constant.nowGun[0]].Magazine;
+                }
+            }
+        }
+    }
     void Update()
     {
+        PlayerFire();
+        InventoryManagerScript.UIMagagineTextUpdate(CurrentMagagine);
         if (Input.GetKeyDown(KeyCode.X))
         {
-            InventoryManagerScript.InventoryAddItem(MakingPizzaScript.GetInvenPizzaList(0));
-            InventoryManagerScript.inventoryDisplay();
+            if(MakingPizzaScript.CompletePizzaList.Count > 0)
+                InventoryManagerScript.InventoryAddItem(MakingPizzaScript.GetInvenPizzaList(0));
+            InventoryManagerScript.inventoryTextUpdate("PizzaInventory");
         }
         if (!Stop && !bananaTrigger)
         {
@@ -89,7 +126,6 @@ public class PlayerMove : PlayerStat
             this.GetComponent<Rigidbody2D>().velocity = t.rotation * new Vector2(0, -10);
         while (true)
         {
-            Debug.Log("코루틴 실행중");
             count += Time.deltaTime;
             this.transform.Rotate(angle * 10 * Time.deltaTime);
             if (count > time)
@@ -99,6 +135,12 @@ public class PlayerMove : PlayerStat
             }
             yield return null;
         }
+    }
+
+    IEnumerator HPBarUpdate()
+    {
+
+        yield return null;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -111,14 +153,21 @@ public class PlayerMove : PlayerStat
             StartCoroutine(bananaCoroutine);
             Destroy(other.gameObject);
         }
-        
     }
-
+    Vector2 Power;
+    float TestPower;
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.transform.CompareTag("Police"))
         {
-            HP -= (int)(Speed * 1.5 - collision.transform.GetComponent<PoliceCar>().Speed * 1.5 + Speed * (Random.Range(0, 10)) * 0.01);
+            Power = GetComponent<Rigidbody2D>().velocity - (Vector2)(collision.transform.right * collision.transform.GetComponent<PoliceCar>().Speed);
+            TestPower = Power.magnitude;
+            HP -= (int)(TestPower * 1.5);
+        }else if (collision.transform.CompareTag("ChaserPoliceCar"))
+        {
+            Power = GetComponent<Rigidbody2D>().velocity - (Vector2)(collision.transform.right * collision.transform.GetComponent<ChasePoliceCar>().Speed);
+            TestPower = Power.magnitude;
+            HP -= (int)(TestPower * 1.5);
         }
     }
 }

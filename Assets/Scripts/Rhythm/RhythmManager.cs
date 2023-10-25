@@ -6,50 +6,53 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class RhythmManager : MonoBehaviour
 {
-    public static RhythmManager Instance = null;    // 싱글톤 인스턴싱
+    public static RhythmManager Instance             // 싱글톤 인스턴싱
+    {
+        get { return instance; }
+    }
     public string Title;                            // 관리 할 곡 제목
+    public AudioClip AudioClip;                     // 재생할 곡 클립
     public decimal CurrentTime;                     // 현재 시간
-    public AudioSource NoteSound;                   // 노트 소리
     public AudioData Data;                          // 곡 데이터
-    public Note NotePrefab;                         // 노트
-    public Bar BarPrefab;                           // 마디
     public float Speed;                             // 속도
-    public float Accuracy;                          // 정확도
-    public int Attractive;                          // 매력도
-    public int Perfect;
-    public int Great;
-    public int Good;
-    public int Miss;
-    public bool SceneChange;
-    public AudioSource BgSound;
+    public float MusicSound;                        // 배경음
+    public float KeySound;                          // 키음
+    public bool SceneChange;                        // 씬 전환 여부
+    public JudgeStorage Judges;                     // 판정 저장소
+
+    private static RhythmManager instance = null;
 
     private void Awake()
     {
-        if (Instance != null)
-            Destroy(this);
+        if (instance != null)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
 
-        Instance = this;
-        DontDestroyOnLoad(Instance);
+        Judges = new JudgeStorage();
+        Data = new AudioData();
+        MusicSound = 0.5f;
+        KeySound = 0.5f;
     }
 
     private void Update()
     {
-        if (Perfect + Great + Good + Miss > 0)
-            Accuracy = (float)(Perfect + Great * 0.7f + Good * 0.5f) / (Perfect + Great + Good + Miss) * 100f;
-        else
-            Accuracy = 100;
-        Attractive = (int)(Constant.PizzaAttractiveness * (Accuracy / 100));
+        Judges.SetAttractive();
+
+        // 음악이 끝났을 경우
         if ((float)CurrentTime >= Data.Length && !SceneChange)
         {
-            LoadScene.Instance.LoadPizzaMenu();
-            Constant.PizzaAttractiveness = Attractive;
-            SceneChange = true;
+            EndScene();
         }
-        if (Input.GetKeyDown(KeyCode.F5) && SceneManager.GetActiveScene().name == "RhythmScene")
+        // 중도 스킵 = F5
+        else if (Input.GetKeyDown(KeyCode.F5) && SceneManager.GetActiveScene().name == "RhythmScene" && !SceneChange)
         {
-            LoadScene.Instance.LoadPizzaMenu();
-            Constant.PizzaAttractiveness = Attractive;
-            SceneChange = true;
+            EndScene();
         }
     }
 
@@ -69,19 +72,36 @@ public class RhythmManager : MonoBehaviour
         Data = new AudioData(Title);
     }
 
+    /// <summary>
+    /// 리듬게임 시작 시 데이터 초기화를 위한 함수
+    /// </summary>
     public void Init()
     {
+        // 현재 갖고 있는 Title을 통해 Json데이터를 불러옴
         LoadData();
+
+        // 현재 시간 초기화
         CurrentTime = 0;
-        Accuracy = 0;
-        Attractive = 0;
-        Perfect = 0;
-        Great = 0;
-        Good = 0;
-        Miss = 0;
+
+        // 판정 초기화
+        Judges.Init();
+
+        // 씬 전환 여부 초기화
         SceneChange = false;
-        if (BgSound == null)
-            BgSound = GameObject.Find("BGSound").GetComponent<AudioSource>();
-        BgSound.Play();
+    }
+
+    /// <summary>
+    /// 씬을 전환하며 매력도를 전달하는 함수
+    /// </summary>
+    private void EndScene()
+    {
+        // 씬 전환
+        SceneChange = true;
+
+        // 매력도 전달
+        Constant.PizzaAttractiveness = Judges.Attractive;
+
+        // 피자 구조체 생성 함수 호출
+        LoadScene.Instance.LoadPizzaMenu();
     }
 }

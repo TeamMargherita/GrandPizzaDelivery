@@ -13,9 +13,19 @@ public class SendDeliveryRequest : MonoBehaviour
     public int SumChrisma()
     {
         int sumChrisma = 0;
-        foreach(var i in GameManager.Instance.PizzaMenu)
+        if (!GameManager.Instance.isDarkDelivery)
         {
-            sumChrisma += i.Charisma;
+            foreach (var i in GameManager.Instance.PizzaMenu)
+            {
+                sumChrisma += i.Charisma;
+            }
+        }
+        else
+        {
+            foreach (var i in GameManager.Instance.PineapplePizzaMenu)
+            {
+                sumChrisma += i.Charisma;
+            }
         }
         return sumChrisma;
     }
@@ -23,21 +33,46 @@ public class SendDeliveryRequest : MonoBehaviour
     {
         int findChrisma = 0;
         int count = 0;
-        foreach (var i in GameManager.Instance.PizzaMenu)
+        if (!GameManager.Instance.isDarkDelivery)
         {
-            findChrisma += i.Charisma;
-            if (findChrisma >= sum)
-                break;
-            count++;
+            foreach (var i in GameManager.Instance.PizzaMenu)
+            {
+                findChrisma += i.Charisma;
+                if (findChrisma >= sum)
+                    break;
+                count++;
+            }
         }
+        else
+        {
+            foreach (var i in GameManager.Instance.PineapplePizzaMenu)
+            {
+                findChrisma += i.Charisma;
+                if (findChrisma >= sum)
+                    break;
+                count++;
+            }
+        }
+        
         return count;
     }
     public void RandomCall()//랜덤피자주문 메서드
     {
-        if (GameManager.Instance.PizzaMenu.Count > 0)
+        if (!GameManager.Instance.isDarkDelivery)
         {
-            int sum = Random.Range(0, SumChrisma());
-            RequestList.Add(new Request(GameManager.Instance.PizzaMenu[percentage(sum)], false));
+            if (GameManager.Instance.PizzaMenu.Count > 0)
+            {
+                int sum = Random.Range(0, SumChrisma());
+                RequestList.Add(new Request(GameManager.Instance.PizzaMenu[percentage(sum)], false));
+            }
+        }
+        else
+        {
+            if (GameManager.Instance.PineapplePizzaMenu.Count > 0)
+            {
+                int sum = Random.Range(0, SumChrisma());
+                RequestList.Add(new Request(GameManager.Instance.PineapplePizzaMenu[percentage(sum)], false));
+            }
         }
     }
     private void EndDelivery()

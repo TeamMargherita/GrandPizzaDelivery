@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     private static GameManager _instance;
     public Pizza?[] PizzaInventoryData = new Pizza?[5];
     public List<Pizza> PizzaMenu = new List<Pizza>() { new Pizza("CheesePizza", 60, 5000, 10000, 800, new List<Ingredient>() { Ingredient.CHEESE }, 250) };
+    public List<Pizza> PineapplePizzaMenu = new List<Pizza>();
     public List<Slot> InventorySlotList = new List<Slot>();
 
     public bool isDarkDelivery = false;
@@ -28,13 +29,8 @@ public class GameManager : MonoBehaviour
     }
     private void Awake()
     {
-        
-        //for (int i = 0; i < 5; i++)
-        //{
-        //    List<Ingredient> ing = new List<Ingredient>();
-        //    ing.Add(Ingredient.CHEESE);
-        //    GameManager.Instance.PizzaMenu.Add(new Pizza("CheesePizza5", 60, 5000, 10000, Random.Range(0, 500) + 500, ing, Random.Range(0, 100) + 200));
-        //}
+        PineapplePizzaMenu.Add(Constant.PineapplePizza);
+
         if (_instance == null)
         {
             _instance = this;

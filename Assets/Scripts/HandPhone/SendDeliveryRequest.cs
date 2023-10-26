@@ -49,8 +49,11 @@ public class SendDeliveryRequest : MonoBehaviour
                 RequestList.Clear();
                 if (!GameManager.Instance.isDarkDelivery)
                     DarkDeliveryOKPanel.SetActive(true);
-                else
-                    EndDeliveryOKPanel.SetActive(true);
+                Time.timeScale = 0;
+            }else if (14400 <= GameManager.Instance.time && GameManager.Instance.isDarkDelivery)
+            {
+                EndDeliveryOKPanel.SetActive(true);
+                GameManager.Instance.isDarkDelivery = false;
                 Time.timeScale = 0;
             }
         }

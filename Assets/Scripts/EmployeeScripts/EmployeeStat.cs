@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using ClerkNS;
 
+//추후 변경 예정~
 public enum Day
 {
     Monday,

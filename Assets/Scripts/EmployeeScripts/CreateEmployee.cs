@@ -9,7 +9,6 @@ using UnityEngine.UI;
 public class CreateEmployee : MonoBehaviour
 {
     [SerializeField] Transform EmployeeMother;
-    //[SerializeField] GameObject EmployeePrefab;
     [SerializeField] Transform EmployeeRecruitMother;
 
     [SerializeField] GameObject NoticeWin;

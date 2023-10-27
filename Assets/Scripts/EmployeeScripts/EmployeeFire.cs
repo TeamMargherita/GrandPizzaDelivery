@@ -34,7 +34,6 @@ public class EmployeeFire : MonoBehaviour
         }
     }
 
-    // �׻� �����ְ�, �˹� ���� ��ư �ȴ����� �ٷ� �ǰ� �ٲٱ�!!
     public void ShowFireWin()
     {
         string EmployeeStat = null;

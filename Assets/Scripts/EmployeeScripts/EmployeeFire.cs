@@ -47,7 +47,8 @@ public class EmployeeFire : MonoBehaviour
             {
                 FireWinParent.GetChild(i * 2).gameObject.SetActive(true);
 
-                EmployeeStat = Constant.ClerkList[i].Name + "\n" + "���� : " + Constant.ClerkList[i].Handicraft.ToString() + "\n" + "�޿� : " + Constant.ClerkList[i].Pay.ToString();
+                EmployeeStat = Constant.ClerkList[i].Name + "\n" + "손재주 : " + Constant.ClerkList[i].Handicraft.ToString() + "\n" + "일급 : " + 
+                    Constant.ClerkList[i].Pay.ToString();
 
                 FireWinParent.GetChild(i * 2).GetChild(0).
                   GetComponent<Text>().text = EmployeeStat;
@@ -95,10 +96,10 @@ public class EmployeeFire : MonoBehaviour
         switch (Svalue)
         {
             case 0:
-                result = "������ : " + Constant.ClerkList[Evalue].Handicraft.ToString();
+                result = "손재주 : " + Constant.ClerkList[Evalue].Handicraft.ToString();
                 break;
             case 1:
-                result = "���߷� : ";
+                result = "순발력 : ";
 
                 switch (Constant.ClerkList[Evalue].Agility)
                 {
@@ -117,7 +118,7 @@ public class EmployeeFire : MonoBehaviour
                 }
                 break;
             case 2:
-                result = "��� : ";
+                result = "경력 : ";
 
                 switch (Constant.ClerkList[Evalue].Career)
                 {
@@ -136,7 +137,7 @@ public class EmployeeFire : MonoBehaviour
                 }
                 break;
             case 3:
-                result = "â�Ƿ� : ";
+                result = "창의력 : ";
 
                 switch (Constant.ClerkList[Evalue].Creativity)
                 {
@@ -155,10 +156,10 @@ public class EmployeeFire : MonoBehaviour
                 }
                 break;
             case 4:
-                result = "��Ʈ���� : " + Constant.ClerkList[Evalue].Stress.ToString();
+                result = "스트레스 : " + Constant.ClerkList[Evalue].Stress.ToString();
                 break;
             case 5:
-                result = "�ϱ� :     " + Constant.ClerkList[Evalue].Pay.ToString();
+                result = "일급 :     " + Constant.ClerkList[Evalue].Pay.ToString();
                 break;
         }
 
@@ -169,17 +170,19 @@ public class EmployeeFire : MonoBehaviour
     {
         if (Constant.ClerkList.Count > 1)
         {
+            string name = Constant.ClerkList[value].Name + "가 해고되었습니다.";
+
+            NoticeMessage(name);
+
             Constant.ClerkList.RemoveAt(value);
 
             EmploeeWinOff();
 
             ShowFireWin();
-
-            NoticeMessage("������ �ذ��߽��ϴ�.");
         }
         else
         {
-            NoticeMessage("������ �ּ� �Ѹ� �̻��� �ʿ��մϴ�.");
+            NoticeMessage("가게에는 1명 이상의 직원이 필요합니다.");
         }
     }
 
@@ -198,7 +201,7 @@ public class EmployeeFire : MonoBehaviour
                 EmployeeStat += Stat(value - 1, j) + "\n";
             }
 
-            EmployeeStat += "�ϱ� :     " + (Constant.ClerkList[value - 1].Pay + pay[value - 1]).ToString() + "\n";
+            EmployeeStat += "일급 :     " + (Constant.ClerkList[value - 1].Pay + pay[value - 1]).ToString() + "\n";
 
             FireWinParent.GetChild((value - 1) * 2 + 1).GetChild(0).
                    GetComponent<Text>().text = EmployeeStat;
@@ -212,7 +215,7 @@ public class EmployeeFire : MonoBehaviour
                 EmployeeStat += Stat((value + 1) * -1, j) + "\n";
             }
 
-            EmployeeStat += "�ֱ� :     " + (Constant.ClerkList[(value + 1) * -1].Pay + pay[(value + 1) * -1]).ToString() + "\n";
+            EmployeeStat += "일급 :     " + (Constant.ClerkList[(value + 1) * -1].Pay + pay[(value + 1) * -1]).ToString() + "\n";
 
             FireWinParent.GetChild(((value + 1) * -1) * 2 + 1).GetChild(0).
                    GetComponent<Text>().text = EmployeeStat;

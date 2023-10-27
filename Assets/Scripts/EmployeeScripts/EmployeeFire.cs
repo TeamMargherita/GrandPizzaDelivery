@@ -30,7 +30,10 @@ public class EmployeeFire : MonoBehaviour
         {
             FireWinParent.GetChild(i).gameObject.SetActive(false);
 
-            FireWinParent.GetChild(i).GetComponent<Button>().interactable = true;
+            if (i % 2 == 0)
+            {
+                FireWinParent.GetChild(i).GetComponent<Button>().interactable = true;
+            }
         }
     }
 
@@ -55,10 +58,9 @@ public class EmployeeFire : MonoBehaviour
         }
         else
         {
-            for (int i = 0; i < FireWinParent.childCount / 2; i++)
+            for (int i = 0; i < FireWinParent.childCount; i++)
             {
                 FireWinParent.GetChild(i).gameObject.SetActive(false);
-                FireWinParent.GetChild(i + 1).gameObject.SetActive(false);
             }
         }
     }

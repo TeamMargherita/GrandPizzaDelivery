@@ -67,7 +67,7 @@ public static class Constant
 	/// <summary>
 	/// 고용한 점원 리스트
 	/// </summary>
-	public static List<ClerkC> ClerkList = new List<ClerkC>() { new ClerkC(47, Tier.THREE, Tier.ONE, Tier.FOUR, 0, 20000, "소피아") };
+	public static List<ClerkC> ClerkList = new List<ClerkC>() { new ClerkC(47, Tier.THREE, Tier.ONE, Tier.FOUR, 0, 20000, "프레이야") };
 
 	/// <summary>
 	/// 같은 타입의 아이템을 담은 딕셔너리만을 찾아서 Dictionary<ItemS, int> 형으로 리턴한다.

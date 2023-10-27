@@ -83,10 +83,14 @@ public class GameManager : MonoBehaviour
         {
             time += Time.deltaTime * timeSpeed; //게임기준1분 = 현실시간2초
         }
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.F1))
         {
             time = 14400;
         }
+        if (Input.GetKeyDown(KeyCode.F2))
+		{
+            time = 32400;
+		}
         //게임1초 * timeSpeed = 현실시간1초
         //TimeText.GetComponent<Text>().text = (int)time/3600 + " : " + (int)(time / 60 % 60);
     }

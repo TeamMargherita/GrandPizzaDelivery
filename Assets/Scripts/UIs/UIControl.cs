@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using BuildingNS.HouseNS;
-
+using UnityEngine.Experimental.Rendering.Universal;
 // 한석호 작성
 
 public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPanelControl, IHouseActiveUIControl, IAlarmMessagePanel
@@ -22,9 +22,10 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
     [SerializeField] private GameObject DeliveryAppButton;
     [SerializeField] private GameObject DarkDeliveryAppButton;
     [SerializeField] private GameObject player; // 플레이어
-
+    [SerializeField] private Light2D light2D;
     [SerializeField] private UnityEngine.UI.Image addPizzaImg;
     [SerializeField] private UnityEngine.UI.Text alarmMessageText;
+    [SerializeField] private Map map;
 
     private IEndConversation iEndInspecting;
     private IHouse iHouse;
@@ -110,7 +111,6 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
         pizzaStoreHeight = 1080;
         pizzaStoreTrans.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, pizzaStoreHeight);
         iStop.StopMap(true);
-        Constant.StopTime = true;
     }
     /// <summary>
     /// 곧바로 피자 메뉴까지 열어주는 메소드
@@ -122,7 +122,6 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
         pizzaStoreHeight = 1080;
         pizzaStoreTrans.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, pizzaStoreHeight);
         iStop.StopMap(true);
-        Constant.StopTime = true;
         pizzaMenuPanel.SetActive(true);
         isPizzaMenu = true;
         pizzaMenuHeight = 1080;
@@ -172,7 +171,6 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
         if (isOn)
         {
             ChasePoliceCar.isStop = isOn;
-            Constant.StopTime = true;
             pizzaStorePanel.SetActive(isOn);
             isPizzaStore = isOn;
         }
@@ -259,14 +257,18 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
         SpecialPizzaDeliverySelectionPanel.SetActive(false);
         DeliveryAppButton.SetActive(false);
         DarkDeliveryAppButton.SetActive(true);
-        GameManager.Instance.time = 7200;
+        GameManager.Instance.time = 0;
+        GameManager.Instance.isDarkDelivery = true;
         Time.timeScale = 1;
+        light2D.color = new Color(80 / 255f, 80 / 255f, 80 / 255f);
+        map.OnStreetLamp();
     }
 
     public void NoDarkDeliveryPanel()
     {
         SpecialPizzaDeliverySelectionPanel.SetActive(false);
-        GameManager.Instance.time = 0;
+        GameManager.Instance.PlayerDead();
+        //GameManager.Instance.isDarkDelivery = false;
         Time.timeScale = 1;
     }
     public void ActiveTrueKeyExplainPanel(bool bo)
@@ -317,7 +319,6 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
             iStop.StopMap(false);
             isIn = false;
             ChasePoliceCar.isStop = false;
-            Constant.StopTime = false;
         }
 
         if (isPizzaMake && pizzaMakeWitdh < 1920)

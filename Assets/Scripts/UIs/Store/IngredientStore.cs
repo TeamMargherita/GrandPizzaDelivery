@@ -13,7 +13,7 @@ public class IngredientStore : Conversation
 	{
 		NpcTextStrArr = new string[41]
 		{
-			"과일 사세요. 사세요. 싸진 않아도 품질이 좋습니다.",	// 0
+			"야채 사세요. 사세요. 싸진 않아도 품질이 좋습니다.",	// 0
 			"무엇을 팔고 있나요?",	// 1
 			"계약 관련해서 할 말이 있습니다.",	// 2
 			"(잡담을 떤다.)",	// 3

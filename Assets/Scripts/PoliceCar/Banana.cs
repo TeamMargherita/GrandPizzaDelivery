@@ -6,7 +6,11 @@ using UnityEngine;
 
 public class Banana : MonoBehaviour
 {
-	private void OnTriggerEnter2D(Collider2D collision)
+    public void Awake()
+    {
+		Destroy(this.gameObject, 30f);
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
 	{
 		if (collision.GetComponent<IHouse>() != null)
 		{

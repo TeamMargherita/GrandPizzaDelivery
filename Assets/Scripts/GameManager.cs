@@ -8,12 +8,10 @@ public class GameManager : MonoBehaviour
 {
     private static GameManager _instance;
     public Pizza?[] PizzaInventoryData = new Pizza?[5];
-    public List<Pizza> PizzaMenu = new List<Pizza>();
+    public List<Pizza> PizzaMenu = new List<Pizza>() { new Pizza("CheesePizza", 60, 5000, 10000, 800, new List<Ingredient>() { Ingredient.CHEESE }, 250) };
     public List<Slot> InventorySlotList = new List<Slot>();
 
-    [SerializeField] private SendDeliveryRequest SDR;
-    [SerializeField] private GameObject DarkDeliveryOKPanel;
-
+    public bool isDarkDelivery = false;
     public static GameManager Instance
     {
         get
@@ -31,12 +29,12 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         
-        for (int i = 0; i < 5; i++)
-        {
-            List<Ingredient> ing = new List<Ingredient>();
-            ing.Add(Ingredient.CHEESE);
-            GameManager.Instance.PizzaMenu.Add(new Pizza("CheesePizza5", 60, 5000, 10000, Random.Range(0, 500) + 500, ing, Random.Range(0, 100) + 200));
-        }
+        //for (int i = 0; i < 5; i++)
+        //{
+        //    List<Ingredient> ing = new List<Ingredient>();
+        //    ing.Add(Ingredient.CHEESE);
+        //    GameManager.Instance.PizzaMenu.Add(new Pizza("CheesePizza5", 60, 5000, 10000, Random.Range(0, 500) + 500, ing, Random.Range(0, 100) + 200));
+        //}
         if (_instance == null)
         {
             _instance = this;
@@ -64,26 +62,32 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void EndDelivery()
+    
+
+    public void PlayerDead()
     {
-        if(SDR != null && DarkDeliveryOKPanel != null)
-        {
-            if ((SDR.RequestList.Count <= 0 && time >= 75600) || time >= 82800)
-            {
-                DarkDeliveryOKPanel.SetActive(true);
-                Time.timeScale = 0;
-            }
-        }
+        LoadScene.Instance.ActiveTrueFade("InGameScene");
+        isDarkDelivery = false;
+        time = 32400;
     }
 
+    private void TimeSkip()
+    {
+        if(Input.GetKeyDown(KeyCode.Backspace))
+            time = 82800;
+    }
     private void Update()
     {
+        TimeSkip();
         if (!Constant.StopTime)
         {
             time += Time.deltaTime * timeSpeed; //게임기준1분 = 현실시간2초
         }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            time = 14400;
+        }
         //게임1초 * timeSpeed = 현실시간1초
         //TimeText.GetComponent<Text>().text = (int)time/3600 + " : " + (int)(time / 60 % 60);
-        EndDelivery();
     }
 }

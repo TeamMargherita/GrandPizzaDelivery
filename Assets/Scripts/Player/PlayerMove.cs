@@ -7,8 +7,10 @@ public class PlayerMove : PlayerStat
     private Vector3 angle = new Vector3(0, 0, 300);
 
     private float time;
+    private float reloadTime;
     public bool Stop = false;
     private bool bananaTrigger = false;
+    public short CurrentMagagine;
     [SerializeField]
     private MakingPizza MakingPizzaScript;
     [SerializeField]
@@ -17,15 +19,51 @@ public class PlayerMove : PlayerStat
     GunShooting gunMethod;
     private void Awake()
     {
-        gunMethod = new PlayerGunShooting(transform);
+        gunMethod = new PlayerGunShooting(transform, "Player");
+    }
+
+    void PlayerFire()
+    {
+        if(CurrentMagagine > 0)
+        {
+            if(Constant.nowGun[0] != -1)
+            {
+                if (gunMethod.Fire(1 - Constant.GunInfo[Constant.nowGun[0]].Speed, Constant.GunInfo[Constant.nowGun[0]].Damage))
+                {
+                    CurrentMagagine -= 1;
+                }
+            }
+        }
+        else
+        {
+            if (Constant.nowGun[0] != -1)
+            {
+                reloadTime += Time.deltaTime;
+                if (Constant.GunInfo[Constant.nowGun[0]].ReloadSpeed <= reloadTime)
+                {
+                    reloadTime = 0;
+                    CurrentMagagine = Constant.GunInfo[Constant.nowGun[0]].Magazine;
+                }
+            }
+        }
     }
     void Update()
     {
-        gunMethod.Fire("Player");
+        PlayerFire();
+        InventoryManagerScript.UIMagagineTextUpdate(CurrentMagagine);
         if (Input.GetKeyDown(KeyCode.X))
         {
             if(MakingPizzaScript.CompletePizzaList.Count > 0)
-                InventoryManagerScript.InventoryAddItem(MakingPizzaScript.GetInvenPizzaList(0));
+            {
+                foreach (var i in GameManager.Instance.PizzaInventoryData)
+                {
+                    if (i == null)
+                    {
+                        InventoryManagerScript.InventoryAddItem(MakingPizzaScript.GetInvenPizzaList(0));
+                        break;
+                    }
+                }
+            }
             InventoryManagerScript.inventoryTextUpdate("PizzaInventory");
         }
         if (!Stop && !bananaTrigger)
@@ -68,18 +106,18 @@ public class PlayerMove : PlayerStat
 
             if (Input.GetKey(KeyCode.A))
             {
-                this.transform.Rotate(angle * angleRatio * Time.deltaTime);
+                transform.Rotate(angle * angleRatio * Time.deltaTime);
             }
             if (Input.GetKey(KeyCode.D))
             {
-                this.transform.Rotate(-angle * angleRatio * Time.deltaTime);
+                transform.Rotate(-angle * angleRatio * Time.deltaTime);
             }
-            this.GetComponent<Rigidbody2D>().velocity = transform.rotation * new Vector2(0, Speed);
+            GetComponent<Rigidbody2D>().velocity = transform.rotation * new Vector2(0, Speed);
         }
         else if(Stop && !bananaTrigger)
         {
             Speed = 0;
-            this.GetComponent<Rigidbody2D>().velocity = transform.rotation * new Vector2(0, Speed);
+            GetComponent<Rigidbody2D>().velocity = transform.rotation * new Vector2(0, Speed);
         }else if(Stop && bananaTrigger)
         {
             StopCoroutine(bananaCoroutine);
@@ -92,13 +130,13 @@ public class PlayerMove : PlayerStat
         bananaTrigger = true;
         float count = 0;
         if(Speed >= 0)
-            this.GetComponent<Rigidbody2D>().velocity = t.rotation * new Vector2(0, 10);
+            GetComponent<Rigidbody2D>().velocity = t.rotation * new Vector2(0, 10);
         else
-            this.GetComponent<Rigidbody2D>().velocity = t.rotation * new Vector2(0, -10);
+            GetComponent<Rigidbody2D>().velocity = t.rotation * new Vector2(0, -10);
         while (true)
         {
             count += Time.deltaTime;
-            this.transform.Rotate(angle * 10 * Time.deltaTime);
+            transform.Rotate(angle * 10 * Time.deltaTime);
             if (count > time)
             {
                 bananaTrigger = false;
@@ -108,19 +146,13 @@ public class PlayerMove : PlayerStat
         }
     }
 
-    IEnumerator HPBarUpdate()
-    {
-
-        yield return null;
-    }
-
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.transform.CompareTag("Banana"))
         {
             if (bananaCoroutine != null)
                 StopCoroutine(bananaCoroutine);
-            bananaCoroutine = banana(2, this.transform);
+            bananaCoroutine = banana(2, transform);
             StartCoroutine(bananaCoroutine);
             Destroy(other.gameObject);
         }

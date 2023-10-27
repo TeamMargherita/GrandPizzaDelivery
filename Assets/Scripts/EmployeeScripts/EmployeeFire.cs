@@ -34,7 +34,7 @@ public class EmployeeFire : MonoBehaviour
         }
     }
 
-    // Ç×»ó ÄÑÁ®ÀÖ°Ô, ¾Ë¹Ù ½ºÅÝ ¹öÆ° ¾È´­·¯µµ ¹Ù·Î µÇ°Ô ¹Ù²Ù±â!!
+    // ï¿½×»ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö°ï¿½, ï¿½Ë¹ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ° ï¿½È´ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù·ï¿½ ï¿½Ç°ï¿½ ï¿½Ù²Ù±ï¿½!!
     public void ShowFireWin()
     {
         string EmployeeStat = null;
@@ -47,7 +47,7 @@ public class EmployeeFire : MonoBehaviour
             {
                 FireWinParent.GetChild(i * 2).gameObject.SetActive(true);
 
-                EmployeeStat = Constant.ClerkList[i].Name + "\n" + "½ºÅÝ : " + Constant.ClerkList[i].Handicraft.ToString() + "\n" + "±Þ¿© : " + Constant.ClerkList[i].Pay.ToString();
+                EmployeeStat = Constant.ClerkList[i].Name + "\n" + "ï¿½ï¿½ï¿½ï¿½ : " + Constant.ClerkList[i].Handicraft.ToString() + "\n" + "ï¿½Þ¿ï¿½ : " + Constant.ClerkList[i].Pay.ToString();
 
                 FireWinParent.GetChild(i * 2).GetChild(0).
                   GetComponent<Text>().text = EmployeeStat;
@@ -95,10 +95,10 @@ public class EmployeeFire : MonoBehaviour
         switch (Svalue)
         {
             case 0:
-                result = "¼ÕÀçÁÖ : " + Constant.ClerkList[Evalue].Handicraft.ToString();
+                result = "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ : " + Constant.ClerkList[Evalue].Handicraft.ToString();
                 break;
             case 1:
-                result = "¼ø¹ß·Â : ";
+                result = "ï¿½ï¿½ï¿½ß·ï¿½ : ";
 
                 switch (Constant.ClerkList[Evalue].Agility)
                 {
@@ -117,7 +117,7 @@ public class EmployeeFire : MonoBehaviour
                 }
                 break;
             case 2:
-                result = "°æ·Â : ";
+                result = "ï¿½ï¿½ï¿½ : ";
 
                 switch (Constant.ClerkList[Evalue].Career)
                 {
@@ -136,7 +136,7 @@ public class EmployeeFire : MonoBehaviour
                 }
                 break;
             case 3:
-                result = "Ã¢ÀÇ·Â : ";
+                result = "Ã¢ï¿½Ç·ï¿½ : ";
 
                 switch (Constant.ClerkList[Evalue].Creativity)
                 {
@@ -155,10 +155,10 @@ public class EmployeeFire : MonoBehaviour
                 }
                 break;
             case 4:
-                result = "½ºÆ®·¹½º : " + Constant.ClerkList[Evalue].Stress.ToString();
+                result = "ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ : " + Constant.ClerkList[Evalue].Stress.ToString();
                 break;
             case 5:
-                result = "ÀÏ±Þ :     " + Constant.ClerkList[Evalue].Pay.ToString();
+                result = "ï¿½Ï±ï¿½ :     " + Constant.ClerkList[Evalue].Pay.ToString();
                 break;
         }
 
@@ -175,17 +175,17 @@ public class EmployeeFire : MonoBehaviour
 
             ShowFireWin();
 
-            NoticeMessage("Á÷¿øÀ» ÇØ°íÇß½À´Ï´Ù.");
+            NoticeMessage("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø°ï¿½ï¿½ß½ï¿½ï¿½Ï´ï¿½.");
         }
         else
         {
-            NoticeMessage("Á÷¿øÀº ÃÖ¼Ò ÇÑ¸í ÀÌ»óÀÌ ÇÊ¿äÇÕ´Ï´Ù.");
+            NoticeMessage("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½ ï¿½Ñ¸ï¿½ ï¿½Ì»ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½Õ´Ï´ï¿½.");
         }
     }
 
     int[] pay = new int[5];
 
-    public void PayRateButton(int value)// Ã¢À» ¿­¶§ pay°ª ÀúÀå ÈÄ È®ÀÎ ¹öÆ° ´©¸£¸é °íÁ¤ ´ÝÀ¸¸é ÃÊ±âÈ­
+    public void PayRateButton(int value)// Ã¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ payï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ È®ï¿½ï¿½ ï¿½ï¿½Æ° ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­
     {
         string EmployeeStat = null;
 
@@ -198,7 +198,7 @@ public class EmployeeFire : MonoBehaviour
                 EmployeeStat += Stat(value - 1, j) + "\n";
             }
 
-            EmployeeStat += "ÀÏ±Þ :     " + (Constant.ClerkList[value - 1].Pay + pay[value - 1]).ToString() + "\n";
+            EmployeeStat += "ï¿½Ï±ï¿½ :     " + (Constant.ClerkList[value - 1].Pay + pay[value - 1]).ToString() + "\n";
 
             FireWinParent.GetChild((value - 1) * 2 + 1).GetChild(0).
                    GetComponent<Text>().text = EmployeeStat;
@@ -212,7 +212,7 @@ public class EmployeeFire : MonoBehaviour
                 EmployeeStat += Stat((value + 1) * -1, j) + "\n";
             }
 
-            EmployeeStat += "ÁÖ±Þ :     " + (Constant.ClerkList[(value + 1) * -1].Pay + pay[(value + 1) * -1]).ToString() + "\n";
+            EmployeeStat += "ï¿½Ö±ï¿½ :     " + (Constant.ClerkList[(value + 1) * -1].Pay + pay[(value + 1) * -1]).ToString() + "\n";
 
             FireWinParent.GetChild(((value + 1) * -1) * 2 + 1).GetChild(0).
                    GetComponent<Text>().text = EmployeeStat;

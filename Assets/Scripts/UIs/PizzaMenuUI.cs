@@ -55,7 +55,7 @@ public class PizzaMenuUI : MonoBehaviour, IAddPizza
 		}
 		RefreshAllSlot();
 
-				addPizzaSlotText = new Text[addPizzaSlot.Length];
+		addPizzaSlotText = new Text[addPizzaSlot.Length];
 		addPizzaSlots = new AddPizzaSlot[addPizzaSlot.Length];
 		for (int i = 0; i < addPizzaSlotText.Length; i++)
 		{

@@ -24,7 +24,7 @@ public class MakingPizza : MonoBehaviour
     private IAlarmMessagePanel iAlarmMessagePanel;
     private void Awake()
 	{
-        Constant.ClerkList.Add(new ClerkC(47, Tier.THREE, Tier.ONE, Tier.FOUR, 0, 20000));  // 임의로 점원 생성
+        //Constant.ClerkList.Add(new ClerkC(47, Tier.THREE, Tier.ONE, Tier.FOUR, 0, 20000));  // 임의로 점원 생성
         iAlarmMessagePanel = uiControl.GetComponent<IAlarmMessagePanel>();
         InitArr();
     }
@@ -128,6 +128,11 @@ public class MakingPizza : MonoBehaviour
                 {
                     yield return Constant.OneTime;
                 }
+                while (Constant.StopTime)
+                {
+                    yield return Constant.OneTime;
+                    yield return Constant.OneTime;
+                }
             }
             // 피자가 완성되었다. 완성된 피자는 피자집 인벤에 들어간다.
             CompletePizzaList.Add(pizzaRequestList[0].Pizza);
@@ -178,7 +183,7 @@ public class MakingPizza : MonoBehaviour
         // 명단에서 제외했으므로, 피자집 피자 패널을 꺼준다.
         for (int i = 0; i < makingPizzaPanelArr.Length; i++)
 		{
-            if (makingPizzaPanelClass[i].ComparePizza(temPizza) && makingPizzaPanelClass[i].gameObject.activeSelf)
+            if (makingPizzaPanelClass[i].ComparePizza(temPizza) && makingPizzaPanelClass[i].gameObject.activeSelf && makingPizzaPanelClass[i].GetMainPanelRect() == 0f)
 			{
                 makingPizzaPanelClass[i].SetMainPanelRect(0f);
                 makingPizzaPanelClass[i].gameObject.SetActive(false);

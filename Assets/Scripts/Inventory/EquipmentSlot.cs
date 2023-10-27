@@ -82,19 +82,10 @@ public class EquipmentSlot : MonoBehaviour , IDropHandler, IPointerEnterHandler,
         MyBaseEquipmentSlot.GetComponent<Image>().color = new Color(111 / 255f, 111 / 255f, 111 / 255f);
     }
 
-
-
-    /*public void OnPointerEnter(PointerEventData eventData)
-    {
-        Debug.Log(MyBaseEquipmentSlot.name);
-        
-    }*/
-
-    /*public void OnPointerExit(PointerEventData eventData)
+    public void BaseSlotColorClear()
     {
         MyBaseEquipmentSlot.GetComponent<Image>().color = new Color(111 / 255f, 111 / 255f, 111 / 255f);
-    }*/
-
+    }
     private void Awake()
     {
         if (name == "DiceSlot1")

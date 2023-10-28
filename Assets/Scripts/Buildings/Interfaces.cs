@@ -113,7 +113,7 @@ public interface IEndConversation
 public interface IHouse
 {
     public void EnableHouse();
-    public void DisableHouse();
+    public void DisableHouse(Pizza pizza);
     public bool GetIsEnable();
     public void SetHouseType(Sprite mark, HouseType houseType);
     public HouseType GetHouseType();
@@ -248,4 +248,11 @@ public interface ICloseStore
 public interface ICheckIsGreen
 {
     public bool CheckIsGreen();
+}
+/// <summary>
+/// 생산되는 피자를 리셋시키기 위한 인터페이스
+/// </summary>
+public interface IResetPizzaMaking
+{
+    public void ResetPizzaMaking();
 }

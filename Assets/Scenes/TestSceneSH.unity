@@ -74848,6 +74848,7 @@ MonoBehaviour:
   DeliveryAppButton: {fileID: 512403450}
   DarkDeliveryAppButton: {fileID: 512403451}
   player: {fileID: 1586257776}
+  makingPizzaObj: {fileID: 1187700878}
   light2D: {fileID: 303622077}
   addPizzaImg: {fileID: 1563996481}
   alarmMessageText: {fileID: 1788539172}

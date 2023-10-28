@@ -15,6 +15,15 @@ public class EmployeeStressCon : MonoBehaviour
         {
             PayStress();
         }
+
+        if(GameManager.Instance.time == 9 * 3600)
+        {
+            isMorning = true;  
+        }
+        else
+        {
+            isMorning = false;  
+        }
     }
 
     void PayStress()

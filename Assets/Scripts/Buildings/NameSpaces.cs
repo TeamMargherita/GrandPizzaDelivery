@@ -40,7 +40,7 @@ namespace ClerkNS
             MinPayScale = Handicraft - (int)Agility + (int)Creativity + (int)Career - 10;
             MaxPayScale = Handicraft - (int)Agility + (int)Creativity + (int)Career + 10;
 
-            MaxStress = 100;
+            MaxStress = 150;
         }
     }
 }

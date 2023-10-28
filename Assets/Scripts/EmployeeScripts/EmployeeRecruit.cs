@@ -28,7 +28,14 @@ public class EmployeeRecruit : MonoBehaviour
     {
         ShowApplicant();
 
-        isMorning = false;
+        if (GameManager.Instance.time == 9 * 3600)
+        {
+            isMorning = true;
+        }
+        else
+        {
+            isMorning = false;
+        }
     }
 
     void ShowApplicant()

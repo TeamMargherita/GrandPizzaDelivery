@@ -20,7 +20,8 @@ namespace ClerkNS
         public int Pay { get; set; } // 주급
         public int Max { get; private set; }    // 최종 능력치 최대치
         public int Min { get; private set; }    // 최종 능력치 최소치
-        public ClerkC (int Handicraft, Tier Agility, Tier Career, Tier Creativity, int Stress, int Pay)
+        public string Name { get; private set; } // 이름
+        public ClerkC (int Handicraft, Tier Agility, Tier Career, Tier Creativity, int Stress, int Pay, string Name)
 		{
             this.Handicraft = Handicraft;
             this.Agility = Agility;
@@ -28,6 +29,7 @@ namespace ClerkNS
             this.Creativity = Creativity;
             this.Stress = Stress;
             this.Pay = Pay;
+            this.Name = Name;
 
             Max = (this.Handicraft + 8) + (int)Creativity;
             Min = (this.Handicraft - 8) + (int)Career;

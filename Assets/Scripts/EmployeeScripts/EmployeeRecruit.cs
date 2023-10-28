@@ -18,53 +18,31 @@ public class EmployeeRecruit : MonoBehaviour
     public int[] Agility = new int[3];
     public int[] Pay = new int[3];
 
-    private bool isMondayMorning = false;
+    public string[] Name = new string[3];
+
+    private bool isMorning = false;
 
     Tier tier = Tier.ONE;
-
-    private void Start()
-    {
-        RecruitWin.SetActive(false);
-    }
 
     private void Update()
     {
         ShowApplicant();
 
-        isMondayMorning = false;
-    }
-
-    public void ShowRecruitWin()
-    {
-        bool value = true;
-
-        if(RecruitWin.activeInHierarchy)
-        {
-            value = false;
-        }
-        else
-        {
-            value = true;
-        }
-
-        if (value == true)
-        {
-            RecruitWin.SetActive(true);
-        }
-        else
-        {
-            RecruitWin.SetActive(false);
-        }
+        isMorning = false;
     }
 
     void ShowApplicant()
     {
         string StatText = null;
 
-        if (isMondayMorning == true)
+        if (isMorning == true)
         {
             for (int i = 0; i < limitCount; i++)
             {
+                Name[i] = RecruitWin.transform.GetChild(i).GetComponent<EmployeeStat>().RanName[Random.Range(0, 32)];
+
+                StatText += Name[i] + "\n";
+
                 for (int j = 0; j < Stat.Length; j++)
                 {
                     StatText += Stat[j] +
@@ -80,7 +58,7 @@ public class EmployeeRecruit : MonoBehaviour
                 StatText = null;
             }
 
-            isMondayMorning = false;
+            isMorning = false;
         }
     }
 
@@ -98,12 +76,12 @@ public class EmployeeRecruit : MonoBehaviour
             case 1:
                 Agility[index] = RandomStat();
 
-                result = employee.GetComponent<EmployeeStat>().CreativityStat[ChangeStatMark(Agility[index])];
+                result = employee.GetComponent<EmployeeStat>().AgilityStat[ChangeStatMark(Agility[index])];
                 break;
             case 2:
                 Career[index] = RandomStat();
 
-                result = employee.GetComponent<EmployeeStat>().CreativityStat[ChangeStatMark(Career[index])];
+                result = employee.GetComponent<EmployeeStat>().CareerStat[ChangeStatMark(Career[index])];
                 break;
             case 3:
                 Creativity[index] = RandomStat();
@@ -173,6 +151,6 @@ public class EmployeeRecruit : MonoBehaviour
 
     public void EmployeeDataReset()
     {
-        isMondayMorning = true;
+        isMorning = true;
     }// 나중에 시간 설정되면 날짜 바뀔때마다 설정되게 바꾸기~
 }

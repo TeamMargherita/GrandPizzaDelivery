@@ -15,7 +15,8 @@ public class PlayerMove : PlayerStat
     private MakingPizza MakingPizzaScript;
     [SerializeField]
     private InventoryManager InventoryManagerScript;
-
+    [SerializeField]
+    private GameObject PlayerSmoke;
     GunShooting gunMethod;
     private void Awake()
     {
@@ -75,6 +76,7 @@ public class PlayerMove : PlayerStat
                 {
                     Speed *= Braking;
                 }
+                CreateSmoke();
                 Speed += acceleration * Time.deltaTime;
             }
             else if (Input.GetKey(KeyCode.S))
@@ -145,7 +147,21 @@ public class PlayerMove : PlayerStat
             yield return null;
         }
     }
-
+    float smokeTime;
+    void CreateSmoke()
+    {
+        if (Input.GetKeyUp(KeyCode.W))
+        {
+            smokeTime = 1;
+        }
+        smokeTime += Time.deltaTime;
+        if(smokeTime > 0.2f)
+        {
+            
+            Instantiate(PlayerSmoke, transform.position + (transform.up * -0.5f), transform.rotation);
+            smokeTime = 0;
+        }
+    }
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.transform.CompareTag("Banana"))

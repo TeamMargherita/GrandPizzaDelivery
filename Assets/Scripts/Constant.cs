@@ -48,7 +48,10 @@ public static class Constant
 	/// 개발한 피자 리스트
 	/// </summary>
 	public static List<Pizza> DevelopPizza = new List<Pizza>();
-	
+	/// <summary>
+	/// 피자가 메뉴판에 있었던 시간
+	/// </summary>
+	public static Dictionary<Pizza, int> menuDateDic = new Dictionary<Pizza, int>();
 	public static bool IsMakePizza = false;
 	public static bool isStartGame = false;
 	public static bool StopTime = false;
@@ -116,6 +119,33 @@ public static class Constant
 		}
 		return null;
 	}
+	/// <summary>
+	/// 두 리스트의 재료를 비교하는 확장 메서드
+	/// </summary>
+	/// <param name="list"></param>
+	/// <param name="one"></param>
+	/// <returns></returns>
+	public static bool CompareIngredientList(this List<Ingredient> list, List<Ingredient> one)
+    {
+		if (one.Count != list.Count) { return false; }
+
+		int index = -1;
+
+		for (int i = 0; i < one.Count; i++)
+        {
+			index = list.FindIndex(a => a.Equals(one[i]));
+			if (index == -1)
+            {
+				return false;
+            }
+			else
+            {
+				list.RemoveAt(index);
+            }
+        }
+
+		return false;
+    }
 	public static ItemS[] DiceItem = new ItemS[10]
 	{
 		new ItemS(ItemType.DICE, 2, "고무 주사위", "고무로 만든 주사위다. \n 주사위 각 면은 0,1,2,3,4,5 을 상징한다.", 0),

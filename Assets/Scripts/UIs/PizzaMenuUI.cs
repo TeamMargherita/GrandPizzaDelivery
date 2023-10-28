@@ -304,17 +304,34 @@ public class PizzaMenuUI : MonoBehaviour, IAddPizza
 	public void ChoiceDevelopPizza()
 	{
 		if (temSlotNumber == -1) { return; }
-		// 중복체크해서 중복된이름의 피자는 넣을수 없게 함
+		// 중복체크해서 중복된이름이나 재료의 피자는 넣을수 없게 함
 		for (int i = 0; i < GameManager.Instance.PizzaMenu.Count; i++)
         {
-			if (GameManager.Instance.PizzaMenu[i].Name.Equals(Constant.DevelopPizza[temSlotNumber].Name))
+			if (GameManager.Instance.PizzaMenu[i].Name.Equals(Constant.DevelopPizza[temSlotNumber].Name) ||
+				GameManager.Instance.PizzaMenu[i].Ingreds.CompareIngredientList(Constant.DevelopPizza[temSlotNumber].Ingreds))
             {
 				// 경고창 떠야됨
 				return;
             }
         }
 		// 해당 피자와 같은 이름이거나, 같은 재료일 경우, 메뉴판에 최소 일주일이 지나야 추가할 수 있도록 함.
-		
+		foreach ( var key in Constant.menuDateDic.Keys)
+        {
+			// 해당 피자와 같은 이름이거나 같은 재료이지만 메뉴에는 없는 경우임
+			if (key.Name == Constant.DevelopPizza[temSlotNumber].Name ||
+				key.Ingreds.CompareIngredientList(Constant.DevelopPizza[temSlotNumber].Ingreds))
+            {
+				// 메뉴판에 해당 메뉴가 생긴 시점부터 최소 일주일은 있어야 추가가 가능함.
+				if (Constant.menuDateDic[key] <= 7)
+                {
+					// 경고창 떠야됨
+					return;
+                }
+            }
+        }
+
+
+		Constant.menuDateDic.Add(Constant.DevelopPizza[temSlotNumber], 0);
 		GameManager.Instance.PizzaMenu.Add(Constant.DevelopPizza[temSlotNumber]);
 
 		RefreshAllSlot();
@@ -325,4 +342,24 @@ public class PizzaMenuUI : MonoBehaviour, IAddPizza
 
 		changePizzaNamePanel.SetActive(true);
 	}
+	/// <summary>
+	/// 하루가 지나면 발동해야 하는 함수임
+	/// </summary>
+	private void OneDayMenuInit()
+    {
+		List<Pizza> p = new List<Pizza>();
+		foreach (var key in Constant.menuDateDic.Keys)
+        {
+			Constant.menuDateDic[key]++;
+			if (GameManager.Instance.PizzaMenu.FindIndex(a => a.Name == key.Name) == -1 &&
+				GameManager.Instance.PizzaMenu.FindIndex(a => a.Ingreds.CompareIngredientList(key.Ingreds)) == -1)
+            {
+				p.Add(key);
+            }
+        }
+		for (int i = 0; i < p.Count; i++)
+        {
+			Constant.menuDateDic.Remove(p[i]);
+        }
+    }
 }

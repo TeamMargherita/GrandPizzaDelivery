@@ -29,8 +29,8 @@ public class RhythmSetting : MonoBehaviour
         SpeedSlider.value = manager.Speed / 5f;
 
         // 텍스트들을 매니저의 값으로 초기화
-        MusicInputField.text = manager.MusicSound.ToString("0.0");
-        KeyInputField.text = manager.KeySound.ToString("0.0");
+        MusicInputField.text = (manager.MusicSound * 10f).ToString("0.0");
+        KeyInputField.text = (manager.KeySound * 10f).ToString("0.0");
         SpeedInputField.text = manager.Speed.ToString("0.0");
     }
 

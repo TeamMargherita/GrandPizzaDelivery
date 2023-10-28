@@ -39,17 +39,19 @@ public class PoliceGunShooting : GunShooting
         {
             if (ShootingStance)
             {
-                if (Input.GetKey(KeyCode.Mouse0))
+                Debug.Log("ÇÃ·¹ÀÌ¾îÇÑÅ× ÃÑ½ô");
+                layerMask = ~layerMask;
+                RaycastHit2D hit = Physics2D.Raycast(MyTransform.position, dir.normalized, 1000, layerMask);
+                if (hit)
                 {
-                    layerMask = ~layerMask;
-                    RaycastHit2D hit = Physics2D.Raycast(MyTransform.position, dir.normalized, 1000, layerMask);
                     if (hit.transform.CompareTag("Player"))
                     {
                         hit.transform.GetComponent<PlayerStat>().HP -= damage;
                     }
-                    time = 0;
-                    return true;
                 }
+                time = 0;
+                return true;
+
             }
         }
         return false;

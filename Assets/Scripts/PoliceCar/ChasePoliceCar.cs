@@ -39,9 +39,9 @@ public class ChasePoliceCar : Police, ISetTransform, IUpdateCheckList
 
     private Vector3 outVec = new Vector3(100, 30, 0);
     private Vector3 ranTarget = Vector3.one;
-    private Color redEmi = new Color(139f/255f, 57f/255f, 58f/255f);
-    private Color yellowEmi = new Color(139f/255f, 111f/255f, 57f/255f);
-    private Color greenEmi = new Color(84f/255f, 139f/255f, 57f/255f);
+    private Color redEmi = new Color(255f/255f, 35/255f, 51f/255f, 79f/255f);
+    private Color yellowEmi = new Color(255f/255f, 214f/255f, 35f/255f, 79f/255f);
+    private Color greenEmi = new Color(35f/255f, 255f/255f, 78f/255f, 79f/255f);
 
     private MeshRenderer mesh;
 
@@ -432,15 +432,15 @@ public class ChasePoliceCar : Police, ISetTransform, IUpdateCheckList
 
             if (temState == PoliceState.SPUERCHASE)
 			{
-                mesh.material.SetColor("_EmissionColor", redEmi);
+                mesh.material.SetColor(Shader.PropertyToID("_Color"), redEmi);
 			}
             else if (temState == PoliceState.AUTOMOVE)
             {
-                mesh.material.SetColor("_EmissionColor", yellowEmi);
+                mesh.material.SetColor(Shader.PropertyToID("_Color"), yellowEmi);
             }
             else if (temState == PoliceState.OUTMAP || temState == PoliceState.DESTROY)
             {
-                mesh.material.SetColor("_EmissionColor", greenEmi);
+                mesh.material.SetColor(Shader.PropertyToID("_Color"), greenEmi);
             }
         }
         else

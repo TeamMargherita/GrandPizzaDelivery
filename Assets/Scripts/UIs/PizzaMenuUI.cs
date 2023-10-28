@@ -269,10 +269,22 @@ public class PizzaMenuUI : MonoBehaviour, IAddPizza
 		}
 		temSlotNumber = num;
 	}
-
+	/// <summary>
+	/// 개발한 피자의 이름을 바꿔줌
+	/// </summary>
+	/// <param name="str"></param>
 	public void ChangeDevelopPizzaName(string str)
 	{
 		if (temSlotNumber == -1) { return; }
+		// 개발한 피자들 이름의 메뉴 사용 못하게 방지
+		for (int i = 0; i < Constant.DevelopPizza.Count; i++)
+        {
+			if (Constant.DevelopPizza[i].Name.Equals(str))
+            {
+				// 경고창 떠야됨
+				return;
+            }
+        }
 
 		Constant.DevelopPizza[temSlotNumber] = new Pizza
 			(str,
@@ -286,11 +298,23 @@ public class PizzaMenuUI : MonoBehaviour, IAddPizza
 		InitAddPizzaPage(nowPage);
 		changePizzaNamePanel.SetActive(false);
 	}
-
+	/// <summary>
+	/// 개발한 피자를 메뉴에 추가한다.
+	/// </summary>
 	public void ChoiceDevelopPizza()
 	{
 		if (temSlotNumber == -1) { return; }
-		// 나중에 중복체크해서 중복된 피자는 넣을수 없게 해야됨.(이름이 같거나, 재료가 같거나...)
+		// 중복체크해서 중복된이름의 피자는 넣을수 없게 함
+		for (int i = 0; i < GameManager.Instance.PizzaMenu.Count; i++)
+        {
+			if (GameManager.Instance.PizzaMenu[i].Name.Equals(Constant.DevelopPizza[temSlotNumber].Name))
+            {
+				// 경고창 떠야됨
+				return;
+            }
+        }
+		// 해당 피자와 같은 이름이거나, 같은 재료일 경우, 메뉴판에 최소 일주일이 지나야 추가할 수 있도록 함.
+		
 		GameManager.Instance.PizzaMenu.Add(Constant.DevelopPizza[temSlotNumber]);
 
 		RefreshAllSlot();

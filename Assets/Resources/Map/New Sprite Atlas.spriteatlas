@@ -1,0 +1,90 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: New Sprite Atlas
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings: []
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: -1880760091777068675, guid: cd3ed081f112ae742922894f3cb3dd2a, type: 3}
+    - {fileID: -5386352599976868541, guid: cd3ed081f112ae742922894f3cb3dd2a, type: 3}
+    - {fileID: 1158337514243410757, guid: cd3ed081f112ae742922894f3cb3dd2a, type: 3}
+    - {fileID: 7300789209935857334, guid: cd3ed081f112ae742922894f3cb3dd2a, type: 3}
+    - {fileID: 4612804369836690971, guid: cd3ed081f112ae742922894f3cb3dd2a, type: 3}
+    - {fileID: 3043607833614333936, guid: cd3ed081f112ae742922894f3cb3dd2a, type: 3}
+    - {fileID: 1523070381988707729, guid: cd3ed081f112ae742922894f3cb3dd2a, type: 3}
+    - {fileID: 6086900524112552533, guid: cd3ed081f112ae742922894f3cb3dd2a, type: 3}
+    - {fileID: -1078545743717561827, guid: cd3ed081f112ae742922894f3cb3dd2a, type: 3}
+    - {fileID: -7361599872405234024, guid: cd3ed081f112ae742922894f3cb3dd2a, type: 3}
+    - {fileID: -7325990526296762214, guid: cd3ed081f112ae742922894f3cb3dd2a, type: 3}
+    - {fileID: 3891900393547870314, guid: cd3ed081f112ae742922894f3cb3dd2a, type: 3}
+    - {fileID: 6630009459032401411, guid: cd3ed081f112ae742922894f3cb3dd2a, type: 3}
+    - {fileID: -5360500586861833829, guid: cd3ed081f112ae742922894f3cb3dd2a, type: 3}
+    - {fileID: -7411504221323420482, guid: cd3ed081f112ae742922894f3cb3dd2a, type: 3}
+    - {fileID: 1382702427833777801, guid: cd3ed081f112ae742922894f3cb3dd2a, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 4612804369836690971, guid: cd3ed081f112ae742922894f3cb3dd2a, type: 3}
+  - {fileID: 3043607833614333936, guid: cd3ed081f112ae742922894f3cb3dd2a, type: 3}
+  - {fileID: -1880760091777068675, guid: cd3ed081f112ae742922894f3cb3dd2a, type: 3}
+  - {fileID: -5386352599976868541, guid: cd3ed081f112ae742922894f3cb3dd2a, type: 3}
+  - {fileID: 1158337514243410757, guid: cd3ed081f112ae742922894f3cb3dd2a, type: 3}
+  - {fileID: 7300789209935857334, guid: cd3ed081f112ae742922894f3cb3dd2a, type: 3}
+  - {fileID: -7325990526296762214, guid: cd3ed081f112ae742922894f3cb3dd2a, type: 3}
+  - {fileID: 3891900393547870314, guid: cd3ed081f112ae742922894f3cb3dd2a, type: 3}
+  - {fileID: -1078545743717561827, guid: cd3ed081f112ae742922894f3cb3dd2a, type: 3}
+  - {fileID: -7361599872405234024, guid: cd3ed081f112ae742922894f3cb3dd2a, type: 3}
+  - {fileID: -7411504221323420482, guid: cd3ed081f112ae742922894f3cb3dd2a, type: 3}
+  - {fileID: 1382702427833777801, guid: cd3ed081f112ae742922894f3cb3dd2a, type: 3}
+  - {fileID: 6630009459032401411, guid: cd3ed081f112ae742922894f3cb3dd2a, type: 3}
+  - {fileID: -5360500586861833829, guid: cd3ed081f112ae742922894f3cb3dd2a, type: 3}
+  - {fileID: 1523070381988707729, guid: cd3ed081f112ae742922894f3cb3dd2a, type: 3}
+  - {fileID: 6086900524112552533, guid: cd3ed081f112ae742922894f3cb3dd2a, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - Grand_Pizza_DeliveryMan_TileMap_40_40_14
+  - Grand_Pizza_DeliveryMan_TileMap_40_40_15
+  - Grand_Pizza_DeliveryMan_TileMap_40_40_10
+  - Grand_Pizza_DeliveryMan_TileMap_40_40_11
+  - Grand_Pizza_DeliveryMan_TileMap_40_40_12
+  - Grand_Pizza_DeliveryMan_TileMap_40_40_13
+  - Grand_Pizza_DeliveryMan_TileMap_40_40_5
+  - Grand_Pizza_DeliveryMan_TileMap_40_40_4
+  - Grand_Pizza_DeliveryMan_TileMap_40_40_7
+  - Grand_Pizza_DeliveryMan_TileMap_40_40_6
+  - Grand_Pizza_DeliveryMan_TileMap_40_40_1
+  - Grand_Pizza_DeliveryMan_TileMap_40_40_0
+  - Grand_Pizza_DeliveryMan_TileMap_40_40_3
+  - Grand_Pizza_DeliveryMan_TileMap_40_40_2
+  - Grand_Pizza_DeliveryMan_TileMap_40_40_9
+  - Grand_Pizza_DeliveryMan_TileMap_40_40_8
+  m_RenderDataMap: {}
+  m_Tag: New Sprite Atlas
+  m_IsVariant: 0

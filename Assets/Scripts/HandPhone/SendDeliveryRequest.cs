@@ -7,6 +7,7 @@ public class SendDeliveryRequest : MonoBehaviour
     //주문리스트
     public List<Request> RequestList = new List<Request>();
     [SerializeField] private GameObject DarkDeliveryOKPanel;
+    [SerializeField] private GameObject EndDeliveryOKPanel;
     private float time = 0;
     
     public int SumChrisma()
@@ -46,7 +47,13 @@ public class SendDeliveryRequest : MonoBehaviour
             if ((RequestList.Count <= 0 && GameManager.Instance.time >= 75600) || GameManager.Instance.time >= 82800)
             {
                 RequestList.Clear();
-                DarkDeliveryOKPanel.SetActive(true);
+                if (!GameManager.Instance.isDarkDelivery)
+                    DarkDeliveryOKPanel.SetActive(true);
+                Time.timeScale = 0;
+            }else if (14400 <= GameManager.Instance.time && GameManager.Instance.isDarkDelivery)
+            {
+                EndDeliveryOKPanel.SetActive(true);
+                GameManager.Instance.isDarkDelivery = false;
                 Time.timeScale = 0;
             }
         }

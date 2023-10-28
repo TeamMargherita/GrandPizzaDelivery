@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class DeliveryScreen : MonoBehaviour
 {
     [SerializeField] private MakingPizza ma;
+    [SerializeField] private GameObject[] MyChildRefreshB;
     public List<Text> RequestTextList = new List<Text>();
     public SendDeliveryRequest SDR;
     public List<GameObject> AcceptB;
@@ -25,12 +26,19 @@ public class DeliveryScreen : MonoBehaviour
                 {
                     RequestTextList[i].text = SDR.RequestList[i].Pizza.Name;
                     if (!SDR.RequestList[i].Accept)
+                    {
                         AcceptB[i].SetActive(true);
+                    }
+                    else
+                    {
+                        MyChildRefreshB[i].SetActive(true);
+                    }
                 }
                 else
                 {
                     RequestTextList[i].text = "";
                     AcceptB[i].SetActive(false);
+                    MyChildRefreshB[i].SetActive(false);
                 }
             }
         }
@@ -47,12 +55,19 @@ public class DeliveryScreen : MonoBehaviour
         SDR.RequestList[i].AddressS.IHouse.EnableHouse();
         Minimap.CreateDestination(SDR.RequestList[i]);
         ma.AddRequestPizza(SDR.RequestList[i]);
+        MyChildRefreshB[i].SetActive(true);
     }
     
     public void OnClickCancle(int i)//피자주문취소버튼클릭
     {
+        MyChildRefreshB[i].SetActive(false);
         AcceptB[i].SetActive(false);
         RequestTextList[i].text = "";
         SDR.RequestList.RemoveAt(i);
+    }
+
+    public void OnClickAddRequestPizza(int i)
+    {
+        ma.AddRequestPizza(SDR.RequestList[i]);
     }
 }

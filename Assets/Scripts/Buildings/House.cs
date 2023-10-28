@@ -50,6 +50,7 @@ public class House : MonoBehaviour, IAddress, IHouse, IActiveHouse
         goalObj.transform.position += vec;
         activeObj.transform.position += vec;
 
+        customerS = new CustomerS(Random.Range(1, 101), Random.Range(60, 240), Random.Range(0, 4), Random.Range(200, 2000));
         activeObj.GetComponent<HouseActiveCheck>().SetIActiveHouse(this);
         houseType = HouseType.HOUSE;
         SetCustomer();
@@ -106,8 +107,9 @@ public class House : MonoBehaviour, IAddress, IHouse, IActiveHouse
     /// 피자 배달을 끝마쳤을 때
     /// 배달이 끝난 후 걸린 시간, 평점 등을 구조체 형식으로 묶어서 전달한다.
     /// </summary> 
-    public void DisableHouse()
+    public void DisableHouse(Pizza pizza)
 	{
+        // 전달받은 피자를 손님의 취향과 비교해서 팁을 얼마나 줄지 정하고, 평점을 얼마나 줄지 정한다.
         spriteRenderer.color = houseColor;
         isEnable = false;
         goalObj.SetActive(false);

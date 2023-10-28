@@ -6,7 +6,7 @@ using ClerkNS;
 
 // 한석호 작성
 
-public class MakingPizza : MonoBehaviour
+public class MakingPizza : MonoBehaviour, IResetPizzaMaking
 {
     [SerializeField] private GameObject[] makingPizzaPanelArr; // 만들고 있는, 혹은 만든 피자를 보여주기 위한 패널들
     [SerializeField] private GameObject uiControl;
@@ -160,8 +160,6 @@ public class MakingPizza : MonoBehaviour
             
             // 완성된 피자는 리스트에서 제거
             pizzaRequestList.RemoveAt(0);
-
-
         }
 	}
     /// <summary>
@@ -179,7 +177,7 @@ public class MakingPizza : MonoBehaviour
         // 피자집에 있는 피자들 명단에서 제외한다.
         //Debug.Log(temPizza.Name);
         CompletePizzaList.RemoveAt(index);
-        Debug.Log(index + " " + CompletePizzaList.Count);
+        //Debug.Log(index + " " + CompletePizzaList.Count);
         // 명단에서 제외했으므로, 피자집 피자 패널을 꺼준다.
         for (int i = 0; i < makingPizzaPanelArr.Length; i++)
 		{
@@ -205,4 +203,17 @@ public class MakingPizza : MonoBehaviour
         return temPizza;
 	}
 
+    public void ResetPizzaMaking()
+    {
+        StopCoroutine(makingPizzaCoroutine);
+        for (int i = 0; i < makingPizzaPanelArr.Length; i++)
+        {
+            makingPizzaPanelRect[i].localPosition = initMakingPizzaPanelVec;
+            makingPizzaPanelClass[i].SetMainPanelRect(0f);
+            makingPizzaPanelArr[i].SetActive(false);
+        }
+        CompletePizzaList.Clear();
+        pizzaRequestList.Clear();
+        makingPizzaCoroutine = StartCoroutine(Making());
+    }
 }

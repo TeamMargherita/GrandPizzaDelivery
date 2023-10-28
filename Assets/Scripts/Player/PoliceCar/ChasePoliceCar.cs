@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using PoliceNS.PoliceStateNS;
-
+using Gun;
 // 한석호 작성
 public class ChasePoliceCar : Police, ISetTransform, IUpdateCheckList
 {
@@ -36,12 +36,13 @@ public class ChasePoliceCar : Police, ISetTransform, IUpdateCheckList
     private IGetBool iGetBool;
     private ICheckCol[] iCheckColArr;
     private PoliceState temState;
+    private PoliceGunShooting GunMethod;
 
     private Vector3 outVec = new Vector3(100, 30, 0);
     private Vector3 ranTarget = Vector3.one;
-    private Color redEmi = new Color(139f/255f, 57f/255f, 58f/255f);
-    private Color yellowEmi = new Color(139f/255f, 111f/255f, 57f/255f);
-    private Color greenEmi = new Color(84f/255f, 139f/255f, 57f/255f);
+    private Color redEmi = new Color(255f/255f, 35/255f, 51f/255f, 79f/255f);
+    private Color yellowEmi = new Color(255f/255f, 214f/255f, 35f/255f, 79f/255f);
+    private Color greenEmi = new Color(35f/255f, 255f/255f, 78f/255f, 79f/255f);
 
     private MeshRenderer mesh;
 
@@ -68,7 +69,8 @@ public class ChasePoliceCar : Police, ISetTransform, IUpdateCheckList
             iCheckColArr[i] = colArr[i].GetComponent<ICheckCol>();
             iCheckColArr[i].InitNumber(i, this);
 		}
-	}
+        GunMethod = new PoliceGunShooting(transform, "Police");
+    }
     /// <summary>
     /// 무조건적으로 플레이어를 따라오는 상태이다.
     /// </summary>
@@ -385,7 +387,8 @@ public class ChasePoliceCar : Police, ISetTransform, IUpdateCheckList
     public void SetTransform(Transform trans)
 	{
         playerTrans = trans;
-	}
+        GunMethod.PlayerTransfrom = playerTrans;
+    }
     /// <summary>
     /// 상태를 갱신하고 시간을 초기화시킴.
     /// </summary>
@@ -432,15 +435,15 @@ public class ChasePoliceCar : Police, ISetTransform, IUpdateCheckList
 
             if (temState == PoliceState.SPUERCHASE)
 			{
-                mesh.material.SetColor("_EmissionColor", redEmi);
+                mesh.material.SetColor(Shader.PropertyToID("_Color"), redEmi);
 			}
             else if (temState == PoliceState.AUTOMOVE)
             {
-                mesh.material.SetColor("_EmissionColor", yellowEmi);
+                mesh.material.SetColor(Shader.PropertyToID("_Color"), yellowEmi);
             }
             else if (temState == PoliceState.OUTMAP || temState == PoliceState.DESTROY)
             {
-                mesh.material.SetColor("_EmissionColor", greenEmi);
+                mesh.material.SetColor(Shader.PropertyToID("_Color"), greenEmi);
             }
         }
         else
@@ -479,6 +482,10 @@ public class ChasePoliceCar : Police, ISetTransform, IUpdateCheckList
 
         time += Time.deltaTime;
         ChangeFOVColor(policeState);
+
+        // 플레이어를 발견한다면 슈팅 자세
+        GunMethod.ShootingStance = iGetBool.GetBool();
+        GunMethod.Fire(1f, 10);
 
         switch (policeState)
         {

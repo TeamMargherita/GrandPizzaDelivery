@@ -7,6 +7,7 @@ public class DeliveryScreen : MonoBehaviour
 {
     [SerializeField] private MakingPizza ma;
     [SerializeField] private GameObject[] MyChildRefreshB;
+    [SerializeField] private GameObject[] MyChildFaceImage;
     public List<Text> RequestTextList = new List<Text>();
     public SendDeliveryRequest SDR;
     public List<GameObject> AcceptB;
@@ -28,10 +29,13 @@ public class DeliveryScreen : MonoBehaviour
                     if (!SDR.RequestList[i].Accept)
                     {
                         AcceptB[i].SetActive(true);
+                        MyChildFaceImage[i].SetActive(true);
                     }
                     else
                     {
                         MyChildRefreshB[i].SetActive(true);
+                        MyChildFaceImage[i].SetActive(true);
+                        AcceptB[i].SetActive(false);
                     }
                 }
                 else
@@ -39,6 +43,7 @@ public class DeliveryScreen : MonoBehaviour
                     RequestTextList[i].text = "";
                     AcceptB[i].SetActive(false);
                     MyChildRefreshB[i].SetActive(false);
+                    MyChildFaceImage[i].SetActive(false);
                 }
             }
         }

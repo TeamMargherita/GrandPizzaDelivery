@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour
 
     public void PlayerDead()
     {
-        LoadScene.Instance.ActiveTrueFade("InGameScene");
+        LoadScene.Instance.LoadNextDay("InGameScene");
         isDarkDelivery = false;
         time = 32400;
     }

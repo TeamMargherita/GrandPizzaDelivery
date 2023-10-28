@@ -16,7 +16,8 @@ public class PizzaMenuUI : MonoBehaviour, IAddPizza
 	[SerializeField] private GameObject addPizzaPanel;
 	[SerializeField] private GameObject changePizzaNamePanel;
 	[SerializeField] private Text addPizzaExplainText;
-	
+
+	private static int nowDate = 0;
 	private List<int> openExplainList = new List<int>();
 	private AddPizzaSlot[] addPizzaSlots;
 	private GameObject[] pizzaMenuSlot;
@@ -67,6 +68,15 @@ public class PizzaMenuUI : MonoBehaviour, IAddPizza
 	private void OnEnable()
 	{
 		RefreshAllSlot();
+
+	}
+	private void Start()
+	{
+		if (Constant.NowDate != nowDate)
+		{
+			OneDayMenuInit(Constant.NowDate - nowDate);
+			nowDate = Constant.NowDate;
+		}
 	}
 	private void RefreshAllSlot()
 	{
@@ -321,12 +331,14 @@ public class PizzaMenuUI : MonoBehaviour, IAddPizza
 			if (key.Name == Constant.DevelopPizza[temSlotNumber].Name ||
 				key.Ingreds.CompareIngredientList(Constant.DevelopPizza[temSlotNumber].Ingreds))
             {
-				// 메뉴판에 해당 메뉴가 생긴 시점부터 최소 일주일은 있어야 추가가 가능함.
-				if (Constant.menuDateDic[key] <= 7)
-                {
-					// 경고창 떠야됨
-					return;
-                }
+				//// 메뉴판에 해당 메뉴가 생긴 시점부터 최소 일주일은 있어야 추가가 가능함.
+				//if (Constant.menuDateDic[key] <= 7)
+				//            {
+				//	// 경고창 떠야됨
+				//	return;
+				//            }
+				// 경고창 떠야됨.
+				return;
             }
         }
 
@@ -343,23 +355,33 @@ public class PizzaMenuUI : MonoBehaviour, IAddPizza
 		changePizzaNamePanel.SetActive(true);
 	}
 	/// <summary>
-	/// 하루가 지나면 발동해야 하는 함수임
+	/// 매일 해당 오브젝트가 켜질 때 한번만 발동하는 메소드다.
 	/// </summary>
-	private void OneDayMenuInit()
+	/// <param name="period">키는데 걸린 기간</param>
+	private void OneDayMenuInit(int period)
     {
 		List<Pizza> p = new List<Pizza>();
-		foreach (var key in Constant.menuDateDic.Keys)
+		List<Pizza> k = new List<Pizza>();
+		foreach (var d in Constant.menuDateDic)
+		{
+			k.Add(d.Key);
+		}
+		for (int i = 0; i < k.Count; i++)
         {
-			Constant.menuDateDic[key]++;
-			if (GameManager.Instance.PizzaMenu.FindIndex(a => a.Name == key.Name) == -1 &&
-				GameManager.Instance.PizzaMenu.FindIndex(a => a.Ingreds.CompareIngredientList(key.Ingreds)) == -1)
+			Constant.menuDateDic[k[i]] += period;
+			if (GameManager.Instance.PizzaMenu.FindIndex(a => a.Name == k[i].Name) == -1 &&
+				GameManager.Instance.PizzaMenu.FindIndex(a => a.Ingreds.CompareIngredientList(k[i].Ingreds)) == -1)
             {
-				p.Add(key);
+				p.Add(k[i]);
             }
         }
 		for (int i = 0; i < p.Count; i++)
-        {
-			Constant.menuDateDic.Remove(p[i]);
-        }
+		{
+			// 메뉴판에 없지만 데이터가 저장되어 있는 피자들 중에 일주일이상 지난 것을 지워준다.
+			if (Constant.menuDateDic[p[i]] > 7)
+			{
+				Constant.menuDateDic.Remove(p[i]);
+			}
+		}
     }
 }

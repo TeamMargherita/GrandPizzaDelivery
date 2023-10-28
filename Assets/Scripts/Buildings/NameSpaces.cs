@@ -295,3 +295,10 @@ namespace StoreNS
 		}
 	}
 }
+/// <summary>
+/// 날짜와 관련된 네임스페이스이다.
+/// </summary>
+namespace DayNS
+{
+    public enum DayEnum { MONDAY, TUESDAY, WENDESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY };
+}

@@ -4,10 +4,19 @@ using UnityEngine;
 using PizzaNS;
 using ClerkNS;
 using StoreNS;
+using DayNS;
 
 // 한석호 작성
 public static class Constant
 {
+	/// <summary>
+	/// 현재 요일
+	/// </summary>
+	public static DayEnum NowDay = DayEnum.MONDAY;
+	/// <summary>
+	/// 현재 일수
+	/// </summary>
+	public static int NowDate = 1;
 	/// <summary>
 	/// 피자의 재료 번호 리스트. 중복되는 번호도 있다.
 	/// </summary>
@@ -131,18 +140,33 @@ public static class Constant
 
 		int index = -1;
 
+		List<Ingredient> two = new List<Ingredient>();
+
 		for (int i = 0; i < one.Count; i++)
+		{
+			two.Add(one[i]);
+		}
+
+		for (int i = 0; i < list.Count; i++)
         {
-			index = list.FindIndex(a => a.Equals(one[i]));
+			index = two.FindIndex(a => a.Equals(list[i]));
 			if (index == -1)
             {
 				return false;
             }
 			else
             {
-				list.RemoveAt(index);
+				two.RemoveAt(index);
             }
         }
+		if (two.Count == 0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 
 		return false;
     }

@@ -80,7 +80,7 @@ namespace BuildingAddressNS
 /// </summary>
 namespace PizzaNS
 {
-    public enum Ingredient { PINEAPPLE, TOMATO, CHEESE, BASIL, POTATO, BACON, CORN, JALAPENO, CHICKEN, MEAT };
+    public enum Ingredient { PINEAPPLE, TOMATO, CHEESE, BASIL, POTATO, BACON, CORN, JALAPENO, CHICKEN, MEAT, APPLE, CARROT, BIGGREENONION };
     /// <summary>
     /// 재료 네임스페이스
     /// </summary>

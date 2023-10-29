@@ -434,6 +434,10 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
                     // 대화창을 연다.
                     ControlConversationUI(true, null, 6);
                     break;
+                case HouseType.HOSPITAL:
+                    iStop.StopMap(true);
+                    ControlConversationUI(true, null, 7);
+                    break;
             }
         }
     }

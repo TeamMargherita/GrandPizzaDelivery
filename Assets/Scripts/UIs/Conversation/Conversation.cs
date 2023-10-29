@@ -120,6 +120,7 @@ public class Conversation
 	/// <param name="arr"></param>
 	public void SetNpcText(int[] arr, int num = -1)
 	{
+		Debug.Log("АЁАн " + num);
 		if (arr[0] == -1 && arr.Length == 1)
 		{
 			InitStartText();

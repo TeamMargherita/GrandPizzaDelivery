@@ -37619,10 +37619,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 791406285}
     m_Modifications:
     - target: {fileID: 8299484329958520982, guid: 90445fa9db7083248b2514d05753174b, type: 3}
-      propertyPath: mainInventory
-      value: 
-      objectReference: {fileID: 477137016}
-    - target: {fileID: 8299484329958520982, guid: 90445fa9db7083248b2514d05753174b, type: 3}
       propertyPath: InventoryManager
       value: 
       objectReference: {fileID: 32887005}
@@ -37714,10 +37710,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: MainInventory
       objectReference: {fileID: 0}
-    - target: {fileID: 8299484330621384727, guid: 90445fa9db7083248b2514d05753174b, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8299484330759541231, guid: 90445fa9db7083248b2514d05753174b, type: 3}
       propertyPath: Inventory
       value: 
@@ -37734,10 +37726,6 @@ PrefabInstance:
       propertyPath: InventoryManager
       value: 
       objectReference: {fileID: 32887005}
-    - target: {fileID: 8299484331439073348, guid: 90445fa9db7083248b2514d05753174b, type: 3}
-      propertyPath: mainInventory
-      value: 
-      objectReference: {fileID: 477137016}
     - target: {fileID: 8299484331439073348, guid: 90445fa9db7083248b2514d05753174b, type: 3}
       propertyPath: InventoryManager
       value: 
@@ -65353,10 +65341,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1930384847}
-    - target: {fileID: 4586424821403970485, guid: eae378732a6874c40977ce57ef5545ee, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: NoDarkDeliveryPanel
-      objectReference: {fileID: 0}
     - target: {fileID: 4586424822398959249, guid: eae378732a6874c40977ce57ef5545ee, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

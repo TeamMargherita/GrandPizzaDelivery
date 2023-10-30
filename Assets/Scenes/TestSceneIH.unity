@@ -2766,7 +2766,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 636bd9605fc06b24c8fd6a4cbe99d92a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoneyEffectPrefab: {fileID: 2462667248934763846, guid: 99e407a1536a0f242be63262855f9ad3, type: 3}
+  PlusMoneyEffectPrefab: {fileID: 2462667248934763846, guid: 99e407a1536a0f242be63262855f9ad3, type: 3}
+  MinusMoneyEffectPrefab: {fileID: 2048327293469466146, guid: dd637230566840148897eb2711036cb9, type: 3}
   EffectParent: {fileID: 1741333851}
   money: {fileID: 79345987}
 --- !u!1 &79872494

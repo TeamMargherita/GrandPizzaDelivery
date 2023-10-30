@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2462667248934763844}
   - component: {fileID: 2462667248934763842}
   m_Layer: 5
-  m_Name: MoneyEffect
+  m_Name: PlusMoneyEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

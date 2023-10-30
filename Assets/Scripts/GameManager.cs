@@ -78,6 +78,10 @@ public class GameManager : MonoBehaviour
         time = 32400;
     }
 
+    public void HospitalRespawn()
+    { 
+        //석호에게 주는 선물
+    }
     private void TimeSkip()
     {
         if(Input.GetKeyDown(KeyCode.Backspace))

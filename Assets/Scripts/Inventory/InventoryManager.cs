@@ -198,7 +198,6 @@ public class InventoryManager : MonoBehaviour
                 Inventory.SetActive(true);
                 InventoryActive = true;
             }
-            Debug.Log("Tab 문자가 입력되었습니다.");
         }
     }
 
@@ -211,7 +210,6 @@ public class InventoryManager : MonoBehaviour
                 if (GameManager.Instance.PizzaInventoryData[i] != null)
                 {
                     PizzaInventorySlot[i].transform.GetChild(0).GetComponent<Text>().text = GameManager.Instance.PizzaInventoryData[i]?.Name;
-                    Debug.Log("텍스트 수정하는 슬롯" + i);
                 }
                     
             }
@@ -276,7 +274,6 @@ public class InventoryManager : MonoBehaviour
     }
     public void OnClickDelivery()
     {
-        Debug.Log("온클릭딜리버리");
         if(GoalAddressS != null)
         {
             int SDRIndex = 0;

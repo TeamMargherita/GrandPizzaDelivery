@@ -18,6 +18,10 @@ public static class Constant
 	/// </summary>
 	public static int NowDate = 1;
 	/// <summary>
+	/// 주사위 보너스
+	/// </summary>
+	public static short DiceBonus = 0;
+	/// <summary>
 	/// 피자의 재료 번호 리스트. 중복되는 번호도 있다.
 	/// </summary>
 	public static List<int> ChoiceIngredientList = new List<int>();
@@ -33,7 +37,7 @@ public static class Constant
 	/// <summary>
 	/// 피자 재료값. [,0]은 재료번호, [,1]은 매력도, [,2]는 매력하락도, [,3]은 재료값, [,4]은 재료이름 [0,]은 재료없음임.
 	/// </summary>
-	public static string[,] IngredientsArray = new string[13, 5]
+	public static string[,] IngredientsArray = new string[16, 5]
 	{
 		{"0","-1","-1","-1" ,"없음"},	// 없음
 		{"1","25","3","150","토마토" },	// 토마토
@@ -47,7 +51,10 @@ public static class Constant
 		{"9","78","20","1350","소고기" },    // 소고기
 		{"10","32","4","150","사과" }, // 사과
 		{"11","27","2","200","당근" }, // 당근
-		{"12","17","1","100","대파" }	// 대파
+		{"12","17","1","100","대파" },    // 대파
+		{"13", "34", "7", "230", "마늘" },    // 마늘
+		{"14", "28", "5", "170", "양파" },    // 양파
+		{"15", "22", "1", "210", "고추" },	// 고추
 	};
 	/// <summary>
 	/// 사용 가능한 피자 재료의 번호들

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+// 한석호 작성
 public class PrologueUI : MonoBehaviour
 {
     [SerializeField] private Sprite[] prologueSpr;

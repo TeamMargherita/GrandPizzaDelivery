@@ -435,8 +435,15 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
                     ControlConversationUI(true, null, 6);
                     break;
                 case HouseType.HOSPITAL:
-                    iStop.StopMap(true);
-                    ControlConversationUI(true, null, 7);
+                    if (GameManager.Instance.time >= 32400 && GameManager.Instance.time <= 64800)
+                    {
+                        iStop.StopMap(true);
+                        ControlConversationUI(true, null, 7);
+                    }
+                    else
+					{
+                        break;
+					}
                     break;
             }
         }

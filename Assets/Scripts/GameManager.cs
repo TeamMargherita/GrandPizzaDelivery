@@ -71,6 +71,13 @@ public class GameManager : MonoBehaviour
         time = 32400;
     }
 
+    public void NextDay()
+    {
+        LoadScene.Instance.ActiveTrueFade("InGameScene");
+        isDarkDelivery = false;
+        time = 32400;
+    }
+
     private void TimeSkip()
     {
         if(Input.GetKeyDown(KeyCode.Backspace))

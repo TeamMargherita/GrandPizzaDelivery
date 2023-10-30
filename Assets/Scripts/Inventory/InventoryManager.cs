@@ -67,10 +67,7 @@ public class InventoryManager : MonoBehaviour
         }else if(type == ItemType.GUN)
         {
             GunInventorySlot[index].transform.GetChild(0).GetComponent<Image>().enabled = true;
-
             GunInventorySlot[index].transform.GetChild(0).GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(path)[0];
-            //GunInventorySlot[index].transform.GetChild(0).GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 240);
-           // GunInventorySlot[index].transform.GetChild(0).GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 120);
             GunInventorySlot[index].transform.GetChild(0).GetComponent<Image>().color = Color.white;
             GunInventorySlot[index].transform.GetChild(1).GetComponent<Text>().text = "x " + count;
         }
@@ -240,6 +237,7 @@ public class InventoryManager : MonoBehaviour
             GunEquipmentSlot.GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(Constant.GunInfo[Constant.nowGun[0]].Path)[0];
             GunEquipmentSlot.GetComponent<Image>().color = Color.white;
             Player.CurrentMagagine = 0;
+            Player.Gun.GetComponent<SpriteRenderer>().sprite = Resources.LoadAll<Sprite>(Constant.GunInfo[Constant.nowGun[0]].Path)[0];
         }
         else
             GunEquipmentSlot.GetComponent<Image>().color = Color.clear;

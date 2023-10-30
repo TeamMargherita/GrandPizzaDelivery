@@ -17,10 +17,30 @@ public class PlayerMove : PlayerStat
     private InventoryManager InventoryManagerScript;
     [SerializeField]
     private GameObject PlayerSmoke;
-    GunShooting gunMethod;
+    [SerializeField]
+    private GameObject BloodEffect;
+    [SerializeField]
+    private GameObject WallHitEffect;
+    [SerializeField]
+    private GameObject FireEffect;
+    [SerializeField]
+    private GameObject Hand;
+    [SerializeField]
+    public GameObject Gun;
+    private AudioSource FireAudio;
+    [SerializeField]
+    private AudioClip FireAudioClip;
+    [SerializeField]
+    private AudioClip ReloadAudioClip;
+
+    PlayerGunShooting gunMethod;
     private void Awake()
     {
         gunMethod = new PlayerGunShooting(transform, "Player");
+        gunMethod.BloodEffect = BloodEffect;
+        gunMethod.WallHitEffect = WallHitEffect;
+        gunMethod.Hand = Hand;
+        FireAudio = GetComponent<AudioSource>();
     }
 
     void PlayerFire()
@@ -32,6 +52,8 @@ public class PlayerMove : PlayerStat
                 if (gunMethod.Fire(1 - Constant.GunInfo[Constant.nowGun[0]].Speed, Constant.GunInfo[Constant.nowGun[0]].Damage))
                 {
                     CurrentMagagine -= 1;
+                    FireEffect.GetComponent<Animator>().SetTrigger("NewStart");
+                    FireAudio.Play();
                 }
             }
         }
@@ -44,6 +66,7 @@ public class PlayerMove : PlayerStat
                 {
                     reloadTime = 0;
                     CurrentMagagine = Constant.GunInfo[Constant.nowGun[0]].Magazine;
+                    FireAudio.PlayOneShot(ReloadAudioClip);
                 }
             }
         }

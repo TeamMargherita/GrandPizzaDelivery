@@ -4,10 +4,23 @@ using UnityEngine;
 using PizzaNS;
 using ClerkNS;
 using StoreNS;
+using DayNS;
 
 // 한석호 작성
 public static class Constant
 {
+	/// <summary>
+	/// 현재 요일
+	/// </summary>
+	public static DayEnum NowDay = DayEnum.MONDAY;
+	/// <summary>
+	/// 현재 일수
+	/// </summary>
+	public static int NowDate = 1;
+	/// <summary>
+	/// 주사위 보너스
+	/// </summary>
+	public static short DiceBonus = 0;
 	/// <summary>
 	/// 피자의 재료 번호 리스트. 중복되는 번호도 있다.
 	/// </summary>
@@ -24,7 +37,7 @@ public static class Constant
 	/// <summary>
 	/// 피자 재료값. [,0]은 재료번호, [,1]은 매력도, [,2]는 매력하락도, [,3]은 재료값, [,4]은 재료이름 [0,]은 재료없음임.
 	/// </summary>
-	public static string[,] IngredientsArray = new string[13, 5]
+	public static string[,] IngredientsArray = new string[16, 5]
 	{
 		{"0","-1","-1","-1" ,"없음"},	// 없음
 		{"1","25","3","150","토마토" },	// 토마토
@@ -38,7 +51,10 @@ public static class Constant
 		{"9","78","20","1350","소고기" },    // 소고기
 		{"10","32","4","150","사과" }, // 사과
 		{"11","27","2","200","당근" }, // 당근
-		{"12","17","1","100","대파" }	// 대파
+		{"12","17","1","100","대파" },    // 대파
+		{"13", "34", "7", "230", "마늘" },    // 마늘
+		{"14", "28", "5", "170", "양파" },    // 양파
+		{"15", "22", "1", "210", "고추" },	// 고추
 	};
 	/// <summary>
 	/// 사용 가능한 피자 재료의 번호들
@@ -48,7 +64,10 @@ public static class Constant
 	/// 개발한 피자 리스트
 	/// </summary>
 	public static List<Pizza> DevelopPizza = new List<Pizza>();
-	
+	/// <summary>
+	/// 피자가 메뉴판에 있었던 시간
+	/// </summary>
+	public static Dictionary<Pizza, int> menuDateDic = new Dictionary<Pizza, int>();
 	public static bool IsMakePizza = false;
 	public static bool isStartGame = false;
 	public static bool StopTime = false;
@@ -116,6 +135,48 @@ public static class Constant
 		}
 		return null;
 	}
+	/// <summary>
+	/// 두 리스트의 재료를 비교하는 확장 메서드
+	/// </summary>
+	/// <param name="list"></param>
+	/// <param name="one"></param>
+	/// <returns></returns>
+	public static bool CompareIngredientList(this List<Ingredient> list, List<Ingredient> one)
+    {
+		if (one.Count != list.Count) { return false; }
+
+		int index = -1;
+
+		List<Ingredient> two = new List<Ingredient>();
+
+		for (int i = 0; i < one.Count; i++)
+		{
+			two.Add(one[i]);
+		}
+
+		for (int i = 0; i < list.Count; i++)
+        {
+			index = two.FindIndex(a => a.Equals(list[i]));
+			if (index == -1)
+            {
+				return false;
+            }
+			else
+            {
+				two.RemoveAt(index);
+            }
+        }
+		if (two.Count == 0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+
+		return false;
+    }
 	public static ItemS[] DiceItem = new ItemS[10]
 	{
 		new ItemS(ItemType.DICE, 2, "고무 주사위", "고무로 만든 주사위다. \n 주사위 각 면은 0,1,2,3,4,5 을 상징한다.", 0),

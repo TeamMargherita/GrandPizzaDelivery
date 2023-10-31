@@ -434,6 +434,17 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
                     // 대화창을 연다.
                     ControlConversationUI(true, null, 6);
                     break;
+                case HouseType.HOSPITAL:
+                    if (GameManager.Instance.time >= 32400 && GameManager.Instance.time <= 64800)
+                    {
+                        iStop.StopMap(true);
+                        ControlConversationUI(true, null, 7);
+                    }
+                    else
+					{
+                        break;
+					}
+                    break;
             }
         }
     }

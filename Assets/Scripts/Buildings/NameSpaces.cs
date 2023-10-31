@@ -47,7 +47,7 @@ namespace BuildingNS
     /// </summary>
     namespace HouseNS
     {
-        public enum HouseType { NONE, PIZZASTORE, HOUSE, DICESTORE, PINEAPPLESTORE, INGREDIENTSTORE, PINEAPPLESTORETWO, GUNSTORE };
+        public enum HouseType { NONE, PIZZASTORE, HOUSE, DICESTORE, PINEAPPLESTORE, INGREDIENTSTORE, PINEAPPLESTORETWO, GUNSTORE, HOSPITAL };
     }
 }
 /// <summary>
@@ -80,7 +80,7 @@ namespace BuildingAddressNS
 /// </summary>
 namespace PizzaNS
 {
-    public enum Ingredient { PINEAPPLE, TOMATO, CHEESE, BASIL, POTATO, BACON, CORN, JALAPENO, CHICKEN, MEAT, APPLE, CARROT, BIGGREENONION };
+    public enum Ingredient { PINEAPPLE, TOMATO, CHEESE, BASIL, POTATO, BACON, CORN, JALAPENO, CHICKEN, MEAT, APPLE, CARROT, BIGGREENONION, GALIC, ONION, PEPPER };
     /// <summary>
     /// 재료 네임스페이스
     /// </summary>
@@ -294,4 +294,11 @@ namespace StoreNS
             Path = path;
 		}
 	}
+}
+/// <summary>
+/// 날짜와 관련된 네임스페이스이다.
+/// </summary>
+namespace DayNS
+{
+    public enum DayEnum { MONDAY, TUESDAY, WENDESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY };
 }

@@ -230,6 +230,7 @@ MonoBehaviour:
   Gun: {fileID: 383153177}
   FireAudioClip: {fileID: 8300000, guid: b34d02f502fb6b44ca27419a3c9d4031, type: 3}
   ReloadAudioClip: {fileID: 8300000, guid: 3a8ed98ed194da24dba3a2debb6ff05f, type: 3}
+  ammoEffect: {fileID: 4791803104310871442, guid: 272074f1e94a1d046b0ffc953b7fbed7, type: 3}
 --- !u!61 &6833447561727001596
 BoxCollider2D:
   m_ObjectHideFlags: 0

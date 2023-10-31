@@ -151,14 +151,14 @@ public static class Constant
 
 	public static ItemS[] GunItem = new ItemS[8]
 	{
-		new ItemS(ItemType.GUN, 1, "Glick 19","장전방식 : 반자동 \n연사속도 : 중간 \n대미지 : 약함 \n명중률 : \n장탄수 : 15\n재장전시간 : 3", 0),
-		new ItemS(ItemType.GUN, 1, "S&U m500","장전방식 : 수동 \n연사속도 : 느림 \n대미지 : 강함 \n명중률 : \n장탄수 : 6\n재장전시간 : 3", 1),
-		new ItemS(ItemType.GUN, 1, "Mi1911","장전방식 : 반자동 \n연사속도 : 조금느림 \n대미지 : 매우약함 \n명중률 : \n장탄수 : 7\n재장전시간 : 3", 2),
-		new ItemS(ItemType.GUN, 1, "MiP9","장전방식 : 자동 \n연사속도 : 매우빠름 \n대미지 : 약함 \n명중률 : \n장탄수 : 30\n재장전시간 : 3", 3),
-		new ItemS(ItemType.GUN, 1, "MiPX","장전방식 : 자동 \n연사속도 : 빠름 \n대미지 : 중간 \n명중률 : \n장탄수 : 30\n재장전시간 : 3", 4),
-		new ItemS(ItemType.GUN, 1, "Pi90","장전방식 : 자동 \n연사속도 : 빠름 \n대미지 : 중간 \n명중률 : \n장탄수 : 50\n재장전시간 : 3", 5),
-		new ItemS(ItemType.GUN, 1, "Kress Victor","장전방식 : 자동 \n연사속도 : 매우매우빠름 \n대미지 : 약함 \n명중률 : \n장탄수 : 30\n재장전시간 : 3", 6),
-		new ItemS(ItemType.GUN, 1, "Thimpson SMG","장전방식 : 자동 \n연사속도 : 빠름 \n대미지 : 매우약함 \n명중률 : \n장탄수 : 30\n재장전시간 : 3", 7)
+		new ItemS(ItemType.GUN, 1, "Glick 19","연사속도 : 중간 \n대미지 : 약함 \n장탄수 : 15\n재장전시간 : 3", 0),
+		new ItemS(ItemType.GUN, 1, "S&U m500","연사속도 : 느림 \n대미지 : 강함 \n장탄수 : 6\n재장전시간 : 3", 1),
+		new ItemS(ItemType.GUN, 1, "Mi1911","연사속도 : 조금느림 \n대미지 : 매우약함 \n장탄수 : 7\n재장전시간 : 3", 2),
+		new ItemS(ItemType.GUN, 1, "MiP9","연사속도 : 매우빠름 \n대미지 : 약함 \n장탄수 : 30\n재장전시간 : 3", 3),
+		new ItemS(ItemType.GUN, 1, "MiPX","연사속도 : 빠름 \n대미지 : 중간 \n장탄수 : 30\n재장전시간 : 3", 4),
+		new ItemS(ItemType.GUN, 1, "Pi90","연사속도 : 빠름 \n대미지 : 중간 \n장탄수 : 50\n재장전시간 : 3", 5),
+		new ItemS(ItemType.GUN, 1, "Kress Victor","연사속도 : 매우매우빠름 \n대미지 : 약함 \n장탄수 : 30\n재장전시간 : 3", 6),
+		new ItemS(ItemType.GUN, 1, "Thimpson SMG","연사속도 : 빠름 \n대미지 : 매우약함 \n장탄수 : 30\n재장전시간 : 3", 7)
 	};
 	/// <summary>
 	/// 연사속도 - 10~19 : 매우느림 - 20~29 : 느림 - 30~39 : 조금 느림 - 40~55 : 중간 - 56~ 64 : 조금 빠름 - 65~79 : 빠름 - 80~89 : 매우 빠름 - 90~ : 매우매우빠름
@@ -167,7 +167,7 @@ public static class Constant
 	public static GunS[] GunInfo = new GunS[8]
 	{
 		new GunS(LoadEnum.SEMIAUTO, 0.5f, 20, 100, 15, 3, "UI/Glick19_240_120"),
-		new GunS(LoadEnum.MANUAL, 0.2f, 80, 100, 6, 3, "UI/S&Um500_240_120"),
+		new GunS(LoadEnum.MANUAL, 0.1f, 200, 100, 6, 3, "UI/S&Um500_240_120"),
 		new GunS(LoadEnum.SEMIAUTO, 0.3f, 10, 100, 7, 3, "UI/Mi1911_240_120"),
 		new GunS(LoadEnum.AUTO, 0.8f, 20, 100, 30, 3, "UI/MiP9_240_120"),
 		new GunS(LoadEnum.AUTO, 0.65f, 50, 100, 30, 3, "UI/MiPX_240_120"),

@@ -210,8 +210,12 @@ public class InventoryManager : MonoBehaviour
                 if (GameManager.Instance.PizzaInventoryData[i] != null)
                 {
                     PizzaInventorySlot[i].transform.GetChild(0).GetComponent<Text>().text = GameManager.Instance.PizzaInventoryData[i]?.Name;
+                    PizzaInventorySlot[i].transform.GetChild(1).gameObject.SetActive(true);
                 }
-                    
+                else
+                {
+                    PizzaInventorySlot[i].transform.GetChild(1).gameObject.SetActive(false);
+                }
             }
         }
     }
@@ -248,6 +252,7 @@ public class InventoryManager : MonoBehaviour
             PizzaInventorySlot[index].transform.GetChild(0).GetComponent<Text>().text = "";
             GameManager.Instance.PizzaInventoryData[index] = null;
             Player.HP += 50;
+            PizzaInventorySlot[index].transform.GetChild(1).gameObject.SetActive(false);
         }
         inventoryTextUpdate(CurrentInventory.name);
     }

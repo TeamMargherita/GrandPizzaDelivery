@@ -77,8 +77,7 @@ public class PlayerMove : PlayerStat
     }
     void Update()
     {
-        if(GameManager.Instance.isDarkDelivery)
-            PlayerFire();
+        PlayerFire();
         InventoryManagerScript.UIMagagineTextUpdate(CurrentMagagine);
         if (Input.GetKeyDown(KeyCode.X))
         {

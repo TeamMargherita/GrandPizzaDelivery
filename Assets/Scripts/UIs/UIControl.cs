@@ -271,7 +271,7 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
     public void NoDarkDeliveryPanel()
     {
         SpecialPizzaDeliverySelectionPanel.SetActive(false);
-        GameManager.Instance.PlayerDead();
+        GameManager.Instance.NextDay();
         //GameManager.Instance.isDarkDelivery = false;
         Time.timeScale = 1;
     }

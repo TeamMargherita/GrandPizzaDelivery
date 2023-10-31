@@ -59,6 +59,7 @@ public class PlayerMove : PlayerStat
         }
         else
         {
+            Hand.SetActive(false);
             if (Constant.nowGun[0] != -1)
             {
                 reloadTime += Time.deltaTime;

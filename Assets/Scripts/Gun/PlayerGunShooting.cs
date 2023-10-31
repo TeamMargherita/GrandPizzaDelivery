@@ -2,12 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Gun;
-public class PlayerGunShooting : GunShooting
+public class PlayerGunShooting : MonoBehaviour, GunShooting
 {
     private bool ShootingStance = false;
     private Vector3 dir;
     private Transform MyTransform;
     int layerMask;
+    public GameObject BloodEffect;
+    public GameObject WallHitEffect;
+    public GameObject Hand;
+
     public PlayerGunShooting(Transform myTransform, string exception)
     {
         MyTransform = myTransform;
@@ -27,12 +31,14 @@ public class PlayerGunShooting : GunShooting
         if (Input.GetKey(KeyCode.Mouse1))
         {
             ShootingStance = true;
-            Debug.Log(ShootingStance);
+            Hand.SetActive(true);
             dir = GetTargetPos() - MyTransform.position;
+            Hand.transform.up = dir.normalized;
         }
         else if (Input.GetKeyUp(KeyCode.Mouse1))
         {
             ShootingStance = false;
+            Hand.SetActive(false);
         }
     }
     float time;
@@ -50,12 +56,18 @@ public class PlayerGunShooting : GunShooting
                     RaycastHit2D hit = Physics2D.Raycast(MyTransform.position, dir.normalized, 1000, layerMask);
                     if (hit.transform.CompareTag("Police") || hit.transform.CompareTag("ChaserPoliceCar"))
                     {
+                        GameObject blood = Instantiate(BloodEffect, hit.point, MyTransform.rotation);
+                        Destroy(blood, 0.3f);
                         hit.transform.GetComponent<Police>().PoliceHp -= damage;
+                    }
+                    else
+                    {
+                        //GameObject wallhit = Instantiate(WallHitEffect, hit.point, MyTransform.rotation);
+                        //Destroy(wallhit, 0.3f);
                     }
                     time = 0;
                     Debug.Log("น฿ป็");
                     return true;
-                    //Debug.Log(hit.transform.name);
                 }
             }
         }

@@ -13,6 +13,9 @@ public class GameManager : MonoBehaviour
     public List<Slot> InventorySlotList = new List<Slot>();
 
     public bool isDarkDelivery = false;
+
+    public TestMoneyText MoneyText;
+
     public static GameManager Instance
     {
         get
@@ -54,6 +57,7 @@ public class GameManager : MonoBehaviour
         }
         set {
             //나중에 일정금액도달하면 앤딩 화면가는 함수 짜기
+            MoneyText.CreateMoneyEffect(value - money);
             money = value;
         }
     }
@@ -67,6 +71,17 @@ public class GameManager : MonoBehaviour
         time = 32400;
     }
 
+    public void NextDay()
+    {
+        LoadScene.Instance.ActiveTrueFade("InGameScene");
+        isDarkDelivery = false;
+        time = 32400;
+    }
+
+    public void HospitalRespawn()
+    { 
+        //석호에게 주는 선물
+    }
     private void TimeSkip()
     {
         if(Input.GetKeyDown(KeyCode.Backspace))

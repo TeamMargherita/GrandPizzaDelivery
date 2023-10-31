@@ -15,11 +15,32 @@ public class PlayerMove : PlayerStat
     private MakingPizza MakingPizzaScript;
     [SerializeField]
     private InventoryManager InventoryManagerScript;
+    [SerializeField]
+    private GameObject PlayerSmoke;
+    [SerializeField]
+    private GameObject BloodEffect;
+    [SerializeField]
+    private GameObject WallHitEffect;
+    [SerializeField]
+    private GameObject FireEffect;
+    [SerializeField]
+    private GameObject Hand;
+    [SerializeField]
+    public GameObject Gun;
+    private AudioSource FireAudio;
+    [SerializeField]
+    private AudioClip FireAudioClip;
+    [SerializeField]
+    private AudioClip ReloadAudioClip;
 
-    GunShooting gunMethod;
+    PlayerGunShooting gunMethod;
     private void Awake()
     {
         gunMethod = new PlayerGunShooting(transform, "Player");
+        gunMethod.BloodEffect = BloodEffect;
+        gunMethod.WallHitEffect = WallHitEffect;
+        gunMethod.Hand = Hand;
+        FireAudio = GetComponent<AudioSource>();
     }
 
     void PlayerFire()
@@ -31,6 +52,8 @@ public class PlayerMove : PlayerStat
                 if (gunMethod.Fire(1 - Constant.GunInfo[Constant.nowGun[0]].Speed, Constant.GunInfo[Constant.nowGun[0]].Damage))
                 {
                     CurrentMagagine -= 1;
+                    FireEffect.GetComponent<Animator>().SetTrigger("NewStart");
+                    FireAudio.Play();
                 }
             }
         }
@@ -43,13 +66,15 @@ public class PlayerMove : PlayerStat
                 {
                     reloadTime = 0;
                     CurrentMagagine = Constant.GunInfo[Constant.nowGun[0]].Magazine;
+                    FireAudio.PlayOneShot(ReloadAudioClip);
                 }
             }
         }
     }
     void Update()
     {
-        PlayerFire();
+        if(GameManager.Instance.isDarkDelivery)
+            PlayerFire();
         InventoryManagerScript.UIMagagineTextUpdate(CurrentMagagine);
         if (Input.GetKeyDown(KeyCode.X))
         {
@@ -75,6 +100,7 @@ public class PlayerMove : PlayerStat
                 {
                     Speed *= Braking;
                 }
+                CreateSmoke();
                 Speed += acceleration * Time.deltaTime;
             }
             else if (Input.GetKey(KeyCode.S))
@@ -145,7 +171,21 @@ public class PlayerMove : PlayerStat
             yield return null;
         }
     }
-
+    float smokeTime;
+    void CreateSmoke()
+    {
+        if (Input.GetKeyUp(KeyCode.W))
+        {
+            smokeTime = 1;
+        }
+        smokeTime += Time.deltaTime;
+        if(smokeTime > 0.2f)
+        {
+            
+            Instantiate(PlayerSmoke, transform.position + (transform.up * -0.5f), transform.rotation);
+            smokeTime = 0;
+        }
+    }
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.transform.CompareTag("Banana"))

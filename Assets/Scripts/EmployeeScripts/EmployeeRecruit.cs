@@ -11,6 +11,7 @@ public class EmployeeRecruit : MonoBehaviour
     int limitCount = 3;
 
     [SerializeField] string[] Stat = new string[5];
+    [SerializeField] string[] WorkDay = new string[7];
 
     public int[] Handy = new int[3];
     public int[] Career = new int[3];
@@ -19,6 +20,9 @@ public class EmployeeRecruit : MonoBehaviour
     public int[] Pay = new int[3];
 
     public string[] Name = new string[3];
+
+    public Day[] preferedDateCount;
+    public Day[,] preferedDate;
 
     private bool isMorning = false;
 
@@ -42,11 +46,14 @@ public class EmployeeRecruit : MonoBehaviour
     {
         string StatText = null;
 
+        List<int> DayList = new List<int>();
+        int Day = 0;
+
         if (isMorning == true)
         {
             for (int i = 0; i < limitCount; i++)
             {
-                Name[i] = RecruitWin.transform.GetChild(i).GetComponent<EmployeeStat>().RanName[Random.Range(0, 32)];
+                Name[i] = RecruitWin.transform.GetChild(i).GetComponent<EmployeeStat>().RanName[Random.Range(0, 31)];
 
                 StatText += Name[i] + "\n";
 
@@ -55,6 +62,39 @@ public class EmployeeRecruit : MonoBehaviour
                     StatText += Stat[j] +
                      State(i, j, RecruitWin.transform.GetChild(i)) + "\n";
                 }
+
+                preferedDateCount[i] = (Day)Random.Range(1, 3);
+
+                preferedDate = new Day[3, (int)preferedDateCount[i]];
+
+                StatText += "선호 근무 요일 : ";
+
+                for (int j = 0; j < (int)preferedDateCount[i]; j++)
+                {
+                    Day = Random.Range(0, 7);
+                    if (j > 0)
+                    {
+                        while (DayList.Contains(Day) == true)
+                        {
+                            Day = Random.Range(0, 7);
+                        }
+                    }
+
+                    DayList.Add(Day);
+
+                    preferedDate[i, j] = (Day)Random.Range(0, 7);
+
+                    if (i < (int)preferedDateCount[i] - 1)
+                    {
+                        StatText += WorkDay[Day] + ",";
+                    }
+                    else
+                    {
+                        StatText += WorkDay[Day];
+                    }
+                }
+
+                DayList.Clear();
 
                 RecruitWin.transform.GetChild(i).GetChild(0).
                         GetComponent<Text>().text = StatText;

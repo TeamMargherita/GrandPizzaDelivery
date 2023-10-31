@@ -4,7 +4,7 @@ using System.Diagnostics.SymbolStore;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EmployeeStressCon : MonoBehaviour
+public class EmployeeStressCon : EmployeeFire
 {
     [SerializeField] GameObject NoticeWin;
     [SerializeField] bool isMorning = false;
@@ -14,6 +14,7 @@ public class EmployeeStressCon : MonoBehaviour
         if (isMorning)
         {
             PayStress();
+            WorkStress();
         }
 
         if(GameManager.Instance.time == 9 * 3600)
@@ -64,6 +65,20 @@ public class EmployeeStressCon : MonoBehaviour
             Message += "가 당신의 부당한 대우를 참지 못하고 떠났습니다.";
 
             NoticeMessage(Message);
+        }
+    }
+
+    void WorkStress()
+    {
+        for (int j = 0; j < 7; j++)
+        {
+            for (int i = 0; i < Constant.ClerkList.Count; i++)
+            {
+                if (WorkingDay[j].Contains(Constant.ClerkList[i]) == false)
+                {
+                    Constant.ClerkList[i].Stress--;
+                }
+            }
         }
     }
 

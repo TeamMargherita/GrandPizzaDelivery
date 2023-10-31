@@ -1,4 +1,6 @@
+using ClerkNS;
 using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,6 +9,14 @@ public class EmployeeFire : MonoBehaviour
     [SerializeField] Transform FireWinParent;
     [SerializeField] Transform FireWinBG;
     [SerializeField] Transform EmployeeParent;
+    [SerializeField] Transform WorkDayWinParent;
+
+    public static Dictionary<int, List<ClerkC>> WorkingDay = new Dictionary<int, List<ClerkC>>(); // 0~6 월~일
+
+    private void Awake()
+    {
+        SetEmployee();
+    }
 
     private void Update()
     {
@@ -169,7 +179,7 @@ public class EmployeeFire : MonoBehaviour
 
     public void FireButtonOn(int value)
     {
-        if (Constant.ClerkList.Count > 1)
+        if (Constant.ClerkList.Count > 1 && value != 0)
         {
             string name = Constant.ClerkList[value].Name + "가 해고되었습니다.";
 
@@ -180,6 +190,10 @@ public class EmployeeFire : MonoBehaviour
             EmploeeWinOff();
 
             ShowFireWin();
+        }
+        else if(value == 0 && Constant.ClerkList.Count > 1)
+        {
+            NoticeMessage("상주인원은 해고할 수 없습니다.");
         }
         else
         {
@@ -293,5 +307,82 @@ public class EmployeeFire : MonoBehaviour
 
             Debug.Log(DLerpTime);
         }
+    }
+
+    public void ShowWorkDay(int value)
+    {
+        WorkDayWinParent.gameObject.SetActive(true);
+
+        SetEmployeeDay(value);
+    }
+
+    void SetEmployee()
+    {
+        for (int i = 0; i < 7; i++)
+        {
+            if (WorkingDay.ContainsKey(i) == false)
+            {
+                WorkingDay.Add(i, new List<ClerkC>());
+
+                WorkingDay[i].Add(Constant.ClerkList[0]);
+            }
+        }
+    }
+
+    void SetEmployeeDay(int value)
+    {
+        Transform imageParent = WorkDayWinParent.GetChild(0).GetChild(0);
+        Transform TextParent = WorkDayWinParent.GetChild(0).GetChild(0);
+
+        string NameText = null;
+
+        employeeValue = value;
+
+        for (int i = 0; i < 7; i++)
+        {
+            for (int j = 0; j < imageParent.GetChild(i).GetChild(1).childCount; j++)
+            {
+                imageParent.GetChild(i).GetChild(1).GetChild(j).GetComponent<Image>().color = Color.gray;
+            }
+
+            for (int j = 0; j < WorkingDay[i].Count; j++)
+            {
+                imageParent.GetChild(i).GetChild(1).GetChild(j).GetComponent<Image>().color = Color.green;
+            }
+
+            for (int j = 0; j < WorkingDay[i].Count; j++)
+            {
+                NameText += WorkingDay[i][j].Name + "\n";
+            }
+
+            TextParent.GetChild(i).GetChild(2).GetChild(0).GetComponent<Text>().text = NameText;
+
+            NameText = "";
+
+            if (WorkingDay[i].Contains(Constant.ClerkList[employeeValue]))
+            {
+                WorkDayWinParent.GetChild(0).GetChild(0).GetChild(i).GetComponent<Image>().color = Color.red;
+            }
+            else
+            {
+                WorkDayWinParent.GetChild(0).GetChild(0).GetChild(i).GetComponent<Image>().color = Color.white;
+            }
+        }
+    } // 일하는 날짜 보여주는
+
+    int employeeValue = 0;
+
+    public void SetWorkingDay(int value)
+    {
+        if (WorkingDay[value].Contains(Constant.ClerkList[employeeValue]))
+        {
+            WorkingDay[value].Remove(Constant.ClerkList[employeeValue]);
+        }
+        else
+        {
+            WorkingDay[value].Add(Constant.ClerkList[employeeValue]);
+        }
+
+        SetEmployeeDay(employeeValue);
     }
 }

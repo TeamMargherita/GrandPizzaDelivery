@@ -3,6 +3,7 @@ using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -41,9 +42,16 @@ public class CreateEmployee : MonoBehaviour
     {
         EmployeeRecruit employeeStat = EmployeeRecruitMother.GetComponent<EmployeeRecruit>();
 
+        Day[] preferedDate = new Day[(int)employeeStat.preferedDateCount[SValue]];
+
+        for (int i = 0; i < preferedDate.Length; i++)
+        {
+            preferedDate[i] = employeeStat.preferedDate[SValue, i];
+        }
+
         ClerkC clerk = 
             new ClerkC(employeeStat.Handy[SValue], (Tier)employeeStat.Agility[SValue], (Tier)employeeStat.Career[SValue], (Tier)employeeStat.Creativity[SValue], 
-             0, employeeStat.Pay[SValue], employeeStat.Name[SValue]);
+             0, employeeStat.Pay[SValue], employeeStat.Name[SValue], preferedDate, employeeStat.preferedDateCount[SValue]);
 
         Constant.ClerkList.Add(clerk);
     }

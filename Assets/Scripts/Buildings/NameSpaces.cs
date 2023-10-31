@@ -9,6 +9,7 @@ using UnityEngine;
 namespace ClerkNS
 {
     public enum Tier{ ONE = -1, TWO = 1, THREE = 3, FOUR = 6 };
+    
     // 나중에 클래스로 바꿀듯
     public class ClerkC
     {
@@ -24,7 +25,9 @@ namespace ClerkNS
         public int MinPayScale { get; private set; }
         public int MaxPayScale { get; private set; }
         public int MaxStress { get; private set; }
-        public ClerkC (int Handicraft, Tier Agility, Tier Career, Tier Creativity, int Stress, int Pay, string Name)
+        public Day[] PreferredDate { get; private set; } = new Day[7];
+        public Day PreferredDateCount { get; private set; }
+        public ClerkC (int Handicraft, Tier Agility, Tier Career, Tier Creativity, int Stress, int Pay, string Name, Day[] PreferredDate, Day PreferredDateCount)
 		{
             this.Handicraft = Handicraft;
             this.Agility = Agility;
@@ -33,6 +36,8 @@ namespace ClerkNS
             this.Stress = Stress;
             this.Pay = Pay;
             this.Name = Name;
+            this.PreferredDate = PreferredDate;
+            this.PreferredDateCount = PreferredDateCount;
 
             Max = (this.Handicraft + 8) + (int)Creativity;
             Min = (this.Handicraft - 8) + (int)Career;

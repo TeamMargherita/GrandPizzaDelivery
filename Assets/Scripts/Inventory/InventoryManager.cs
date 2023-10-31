@@ -210,6 +210,11 @@ public class InventoryManager : MonoBehaviour
                 if (GameManager.Instance.PizzaInventoryData[i] != null)
                 {
                     PizzaInventorySlot[i].transform.GetChild(0).GetComponent<Text>().text = GameManager.Instance.PizzaInventoryData[i]?.Name;
+                    PizzaInventorySlot[i].transform.GetChild(1).gameObject.SetActive(true);
+                }
+                else
+                {
+                    PizzaInventorySlot[i].transform.GetChild(1).gameObject.SetActive(false);
                 }
                     
             }
@@ -296,7 +301,7 @@ public class InventoryManager : MonoBehaviour
                             GoalAddressS.iHouse.DisableHouse(pizza.Value);
                             DeliveryScreen.OnClickCancle(SDRIndex);
                             GoalAddressS = null;
-                            DeliveryJudgmentPanel.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "����� �Ϸ� �Ǿ����ϴ�.";
+                            DeliveryJudgmentPanel.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "배달이 완료 되었습니다..";
                             DeliveryJudgmentPanel.SetActive(true);
                             return;
                         }
@@ -305,7 +310,7 @@ public class InventoryManager : MonoBehaviour
                 }
                 SDRIndex++;
             }
-            DeliveryJudgmentPanel.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "���濡 �ֹ����� ���ڰ� �����ϴ�.";
+            DeliveryJudgmentPanel.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "가방에 주문받은 피자가 없습니다.";
             DeliveryJudgmentPanel.SetActive(true);
         }
         inventoryTextUpdate("PizzaInventory");

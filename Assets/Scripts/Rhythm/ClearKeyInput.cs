@@ -17,8 +17,6 @@ public class ClearKeyInput : MonoBehaviour
 
     private void Start()
     {
-        manager = RhythmManager.Instance;
-        clearKeys = new KeyCode[4];
         Init();
     }
 
@@ -89,6 +87,9 @@ public class ClearKeyInput : MonoBehaviour
 
     private void Init()
     {
+        if(manager == null)
+            manager = RhythmManager.Instance;
+        clearKeys = new KeyCode[4];
         index = 0;
         isEdit = false;
         keyMap.Clear();

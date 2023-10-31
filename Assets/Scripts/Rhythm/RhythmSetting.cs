@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -49,7 +50,18 @@ public class RhythmSetting : MonoBehaviour
     /// <param name="volume">텍스트 값</param>
     public void SetMusicVolume(string volume)
     {
-        float value = float.Parse(volume);
+        float value;
+        try
+        {
+            value = float.Parse(volume);
+        }
+        catch (FormatException e)
+        {
+            Debug.Log(e);
+            MusicVolumeSync();
+            return;
+        }
+
         value = Mathf.Clamp(value, 0, 10) / 10f;
         manager.MusicSound = value;
         MusicVolumeSync();
@@ -78,7 +90,18 @@ public class RhythmSetting : MonoBehaviour
     /// <param name="volume">텍스트 값</param>
     public void SetKeyVolume(string volume)
     {
-        float value = float.Parse(volume);
+        float value;
+        try
+        {
+           value  = float.Parse(volume);
+        }
+        catch (FormatException e)
+        {
+            Debug.Log(e);
+            KeyVolumeSync();
+            return;
+        }
+
         value = Mathf.Clamp(value, 0, 10) / 10f;
         manager.KeySound = value;
         KeyVolumeSync();
@@ -108,7 +131,17 @@ public class RhythmSetting : MonoBehaviour
     /// <param name="volume">텍스트 값</param>
     public void SetSpeed(string volume)
     {
-        float value = float.Parse(volume);
+        float value;
+        try
+        {
+            value = float.Parse(volume);
+        }
+        catch (FormatException e)
+        {
+            Debug.Log(e);
+            SpeedSync();
+            return;
+        }
         value = Mathf.Clamp(value, 0.1f, 5);
         manager.Speed = value;
         SpeedSync();

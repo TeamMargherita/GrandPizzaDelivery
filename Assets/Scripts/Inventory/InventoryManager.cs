@@ -247,7 +247,7 @@ public class InventoryManager : MonoBehaviour
         {
             PizzaInventorySlot[index].transform.GetChild(0).GetComponent<Text>().text = "";
             GameManager.Instance.PizzaInventoryData[index] = null;
-            Player.HP += 50;
+            PlayerStat.HP += 50;
         }
         inventoryTextUpdate(CurrentInventory.name);
     }

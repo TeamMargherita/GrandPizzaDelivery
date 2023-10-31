@@ -210,12 +210,8 @@ public class InventoryManager : MonoBehaviour
                 if (GameManager.Instance.PizzaInventoryData[i] != null)
                 {
                     PizzaInventorySlot[i].transform.GetChild(0).GetComponent<Text>().text = GameManager.Instance.PizzaInventoryData[i]?.Name;
-                    PizzaInventorySlot[i].transform.GetChild(1).gameObject.SetActive(true);
                 }
-                else
-                {
-                    PizzaInventorySlot[i].transform.GetChild(1).gameObject.SetActive(false);
-                }
+                    
             }
         }
     }

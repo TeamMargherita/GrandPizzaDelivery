@@ -38,6 +38,7 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText, ICoroutineD
     private IngredientStore ingredientStore;    // 재료 가게 대화 그래프 클래스
     private PineAppleStoreTwo pineappleStoreTwo;    // 파인애플 가게2 대화 그래프 클래스
     private GunStore gunStore;  // 총 가게 대화 그래프 클래스
+    private Hospital hospital;  // 병원 대화 그래프 클래스
     private Conversation temCon;
     private bool isAwake = false;
 
@@ -53,6 +54,7 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText, ICoroutineD
         ingredientStore = new IngredientStore();
         pineappleStoreTwo = new PineAppleStoreTwo();
         gunStore = new GunStore();
+        hospital = new Hospital();
 
         playerTextArr = new Text[playerTextObjArr.Length];
         playerTextsArr = new PlayerTexts[playerTextObjArr.Length];
@@ -127,6 +129,10 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText, ICoroutineD
                 InitConversation(gunStore);
                 SetIInitStore();
                 break;
+            case 7:
+                npcSprArr = Resources.LoadAll<Sprite>("UI/Hospital_400_500");
+                InitConversation(hospital);
+                break;
 		}
     }
     /// <summary>
@@ -176,7 +182,7 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText, ICoroutineD
         diceImgArr[0].sprite = firstDiceSprArr[0];
         diceImgArr[1].sprite = secondDiceSprArr[0];
 
-        diceSuccessText.text = "";
+        diceSuccessText.text = $"(주사위 보너스 {Constant.DiceBonus})";
     }
 
     /// <summary>
@@ -253,17 +259,96 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText, ICoroutineD
                 diceRectArr[j].anchoredPosition = originVec[j];
             }
 
-            if (rand >= num)
+            if (num >= 0)
             {
-                diceSuccessText.text = "성공 !";
-                temCon.DiceResult(true);
+                if (num < 10000)
+                {
+                    if (rand >= num)
+                    {
+                        diceSuccessText.text = $"성공 ! (주사위 보너스 {Constant.DiceBonus})";
+                        temCon.DiceResult(true);
+                    }
+                    else
+                    {
+                        diceSuccessText.text = $"실패... (주사위 보너스 {Constant.DiceBonus})";
+                        temCon.DiceResult(false);
+                    }
+                }
+                else
+                {
+                    if (num / 10000 == 1)
+                    {
+                        if (rand % 2 == 1 && rand >= num - 10000)
+                        {
+                            diceSuccessText.text = $"성공 ! (주사위 보너스 {Constant.DiceBonus})";
+                            temCon.DiceResult(true);
+                        }
+                        else
+                        {
+                            diceSuccessText.text = $"실패... (주사위 보너스 {Constant.DiceBonus})";
+                            temCon.DiceResult(false);
+                        }
+                    }
+                    else if (num / 10000 == 2)
+                    {
+                        if (rand % 2 == 0 && rand >= num - 20000)
+                        {
+                            diceSuccessText.text = $"성공 ! (주사위 보너스 {Constant.DiceBonus})";
+                            temCon.DiceResult(true);
+                        }
+                        else
+                        {
+                            diceSuccessText.text = $"실패... (주사위 보너스 {Constant.DiceBonus})";
+                            temCon.DiceResult(false);
+                        }
+                    }
+                }
             }
             else
-            {
-                diceSuccessText.text = "실패... ";
-                temCon.DiceResult(false);
-            }
-
+			{
+                if (num > -10000)
+				{
+                    if (rand < num * -1)
+					{
+                        diceSuccessText.text = $"성공 ! (주사위 보너스 {Constant.DiceBonus})";
+                        temCon.DiceResult(true);
+                    }
+                    else
+					{
+                        diceSuccessText.text = $"실패... (주사위 보너스 {Constant.DiceBonus})";
+                        temCon.DiceResult(false);
+                    }
+				}
+                else
+				{
+                    if ((num * -1) / 10000 == 1)
+					{
+                        if (rand % 2 == 1 && rand <= (num * -1) - 10000)
+						{
+                            diceSuccessText.text = $"성공 ! (주사위 보너스 {Constant.DiceBonus})";
+                            temCon.DiceResult(true);
+                        }
+                        else
+						{
+                            diceSuccessText.text = $"실패... (주사위 보너스 {Constant.DiceBonus})";
+                            temCon.DiceResult(false);
+                        }
+                    }
+                    else if ((num * -1) / 20000 == 2)
+					{
+                        if (rand % 2 == 0 && rand <= (num * -1) - 20000)
+						{
+                            diceSuccessText.text = $"성공 ! (주사위 보너스 {Constant.DiceBonus})";
+                            temCon.DiceResult(true);
+                        }
+                        else
+						{
+                            diceSuccessText.text = $"실패... (주사위 보너스 {Constant.DiceBonus})";
+                            temCon.DiceResult(false);
+                        }
+                    }
+				}
+			}
             isDiceRoll = false;
 
             break;

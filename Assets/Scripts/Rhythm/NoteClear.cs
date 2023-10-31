@@ -9,11 +9,13 @@ public class NoteClear : MonoBehaviour
     public AudioSource BgSound;             // 배경음 불러올 오디오 소스
     private RhythmManager manager;          // 리듬 매니저 캐싱
     private Judge judge;                    // 판정 정보
+    private KeyCode[] clearKeys;
 
     void Start()
     {
         // 리듬 매니저 캐싱
         manager = RhythmManager.Instance;
+        KeyMapping();
     }
 
     void Update()
@@ -116,16 +118,16 @@ public class NoteClear : MonoBehaviour
 
     private bool KeyDownInput(int index)
     {
-        // 1 라인 : A, S
+        // 1 라인 : [0] [1]
         if (index == 0)
         {
-            return Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S);
+            return Input.GetKeyDown(clearKeys[0]) || Input.GetKeyDown(clearKeys[1]);
         }
 
-        // 2 라인 : ;, '
+        // 2 라인 : [2] [3]
         else if (index == 1)
         {
-            return Input.GetKeyDown(KeyCode.Semicolon) || Input.GetKeyDown(KeyCode.Quote);
+            return Input.GetKeyDown(clearKeys[2]) || Input.GetKeyDown(clearKeys[3]);
         }
         else
             return false;
@@ -133,18 +135,30 @@ public class NoteClear : MonoBehaviour
 
     private bool KeyHoldInput(int index)
     {
-        // 1 라인 : A, S
+        // 1 라인 : [0] [1]
         if (index == 0)
         {
-            return Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S);
+            return Input.GetKey(clearKeys[0]) || Input.GetKey(clearKeys[1]);
         }
 
-        // 2 라인 : ;, '
+        // 2 라인 : [2] [3]
         else if (index == 1)
         {
-            return Input.GetKey(KeyCode.Semicolon) || Input.GetKey(KeyCode.Quote);
+            return Input.GetKey(clearKeys[2]) || Input.GetKey(clearKeys[3]);
         }
         else
             return false;
+    }
+
+    public void KeyMapping()
+    {
+        clearKeys = new KeyCode[4];
+        if(manager.ClearKeys.Length > 0)
+        {
+            for(int i = 0; i < manager.ClearKeys.Length; i++)
+            {
+                clearKeys[i] = manager.ClearKeys[i];
+            }
+        }
     }
 }

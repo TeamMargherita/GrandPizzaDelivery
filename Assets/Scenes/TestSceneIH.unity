@@ -50451,6 +50451,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 1586257775}
+    - target: {fileID: 6675046179429356731, guid: accbbb06461cbf1488b6c27f79b9b29b, type: 3}
+      propertyPath: PizzaHouse
+      value: 
+      objectReference: {fileID: 1806438958}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: accbbb06461cbf1488b6c27f79b9b29b, type: 3}
 --- !u!224 &973720032 stripped
@@ -66290,6 +66294,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5318039303804823179, guid: 2a53d21aee06d904884ecbcd46502620, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6833447561727001569, guid: 2a53d21aee06d904884ecbcd46502620, type: 3}
       propertyPath: m_RootOrder
       value: 8
@@ -66338,6 +66346,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 6833447561727001599, guid: 2a53d21aee06d904884ecbcd46502620, type: 3}
+      propertyPath: ammoEffect
+      value: 
+      objectReference: {fileID: 4791803104310871442, guid: 272074f1e94a1d046b0ffc953b7fbed7, type: 3}
     - target: {fileID: 6833447561727001599, guid: 2a53d21aee06d904884ecbcd46502620, type: 3}
       propertyPath: MakingPizzaScript
       value: 
@@ -71190,6 +71202,11 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 74}
   m_EdgeRadius: 0
+--- !u!4 &1806438958 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8296955200360106042, guid: 14747f83adf55084998c3e8132358d17, type: 3}
+  m_PrefabInstance: {fileID: 1829057712}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1807249994
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,6 +9,9 @@ public class Minimap : MonoBehaviour
     public List<Transform> Destination = new List<Transform>(); // 목적지(Transform)를 연결합니다.
     public List<RectTransform> destinationIcon = new List<RectTransform>();
     public RectTransform PlayerIcon;
+    [SerializeField] private Transform PizzaHouse;
+    [SerializeField] private RectTransform PizzaHouseIcon;
+
 
     public void CreateDestination(Request SDR)
     {
@@ -36,10 +39,38 @@ public class Minimap : MonoBehaviour
                 destinationIcon[i].gameObject.SetActive(false);
         }
     }
-    float width = 1920 / 280;
-    float height = 1080 / 280;
+    private void StoreIconUpdate()
+    {
+        Vector2 change = (PizzaHouse.position - player.position) * 18;
+        if (change.x < -135)
+        {
+            change.x = -135;
+        }
+        if (change.x > 135)
+        {
+            change.x = 135;
+        }
+        if (change.y < -135)
+        {
+            change.y = -135;
+        }
+        if (change.y > 135)
+        {
+            change.y = 135;
+        }
+        if (change.x <= -135 || change.x >= 135 || change.y <= -135 || change.y >= 135)
+        {
+            PizzaHouseIcon.GetComponent<Image>().color = Color.white;
+        }
+        else
+        {
+            PizzaHouseIcon.GetComponent<Image>().color = Color.clear;
+        }
+        PizzaHouseIcon.anchoredPosition = change;
+    }
     void Update()
     {
+        StoreIconUpdate();
         PlayerIcon.rotation = player.rotation;
         if (Destination.Count <= 0)
             return;

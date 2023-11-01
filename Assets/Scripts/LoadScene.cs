@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using DayNS;
 
 // 한석호 작성
 public class LoadScene : MonoBehaviour
@@ -34,6 +35,19 @@ public class LoadScene : MonoBehaviour
 	{
         Fade.Instance.gameObject.SetActive(true);
         Fade.Instance.SetLoadSceneName(str);
+	}
+    public void LoadNextDay(string str)
+	{
+        if (Constant.NowDay != DayEnum.SUNDAY)
+        {
+            Constant.NowDay++;
+        }
+        else
+		{
+            Constant.NowDay = DayEnum.MONDAY;
+		}
+        Constant.NowDate++;
+        ActiveTrueFade("InGameScene");
 	}
     public void LoadS(string str)
 	{

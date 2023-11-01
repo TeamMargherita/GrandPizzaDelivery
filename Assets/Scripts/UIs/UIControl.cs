@@ -22,6 +22,7 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
     [SerializeField] private GameObject DeliveryAppButton;
     [SerializeField] private GameObject DarkDeliveryAppButton;
     [SerializeField] private GameObject player; // 플레이어
+    [SerializeField] private GameObject makingPizzaObj;
     [SerializeField] private Light2D light2D;
     [SerializeField] private UnityEngine.UI.Image addPizzaImg;
     [SerializeField] private UnityEngine.UI.Text alarmMessageText;
@@ -30,6 +31,7 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
     private IEndConversation iEndInspecting;
     private IHouse iHouse;
     private IStop iStop;
+    private IResetPizzaMaking iResetPizzaMaking;
 
     private HouseType houseType;
     
@@ -89,6 +91,7 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
         employeeRecruitTrans = employeeRecruitPanel.GetComponent<RectTransform>();
         alarmMessageTrans = alarmMessagePanel.GetComponent<RectTransform>();
         alarmMessageText = alarmMessagePanel.transform.GetChild(0).GetComponent<UnityEngine.UI.Text>();
+        iResetPizzaMaking = makingPizzaObj.GetComponent<IResetPizzaMaking>();
 	}
     /// <summary>
     /// 알람메세지 등장을 제어하는 메소드
@@ -259,6 +262,7 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
         DarkDeliveryAppButton.SetActive(true);
         GameManager.Instance.time = 0;
         GameManager.Instance.isDarkDelivery = true;
+        iResetPizzaMaking.ResetPizzaMaking();
         Time.timeScale = 1;
         light2D.color = new Color(80 / 255f, 80 / 255f, 80 / 255f);
         map.OnStreetLamp();
@@ -267,7 +271,7 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
     public void NoDarkDeliveryPanel()
     {
         SpecialPizzaDeliverySelectionPanel.SetActive(false);
-        GameManager.Instance.PlayerDead();
+        GameManager.Instance.NextDay();
         //GameManager.Instance.isDarkDelivery = false;
         Time.timeScale = 1;
     }
@@ -429,6 +433,17 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
                     iStop.StopMap(true);
                     // 대화창을 연다.
                     ControlConversationUI(true, null, 6);
+                    break;
+                case HouseType.HOSPITAL:
+                    if (GameManager.Instance.time >= 32400 && GameManager.Instance.time <= 64800)
+                    {
+                        iStop.StopMap(true);
+                        ControlConversationUI(true, null, 7);
+                    }
+                    else
+					{
+                        break;
+					}
                     break;
             }
         }

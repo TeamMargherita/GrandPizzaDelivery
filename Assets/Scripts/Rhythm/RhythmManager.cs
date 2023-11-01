@@ -19,6 +19,7 @@ public class RhythmManager : MonoBehaviour
     public float KeySound;                          // 키음
     public bool SceneChange;                        // 씬 전환 여부
     public JudgeStorage Judges;                     // 판정 저장소
+    public KeyCode[] ClearKeys;
 
     private static RhythmManager instance = null;
 
@@ -38,6 +39,10 @@ public class RhythmManager : MonoBehaviour
         Data = new AudioData();
         MusicSound = 0.5f;
         KeySound = 0.5f;
+        ClearKeys[0] = KeyCode.A;
+        ClearKeys[1] = KeyCode.S;
+        ClearKeys[2] = KeyCode.Semicolon;
+        ClearKeys[3] = KeyCode.Quote;
     }
 
     private void Update()

@@ -46,7 +46,7 @@ public class PoliceGunShooting : GunShooting
                 {
                     if (hit.transform.CompareTag("Player"))
                     {
-                        hit.transform.GetComponent<PlayerStat>().HP -= damage;
+                        PlayerStat.HP -= damage;
                     }
                 }
                 time = 0;

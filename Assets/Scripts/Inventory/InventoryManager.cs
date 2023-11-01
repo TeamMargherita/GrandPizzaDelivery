@@ -67,10 +67,7 @@ public class InventoryManager : MonoBehaviour
         }else if(type == ItemType.GUN)
         {
             GunInventorySlot[index].transform.GetChild(0).GetComponent<Image>().enabled = true;
-
             GunInventorySlot[index].transform.GetChild(0).GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(path)[0];
-            //GunInventorySlot[index].transform.GetChild(0).GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 240);
-           // GunInventorySlot[index].transform.GetChild(0).GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 120);
             GunInventorySlot[index].transform.GetChild(0).GetComponent<Image>().color = Color.white;
             GunInventorySlot[index].transform.GetChild(1).GetComponent<Text>().text = "x " + count;
         }
@@ -201,7 +198,6 @@ public class InventoryManager : MonoBehaviour
                 Inventory.SetActive(true);
                 InventoryActive = true;
             }
-            Debug.Log("Tab 문자가 입력되었습니다.");
         }
     }
 
@@ -214,7 +210,6 @@ public class InventoryManager : MonoBehaviour
                 if (GameManager.Instance.PizzaInventoryData[i] != null)
                 {
                     PizzaInventorySlot[i].transform.GetChild(0).GetComponent<Text>().text = GameManager.Instance.PizzaInventoryData[i]?.Name;
-                    Debug.Log("텍스트 수정하는 슬롯" + i);
                 }
                     
             }
@@ -240,6 +235,7 @@ public class InventoryManager : MonoBehaviour
             GunEquipmentSlot.GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(Constant.GunInfo[Constant.nowGun[0]].Path)[0];
             GunEquipmentSlot.GetComponent<Image>().color = Color.white;
             Player.CurrentMagagine = 0;
+            Player.Gun.GetComponent<SpriteRenderer>().sprite = Resources.LoadAll<Sprite>(Constant.GunInfo[Constant.nowGun[0]].Path)[0];
         }
         else
             GunEquipmentSlot.GetComponent<Image>().color = Color.clear;
@@ -251,6 +247,7 @@ public class InventoryManager : MonoBehaviour
         {
             PizzaInventorySlot[index].transform.GetChild(0).GetComponent<Text>().text = "";
             GameManager.Instance.PizzaInventoryData[index] = null;
+            PlayerStat.HP += 50;
         }
         inventoryTextUpdate(CurrentInventory.name);
     }
@@ -277,7 +274,6 @@ public class InventoryManager : MonoBehaviour
     }
     public void OnClickDelivery()
     {
-        Debug.Log("온클릭딜리버리");
         if(GoalAddressS != null)
         {
             int SDRIndex = 0;
@@ -296,7 +292,7 @@ public class InventoryManager : MonoBehaviour
                             PizzaInventorySlot[SlotNum].transform.GetChild(0).GetComponent<Text>().text = "";
                             GameManager.Instance.PizzaInventoryData[SlotNum] = null;
                             Minimap.DeleteDestination(GoalAddressS.iHouse.GetLocation());
-                            GoalAddressS.iHouse.DisableHouse();
+                            GoalAddressS.iHouse.DisableHouse(pizza.Value);
                             DeliveryScreen.OnClickCancle(SDRIndex);
                             GoalAddressS = null;
                             DeliveryJudgmentPanel.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "배달이 완료 되었습니다.";

@@ -5,14 +5,14 @@ using UnityEngine;
 public class PlayerStat : MonoBehaviour
 {
     [SerializeField]
-    private int hp = 200;
-    public int MaxHP = 200;
+    private static int hp = 200;
+    public const int MaxHP = 200;
     public float Braking = 0.99f;
     private float speed;
     public float MaxSpeed;
     public float acceleration = 10;
 
-    public int HP
+    public static int HP
     {
         get { return hp; }
         set {

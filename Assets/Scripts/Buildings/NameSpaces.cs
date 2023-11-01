@@ -60,7 +60,7 @@ namespace BuildingNS
     /// </summary>
     namespace HouseNS
     {
-        public enum HouseType { NONE, PIZZASTORE, HOUSE, DICESTORE, PINEAPPLESTORE, INGREDIENTSTORE, PINEAPPLESTORETWO, GUNSTORE };
+        public enum HouseType { NONE, PIZZASTORE, HOUSE, DICESTORE, PINEAPPLESTORE, INGREDIENTSTORE, PINEAPPLESTORETWO, GUNSTORE, HOSPITAL };
     }
 }
 /// <summary>
@@ -93,7 +93,7 @@ namespace BuildingAddressNS
 /// </summary>
 namespace PizzaNS
 {
-    public enum Ingredient { PINEAPPLE, TOMATO, CHEESE, BASIL, POTATO, BACON, CORN, JALAPENO, CHICKEN, MEAT, APPLE, CARROT, BIGGREENONION };
+    public enum Ingredient { PINEAPPLE, TOMATO, CHEESE, BASIL, POTATO, BACON, CORN, JALAPENO, CHICKEN, MEAT, APPLE, CARROT, BIGGREENONION, GALIC, ONION, PEPPER };
     /// <summary>
     /// 재료 네임스페이스
     /// </summary>
@@ -137,19 +137,30 @@ namespace PizzaNS
     {
         public struct CustomerS
         {
-            public List<Ingredient> IngredList;  //선호 재료
+            //public List<Ingredient> IngredList;  //선호 재료
             public int PizzaCutLine;    //피자 완성도 커트라인
+            public float PizzaDeliverySpeed;    // 피자 배달 속도
+            public int PizzaState;  // 피자 식은 정도
+            public int PizzaCarismaCutLine; // 피자 매력도 커트라인
 
-            public CustomerS(int pizzaCutLine, List<Ingredient> ingredList)
+            public CustomerS(int pizzaCutLine, float pizzaDeliverySpeed, int pizzaState, int pizzaCarismaCutLine)
             {
                 PizzaCutLine = pizzaCutLine;
-
-                IngredList = new List<Ingredient>();
-                for (int i = 0; i < ingredList.Count; i++)
-                {
-                    IngredList.Add(ingredList[i]);
-                }
+                PizzaDeliverySpeed = pizzaDeliverySpeed;
+                PizzaState = pizzaState;
+                PizzaCarismaCutLine = pizzaCarismaCutLine;
             }
+            //public CustomerS(int pizzaCutLine, List<Ingredient> ingredList)
+            //{
+            //    PizzaCutLine = pizzaCutLine;
+
+            //    IngredList = new List<Ingredient>();
+            //    for (int i = 0; i < ingredList.Count; i++)
+            //    {
+            //        IngredList.Add(ingredList[i]);
+            //    }
+            //}
+            
         }
     }
 }
@@ -296,4 +307,11 @@ namespace StoreNS
             Path = path;
 		}
 	}
+}
+/// <summary>
+/// 날짜와 관련된 네임스페이스이다.
+/// </summary>
+namespace DayNS
+{
+    public enum DayEnum { MONDAY, TUESDAY, WENDESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY };
 }

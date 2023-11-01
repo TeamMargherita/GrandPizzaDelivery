@@ -6992,7 +6992,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Menu: {fileID: 1290089630}
-  BgSound: {fileID: 2019146961}
+  Sound: {fileID: 2019146961}
+  Delay: 1
 --- !u!1001 &2045574708
 PrefabInstance:
   m_ObjectHideFlags: 0

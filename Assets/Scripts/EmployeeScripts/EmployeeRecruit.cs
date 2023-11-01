@@ -33,6 +33,8 @@ public class EmployeeRecruit : MonoBehaviour
         {
             preferedDay.Add(i, new List<Day>());
         }
+
+        isMorning = true;
     }
 
     private void Update()

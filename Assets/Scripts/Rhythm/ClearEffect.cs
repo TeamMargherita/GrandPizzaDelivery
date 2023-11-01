@@ -67,6 +67,7 @@ public class ClearEffect : MonoBehaviour
 
         // 이펙트 링 인스턴싱
         GameObject ring = Instantiate(Ring, transform);
+        Destroy(ring, 5f);
 
         // 링 색상, 좌표 초기화
         ring.GetComponent<SpriteRenderer>().color = color[index];

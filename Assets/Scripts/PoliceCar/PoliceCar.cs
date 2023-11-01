@@ -190,9 +190,10 @@ public class PoliceCar : Police, IPoliceCar, IMovingPoliceCarControl, IInspectin
     /// </summary>
     private void TurnStraight(float value)
     {
-        trans.position += transform.right * ((Mathf.PI * Speed * Time.timeScale) / (2 * Mathf.Abs(value)));
+        
         if (nn + Speed < Mathf.Abs(value))
         {
+            trans.position += transform.right * ((Mathf.PI * Speed * Time.timeScale) / (2 * Mathf.Abs(value)));
             nn += Speed;
         }
         else

@@ -112,6 +112,8 @@ namespace PizzaNS
             this.IngredientPrice = ingredientPrice;
 		}
     }
+
+    public enum Freshness {WHITE, SKYBLUE, BLUE };
     /// <summary>
     /// 완성된 피자의 설명을 위한 구조체
     /// </summary>

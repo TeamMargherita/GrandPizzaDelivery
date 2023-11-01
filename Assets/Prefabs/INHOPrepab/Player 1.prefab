@@ -213,8 +213,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 430e9e23764a5a94987d25d704d46027, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 200
-  MaxHP: 200
   Braking: 0.98
   MaxSpeed: 10
   acceleration: 1
@@ -224,12 +222,13 @@ MonoBehaviour:
   InventoryManagerScript: {fileID: 0}
   PlayerSmoke: {fileID: 7197004675540638408, guid: cc5fdd4542ea00b42b6ff7a93a04f03c, type: 3}
   BloodEffect: {fileID: 5314277202479008652, guid: d3c8c8545ffa26f42be95da8f6ee175d, type: 3}
-  WallHitEffect: {fileID: 5314277202479008652, guid: d3c8c8545ffa26f42be95da8f6ee175d, type: 3}
+  WallHitEffect: {fileID: 1602822174619369196, guid: 9dfbf758936d77443a1b4e70ca304131, type: 3}
   FireEffect: {fileID: 2141880719892404365}
   Hand: {fileID: 5318039303804823179}
   Gun: {fileID: 383153177}
   FireAudioClip: {fileID: 8300000, guid: b34d02f502fb6b44ca27419a3c9d4031, type: 3}
   ReloadAudioClip: {fileID: 8300000, guid: 3a8ed98ed194da24dba3a2debb6ff05f, type: 3}
+  ammoEffect: {fileID: 4791803104310871442, guid: 272074f1e94a1d046b0ffc953b7fbed7, type: 3}
 --- !u!61 &6833447561727001596
 BoxCollider2D:
   m_ObjectHideFlags: 0

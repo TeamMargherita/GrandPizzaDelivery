@@ -32,6 +32,8 @@ public class PlayerMove : PlayerStat
     private AudioClip FireAudioClip;
     [SerializeField]
     private AudioClip ReloadAudioClip;
+    [SerializeField]
+    private GameObject ammoEffect;
 
     PlayerGunShooting gunMethod;
     private void Awake()
@@ -51,6 +53,7 @@ public class PlayerMove : PlayerStat
             {
                 if (gunMethod.Fire(1 - Constant.GunInfo[Constant.nowGun[0]].Speed, Constant.GunInfo[Constant.nowGun[0]].Damage))
                 {
+                    Instantiate(ammoEffect, Gun.transform.position, Hand.transform.rotation);
                     CurrentMagagine -= 1;
                     FireEffect.GetComponent<Animator>().SetTrigger("NewStart");
                     FireAudio.Play();
@@ -59,6 +62,7 @@ public class PlayerMove : PlayerStat
         }
         else
         {
+            Hand.SetActive(false);
             if (Constant.nowGun[0] != -1)
             {
                 reloadTime += Time.deltaTime;
@@ -73,8 +77,7 @@ public class PlayerMove : PlayerStat
     }
     void Update()
     {
-        if(GameManager.Instance.isDarkDelivery)
-            PlayerFire();
+        PlayerFire();
         InventoryManagerScript.UIMagagineTextUpdate(CurrentMagagine);
         if (Input.GetKeyDown(KeyCode.X))
         {

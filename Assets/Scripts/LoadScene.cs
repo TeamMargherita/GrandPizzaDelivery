@@ -70,7 +70,7 @@ public class LoadScene : MonoBehaviour
 	{
         Constant.IsMakePizza = true;
         Constant.DevelopPizza.Add(new Pizza("Pizza" + System.DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss"), Random.Range(20,80) + 20, Constant.ProductionCost
-            ,Random.Range(5000,30000) + 10000,Constant.PizzaAttractiveness, Constant.ingreds, Constant.TotalDeclineAt));
+            ,Random.Range(5000,30000) + 10000,Constant.PizzaAttractiveness, Constant.ingreds, Constant.TotalDeclineAt, 100, 0));
         ActiveTrueFade("InGameScene");
 	}
 }

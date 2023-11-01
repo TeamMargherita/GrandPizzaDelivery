@@ -14,14 +14,18 @@ public struct Pizza
     public int Charisma;//¸Å·Âµµ
     public List<Ingredient> Ingreds;
     public int TotalDeclineAt;
+    public int Freshness;
+    public float ProductTime;
 
-    public Pizza(string name, int perfection, int productionCost, int sellCost, int charisma, List<Ingredient> Ingreds, int TotalDeclineAt)
+    public Pizza(string name, int perfection, int productionCost, int sellCost, int charisma, List<Ingredient> Ingreds, int TotalDeclineAt, int freshness, float productTime)
     {
         Name = name;
         Perfection = perfection;
         ProductionCost = productionCost;
         SellCost = sellCost;
         Charisma = charisma;
+        Freshness = freshness;
+        ProductTime = productTime;
         this.Ingreds = new List<Ingredient>();
         for (int i = 0; i < Ingreds.Count; i++)
         {
@@ -29,6 +33,19 @@ public struct Pizza
         }
         this.TotalDeclineAt = TotalDeclineAt;
     }
+
+    public int FreshnessUpdate(float time)
+    {
+        if(time - ProductTime >= 600 && time - ProductTime < 1200)
+        {
+            Freshness = 50;
+        }else if(time - ProductTime >= 1200)
+        {
+            Freshness = 0;
+        }
+        return Freshness;
+    }
+
     public string GetName()
     {
         return Name;

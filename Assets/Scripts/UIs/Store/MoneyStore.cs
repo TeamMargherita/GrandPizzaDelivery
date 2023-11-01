@@ -11,12 +11,12 @@ public class MoneyStore : Conversation
 	public static bool StartSonQuest = false;   // 가족 관련 퀘스트를 시작했는지 여부
 	public static bool OneChanceClearSon = false;   // 클리어 이후 첫 대사
 	public static bool IsTalkOneChanceDiscount = false;	// 한번에 한해서 이자를 깎을 수 있음. true가 되면 할인 시도 이미 한 것.
-	public static Dictionary<int, int> BorrowMoneyDate = new Dictionary<int, int>();    // 돈빌린 날짜, 금액
-	public static Dictionary<int, int> PayMoneyDate = new Dictionary<int, int>();	// 돈빌린 날짜, 갚을 금액
+
 	public static int SumBorrow = 0;    // 총 빌린 금액
 	public static float PlusMoney = 1.1f;   // 매일 복리 이자 
 	public static int NowDate = 1;  // 날짜
-	public static int ClearMoney = 0;	// 퀘스트 성공시 받는 돈
+	public static int ClearMoney = 0;   // 퀘스트 성공시 받는 돈
+	public const int MoneyStoreCode = 0;	// 대출업체 코드
 	public MoneyStore()
 	{
 		NpcTextStrArr = new string[57]
@@ -84,14 +84,14 @@ public class MoneyStore : Conversation
 		{
 			Constant.NowDate = NowDate;
 			List<int> li = new List<int>();
-			foreach (var key in PayMoneyDate.Keys)
+			foreach (var key in Constant.PayMoneyDate.Keys)
 			{
-				PayMoneyDate[key]++;
+				Constant.PayMoneyDate[key][MoneyStoreCode]++;
 				li.Add(key);
 			}
 			for (int i = 0; i < li.Count; i++)
 			{
-				PayMoneyDate[li[i]] = (int)(PayMoneyDate[li[i]] * PlusMoney);
+				Constant.PayMoneyDate[li[i]][MoneyStoreCode] = (int)(Constant.PayMoneyDate[li[i]][MoneyStoreCode] * PlusMoney);
 			}
 		}
 
@@ -120,7 +120,7 @@ public class MoneyStore : Conversation
 	{
 		if (num == 5)
         {
-			if (!BorrowMoneyDate.ContainsKey(Constant.NowDate))
+			if (!Constant.BorrowMoneyDate.ContainsKey(Constant.NowDate))
 			{
 				if (SumBorrow <= 50000000 - 30000000) { return true; }
 				else
@@ -133,19 +133,19 @@ public class MoneyStore : Conversation
 			{
 				if (SumBorrow <= 50000000 - 30000000)
 				{
-					if (30000000 - BorrowMoneyDate[Constant.NowDate] <= 1000000) { return true; }
+					if (30000000 - Constant.BorrowMoneyDate[Constant.NowDate][MoneyStoreCode] <= 1000000) { return true; }
 					else { return false; }
 				}
 				else
 				{
-					if ((50000000 - SumBorrow) - BorrowMoneyDate[Constant.NowDate] <= 1000000) { return true; }
+					if ((50000000 - SumBorrow) - Constant.BorrowMoneyDate[Constant.NowDate][MoneyStoreCode] <= 1000000) { return true; }
 					else { return false; }
 				}
 			}
 		}
 		else if (num == 6)
         {
-			if (!BorrowMoneyDate.ContainsKey(Constant.NowDate))
+			if (!Constant.BorrowMoneyDate.ContainsKey(Constant.NowDate))
 			{
 				if (SumBorrow <= 50000000 - 30000000) { return true; }
 				else
@@ -158,19 +158,19 @@ public class MoneyStore : Conversation
 			{
 				if (SumBorrow <= 50000000 - 30000000)
 				{
-					if (30000000 - BorrowMoneyDate[Constant.NowDate] <= 2000000) { return true; }
+					if (30000000 - Constant.BorrowMoneyDate[Constant.NowDate][MoneyStoreCode] <= 2000000) { return true; }
 					else { return false; }
 				}
 				else
 				{
-					if ((50000000 - SumBorrow) - BorrowMoneyDate[Constant.NowDate] <= 2000000) { return true; }
+					if ((50000000 - SumBorrow) - Constant.BorrowMoneyDate[Constant.NowDate][MoneyStoreCode] <= 2000000) { return true; }
 					else { return false; }
 				}
 			}
 		}
 		else if (num == 7)
         {
-			if (!BorrowMoneyDate.ContainsKey(Constant.NowDate))
+			if (!Constant.BorrowMoneyDate.ContainsKey(Constant.NowDate))
 			{
 				if (SumBorrow <= 50000000 - 30000000) { return true; }
 				else
@@ -183,19 +183,19 @@ public class MoneyStore : Conversation
 			{
 				if (SumBorrow <= 50000000 - 30000000)
 				{
-					if (30000000 - BorrowMoneyDate[Constant.NowDate] <= 3000000) { return true; }
+					if (30000000 - Constant.BorrowMoneyDate[Constant.NowDate][MoneyStoreCode] <= 3000000) { return true; }
 					else { return false; }
 				}
 				else
 				{
-					if ((50000000 - SumBorrow) - BorrowMoneyDate[Constant.NowDate] <= 3000000) { return true; }
+					if ((50000000 - SumBorrow) - Constant.BorrowMoneyDate[Constant.NowDate][MoneyStoreCode] <= 3000000) { return true; }
 					else { return false; }
 				}
 			}
 		}
 		else if (num == 8)
         {
-			if (!BorrowMoneyDate.ContainsKey(Constant.NowDate))
+			if (!Constant.BorrowMoneyDate.ContainsKey(Constant.NowDate))
 			{
 				if (SumBorrow <= 50000000 - 30000000) { return true; }
 				else
@@ -208,12 +208,12 @@ public class MoneyStore : Conversation
 			{
 				if (SumBorrow <= 50000000 - 30000000)
 				{
-					if (30000000 - BorrowMoneyDate[Constant.NowDate] <= 4000000) { return true; }
+					if (30000000 - Constant.BorrowMoneyDate[Constant.NowDate][MoneyStoreCode] <= 4000000) { return true; }
 					else { return false; }
 				}
 				else
 				{
-					if ((50000000 - SumBorrow) - BorrowMoneyDate[Constant.NowDate] <= 4000000) { return true; }
+					if ((50000000 - SumBorrow) - Constant.BorrowMoneyDate[Constant.NowDate][MoneyStoreCode] <= 4000000) { return true; }
 					else { return false; }
 				}
 			}
@@ -232,9 +232,9 @@ public class MoneyStore : Conversation
 		else if (num == 21)
         {
 			int money = 0;
-			foreach (var key in PayMoneyDate.Keys)
+			foreach (var key in Constant.PayMoneyDate.Keys)
             {
-				money += PayMoneyDate[key];
+				money += Constant.PayMoneyDate[key][MoneyStoreCode];
             }
 
 			if (money >= 1000000 && GameManager.Instance.Money >= 1000000)
@@ -249,9 +249,9 @@ public class MoneyStore : Conversation
 		else if (num == 22)
         {
 			int money = 0;
-			foreach (var key in PayMoneyDate.Keys)
+			foreach (var key in Constant.PayMoneyDate.Keys)
 			{
-				money += PayMoneyDate[key];
+				money += Constant.PayMoneyDate[key][MoneyStoreCode];
 			}
 
 			if (money >= 2000000 && GameManager.Instance.Money >= 2000000)
@@ -266,9 +266,9 @@ public class MoneyStore : Conversation
 		else if (num == 23)
         {
 			int money = 0;
-			foreach (var key in PayMoneyDate.Keys)
+			foreach (var key in Constant.PayMoneyDate.Keys)
 			{
-				money += PayMoneyDate[key];
+				money += Constant.PayMoneyDate[key][MoneyStoreCode];
 			}
 
 			if (money >= 4000000 && GameManager.Instance.Money >= 4000000)
@@ -283,9 +283,9 @@ public class MoneyStore : Conversation
 		else if (num == 25)
         {
 			int money = 0;
-			foreach (var key in PayMoneyDate.Keys)
+			foreach (var key in Constant.PayMoneyDate.Keys)
 			{
-				money += PayMoneyDate[key];
+				money += Constant.PayMoneyDate[key][MoneyStoreCode];
 			}
 
 			if (money <= GameManager.Instance.Money)
@@ -345,7 +345,7 @@ public class MoneyStore : Conversation
 
 		if (temInt == 2)
         {
-			if (!BorrowMoneyDate.ContainsKey(Constant.NowDate))
+			if (!Constant.BorrowMoneyDate.ContainsKey(Constant.NowDate))
             {
 				if (SumBorrow <= 50000000 - 30000000)
                 {
@@ -360,64 +360,68 @@ public class MoneyStore : Conversation
             {
 				if (SumBorrow <= 50000000 - 30000000)
                 {
-					SettingConversation(Findidx(2, new int[1] { 4 }), 30000000 - BorrowMoneyDate[Constant.NowDate]);
+					SettingConversation(Findidx(2, new int[1] { 4 }), 30000000 - Constant.BorrowMoneyDate[Constant.NowDate][MoneyStoreCode]);
                 }
 				else
                 {
-					SettingConversation(Findidx(2, new int[1] { 4 }), (50000000 - SumBorrow) - BorrowMoneyDate[Constant.NowDate]);
+					SettingConversation(Findidx(2, new int[1] { 4 }), (50000000 - SumBorrow) - Constant.BorrowMoneyDate[Constant.NowDate][MoneyStoreCode]);
                 }
             }
 			index = -100;
         }
 		else if (temInt == 5)
         {
-			if (BorrowMoneyDate.ContainsKey(Constant.NowDate))
+			if (Constant.BorrowMoneyDate.ContainsKey(Constant.NowDate))
             {
-				BorrowMoneyDate[Constant.NowDate] += 1000000;
+				Constant.BorrowMoneyDate[Constant.NowDate][MoneyStoreCode] += 1000000;
             }
 			else
             {
-				BorrowMoneyDate.Add(Constant.NowDate, 1000000);
+				Constant.BorrowMoneyDate.Add(Constant.NowDate, new Dictionary<int, int>() { { MoneyStoreCode, 1000000} });
             }
+			Constant.Dept += 1000000;
 			SettingConversation(Findidx(5, new int[1] { 10 }));
 			index = -100;
         }
 		else if (temInt == 6)
         {
-			if (BorrowMoneyDate.ContainsKey(Constant.NowDate))
+			if (Constant.BorrowMoneyDate.ContainsKey(Constant.NowDate))
 			{
-				BorrowMoneyDate[Constant.NowDate] += 2000000;
+				Constant.BorrowMoneyDate[Constant.NowDate][MoneyStoreCode] += 2000000;
 			}
 			else
 			{
-				BorrowMoneyDate.Add(Constant.NowDate, 2000000);
+				Constant.BorrowMoneyDate.Add(Constant.NowDate, new Dictionary<int, int>() { { MoneyStoreCode, 2000000} });
 			}
+			Constant.Dept += 20000000;
 			SettingConversation(Findidx(6, new int[1] { 10 }));
 			index = -100;
 		}
 		else if (temInt == 7)
         {
-			if (BorrowMoneyDate.ContainsKey(Constant.NowDate))
+			if (Constant.BorrowMoneyDate.ContainsKey(Constant.NowDate))
 			{
-				BorrowMoneyDate[Constant.NowDate] += 3000000;
+				Constant.BorrowMoneyDate[Constant.NowDate][MoneyStoreCode] += 3000000;
 			}
 			else
 			{
-				BorrowMoneyDate.Add(Constant.NowDate, 3000000);
+				Constant.BorrowMoneyDate.Add(Constant.NowDate, new Dictionary<int, int>() { { MoneyStoreCode, 3000000 } });
 			}
+			Constant.Dept += 3000000;
 			SettingConversation(Findidx(7, new int[1] { 10 }));
 			index = -100;
 		}
 		else if (temInt == 8)
         {
-			if (BorrowMoneyDate.ContainsKey(Constant.NowDate))
+			if (Constant.BorrowMoneyDate.ContainsKey(Constant.NowDate))
 			{
-				BorrowMoneyDate[Constant.NowDate] += 4000000;
+				Constant.BorrowMoneyDate[Constant.NowDate][MoneyStoreCode] += 4000000;
 			}
 			else
 			{
-				BorrowMoneyDate.Add(Constant.NowDate, 4000000);
+				Constant.BorrowMoneyDate.Add(Constant.NowDate, new Dictionary<int, int>() { { MoneyStoreCode, 4000000 } });
 			}
+			Constant.Dept += 4000000;
 			SettingConversation(Findidx(8, new int[1] { 10 }));
 			index = -100;
 		}
@@ -435,9 +439,9 @@ public class MoneyStore : Conversation
 		else if (temInt == 19)
         {
 			int n = 0;
-			foreach (var key in PayMoneyDate.Keys)
+			foreach (var key in Constant.PayMoneyDate.Keys)
             {
-				n += PayMoneyDate[key];
+				n += Constant.PayMoneyDate[key][MoneyStoreCode];
             }
 
 			SettingConversation(Findidx(19, new int[1] { 20 }), n);
@@ -449,25 +453,25 @@ public class MoneyStore : Conversation
 			while (true)
             {
 				int k = 0;
-				foreach (var key in PayMoneyDate.Keys)
+				foreach (var key in Constant.PayMoneyDate.Keys)
                 {
 					k = key;
 					break;
                 }
-				if (PayMoneyDate[k] <= m)
+				if (Constant.PayMoneyDate[k][MoneyStoreCode] <= m)
                 {
-					m -= PayMoneyDate[k];
-					PayMoneyDate.Remove(k);
+					m -= Constant.PayMoneyDate[k][MoneyStoreCode];
+					Constant.PayMoneyDate.Remove(k);
 
 					if (m == 0) { break; }
                 }
 				else
                 {
-					PayMoneyDate[k] -= m;
+					Constant.PayMoneyDate[k][MoneyStoreCode] -= m;
 					break;
                 }
             }
-
+			Constant.Dept -= 1000000;
 			SettingConversation(Findidx(21, new int[26]));
 			index = -100;
         }
@@ -477,25 +481,25 @@ public class MoneyStore : Conversation
 			while (true)
 			{
 				int k = 0;
-				foreach (var key in PayMoneyDate.Keys)
+				foreach (var key in Constant.PayMoneyDate.Keys)
 				{
 					k = key;
 					break;
 				}
-				if (PayMoneyDate[k] <= m)
+				if (Constant.PayMoneyDate[k][MoneyStoreCode] <= m)
 				{
-					m -= PayMoneyDate[k];
-					PayMoneyDate.Remove(k);
+					m -= Constant.PayMoneyDate[k][MoneyStoreCode];
+					Constant.PayMoneyDate.Remove(k);
 
 					if (m == 0) { break; }
 				}
 				else
 				{
-					PayMoneyDate[k] -= m;
+					Constant.PayMoneyDate[k][MoneyStoreCode] -= m;
 					break;
 				}
 			}
-
+			Constant.Dept -= 2000000;
 			SettingConversation(Findidx(22, new int[26]));
 			index = -100;
 		}
@@ -505,25 +509,25 @@ public class MoneyStore : Conversation
 			while (true)
 			{
 				int k = 0;
-				foreach (var key in PayMoneyDate.Keys)
+				foreach (var key in Constant.PayMoneyDate.Keys)
 				{
 					k = key;
 					break;
 				}
-				if (PayMoneyDate[k] <= m)
+				if (Constant.PayMoneyDate[k][MoneyStoreCode] <= m)
 				{
-					m -= PayMoneyDate[k];
-					PayMoneyDate.Remove(k);
+					m -= Constant.PayMoneyDate[k][MoneyStoreCode];
+					Constant.PayMoneyDate.Remove(k);
 
 					if (m == 0) { break; }
 				}
 				else
 				{
-					PayMoneyDate[k] -= m;
+					Constant.PayMoneyDate[k][MoneyStoreCode] -= m;
 					break;
 				}
 			}
-
+			Constant.Dept -= 4000000;
 			SettingConversation(Findidx(23, new int[26]));
 			index = -100;
 		}
@@ -534,28 +538,29 @@ public class MoneyStore : Conversation
 		else if (temInt == 25)
 		{
 			int m = 0;
-			foreach (var key in PayMoneyDate.Keys)
+			foreach (var key in Constant.PayMoneyDate.Keys)
             {
-				m += PayMoneyDate[key];
+				m += Constant.PayMoneyDate[key][MoneyStoreCode];
             }
+			Constant.Dept -= m;
 			while (true)
 			{
 				int k = 0;
-				foreach (var key in PayMoneyDate.Keys)
+				foreach (var key in Constant.PayMoneyDate.Keys)
 				{
 					k = key;
 					break;
 				}
-				if (PayMoneyDate[k] <= m)
+				if (Constant.PayMoneyDate[k][MoneyStoreCode] <= m)
 				{
-					m -= PayMoneyDate[k];
-					PayMoneyDate.Remove(k);
+					m -= Constant.PayMoneyDate[k][MoneyStoreCode];
+					Constant.PayMoneyDate.Remove(k);
 
 					if (m == 0) { break; }
 				}
 				else
 				{
-					PayMoneyDate[k] -= m;
+					Constant.PayMoneyDate[k][MoneyStoreCode] -= m;
 					break;
 				}
 			}

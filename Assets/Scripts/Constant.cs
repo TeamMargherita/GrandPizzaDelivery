@@ -9,6 +9,33 @@ using DayNS;
 // 한석호 작성
 public static class Constant
 {
+	/// <summary>
+	/// 빚
+	/// </summary>
+	public static int Dept = 0;
+	/// <summary>
+	/// 돈빌린 날짜, 금액, 대출업체 코드
+	/// </summary>
+	public static Dictionary<int, Dictionary<int, int>> BorrowMoneyDate = new Dictionary<int, Dictionary<int, int>>();
+	/// <summary>
+	/// 돈빌린 날짜, 갚을 금액, 대출업체 코드
+	/// </summary>
+	public static Dictionary<int, Dictionary<int, int>> PayMoneyDate = new Dictionary<int, Dictionary<int, int>>();
+	/// <summary>
+	/// 하루 동안 점원에게 쓴 비용
+	/// </summary>
+	public static int ClerkMoney = 0;
+	/// <summary>
+	/// 하루 동안 피자 만드는 데 쓴 비용
+	/// </summary>
+	public static int PizzaIngMoney = 0;
+	/// <summary>
+	/// 벌금
+	/// </summary>
+	public static int Fine = 0;
+	/// <summary>
+	/// 죽었는지 여부
+	/// </summary>
 	public static bool IsDead = false;
 	/// <summary>
 	/// 현재 요일

@@ -39,6 +39,9 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText, ICoroutineD
     private PineAppleStoreTwo pineappleStoreTwo;    // 파인애플 가게2 대화 그래프 클래스
     private GunStore gunStore;  // 총 가게 대화 그래프 클래스
     private Hospital hospital;  // 병원 대화 그래프 클래스
+    private IngredientStoreTwo ingredientStoreTwo;  // 재료 가게2 대화 그래프 클래스
+    private LuckyStore luckyStore;  // 점집 대화 그래프 클래스
+    private MoneyStore moneyStore;  // 대출업체 그래프 클래스
     private Conversation temCon;
     private bool isAwake = false;
 
@@ -55,6 +58,9 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText, ICoroutineD
         pineappleStoreTwo = new PineAppleStoreTwo();
         gunStore = new GunStore();
         hospital = new Hospital();
+        ingredientStoreTwo = new IngredientStoreTwo();
+        luckyStore = new LuckyStore();
+        moneyStore = new MoneyStore();
 
         playerTextArr = new Text[playerTextObjArr.Length];
         playerTextsArr = new PlayerTexts[playerTextObjArr.Length];
@@ -132,6 +138,18 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText, ICoroutineD
             case 7:
                 npcSprArr = Resources.LoadAll<Sprite>("UI/Hospital_400_500");
                 InitConversation(hospital);
+                break;
+            case 8:
+                npcSprArr = Resources.LoadAll<Sprite>("UI/IngredientStoreTwo_400_500");
+                InitConversation(ingredientStoreTwo);
+                break;
+            case 9:
+                npcSprArr = Resources.LoadAll<Sprite>("UI/LuckyStore_400_500");
+                InitConversation(luckyStore);
+                break;
+            case 10:
+                npcSprArr = Resources.LoadAll<Sprite>("UI/MoneyStore_400_500");
+                InitConversation(moneyStore);
                 break;
 		}
     }

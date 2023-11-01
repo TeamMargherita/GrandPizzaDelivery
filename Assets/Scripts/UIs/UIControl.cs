@@ -445,6 +445,18 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
                         break;
 					}
                     break;
+                case HouseType.INGREDIENTSTORETWO:
+                    iStop.StopMap(true);
+                    ControlConversationUI(true, null, 8);
+                    break;
+                case HouseType.LUCKYSTORE:
+                    iStop.StopMap(true);
+                    ControlConversationUI(true, null, 9);
+                    break;
+                case HouseType.MONEYSTORE:
+                    iStop.StopMap(true);
+                    ControlConversationUI(true, null, 10);
+                    break;
             }
         }
     }

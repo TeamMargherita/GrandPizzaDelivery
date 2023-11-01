@@ -110,8 +110,16 @@ public class PoliceCar : Police, IPoliceCar, IMovingPoliceCarControl, IInspectin
     {
         if (bo)
         {
-            // 경찰차의 상태를 랜덤으로 정해준다.
-            policeState = (PoliceState)Random.Range(1, 3);
+            // 밤일 때만
+            if (GameManager.Instance.isDarkDelivery)
+            {
+                // 경찰차의 상태를 랜덤으로 정해준다.
+                policeState = (PoliceState)Random.Range(1, 3);
+            }
+            else
+            {
+                policeState = PoliceState.MOVING;
+            }
         }
         // 경찰차에 상태에 따라 켜줘야할 콜라이더가 다르다.
         if (policeState == PoliceState.MOVING)  // 경찰차가 이동 상태일 때

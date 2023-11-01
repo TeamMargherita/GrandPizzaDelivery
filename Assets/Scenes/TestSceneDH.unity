@@ -75831,7 +75831,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4253424143390321804, guid: 78fc0e42ac2a66f4b8471663e8b36025, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 180
+      value: 210
       objectReference: {fileID: 0}
     - target: {fileID: 4253424143390321804, guid: 78fc0e42ac2a66f4b8471663e8b36025, type: 3}
       propertyPath: m_LocalPosition.x
@@ -76157,7 +76157,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4253424143390321804, guid: 78fc0e42ac2a66f4b8471663e8b36025, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 180
+      value: 210
       objectReference: {fileID: 0}
     - target: {fileID: 4253424143390321804, guid: 78fc0e42ac2a66f4b8471663e8b36025, type: 3}
       propertyPath: m_LocalPosition.x
@@ -76483,7 +76483,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4253424143390321804, guid: 78fc0e42ac2a66f4b8471663e8b36025, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 180
+      value: 210
       objectReference: {fileID: 0}
     - target: {fileID: 4253424143390321804, guid: 78fc0e42ac2a66f4b8471663e8b36025, type: 3}
       propertyPath: m_LocalPosition.x
@@ -77495,7 +77495,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4253424143390321804, guid: 78fc0e42ac2a66f4b8471663e8b36025, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 180
+      value: 210
       objectReference: {fileID: 0}
     - target: {fileID: 4253424143390321804, guid: 78fc0e42ac2a66f4b8471663e8b36025, type: 3}
       propertyPath: m_LocalPosition.x
@@ -78478,7 +78478,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4253424143390321804, guid: 78fc0e42ac2a66f4b8471663e8b36025, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 208.6414
+      value: 210
       objectReference: {fileID: 0}
     - target: {fileID: 4253424143390321804, guid: 78fc0e42ac2a66f4b8471663e8b36025, type: 3}
       propertyPath: m_LocalPosition.x
@@ -78531,10 +78531,6 @@ PrefabInstance:
     - target: {fileID: 4253424143390321807, guid: 78fc0e42ac2a66f4b8471663e8b36025, type: 3}
       propertyPath: m_Name
       value: ShowEmployeeData
-      objectReference: {fileID: 0}
-    - target: {fileID: 4253424143390321807, guid: 78fc0e42ac2a66f4b8471663e8b36025, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6329381392892668369, guid: 78fc0e42ac2a66f4b8471663e8b36025, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode

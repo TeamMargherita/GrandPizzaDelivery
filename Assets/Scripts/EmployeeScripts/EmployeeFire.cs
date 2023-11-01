@@ -273,11 +273,11 @@ public class EmployeeFire : MonoBehaviour
 
         if (value)
         {
-            rect.sizeDelta = new Vector3(rect.sizeDelta.x, rect.sizeDelta.y + 150);
+            rect.sizeDelta = new Vector3(rect.sizeDelta.x, rect.sizeDelta.y + 200);
         }
         else
         {
-            rect.sizeDelta = new Vector3(rect.sizeDelta.x, rect.sizeDelta.y - 150);
+            rect.sizeDelta = new Vector3(rect.sizeDelta.x, rect.sizeDelta.y - 200);
         }
     }
 

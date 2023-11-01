@@ -69823,6 +69823,7 @@ MonoBehaviour:
   DeliveryAppButton: {fileID: 0}
   DarkDeliveryAppButton: {fileID: 0}
   player: {fileID: 0}
+  makingPizzaObj: {fileID: 0}
   light2D: {fileID: 0}
   addPizzaImg: {fileID: 1563996481}
   alarmMessageText: {fileID: 0}
@@ -77287,6 +77288,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RecruitWin: {fileID: 5135408059534423339}
+  limitCount: 3
   Stat:
   - "\uC190\uC7AC\uC8FC : "
   - "\uC21C\uBC1C\uB825 : "
@@ -77766,6 +77768,14 @@ MonoBehaviour:
   EmployeeParent: {fileID: 5135408058710254351}
   WorkDayWinParent: {fileID: 164055961}
   isApear: 0
+  DayText:
+  - "\uC6D4"
+  - "\uD654"
+  - "\uC218"
+  - "\uBAA9"
+  - "\uAE08"
+  - "\uD1A0"
+  - "\uC77C"
   NoticeWin: {fileID: 1714159101}
 --- !u!224 &5135408059834624885
 RectTransform:
@@ -77907,8 +77917,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 430e9e23764a5a94987d25d704d46027, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 200
-  MaxHP: 200
   Braking: 0.98
   MaxSpeed: 10
   acceleration: 1
@@ -77916,6 +77924,14 @@ MonoBehaviour:
   CurrentMagagine: 0
   MakingPizzaScript: {fileID: 0}
   InventoryManagerScript: {fileID: 0}
+  PlayerSmoke: {fileID: 0}
+  BloodEffect: {fileID: 0}
+  WallHitEffect: {fileID: 0}
+  FireEffect: {fileID: 0}
+  Hand: {fileID: 0}
+  Gun: {fileID: 0}
+  FireAudioClip: {fileID: 0}
+  ReloadAudioClip: {fileID: 0}
 --- !u!61 &5465525691940280722
 BoxCollider2D:
   m_ObjectHideFlags: 0

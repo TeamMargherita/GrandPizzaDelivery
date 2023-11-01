@@ -104,8 +104,14 @@ public class EmployeeFire : MonoBehaviour
 
                 for (int k = 0; k < (int)Constant.ClerkList[value / 2].PreferredDateCount; k++)
                 {
-                    if(k != (int)Constant.ClerkList[value / 2].PreferredDateCount - 1)
-                    EmployeeStat += DayText[(int)Constant.ClerkList[value / 2].PreferredDate[k]] + ", ";
+                    if (k != (int)Constant.ClerkList[value / 2].PreferredDateCount - 1)
+                    {
+                        EmployeeStat += DayText[(int)Constant.ClerkList[value / 2].PreferredDate[k]] + ", ";
+                    }
+                    else
+                    {
+                        EmployeeStat += DayText[(int)Constant.ClerkList[value / 2].PreferredDate[k]];
+                    }
                 }
 
                 if((int)Constant.ClerkList[value / 2].PreferredDateCount == 0)
@@ -227,7 +233,7 @@ public class EmployeeFire : MonoBehaviour
 
     int[] pay = new int[5];
 
-    public void PayRateButton(int value)// â�� ���� pay�� ���� �� Ȯ�� ��ư ������ ���� ������ �ʱ�ȭ
+    public void PayRateButton(int value)// 일급 조절.
     {
         string EmployeeStat = null;
 
@@ -328,8 +334,6 @@ public class EmployeeFire : MonoBehaviour
 
                 isLerp = false;
             }
-
-            Debug.Log(DLerpTime);
         }
     }
 

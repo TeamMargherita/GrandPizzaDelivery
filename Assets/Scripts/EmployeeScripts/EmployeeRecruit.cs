@@ -21,7 +21,7 @@ public class EmployeeRecruit : MonoBehaviour
 
     public string[] Name = new string[3];
 
-    public Day[] preferedDateCount;
+    public int[] preferedDateCount;
     public Day[,] preferedDate;
 
     private bool isMorning = false;
@@ -63,13 +63,13 @@ public class EmployeeRecruit : MonoBehaviour
                      State(i, j, RecruitWin.transform.GetChild(i)) + "\n";
                 }
 
-                preferedDateCount[i] = (Day)Random.Range(1, 3);
+                preferedDateCount[i] = Random.Range(1, 3);
 
                 preferedDate = new Day[3, (int)preferedDateCount[i]];
 
                 StatText += "선호 근무 요일 : ";
 
-                for (int j = 0; j < (int)preferedDateCount[i]; j++)
+                for (int j = 0; j < preferedDateCount[i]; j++)
                 {
                     Day = Random.Range(0, 7);
                     if (j > 0)
@@ -82,9 +82,9 @@ public class EmployeeRecruit : MonoBehaviour
 
                     DayList.Add(Day);
 
-                    preferedDate[i, j] = (Day)Random.Range(0, 7);
+                    preferedDate[i, j] = (Day)Day;
 
-                    if (i < (int)preferedDateCount[i] - 1)
+                    if (j < preferedDateCount[i] - 1)
                     {
                         StatText += WorkDay[Day] + ",";
                     }

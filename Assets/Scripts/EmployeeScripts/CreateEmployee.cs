@@ -42,7 +42,7 @@ public class CreateEmployee : MonoBehaviour
     {
         EmployeeRecruit employeeStat = EmployeeRecruitMother.GetComponent<EmployeeRecruit>();
 
-        Day[] preferedDate = new Day[(int)employeeStat.preferedDateCount[SValue]];
+        Day[] preferedDate = new Day[employeeStat.preferedDateCount[SValue]];
 
         for (int i = 0; i < preferedDate.Length; i++)
         {

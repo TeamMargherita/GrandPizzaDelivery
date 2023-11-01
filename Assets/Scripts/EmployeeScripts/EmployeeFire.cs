@@ -86,6 +86,8 @@ public class EmployeeFire : MonoBehaviour
         pay[value / 2] = 0;
     }
 
+    [SerializeField] string[] DayText;
+
     void FindEmployeeData(int value)
     {
         string EmployeeStat = null;
@@ -94,7 +96,29 @@ public class EmployeeFire : MonoBehaviour
 
         for (int j = 0; j < 6; j++)
         {
-            EmployeeStat += Stat(value / 2, j) + "\n";
+            if (j == 0)
+            {
+                EmployeeStat += Stat(value / 2, j);
+
+                EmployeeStat += "                     선호요일 : ";
+
+                for (int k = 0; k < (int)Constant.ClerkList[value / 2].PreferredDateCount; k++)
+                {
+                    if(k != (int)Constant.ClerkList[value / 2].PreferredDateCount - 1)
+                    EmployeeStat += DayText[(int)Constant.ClerkList[value / 2].PreferredDate[k]] + ", ";
+                }
+
+                if((int)Constant.ClerkList[value / 2].PreferredDateCount == 0)
+                {
+                    EmployeeStat += "없음";
+                }
+
+                EmployeeStat += "\n";
+            }
+            else
+            {
+                EmployeeStat += Stat(value / 2, j) + "\n";
+            }
         }
 
         FireWinParent.GetChild(value + 1).GetChild(0).GetComponent<Text>().text = EmployeeStat;
@@ -376,7 +400,15 @@ public class EmployeeFire : MonoBehaviour
     {
         if (WorkingDay[value].Contains(Constant.ClerkList[employeeValue]))
         {
-            WorkingDay[value].Remove(Constant.ClerkList[employeeValue]);
+            if (WorkingDay[value].Count < 5)
+            {
+                WorkingDay[value].Remove(Constant.ClerkList[employeeValue]);
+            }
+            else
+            {
+                NoticeMessage("한 요일에는 5명 이상의 사람들이 근무할 수 없습니다.");
+            }
+
         }
         else
         {

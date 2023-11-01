@@ -26,8 +26,8 @@ namespace ClerkNS
         public int MaxPayScale { get; private set; }
         public int MaxStress { get; private set; }
         public Day[] PreferredDate { get; private set; } = new Day[7];
-        public Day PreferredDateCount { get; private set; }
-        public ClerkC (int Handicraft, Tier Agility, Tier Career, Tier Creativity, int Stress, int Pay, string Name, Day[] PreferredDate, Day PreferredDateCount)
+        public int PreferredDateCount { get; private set; }
+        public ClerkC (int Handicraft, Tier Agility, Tier Career, Tier Creativity, int Stress, int Pay, string Name, Day[] PreferredDate, int PreferredDateCount)
 		{
             this.Handicraft = Handicraft;
             this.Agility = Agility;

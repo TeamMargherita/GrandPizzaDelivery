@@ -62,8 +62,8 @@ public class PlayerGunShooting : MonoBehaviour, GunShooting
                     }
                     else
                     {
-                        //GameObject wallhit = Instantiate(WallHitEffect, hit.point, MyTransform.rotation);
-                        //Destroy(wallhit, 0.3f);
+                        GameObject wallhit = Instantiate(WallHitEffect, hit.point, MyTransform.rotation);
+                        Destroy(wallhit, 0.3f);
                     }
                     time = 0;
                     Debug.Log("น฿ป็");

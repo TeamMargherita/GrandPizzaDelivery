@@ -135,6 +135,7 @@ public class MakingPizza : MonoBehaviour, IResetPizzaMaking
                 }
             }
             // 피자가 완성되었다. 완성된 피자는 피자집 인벤에 들어간다.
+            pizzaRequestList[0].Pizza.ProductTime = GameManager.Instance.time;
             CompletePizzaList.Add(pizzaRequestList[0].Pizza);
             // 파인애플 피자였다면 파인애플이 하나 줄어든다.
             if (pizzaRequestList[0].Pizza.Ingreds.FindIndex(a => a.Equals(PizzaNS.Ingredient.PINEAPPLE)) != -1)

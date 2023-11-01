@@ -11,6 +11,7 @@ public class InventoryManager : MonoBehaviour
     public GameObject CurrentInventory;
     public bool InventoryActive;
 
+    [SerializeField] private MakingPizza MakingPizzaS;
     public GameObject[] PizzaInventorySlot;
     [SerializeField] private GameObject[] MainInventorySlot;
     [SerializeField] private GameObject[] GunInventorySlot;
@@ -51,11 +52,11 @@ public class InventoryManager : MonoBehaviour
         }
     }
     /// <summary>
-    /// ÀÎº¥Åä¸®¿¡ ÁÖ»çÀ§ ÀÌ¹ÌÁö ºÒ·¯¿À±â
+    /// ï¿½Îºï¿½ï¿½ä¸®ï¿½ï¿½ ï¿½Ö»ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½
     /// </summary>
-    /// <param name="path">ÀÌ¹ÌÁö °æ·Î</param>
-    /// <param name="index">½½·Ô ÁÖ¼Ò</param>
-    /// <param name="count">ÇÃ·¹ÀÌ¾î°¡ °¡Áö°í ÀÖ´Â ¾ÆÀÌÅÛ °¹¼ö</param>
+    /// <param name="path">ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½</param>
+    /// <param name="index">ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½</param>
+    /// <param name="count">ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½</param>
     private void SystemIOFileLoad(string path, int index, int count, ItemType type)
     {
         if(type == ItemType.DICE)
@@ -90,7 +91,7 @@ public class InventoryManager : MonoBehaviour
     }
     
     /// <summary>
-    /// ÀÎº¥Åä¸® ÃÖ½ÅÈ­
+    /// ï¿½Îºï¿½ï¿½ä¸® ï¿½Ö½ï¿½È­
     /// </summary>
     private void DiceInventoryUpdate()
     {
@@ -210,8 +211,24 @@ public class InventoryManager : MonoBehaviour
                 if (GameManager.Instance.PizzaInventoryData[i] != null)
                 {
                     PizzaInventorySlot[i].transform.GetChild(0).GetComponent<Text>().text = GameManager.Instance.PizzaInventoryData[i]?.Name;
+                    PizzaInventorySlot[i].transform.GetChild(1).gameObject.SetActive(true);
+                    if (GameManager.Instance.PizzaInventoryData[i]?.FreshnessUpdate(GameManager.Instance.time) == 100)
+                    {
+                        PizzaInventorySlot[i].transform.GetChild(1).GetComponent<Image>().color = Color.white;
+                    }
+                    else if(GameManager.Instance.PizzaInventoryData[i]?.FreshnessUpdate(GameManager.Instance.time) == 50)
+                    {
+                        PizzaInventorySlot[i].transform.GetChild(1).GetComponent<Image>().color = Color.cyan;
+                    }
+                    else if (GameManager.Instance.PizzaInventoryData[i]?.FreshnessUpdate(GameManager.Instance.time) == 0)
+                    {
+                        PizzaInventorySlot[i].transform.GetChild(1).GetComponent<Image>().color = Color.blue;
+                    }
                 }
-                    
+                else
+                {
+                    PizzaInventorySlot[i].transform.GetChild(1).gameObject.SetActive(false);
+                }
             }
         }
     }
@@ -248,6 +265,7 @@ public class InventoryManager : MonoBehaviour
             PizzaInventorySlot[index].transform.GetChild(0).GetComponent<Text>().text = "";
             GameManager.Instance.PizzaInventoryData[index] = null;
             PlayerStat.HP += 50;
+            PizzaInventorySlot[index].transform.GetChild(1).gameObject.SetActive(false);
         }
         inventoryTextUpdate(CurrentInventory.name);
     }
@@ -280,10 +298,10 @@ public class InventoryManager : MonoBehaviour
             int SlotNum = 0;
             foreach(var i in SDR.RequestList)
             {
-                //ÁÖ¹®¸®½ºÆ®ÀÇ ÁıÁÖ¼Ò == ÇÃ·¹ÀÌ¾î À§Ä¡ ÁıÁÖ¼Ò
+                //ï¿½Ö¹ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½Ö¼ï¿½ == ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½Ö¼ï¿½
                 if(i.AddressS.HouseAddress == GoalAddressS.addr.HouseAddress)
                 {
-                    //ÀÎº¥Åä¸®¿¡¼­ ÇÇÀÚ¸¦ Ã£À½
+                    //ï¿½Îºï¿½ï¿½ä¸®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¸ï¿½ Ã£ï¿½ï¿½
                     foreach(var pizza in GameManager.Instance.PizzaInventoryData)
                     {
                         if (i.Pizza.Name.Equals(pizza?.Name))
@@ -295,7 +313,7 @@ public class InventoryManager : MonoBehaviour
                             GoalAddressS.iHouse.DisableHouse(pizza.Value);
                             DeliveryScreen.OnClickCancle(SDRIndex);
                             GoalAddressS = null;
-                            DeliveryJudgmentPanel.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "¹è´ŞÀÌ ¿Ï·á µÇ¾ú½À´Ï´Ù.";
+                            DeliveryJudgmentPanel.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "ë°°ë‹¬ì´ ì™„ë£Œ ë˜ì—ˆìŠµë‹ˆë‹¤..";
                             DeliveryJudgmentPanel.SetActive(true);
                             return;
                         }
@@ -304,7 +322,7 @@ public class InventoryManager : MonoBehaviour
                 }
                 SDRIndex++;
             }
-            DeliveryJudgmentPanel.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "°¡¹æ¿¡ ÁÖ¹®¹ŞÀº ÇÇÀÚ°¡ ¾ø½À´Ï´Ù.";
+            DeliveryJudgmentPanel.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "ê°€ë°©ì— ì£¼ë¬¸ë°›ì€ í”¼ìê°€ ì—†ìŠµë‹ˆë‹¤.";
             DeliveryJudgmentPanel.SetActive(true);
         }
         inventoryTextUpdate("PizzaInventory");
@@ -342,5 +360,6 @@ public class InventoryManager : MonoBehaviour
     {
         inventoryOpenClose();
         UIGunImageUpdate();
+        inventoryTextUpdate("PizzaInventory");
     }
 }

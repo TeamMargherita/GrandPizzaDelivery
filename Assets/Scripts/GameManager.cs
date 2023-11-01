@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
 {
     private static GameManager _instance;
     public Pizza?[] PizzaInventoryData = new Pizza?[5];
-    public List<Pizza> PizzaMenu = new List<Pizza>() { new Pizza("CheesePizza", 60, 5000, 10000, 800, new List<Ingredient>() { Ingredient.CHEESE }, 250) };
+    public List<Pizza> PizzaMenu = new List<Pizza>() { new Pizza("CheesePizza", 60, 5000, 10000, 800, new List<Ingredient>() { Ingredient.CHEESE }, 250, 100, 0) };
     public List<Pizza> PineapplePizzaMenu = new List<Pizza>();
     public List<Slot> InventorySlotList = new List<Slot>();
 
@@ -92,7 +92,7 @@ public class GameManager : MonoBehaviour
         TimeSkip();
         if (!Constant.StopTime)
         {
-            time += Time.deltaTime * timeSpeed; //게임기준1분 = 현실시간2초
+            time += Time.deltaTime * timeSpeed; //게임기준1분 = 현실시간1초
         }
         if (Input.GetKeyDown(KeyCode.F1))
         {
@@ -102,6 +102,16 @@ public class GameManager : MonoBehaviour
 		{
             time = 32400;
 		}
+        if (Input.GetKeyDown(KeyCode.F3))
+        {
+            Time.timeScale = 0.1f;
+            Time.fixedDeltaTime = Time.timeScale * 0.02f;
+        }
+        else if (Input.GetKeyDown(KeyCode.F4))
+        {
+            Time.timeScale = 1;
+            Time.fixedDeltaTime = Time.timeScale * 0.02f;
+        }
         //게임1초 * timeSpeed = 현실시간1초
         //TimeText.GetComponent<Text>().text = (int)time/3600 + " : " + (int)(time / 60 % 60);
     }

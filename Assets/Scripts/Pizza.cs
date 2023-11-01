@@ -14,14 +14,16 @@ public struct Pizza
     public int Charisma;//¸Å·Âµµ
     public List<Ingredient> Ingreds;
     public int TotalDeclineAt;
+    public int Freshness;
 
-    public Pizza(string name, int perfection, int productionCost, int sellCost, int charisma, List<Ingredient> Ingreds, int TotalDeclineAt)
+    public Pizza(string name, int perfection, int productionCost, int sellCost, int charisma, List<Ingredient> Ingreds, int TotalDeclineAt, int freshness)
     {
         Name = name;
         Perfection = perfection;
         ProductionCost = productionCost;
         SellCost = sellCost;
         Charisma = charisma;
+        Freshness = freshness;
         this.Ingreds = new List<Ingredient>();
         for (int i = 0; i < Ingreds.Count; i++)
         {

@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
 {
     private static GameManager _instance;
     public Pizza?[] PizzaInventoryData = new Pizza?[5];
-    public List<Pizza> PizzaMenu = new List<Pizza>() { new Pizza("CheesePizza", 60, 5000, 10000, 800, new List<Ingredient>() { Ingredient.CHEESE }, 250) };
+    public List<Pizza> PizzaMenu = new List<Pizza>() { new Pizza("CheesePizza", 60, 5000, 10000, 800, new List<Ingredient>() { Ingredient.CHEESE }, 250, 100) };
     public List<Pizza> PineapplePizzaMenu = new List<Pizza>();
     public List<Slot> InventorySlotList = new List<Slot>();
 

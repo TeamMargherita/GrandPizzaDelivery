@@ -184,14 +184,22 @@ public class PoliceCar : Police, IPoliceCar, IMovingPoliceCarControl, IInspectin
                 break;
         }
     }
+    private float nn = 0f;
     /// <summary>
     /// 자동차가 회전 후 회전한 방향으로 일정거리 직진하게끔 해줍니다.
     /// </summary>
     private void TurnStraight(float value)
     {
-        int n = -1;
-        if (value > 0) { n = 1; }
-        trans.position += transform.right * ((Mathf.PI * Speed) / (2 * value * n));
+        trans.position += transform.right * ((Mathf.PI * Speed * Time.timeScale) / (2 * Mathf.Abs(value)));
+        if (nn + Speed < Mathf.Abs(value))
+        {
+            nn += Speed;
+        }
+        else
+        {
+            trans.position += transform.right * ((Mathf.PI * (Mathf.Abs(value) - nn) * Time.timeScale) / (2 * Mathf.Abs(value)));
+            nn = 0f;
+        }
     }
     /// <summary>
     /// 바라보는 방향으로 직진합니다.
@@ -238,8 +246,8 @@ public class PoliceCar : Police, IPoliceCar, IMovingPoliceCarControl, IInspectin
         // 총 4가지의 상황이 생기며, 그에 따라 다르게 회전을 시켜줄 필요가 있다.
         if (rotate * (isRight ? 1 : -1) > 0)
         {
-            this.rotate += (-1) * Speed;
-            trans.Rotate(new Vector3(0, 0, Speed));
+            this.rotate += (-1) * Speed * Time.timeScale;
+            trans.Rotate(new Vector3(0, 0, Speed * Time.timeScale));
             if (this.rotate < 0)
             {
                 this.rotate = 0f;
@@ -247,8 +255,8 @@ public class PoliceCar : Police, IPoliceCar, IMovingPoliceCarControl, IInspectin
         }
         else if (rotate * (isRight ? 1 : -1) < 0)
         {
-            this.rotate += Speed;
-            trans.Rotate(new Vector3(0, 0, (-1) * Speed));
+            this.rotate += Speed * Time.timeScale;
+            trans.Rotate(new Vector3(0, 0, (-1) * Speed * Time.timeScale));
             if (this.rotate > 0)
             {
                 this.rotate = 0f;
@@ -263,6 +271,8 @@ public class PoliceCar : Police, IPoliceCar, IMovingPoliceCarControl, IInspectin
             // 다음 명령을 부를 수 있도록 nextBehaviour값을 true로 바꿉니다.
             nextBehaviour = true;
         }
+
+
     }
     /// <summary>
     /// 일정 시간마다 바나나를 던지게 하는 코루틴

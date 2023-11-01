@@ -57,7 +57,8 @@ public class GameManager : MonoBehaviour
         }
         set {
             //나중에 일정금액도달하면 앤딩 화면가는 함수 짜기
-            MoneyText.CreateMoneyEffect(value - money);
+            if(MoneyText != null )
+                MoneyText.CreateMoneyEffect(value - money);
             money = value;
         }
     }

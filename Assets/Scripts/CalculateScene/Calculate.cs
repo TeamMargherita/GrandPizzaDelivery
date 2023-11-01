@@ -32,10 +32,12 @@ public class Calculate : MonoBehaviour
             while (t1 < Constant.Fine)
             {
                 contentsText.text = $"벌금 : {t1}원";
-                t1++;
+                t1+= Random.Range(1,1000);
+                
                 yield return Constant.OneTime;
                 continue;
             }
+            t1 = Constant.Fine;
             if (GameManager.Instance.Money > t1)
             {
                 GameManager.Instance.Money -= t1;
@@ -50,10 +52,11 @@ public class Calculate : MonoBehaviour
             while (t2 < Constant.PizzaIngMoney)
             {
                 contentsText.text = $"벌금 : {t1}원 \n소모된 피자 재료 값 : {t2}원";
-                t2++;
+                t2 += Random.Range(1, 1000);
                 yield return Constant.OneTime;
                 continue;
             }
+            t2 = Constant.PizzaIngMoney;
             if (GameManager.Instance.Money > t2)
             {
                 GameManager.Instance.Money -= t2;
@@ -68,10 +71,11 @@ public class Calculate : MonoBehaviour
             while (t3 < Constant.ClerkMoney)
             {
                 contentsText.text = $"벌금 : {t1}원 \n소모된 피자 재료 값 : {t2}원 \n점원 일급 : {t3}원";
-                t3++;
+                t3+= Random.Range(1, 5000); ;
                 yield return Constant.OneTime;
                 continue;
             }
+            t3 = Constant.ClerkMoney;
             if (GameManager.Instance.Money > t3)
             {
                 GameManager.Instance.Money -= t3;
@@ -87,10 +91,11 @@ public class Calculate : MonoBehaviour
             {
                 contentsText.text = $"벌금 : {t1}원 \n소모된 피자 재료 값 : {t2}원 \n점원 일급 : {t3}원 \n부활비 : {t4}원";
                 if (t4 >= 300000) { break; }
-                t4++;
+                t4 += Random.Range(1, 2000); ;
                 yield return Constant.OneTime;
                 continue;
             }
+            t4 = 300000;
             if (GameManager.Instance.Money > t4)
             {
                 GameManager.Instance.Money -= t4;
@@ -158,12 +163,14 @@ public class Calculate : MonoBehaviour
                 while (n5 < t5)
                 {
                     contentsText.text = $"벌금 : {t1}원 \n소모된 피자 재료 값 : {t2}원 \n점원 일급 : {t3}원 \n부활비 : {t4}원 \n...\n앗! 대여자들이 들이닥쳤다!\n대여자들에게 갚은 돈 : {n5}원";
-                    n5++;
+                    n5 += Random.Range(1, 10000);
                     yield return Constant.OneTime;
                     continue;
                 }
-            }
+                n5 = t5;
+                contentsText.text = $"벌금 : {t1}원 \n소모된 피자 재료 값 : {t2}원 \n점원 일급 : {t3}원 \n부활비 : {t4}원 \n...\n앗! 대여자들이 들이닥쳤다!\n대여자들에게 갚은 돈 : {n5}원";
 
+            }
             yield return Constant.OneTime;
             yield return Constant.OneTime;
             yield return Constant.OneTime;
@@ -172,10 +179,11 @@ public class Calculate : MonoBehaviour
             while (t6 < GameManager.Instance.Money)
             {
                 sumText.text = $"현재 가진 돈 : {t6}원";
-                t6++;
+                t6+= Random.Range(1, 100000); ;
                 yield return Constant.OneTime;
                 continue;
             }
+            t6 = GameManager.Instance.Money;
 
             int n7 = Constant.Dept;
 
@@ -191,10 +199,12 @@ public class Calculate : MonoBehaviour
             while (t7 < n7)
             {
                 sumText.text = $"현재 가진 돈 : {t6}원 \n남은 빚 : {t7}원";
-                t7++;
+                t7 += Random.Range(1, 500000); ;
                 yield return Constant.OneTime;
                 continue;
             }
+            n7 = t7;
+            sumText.text = $"현재 가진 돈 : {t6}원 \n남은 빚 : {t7}원";
 
             Constant.Fine = 0;
             Constant.PizzaIngMoney = 0;
@@ -207,6 +217,8 @@ public class Calculate : MonoBehaviour
 
     public void Skip()
     {
+        StopCoroutine(calCoroutine);
+
         contentsText.gameObject.SetActive(true);
         Constant.Dept = 0;
         int de = 0;
@@ -304,10 +316,16 @@ public class Calculate : MonoBehaviour
         }
         Constant.Dept = n7;
 
-        contentsText.text = $"벌금 : {Constant.Fine}원 \n소모된 피자 재료 값 : {Constant.PizzaIngMoney}원 \n점원 일급 : {Constant.ClerkMoney}원 \n부활비 : {300000}원 \n...\n앗! 대여자들이 들이닥쳤다!\n대여자들에게 갚은 돈 : {de}원";
-
+        if (li.Count > 0)
+        {
+            contentsText.text = $"벌금 : {Constant.Fine}원 \n소모된 피자 재료 값 : {Constant.PizzaIngMoney}원 \n점원 일급 : {Constant.ClerkMoney}원 \n부활비 : {300000}원 \n...\n앗! 대여자들이 들이닥쳤다!\n대여자들에게 갚은 돈 : {de}원";
+        }
+        else
+        {
+            contentsText.text = $"벌금 : {Constant.Fine}원 \n소모된 피자 재료 값 : {Constant.PizzaIngMoney}원 \n점원 일급 : {Constant.ClerkMoney}원 \n부활비 : {300000}원";
+        }
         sumText.gameObject.SetActive(true);
-
+        
         sumText.text = $"현재 가진 돈 : {GameManager.Instance.Money}원 \n남은 빚 : {Constant.Dept}원";
 
         nextButton.SetActive(true);

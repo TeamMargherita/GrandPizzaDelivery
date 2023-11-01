@@ -56,22 +56,49 @@ public class ClearKeyInput : MonoBehaviour
         if (str.Length <= 0)
             return;
 
-        // 기존 키 해제
-        char oldKey = (char)clearKeys[index];
-        keyMap[oldKey] = false;
-
         // 새로 받은 키 저장
         char newKey = str[0];
-        Debug.Log(newKey);
 
+        // 기존 키 저장
+        char oldKey = (char)clearKeys[index];
+
+        // 관리한적 있는 키인 경우
         if (keyMap.ContainsKey(newKey))
-            keyMap[newKey] = true;
+        {
+            // 새로운 키가 이미 중복인 경우
+            if (keyMap[newKey])
+            {
+                // 할당 중인 위치 찾기
+                for(int i = 0; i < clearKeys.Length; i++)
+                {
+                    if ((char)clearKeys[i] == newKey)
+                    {
+                        // 발견 시 기존 키로 저장
+                        clearKeys[i] = (KeyCode)oldKey;
+                        manager.ClearKeys[i] = clearKeys[i];
+                        KeyInput[i].text = char.ToUpper(oldKey).ToString();
+                        break;
+                    }
+                }
+            }
+
+            // 중복되지 않은 경우
+            else
+            {
+                keyMap[oldKey] = false;
+                keyMap[newKey] = true;
+            }
+        }
+        // 새로운 키 입력 시
         else
+        {
+            keyMap[oldKey] = false;
             keyMap.Add(newKey, true);
+        }
 
         clearKeys[index] = (KeyCode)newKey;
         manager.ClearKeys[index] = clearKeys[index];
-        KeyInput[index].text = newKey.ToString();
+        KeyInput[index].text = char.ToUpper(newKey).ToString();
         Select[index].gameObject.SetActive(false);
 
         // 다음 자리로 이동
@@ -97,8 +124,9 @@ public class ClearKeyInput : MonoBehaviour
         {
             clearKeys[i] = manager.ClearKeys[i];
             char key = (char)clearKeys[i];
-            KeyInput[i].text = key.ToString();
             keyMap.Add(key, true);
+            key = char.ToUpper(key);
+            KeyInput[i].text = key.ToString();
         }
         foreach(var i in Select)
         {

@@ -237,6 +237,8 @@ public class EmployeeFire : MonoBehaviour
     {
         string EmployeeStat = null;
 
+        EmployeeStat += Constant.ClerkList[value - 1].Name + "\n";
+
         if (value > 0)
         {
             pay[value - 1]++;

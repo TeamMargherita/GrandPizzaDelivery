@@ -36,7 +36,7 @@ public class LoadScene : MonoBehaviour
         Fade.Instance.gameObject.SetActive(true);
         Fade.Instance.SetLoadSceneName(str);
 	}
-    public void LoadNextDay(string str)
+    public void LoadNextDay(bool isDead)
 	{
         if (Constant.NowDay != DayEnum.SUNDAY)
         {
@@ -47,7 +47,9 @@ public class LoadScene : MonoBehaviour
             Constant.NowDay = DayEnum.MONDAY;
 		}
         Constant.NowDate++;
-        ActiveTrueFade("InGameScene");
+        if (isDead) { Constant.IsDead = true; }
+
+        ActiveTrueFade("CalculateScene");
 	}
     public void LoadS(string str)
 	{

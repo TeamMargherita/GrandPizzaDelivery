@@ -9,6 +9,7 @@ using DayNS;
 // 한석호 작성
 public static class Constant
 {
+	public static bool IsDead = false;
 	/// <summary>
 	/// 현재 요일
 	/// </summary>

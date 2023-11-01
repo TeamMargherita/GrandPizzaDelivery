@@ -304,7 +304,7 @@ public class PizzaMenuUI : MonoBehaviour, IAddPizza
 			Constant.DevelopPizza[temSlotNumber].Charisma,
 			Constant.DevelopPizza[temSlotNumber].Ingreds,
 			Constant.DevelopPizza[temSlotNumber].TotalDeclineAt,
-			100);
+			100, GameManager.Instance.time);
 
 		InitAddPizzaPage(nowPage);
 		changePizzaNamePanel.SetActive(false);

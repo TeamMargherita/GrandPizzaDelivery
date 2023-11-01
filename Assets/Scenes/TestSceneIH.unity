@@ -1357,6 +1357,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 643683447}
     - target: {fileID: 9168485575465350141, guid: 58a0340469bb99a4186e7caf63948757, type: 3}
+      propertyPath: MakingPizzaS
+      value: 
+      objectReference: {fileID: 1187700879}
+    - target: {fileID: 9168485575465350141, guid: 58a0340469bb99a4186e7caf63948757, type: 3}
       propertyPath: DeliveryScreen
       value: 
       objectReference: {fileID: 1548952991}
@@ -36295,6 +36299,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8296955200360106042, guid: 14747f83adf55084998c3e8132358d17, type: 3}
   m_PrefabInstance: {fileID: 1829057712}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &438216678 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5428313802742270297, guid: 098decd66950fd741adcf439d13fefb7, type: 3}
+  m_PrefabInstance: {fileID: 2110865185}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 636bd9605fc06b24c8fd6a4cbe99d92a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &443323122
 GameObject:
   m_ObjectHideFlags: 0
@@ -45875,6 +45890,10 @@ PrefabInstance:
       propertyPath: TimeText
       value: 
       objectReference: {fileID: 1520679751}
+    - target: {fileID: 1449026133297216376, guid: 19b17f2f83dfdac4296edfec458fe98c, type: 3}
+      propertyPath: MoneyText
+      value: 
+      objectReference: {fileID: 438216678}
     - target: {fileID: 1449026133297216376, guid: 19b17f2f83dfdac4296edfec458fe98c, type: 3}
       propertyPath: DarkDeliveryOKPanel
       value: 

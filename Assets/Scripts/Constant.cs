@@ -78,7 +78,7 @@ public static class Constant
 	/// <summary>
 	/// 파인애플 피자
 	/// </summary>
-	public static Pizza PineapplePizza = new Pizza("PineapplePizza", 100, 0, 2000000, 99999, new List<Ingredient>() { Ingredient.TOMATO, Ingredient.CHEESE, Ingredient.PINEAPPLE }, 0, 100);
+	public static Pizza PineapplePizza = new Pizza("PineapplePizza", 100, 0, 2000000, 99999, new List<Ingredient>() { Ingredient.TOMATO, Ingredient.CHEESE, Ingredient.PINEAPPLE }, 0, 100, 0);
 	/// <summary>
 	/// 0.02초간의 텀
 	/// </summary>

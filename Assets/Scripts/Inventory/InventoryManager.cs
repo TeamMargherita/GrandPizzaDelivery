@@ -11,6 +11,7 @@ public class InventoryManager : MonoBehaviour
     public GameObject CurrentInventory;
     public bool InventoryActive;
 
+    [SerializeField] private MakingPizza MakingPizzaS;
     public GameObject[] PizzaInventorySlot;
     [SerializeField] private GameObject[] MainInventorySlot;
     [SerializeField] private GameObject[] GunInventorySlot;
@@ -211,12 +212,23 @@ public class InventoryManager : MonoBehaviour
                 {
                     PizzaInventorySlot[i].transform.GetChild(0).GetComponent<Text>().text = GameManager.Instance.PizzaInventoryData[i]?.Name;
                     PizzaInventorySlot[i].transform.GetChild(1).gameObject.SetActive(true);
+                    if (GameManager.Instance.PizzaInventoryData[i]?.FreshnessUpdate(GameManager.Instance.time) == 100)
+                    {
+                        PizzaInventorySlot[i].transform.GetChild(1).GetComponent<Image>().color = Color.white;
+                    }
+                    else if(GameManager.Instance.PizzaInventoryData[i]?.FreshnessUpdate(GameManager.Instance.time) == 50)
+                    {
+                        PizzaInventorySlot[i].transform.GetChild(1).GetComponent<Image>().color = Color.cyan;
+                    }
+                    else if (GameManager.Instance.PizzaInventoryData[i]?.FreshnessUpdate(GameManager.Instance.time) == 0)
+                    {
+                        PizzaInventorySlot[i].transform.GetChild(1).GetComponent<Image>().color = Color.blue;
+                    }
                 }
                 else
                 {
                     PizzaInventorySlot[i].transform.GetChild(1).gameObject.SetActive(false);
                 }
-                    
             }
         }
     }
@@ -348,5 +360,6 @@ public class InventoryManager : MonoBehaviour
     {
         inventoryOpenClose();
         UIGunImageUpdate();
+        inventoryTextUpdate("PizzaInventory");
     }
 }

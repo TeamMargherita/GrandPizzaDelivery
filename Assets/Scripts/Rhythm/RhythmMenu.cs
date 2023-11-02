@@ -34,4 +34,10 @@ public class RhythmMenu : MonoBehaviour
                 bgSound.RePlay(Delay);
         }
     }
+
+    public void CloseButton()
+    {
+        Menu.SetActive(false);
+        bgSound.RePlay(Delay);
+    }
 }

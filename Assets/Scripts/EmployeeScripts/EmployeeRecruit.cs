@@ -64,7 +64,7 @@ public class EmployeeRecruit : MonoBehaviour
             {
                 preferedDay[i].Clear();
 
-                Name[i] = RecruitWin.transform.GetChild(i).GetComponent<EmployeeStat>().RanName[Random.Range(0, 31)];
+                Name[i] = RecruitWin.transform.GetChild(i).GetComponent<EmployeeStat>().RanName[Random.Range(0, 35)];
 
                 StatText += Name[i] + "\n";
 

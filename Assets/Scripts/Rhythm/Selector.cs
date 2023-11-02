@@ -6,13 +6,14 @@ using UnityEngine.UI;
 /// </summary>
 public class Selector : MonoBehaviour
 {
-    public string[] Titles;         // 데이터 파일 이름
-    public AudioSource Sound;       // 배경음
-    public AudioClip[] Clips;       // 변경 시켜줄 클립들
-    public Text Title;              // 곡 제목 텍스트
-    public Text Bpm;                // Bpm 출력 텍스트
-    public Text Level;              // 난이도 출력 텍스트
-    public RectTransform LPDisk;    // 회전연출을 위한 변수
+    [SerializeField] private string[] Titles;         // 데이터 파일 이름
+    [SerializeField] private AudioSource Sound;       // 배경음
+    [SerializeField] private AudioClip[] Clips;       // 변경 시켜줄 클립들
+    [SerializeField] private Text Title;              // 곡 제목 텍스트
+    [SerializeField] private Text Bpm;                // Bpm 출력 텍스트
+    [SerializeField] private Text Level;              // 난이도 출력 텍스트
+    [SerializeField] private RectTransform LPDisk;    // 회전연출을 위한 변수
+    [SerializeField] private GameObject Menu;
 
     private float startAngle = 0f;  // 회전 시작 각
     private float endAngle = 0f;    // 회전 끝 각
@@ -62,6 +63,9 @@ public class Selector : MonoBehaviour
         // 클립 변경중이 아님
         else
         {
+            if (Menu.activeSelf)
+                return;
+
             // UpArrow = 다음 클립
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {

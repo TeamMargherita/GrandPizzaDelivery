@@ -8,38 +8,63 @@ public class EmployeeRecruit : MonoBehaviour
 {
     [SerializeField] GameObject RecruitWin;
 
-    int limitCount = 3;
+    [SerializeField] int limitCount = 3;
 
     [SerializeField] string[] Stat = new string[5];
+    [SerializeField] string[] WorkDay = new string[7];
 
     public int[] Handy = new int[3];
     public int[] Career = new int[3];
     public int[] Creativity = new int[3];
     public int[] Agility = new int[3];
     public int[] Pay = new int[3];
-
     public string[] Name = new string[3];
+
+    public List<int> preferedDateCount = new List<int>();
+    public Dictionary<int, List<Day>> preferedDay = new Dictionary<int, List<Day>>();
 
     private bool isMorning = false;
 
     Tier tier = Tier.ONE;
 
+    private void Awake()
+    {
+        for (int i = 0; i < limitCount; i++)
+        {
+            preferedDay.Add(i, new List<Day>());
+        }
+    }
+
     private void Update()
     {
         ShowApplicant();
 
-        isMorning = false;
+        if (GameManager.Instance.time == 9 * 3600)
+        {
+            isMorning = true;
+        }
+        else
+        {
+            isMorning = false;
+        }
     }
 
+    // 고용인원 스텟 표시 및 저장
     void ShowApplicant()
     {
         string StatText = null;
 
+        int Day = 0;
+
         if (isMorning == true)
         {
+            preferedDateCount.Clear();
+
             for (int i = 0; i < limitCount; i++)
             {
-                Name[i] = RecruitWin.transform.GetChild(i).GetComponent<EmployeeStat>().RanName[Random.Range(0, 32)];
+                preferedDay[i].Clear();
+
+                Name[i] = RecruitWin.transform.GetChild(i).GetComponent<EmployeeStat>().RanName[Random.Range(0, 35)];
 
                 StatText += Name[i] + "\n";
 
@@ -47,6 +72,35 @@ public class EmployeeRecruit : MonoBehaviour
                 {
                     StatText += Stat[j] +
                      State(i, j, RecruitWin.transform.GetChild(i)) + "\n";
+                }
+
+                Day = Random.Range(1, limitCount);
+
+                preferedDateCount.Add(Day);
+
+                StatText += "선호 근무 요일 : ";
+
+                for (int j = 0; j < preferedDateCount[i]; j++)
+                {
+                    Day = Random.Range(0, 7);
+                    if (j >= 1)
+                    {
+                        while (preferedDay[i].Contains((Day)Day) == true)
+                        {
+                            Day = Random.Range(0, 7);
+                        }
+                    }
+
+                    preferedDay[i].Add((Day)Day);
+
+                    if (j < preferedDateCount[i] - 1)
+                    {
+                        StatText += WorkDay[Day] + ",";
+                    }
+                    else if (j == preferedDateCount[i] - 1)
+                    {
+                        StatText += WorkDay[Day];
+                    }
                 }
 
                 RecruitWin.transform.GetChild(i).GetChild(0).

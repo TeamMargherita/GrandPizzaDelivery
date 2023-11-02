@@ -22,10 +22,15 @@ public class RhythmMenu : MonoBehaviour
             return;
 
         // Esc 키로 활성화/비활성화
-        if (Input.GetKeyDown(KeyCode.Escape) && !bgSound.IsReWind)
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
+            if (bgSound != null && bgSound.IsReWind)
+                return;
             // 현재 메뉴판의 활성화 여부에 따른 스위칭
             Menu.SetActive(!Menu.activeSelf);
+
+            if (bgSound == null)
+                return;
 
             // 메뉴판 활성화 시 음악 일시정지/ 비활성화 시 음악 재생
             if (Menu.activeSelf)
@@ -38,6 +43,7 @@ public class RhythmMenu : MonoBehaviour
     public void CloseButton()
     {
         Menu.SetActive(false);
-        bgSound.RePlay(Delay);
+        if (bgSound != null)
+            bgSound.RePlay(Delay);
     }
 }

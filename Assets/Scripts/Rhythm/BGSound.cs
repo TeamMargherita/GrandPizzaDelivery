@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections;
 
 /// <summary>
 /// 리듬게임의 배경 노래 출력과 관련된 클래스
@@ -35,10 +34,8 @@ public class BGSound : MonoBehaviour
         // 볼륨을 매니저 값으로 동기화
         source.volume = manager.MusicSound;
 
-        Debug.Log(source.isPlaying);
-        
         // 시작 딜레이가 아직 도는중(시작 x)
-        if(timer >= 0f)
+        if (timer >= 0f)
         {
             if (timer < myDelay)
             {
@@ -51,7 +48,7 @@ public class BGSound : MonoBehaviour
                 // 타이머를 시간만큼 빼주기
                 timer -= Time.deltaTime;
             }
-            
+
             if (!source.isPlaying && timer < 0f)
             {
                 source.Play();

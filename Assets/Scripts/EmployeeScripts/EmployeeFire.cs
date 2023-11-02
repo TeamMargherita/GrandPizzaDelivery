@@ -273,14 +273,21 @@ public class EmployeeFire : MonoBehaviour
     {
         RectTransform rect = FireWinParent.GetComponent<RectTransform>();
 
-        if (value)
+        if (value == true)
         {
-            rect.sizeDelta = new Vector3(rect.sizeDelta.x, rect.sizeDelta.y + 200);
+            rect.sizeDelta = new Vector3(rect.sizeDelta.x, rect.sizeDelta.y + 250);
         }
         else
         {
-            rect.sizeDelta = new Vector3(rect.sizeDelta.x, rect.sizeDelta.y - 200);
+            rect.sizeDelta = new Vector3(rect.sizeDelta.x, rect.sizeDelta.y - 250);
         }
+    }
+
+    public void FireWinSizeCon()
+    {
+        RectTransform rect = FireWinParent.GetComponent<RectTransform>();
+
+        rect.sizeDelta = new Vector3(rect.sizeDelta.x, rect.sizeDelta.y + 150);
     }
 
     public void SavePayRate(int value)

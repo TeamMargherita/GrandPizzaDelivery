@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using ClerkNS;
 
+//추후 변경 예정~
 public enum Day
 {
-    Monday,
-    Tuesday,
-    Wednesday, 
-    Thursday,
-    Friday,
-    Saturday,
-    Sunday
+    Monday = 0,
+    Tuesday = 1,
+    Wednesday = 2, 
+    Thursday = 3,
+    Friday = 4,
+    Saturday = 5,
+    Sunday = 6
 }
 
 public class EmployeeStat : MonoBehaviour
@@ -27,9 +28,9 @@ public class EmployeeStat : MonoBehaviour
     public string[] CareerStat { get; } = new string[4] { "신입", "경력직", "베테랑", "달인" };
     public string[] AgilityStat { get; } = new string[4] { "느림", "보통", "조금 빠름", "빠름" };
 
-    public string[] RanName { get; } = new string[31] { "엠마", "리암", "올리비아", "노아", "에바", "이사벨라", "소피아", "미아", "잭슨", "에이든", "루카스", "아멜리아", 
+    public string[] RanName { get; } = new string[35] { "엠마", "리암", "올리비아", "노아", "에바", "이사벨라", "소피아", "미아", "잭슨", "에이든", "루카스", "아멜리아", 
         "벤자민", "하퍼", "에단", "샤를로트", "아비게일", "제임스", "릴리", "헨리", "알렉산더", "윌리엄", "사무엘", "다니엘", "칼리브", "그레이스", "미셸", "스칼렛", 
-        "엘리자", "엘라", "이사벨라"};
+        "엘리자", "엘라", "이사벨라", "샘", "스미스", "랄프", "르미에"};
 
     private void Awake()
     {

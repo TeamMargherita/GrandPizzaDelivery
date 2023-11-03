@@ -15,7 +15,7 @@ public class House : MonoBehaviour, IAddress, IHouse, IActiveHouse
     [SerializeField] private GameObject goalObj;
     [SerializeField] private GameObject activeObj;
 
-    static private Color activeColor = new Color(248/255f, 70/255f, 6/255f);   // 활성화 색(배달해야 하는 곳임을 알림)
+    public static Color activeColor = new Color(248/255f, 70/255f, 6/255f);   // 활성화 색(배달해야 하는 곳임을 알림)
 
     private SpriteRenderer spriteRenderer;
     private Transform goalTrans;

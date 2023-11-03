@@ -167,38 +167,46 @@ public class InventoryManager : MonoBehaviour
 
     void inventoryOpenClose()
     {
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (!UIControl.isIn)
         {
-            if (InventoryActive)
+            if (Input.GetKeyDown(KeyCode.Tab))
             {
-                if (CurrentInventory != null)
-                    CurrentInventory.SetActive(false);
-                Inventory.SetActive(false);
-                InventoryActive = false;
+                if (InventoryActive)
+                {
+                    if (CurrentInventory != null)
+                        CurrentInventory.SetActive(false);
+                    Inventory.SetActive(false);
+                    InventoryActive = false;
+                }
+                else
+                {
+                    GunInventoryUpdate();
+                    DiceInventoryUpdate();
+                    foreach (var i in MainInventorySlot)
+                    {
+                        i.GetComponent<Image>().color = Color.white;
+                    }
+                    foreach (var i in PizzaInventorySlot)
+                    {
+                        i.GetComponent<Image>().color = Color.white;
+                    }
+                    foreach (var i in GunInventorySlot)
+                    {
+                        i.GetComponent<Image>().color = Color.white;
+                    }
+                    foreach (var i in DiceInventorySlot)
+                    {
+                        i.GetComponent<Image>().color = Color.white;
+                    }
+                    Inventory.SetActive(true);
+                    InventoryActive = true;
+                }
             }
-            else
-            {
-                GunInventoryUpdate();
-                DiceInventoryUpdate();
-                foreach (var i in MainInventorySlot)
-                {
-                    i.GetComponent<Image>().color = Color.white;
-                }
-                foreach(var i in PizzaInventorySlot)
-                {
-                    i.GetComponent<Image>().color = Color.white;
-                }
-                foreach (var i in GunInventorySlot)
-                {
-                    i.GetComponent<Image>().color = Color.white;
-                }
-                foreach (var i in DiceInventorySlot)
-                {
-                    i.GetComponent<Image>().color = Color.white;
-                }
-                Inventory.SetActive(true);
-                InventoryActive = true;
-            }
+        }
+        else if(UIControl.isIn && InventoryActive)
+        {
+            Inventory.SetActive(false);
+            InventoryActive = false;
         }
     }
 
@@ -210,19 +218,21 @@ public class InventoryManager : MonoBehaviour
             {
                 if (GameManager.Instance.PizzaInventoryData[i] != null)
                 {
-                    PizzaInventorySlot[i].transform.GetChild(0).GetComponent<Text>().text = GameManager.Instance.PizzaInventoryData[i]?.Name;
                     PizzaInventorySlot[i].transform.GetChild(1).gameObject.SetActive(true);
                     if (GameManager.Instance.PizzaInventoryData[i]?.FreshnessUpdate(GameManager.Instance.time) == 100)
                     {
                         PizzaInventorySlot[i].transform.GetChild(1).GetComponent<Image>().color = Color.white;
+                        PizzaInventorySlot[i].transform.GetChild(0).GetComponent<Text>().text = "따뜻한 " + GameManager.Instance.PizzaInventoryData[i]?.Name;
                     }
                     else if(GameManager.Instance.PizzaInventoryData[i]?.FreshnessUpdate(GameManager.Instance.time) == 50)
                     {
                         PizzaInventorySlot[i].transform.GetChild(1).GetComponent<Image>().color = Color.cyan;
+                        PizzaInventorySlot[i].transform.GetChild(0).GetComponent<Text>().text = "미지근한 " + GameManager.Instance.PizzaInventoryData[i]?.Name;
                     }
                     else if (GameManager.Instance.PizzaInventoryData[i]?.FreshnessUpdate(GameManager.Instance.time) == 0)
                     {
                         PizzaInventorySlot[i].transform.GetChild(1).GetComponent<Image>().color = Color.blue;
+                        PizzaInventorySlot[i].transform.GetChild(0).GetComponent<Text>().text = "차가운 " + GameManager.Instance.PizzaInventoryData[i]?.Name;
                     }
                 }
                 else

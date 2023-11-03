@@ -46,6 +46,7 @@ public class GameManager : MonoBehaviour
         
     }
 
+
     public float time;
     private float timeSpeed = 60; //하루기준시간
 
@@ -84,7 +85,7 @@ public class GameManager : MonoBehaviour
     }
     private void TimeSkip()
     {
-        if(Input.GetKeyDown(KeyCode.Backspace))
+        if(Input.GetKeyDown(KeyCode.F3))
             time = 82800;
     }
     private void Update()

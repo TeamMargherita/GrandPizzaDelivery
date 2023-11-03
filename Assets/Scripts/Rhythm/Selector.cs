@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 /// <summary>
@@ -14,6 +15,8 @@ public class Selector : MonoBehaviour
     [SerializeField] private Text Level;              // 난이도 출력 텍스트
     [SerializeField] private RectTransform LPDisk;    // 회전연출을 위한 변수
     [SerializeField] private GameObject Menu;
+    [SerializeField] private UnityEvent AnimationStart;
+    [SerializeField] private UnityEvent AnimationStop;
 
     private float startAngle = 0f;  // 회전 시작 각
     private float endAngle = 0f;    // 회전 끝 각
@@ -77,10 +80,12 @@ public class Selector : MonoBehaviour
 
                 // 클립 변경중
                 isChange = true;
+
+                AnimationStop.Invoke();
             }
 
             // DownArrow = 이전 클립
-            if (Input.GetKeyDown(KeyCode.DownArrow))
+            else if (Input.GetKeyDown(KeyCode.DownArrow))
             {
                 // index - 1, 만약 배열 범위 벗어나면 마지막 인덱스부터 시작
                 index = (index - 1) < 0 ? Titles.Length - 1 : index - 1;
@@ -90,10 +95,12 @@ public class Selector : MonoBehaviour
 
                 // 클립 변경중
                 isChange = true;
+
+                AnimationStop.Invoke();
             }
 
             // Enter = 클립 선택
-            if (Input.GetKeyDown(KeyCode.Return))
+            else if (Input.GetKeyDown(KeyCode.Return))
             {
                 // 리듬 매니저 타이틀, 클립 변경
                 RhythmManager.Instance.Title = Titles[index];
@@ -122,5 +129,6 @@ public class Selector : MonoBehaviour
         // 해당 인덱스의 클립으로 변경 후 재생
         Sound.clip = Clips[index];
         Sound.Play();
+        AnimationStart.Invoke();
     }
 }

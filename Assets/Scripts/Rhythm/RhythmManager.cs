@@ -98,7 +98,7 @@ public class RhythmManager : MonoBehaviour
     /// <summary>
     /// 씬을 전환하며 매력도를 전달하는 함수
     /// </summary>
-    private void EndScene()
+    public void EndScene()
     {
         // 씬 전환
         SceneChange = true;

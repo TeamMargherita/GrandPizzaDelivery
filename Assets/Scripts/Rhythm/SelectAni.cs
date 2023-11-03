@@ -7,7 +7,6 @@ public class SelectAni : MonoBehaviour
     [SerializeField] private GameObject[] Arrows;
     [SerializeField] private Animator Disk;
 
-
     public void AniStart()
     {
         foreach (var arrow in Arrows)

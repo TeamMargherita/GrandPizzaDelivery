@@ -103,6 +103,15 @@ public class NoteSpawner : MonoBehaviour
                         note.GetComponent<SpriteRenderer>().sprite =
                         pizzaIngredientSprArrGolden[Constant.ChoiceIngredientList[menuList]];
                 }
+                else
+                {
+                    // 노트 타입에 맞는 이미지 할당
+                    if (note.Type == NoteType.Normal)
+                        note.GetComponent<SpriteRenderer>().color = Color.white;
+
+                    else if (note.Type == NoteType.Hold)
+                        note.GetComponent<SpriteRenderer>().color = Color.yellow;
+                }
                 // 해당 노트가 있는 라인의 y좌표로 초기화
                 end.y = Lines[i].transform.position.y;
 

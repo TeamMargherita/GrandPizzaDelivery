@@ -4102,6 +4102,10 @@ PrefabInstance:
       propertyPath: AudioClip
       value: 
       objectReference: {fileID: 8300000, guid: efbccec9e0e570445bf9e09550101a0d, type: 3}
+    - target: {fileID: 1044286199950050072, guid: a83cc78eea476dd48b0a466ead8e257d, type: 3}
+      propertyPath: ClearKeys.Array.size
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 1044286199950050073, guid: a83cc78eea476dd48b0a466ead8e257d, type: 3}
       propertyPath: m_RootOrder
       value: 4

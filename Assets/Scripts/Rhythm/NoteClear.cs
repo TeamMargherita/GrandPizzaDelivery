@@ -11,14 +11,14 @@ public class NoteClear : MonoBehaviour
     private Judge judge;                    // 판정 정보
     private KeyCode[] clearKeys;
 
-    void Start()
+    private void Start()
     {
         // 리듬 매니저 캐싱
         manager = RhythmManager.Instance;
         KeyMapping();
     }
 
-    void Update()
+    private void Update()
     {
         // 플레이 중이 아니면 동작 x
         if (!BgSound.isPlaying)
@@ -36,36 +36,15 @@ public class NoteClear : MonoBehaviour
                 // 로드에 맞는 입력과 판정이 유효한 경우
                 if (KeyDownInput(i) && judge != Judge.NONE)
                 {
-                    // 노트 클리어
-                    JudgeCount(judge);
-
-                    // 노트 복귀
-                    storage.NoteClear(i);
-
-                    // 판정판에 판정 전달
-                    Effects[i].GetJudge(judge);
-
-                    // 키음 출력
-                    NoteSound.PlayOneShot(NoteSound.clip);
+                    Clear(i);
                 }
-
                 // 맨 앞 노트의 타입이 홀드 타입일 시
                 else if (storage.NoteLoad[i].Peek().Type == NoteType.Hold)
                 {
                     // 로드에 맞는 키 입력 유지중 이며 해당 판정이 정확할 경우
                     if (KeyHoldInput(i) && (judge == Judge.PERFECT || storage.NoteLoad[i].Peek().Timing <= 0))
                     {
-                        // 노트 클리어
-                        JudgeCount(judge);
-
-                        // 노트 복귀
-                        storage.NoteClear(i);
-
-                        // 판정판에 판정 전달
-                        Effects[i].GetJudge(judge);
-
-                        // 키음 출력
-                        NoteSound.PlayOneShot(NoteSound.clip);
+                        Clear(i);
                     }
                 }
             }
@@ -75,18 +54,20 @@ public class NoteClear : MonoBehaviour
                 // 자동 플레이를 위한 조건
                 if (storage.NoteLoad[i].Count > 0 && storage.NoteLoad[i].Peek().Timing <= 0 && (float)storage.NoteLoad[i].Peek().Timing > -0.12501f)
                 {
-                    // 노트 클리어
-                    JudgeCount(judge);
-
-                    // 노트 복귀
-                    storage.NoteClear(i);
-
-                    // 판정판에 판정 전달
-                    Effects[i].GetJudge(judge);
-
-                    // 키음 출력
-                    NoteSound.PlayOneShot(NoteSound.clip);
+                    Clear(i);
                 }
+            }
+        }
+    }
+
+    public void KeyMapping()
+    {
+        clearKeys = new KeyCode[4];
+        if (manager.ClearKeys.Length > 0)
+        {
+            for (int i = 0; i < manager.ClearKeys.Length; i++)
+            {
+                clearKeys[i] = manager.ClearKeys[i];
             }
         }
     }
@@ -150,15 +131,18 @@ public class NoteClear : MonoBehaviour
             return false;
     }
 
-    public void KeyMapping()
+    private void Clear(int index)
     {
-        clearKeys = new KeyCode[4];
-        if(manager.ClearKeys.Length > 0)
-        {
-            for(int i = 0; i < manager.ClearKeys.Length; i++)
-            {
-                clearKeys[i] = manager.ClearKeys[i];
-            }
-        }
+        // 노트 클리어
+        JudgeCount(judge);
+
+        // 노트 복귀
+        storage.NoteClear(index);
+
+        // 판정판에 판정 전달
+        Effects[index].GetJudge(judge);
+
+        // 키음 출력
+        NoteSound.PlayOneShot(NoteSound.clip);
     }
 }

@@ -3,13 +3,13 @@ using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class CreateEmployee : MonoBehaviour
 {
     [SerializeField] Transform EmployeeMother;
-    //[SerializeField] GameObject EmployeePrefab;
     [SerializeField] Transform EmployeeRecruitMother;
 
     [SerializeField] GameObject NoticeWin;
@@ -44,7 +44,7 @@ public class CreateEmployee : MonoBehaviour
 
         ClerkC clerk = 
             new ClerkC(employeeStat.Handy[SValue], (Tier)employeeStat.Agility[SValue], (Tier)employeeStat.Career[SValue], (Tier)employeeStat.Creativity[SValue], 
-             0, employeeStat.Pay[SValue], employeeStat.Name[SValue]);
+             0, employeeStat.Pay[SValue], employeeStat.Name[SValue], employeeStat.preferedDay[SValue], employeeStat.preferedDateCount[SValue]);
 
         Constant.ClerkList.Add(clerk);
     }

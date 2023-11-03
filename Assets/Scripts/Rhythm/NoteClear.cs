@@ -3,6 +3,8 @@ using UnityEngine;
 public class NoteClear : MonoBehaviour
 {
     public bool IsAuto;                     // 노트 자동 클리어
+    public bool FirstAuto;                     // 노트 자동 클리어
+    public bool SecondAuto;                     // 노트 자동 클리어
     public AudioSource NoteSound;           // 키음 불러올 오디오 소스
     public RhythmStorage storage;           // 노트를 클리어하며 돌려보낼 저장소 캐싱
     public ClearEffect[] Effects;           // 노트 클리어 시 이펙트 출력할 판정판
@@ -51,11 +53,19 @@ public class NoteClear : MonoBehaviour
             // 오토 클리어
             if (IsAuto)
             {
+                if (!FirstAuto && i == 0)
+                    continue;
+                if (!SecondAuto && i == 1)
+                    continue;
                 // 자동 플레이를 위한 조건
-                if (storage.NoteLoad[i].Count > 0 && storage.NoteLoad[i].Peek().Timing <= 0 && (float)storage.NoteLoad[i].Peek().Timing > -0.12501f)
+                if (storage.NoteLoad[i].Count > 0)
                 {
-                    Clear(i);
+                    if (storage.NoteLoad[i].Peek().SendJudge() == Judge.PERFECT)
+                    {
+                        Clear(i);
+                    }
                 }
+
             }
         }
     }

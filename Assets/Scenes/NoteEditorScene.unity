@@ -2106,9 +2106,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1546192685}
     - target: {fileID: 3859223624834147056, guid: 6432a7a4ba6635c4a9726e6f6e60c00b, type: 3}
+      propertyPath: FirstAuto
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3859223624834147056, guid: 6432a7a4ba6635c4a9726e6f6e60c00b, type: 3}
       propertyPath: NoteSound
       value: 
       objectReference: {fileID: 894300411}
+    - target: {fileID: 3859223624834147056, guid: 6432a7a4ba6635c4a9726e6f6e60c00b, type: 3}
+      propertyPath: SecondAuto
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3859223624834147056, guid: 6432a7a4ba6635c4a9726e6f6e60c00b, type: 3}
       propertyPath: Effects.Array.size
       value: 2

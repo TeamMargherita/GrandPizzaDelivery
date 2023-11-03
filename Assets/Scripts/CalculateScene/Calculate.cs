@@ -95,17 +95,26 @@ public class Calculate : MonoBehaviour
                 yield return Constant.OneTime;
                 continue;
             }
-            t4 = 300000;
-            if (GameManager.Instance.Money > t4)
+            if (Constant.IsDead)
             {
-                GameManager.Instance.Money -= t4;
+                t4 = 300000;
+                contentsText.text = $"벌금 : {t1}원 \n소모된 피자 재료 값 : {t2}원 \n점원 일급 : {t3}원 \n부활비 : {t4}원";
+                if (GameManager.Instance.Money > t4)
+                {
+                    GameManager.Instance.Money -= t4;
+                }
+                else
+                {
+                    t4 -= GameManager.Instance.Money;
+                    Constant.Dept += t4;
+                    t4 += GameManager.Instance.Money;
+                    GameManager.Instance.Money = 0;
+                }
             }
             else
-            {
-                t4 -= GameManager.Instance.Money;
-                Constant.Dept += t4;
-                t4 += GameManager.Instance.Money;
-                GameManager.Instance.Money = 0;
+			{
+                t4 = 0;
+                contentsText.text = $"벌금 : {t1}원 \n소모된 피자 재료 값 : {t2}원 \n점원 일급 : {t3}원 \n부활비 : {t4}원";
             }
             List<int> li = new List<int>();
             List<int> li2 = new List<int>();
@@ -251,17 +260,24 @@ public class Calculate : MonoBehaviour
             Constant.Dept += Constant.ClerkMoney;
             GameManager.Instance.Money = 0;
         }
-
-        if (GameManager.Instance.Money > 300000)
+        int t99 = 0;
+        if (Constant.IsDead)
         {
-            GameManager.Instance.Money -= 300000;
+            t99 = 300000;
+            if (GameManager.Instance.Money > 300000)
+            {
+                GameManager.Instance.Money -= 300000;
+            }
+            else
+            {
+                Constant.Dept += 300000;
+                GameManager.Instance.Money = 0;
+            }
         }
         else
-        {
-            Constant.Dept += 300000;
-            GameManager.Instance.Money = 0;
-        }
-
+		{
+            t99 = 0;
+		}
         List<int> li = new List<int>();
         List<int> li2 = new List<int>();
         foreach (var key in Constant.PayMoneyDate.Keys)
@@ -318,11 +334,11 @@ public class Calculate : MonoBehaviour
 
         if (li.Count > 0)
         {
-            contentsText.text = $"벌금 : {Constant.Fine}원 \n소모된 피자 재료 값 : {Constant.PizzaIngMoney}원 \n점원 일급 : {Constant.ClerkMoney}원 \n부활비 : {300000}원 \n...\n앗! 대여자들이 들이닥쳤다!\n대여자들에게 갚은 돈 : {de}원";
+            contentsText.text = $"벌금 : {Constant.Fine}원 \n소모된 피자 재료 값 : {Constant.PizzaIngMoney}원 \n점원 일급 : {Constant.ClerkMoney}원 \n부활비 : {t99}원 \n...\n앗! 대여자들이 들이닥쳤다!\n대여자들에게 갚은 돈 : {de}원";
         }
         else
         {
-            contentsText.text = $"벌금 : {Constant.Fine}원 \n소모된 피자 재료 값 : {Constant.PizzaIngMoney}원 \n점원 일급 : {Constant.ClerkMoney}원 \n부활비 : {300000}원";
+            contentsText.text = $"벌금 : {Constant.Fine}원 \n소모된 피자 재료 값 : {Constant.PizzaIngMoney}원 \n점원 일급 : {Constant.ClerkMoney}원 \n부활비 : {t99}원";
         }
         sumText.gameObject.SetActive(true);
         
@@ -334,10 +350,12 @@ public class Calculate : MonoBehaviour
         Constant.PizzaIngMoney = 0;
         Constant.ClerkMoney = 0;
         Constant.IsDead = false;
+        
     }
 
     public void GoInGame()
     {
+        PlayerStat.HP = PlayerStat.MaxHP;
         LoadScene.Instance.ActiveTrueFade("DateScene");
     }
 }

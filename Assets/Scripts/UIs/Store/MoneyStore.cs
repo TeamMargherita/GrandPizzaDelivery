@@ -80,9 +80,9 @@ public class MoneyStore : Conversation
 			"(첫 대화로 돌아간다.)알겠습니다.",	// 56
         };
 
-		if (Constant.NowDate != NowDate)
+		if (Constant.NowDate != NowDate || Constant.NowDate == 1)
 		{
-			Constant.NowDate = NowDate;
+			NowDate = Constant.NowDate;
 			List<int> li = new List<int>();
 			foreach (var key in Constant.PayMoneyDate.Keys)
 			{
@@ -369,6 +369,12 @@ public class MoneyStore : Conversation
             }
 			index = -100;
         }
+		else if (temInt == 3)
+		{
+			index = TextList.FindIndex(a => a.NowTextNum == 3);
+			SettingConversation(index);
+			index = -100;
+		}
 		else if (temInt == 5)
         {
 			if (Constant.BorrowMoneyDate.ContainsKey(Constant.NowDate))
@@ -720,7 +726,7 @@ public class MoneyStore : Conversation
 			new MethodS(MethodEnum.SETISCONDITION, new int[0])
 		};
 		AddTextList();
-		nowTextNum = 3; nextTextNum = new int[1] { -1 }; nextTextIsAble = new bool[1] { true  };
+		nowTextNum = 3; nextTextNum = new int[1] { -1 }; nextTextIsAble = new bool[1] { false };
 		methodSArr = new MethodS[1]
 		{
 			new MethodS(MethodEnum.ENDPANEL, new int[1] { -1 })

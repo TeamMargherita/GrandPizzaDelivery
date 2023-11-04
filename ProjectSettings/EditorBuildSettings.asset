@@ -23,4 +23,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SelectScene.unity
     guid: 10e3f564f447ded48bc0a82b3e941651
+  - enabled: 1
+    path: Assets/Scenes/CalculateScene.unity
+    guid: 1b7dd7c24e29c804a8f909c9c8ed8cc9
+  - enabled: 1
+    path: Assets/Scenes/DateScene.unity
+    guid: f04ce80b7456b054cbedf466ce3c1ece
   m_configObjects: {}

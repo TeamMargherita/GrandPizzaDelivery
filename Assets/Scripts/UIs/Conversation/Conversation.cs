@@ -92,8 +92,15 @@ public class Conversation
 			case MethodEnum.SETISCONDITION:
 				SetISCondition();
 				break;
+			case MethodEnum.INITPLAYERTEXT:
+				InitPlayerSelectText();
+				break;
         }
     }
+	protected virtual void InitPlayerSelectText()
+	{
+
+	}
 	public void SetSizeScrollContents(bool isVert, int size)
 	{
 		if (isVert)
@@ -308,9 +315,9 @@ public class Conversation
 		int index2 = -1;
 		if (tem.Count > 1) 
 		{
+			if (isCondition) { isCondition = false; }
 			index2 = Bifurcation(tem);
 			//Debug.Log($"{index2} Àü°³ 0.4");
-			if (isCondition) { isCondition = false; }
 		}
 		else if (isCondition)
 		{

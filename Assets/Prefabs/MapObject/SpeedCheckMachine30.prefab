@@ -181,7 +181,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   greenSpr: {fileID: 21300000, guid: cd7faba9075f3e74ea95bf4222484dc9, type: 3}
   redSpr: {fileID: 21300000, guid: f068b4741f4b0044c9c983154ccce0e7, type: 3}
-  limitSpeed: 30
+  limitSpeed: 6
 --- !u!58 &122962861965107164
 CircleCollider2D:
   m_ObjectHideFlags: 0

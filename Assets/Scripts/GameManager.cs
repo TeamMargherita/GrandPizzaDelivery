@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
     public float time;
     private float timeSpeed = 60; //하루기준시간
 
-    private int money = 1000000000;
+    private int money = 100000000;
     public int Money
     {
         get {
@@ -57,7 +57,8 @@ public class GameManager : MonoBehaviour
         }
         set {
             //나중에 일정금액도달하면 앤딩 화면가는 함수 짜기
-            MoneyText.CreateMoneyEffect(value - money);
+            if(MoneyText != null )
+                MoneyText.CreateMoneyEffect(value - money);
             money = value;
         }
     }
@@ -66,14 +67,14 @@ public class GameManager : MonoBehaviour
 
     public void PlayerDead()
     {
-        LoadScene.Instance.LoadNextDay("InGameScene");
+        LoadScene.Instance.LoadNextDay(true);
         isDarkDelivery = false;
         time = 32400;
     }
 
     public void NextDay()
     {
-        LoadScene.Instance.ActiveTrueFade("InGameScene");
+        LoadScene.Instance.LoadNextDay(false);
         isDarkDelivery = false;
         time = 32400;
     }

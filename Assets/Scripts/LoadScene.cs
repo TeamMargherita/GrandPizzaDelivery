@@ -12,6 +12,8 @@ public class LoadScene : MonoBehaviour
 */
     public static LoadScene Instance = null;
 
+    private bool oneTimeMethod = false;
+
     private void Awake()
     {
         if (Instance == null) //instance가 null. 즉, 시스템상에 존재하고 있지 않을때
@@ -36,8 +38,10 @@ public class LoadScene : MonoBehaviour
         Fade.Instance.gameObject.SetActive(true);
         Fade.Instance.SetLoadSceneName(str);
 	}
-    public void LoadNextDay(string str)
-	{
+    public void LoadNextDay(bool isDead)
+    {
+        if (oneTimeMethod) { return; }
+        oneTimeMethod = true;
         if (Constant.NowDay != DayEnum.SUNDAY)
         {
             Constant.NowDay++;
@@ -47,11 +51,14 @@ public class LoadScene : MonoBehaviour
             Constant.NowDay = DayEnum.MONDAY;
 		}
         Constant.NowDate++;
-        ActiveTrueFade("InGameScene");
-	}
+        if (isDead) { Constant.IsDead = true; }
+
+        ActiveTrueFade("CalculateScene");
+    }
     public void LoadS(string str)
 	{
 		SceneManager.LoadScene(str);
+        oneTimeMethod = false;
 	}
 	public void LoadRhythm()
 	{

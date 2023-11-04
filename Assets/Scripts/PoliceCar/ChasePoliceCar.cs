@@ -12,6 +12,7 @@ public class ChasePoliceCar : Police, ISetTransform, IUpdateCheckList
     public float Speed;
 
     [SerializeField] private GameObject[] colArr;
+    [SerializeField] private Animator ani;
 
     private const int RIGHTUP = 0; // 앞
     private const int RIGHTDOWN = 1;    // 앞
@@ -51,6 +52,7 @@ public class ChasePoliceCar : Police, ISetTransform, IUpdateCheckList
     private float oldAngle = -999f; // 이전 프레임에서 추격경찰차와 플레이어의 각도 차이
     private float autoAndStopTime = 0;   // 자동주행과 정지상태인 시간
     private bool isRigid = false;   // 리지드바디 제어 변수
+
     protected override void Awake()
     {
         base.Awake();
@@ -70,6 +72,8 @@ public class ChasePoliceCar : Police, ISetTransform, IUpdateCheckList
             iCheckColArr[i].InitNumber(i, this);
 		}
         GunMethod = new PoliceGunShooting(transform, "Police");
+        GunMethod.ani = ani;
+        GunMethod.ShootAudio = GetComponent<AudioSource>();
     }
     /// <summary>
     /// 무조건적으로 플레이어를 따라오는 상태이다.
@@ -474,6 +478,7 @@ public class ChasePoliceCar : Police, ISetTransform, IUpdateCheckList
         }
     }
 
+    
     private void FixedUpdate()
 	{
         // 특정상황에서 모든 추격 경찰차 정지

@@ -17,7 +17,8 @@ public class PizzaMenuUI : MonoBehaviour, IAddPizza
 	[SerializeField] private GameObject changePizzaNamePanel;
 	[SerializeField] private Text addPizzaExplainText;
 
-	private static int nowDate = 0;
+	public static int nowDate = 0;
+
 	private List<int> openExplainList = new List<int>();
 	private AddPizzaSlot[] addPizzaSlots;
 	private GameObject[] pizzaMenuSlot;

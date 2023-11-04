@@ -46,6 +46,7 @@ public class GameManager : MonoBehaviour
         
     }
 
+
     public float time;
     private float timeSpeed = 60; //하루기준시간
 
@@ -85,7 +86,7 @@ public class GameManager : MonoBehaviour
     }
     private void TimeSkip()
     {
-        if(Input.GetKeyDown(KeyCode.Backspace))
+        if(Input.GetKeyDown(KeyCode.F3))
             time = 82800;
     }
     private void Update()
@@ -103,15 +104,17 @@ public class GameManager : MonoBehaviour
 		{
             time = 32400;
 		}
-        if (Input.GetKeyDown(KeyCode.F3))
+        if (Input.GetKeyDown(KeyCode.CapsLock))
         {
-            Time.timeScale = 0.1f;
-            Time.fixedDeltaTime = Time.timeScale * 0.02f;
-        }
-        else if (Input.GetKeyDown(KeyCode.F4))
-        {
-            Time.timeScale = 1;
-            Time.fixedDeltaTime = Time.timeScale * 0.02f;
+            if(Time.timeScale == 1)
+            {
+                Time.timeScale = 0.1f;
+                Time.fixedDeltaTime = Time.timeScale * 0.02f;
+            }else if (Time.timeScale == 0.1f)
+            {
+                Time.timeScale = 1;
+                Time.fixedDeltaTime = Time.timeScale * 0.02f;
+            }
         }
         //게임1초 * timeSpeed = 현실시간1초
         //TimeText.GetComponent<Text>().text = (int)time/3600 + " : " + (int)(time / 60 % 60);

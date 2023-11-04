@@ -9,6 +9,7 @@ using BuildingNS.HouseNS;
 //맵에 존재해야할 오브젝트들을 배치하고, 건물마다 주소를 붙여줌으로써 맵을 구현합니다. 
 public class Map : MonoBehaviour, IMap, IStop
 {
+    [SerializeField] private GameObject spawnChaserPoliceCar;
     [SerializeField] private GameObject uiControlObj;
     [SerializeField] private GameObject policeCar;
     [SerializeField] private GameObject banana;
@@ -109,7 +110,8 @@ public class Map : MonoBehaviour, IMap, IStop
                 if (policeCar.GetComponent<Police>() != null)
 				{
                     policeCar.GetComponent<Police>().SetSmokeEffectTrans(effectControl.GetComponent<ISetTransform>());
-				}
+                    policeCar.GetComponent<Police>().SpawnCar = spawnChaserPoliceCar.GetComponent<ISpawnCar>();
+                }
                 // 경찰차가 배정되었으므로 cnt를 하나 내리고, 경찰차가 배정되었음을 건물(Building)에 알립니다.
                 buildingList[ran].SetIsPoliceCar(true);
                 cnt--;

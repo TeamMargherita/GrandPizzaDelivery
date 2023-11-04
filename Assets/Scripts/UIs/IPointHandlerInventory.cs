@@ -72,6 +72,11 @@ public class IPointHandlerInventory : MonoBehaviour, IPointerClickHandler, IPoin
                 {
                     DragDrop.GetComponent<Image>().enabled = false;
                 }
+            }else if(InventoryName == "Pizza")
+            {
+                exPlainPanel.SetActive(true);
+                exPlainPanel.transform.GetChild(0).GetComponent<Text>().text = GameManager.Instance.PizzaInventoryData[int.Parse(name) - 1]?.GetExplain();
+                exPlainPanel.transform.position = new Vector3(Input.mousePosition.x + 10, Input.mousePosition.y - 30, Input.mousePosition.z);
             }
         }
     }

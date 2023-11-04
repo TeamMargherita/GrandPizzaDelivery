@@ -7,9 +7,8 @@ using ConversationNS;
 public class PineAppleStoreTwo : Conversation
 {
 	public static bool isPineapple = true;
-
-	private static bool isContract = false;
-	private static bool isMeet = false;
+	public static bool isContract = false;
+	public static bool isMeet = false;
 	public PineAppleStoreTwo()
 	{
 		NpcTextStrArr = new string[36]

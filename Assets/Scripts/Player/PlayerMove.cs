@@ -77,7 +77,8 @@ public class PlayerMove : PlayerStat
     }
     void Update()
     {
-        PlayerFire();
+        if(!UIControl.isIn)
+            PlayerFire();
         InventoryManagerScript.UIMagagineTextUpdate(CurrentMagagine);
         if (Input.GetKeyDown(KeyCode.X))
         {

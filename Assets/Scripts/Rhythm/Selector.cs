@@ -14,6 +14,7 @@ public class Selector : MonoBehaviour
     [SerializeField] private Text Title;                // 곡 제목 텍스트
     [SerializeField] private Text Bpm;                  // Bpm 출력 텍스트
     [SerializeField] private Text Level;                // 난이도 출력 텍스트
+    [SerializeField] private Text Length;                // 노래 길이 출력 텍스트
     [SerializeField] private RectTransform LPDisk;      // 회전연출을 위한 변수
     [SerializeField] private GameObject Menu;
     [SerializeField] private UnityEvent AnimationStart;

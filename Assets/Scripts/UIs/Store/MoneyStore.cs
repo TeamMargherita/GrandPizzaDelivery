@@ -13,7 +13,6 @@ public class MoneyStore : Conversation
 	public static bool IsTalkOneChanceDiscount = false;	// 한번에 한해서 이자를 깎을 수 있음. true가 되면 할인 시도 이미 한 것.
 
 	public static int SumBorrow = 0;    // 총 빌린 금액
-	public static float PlusMoney = 1.1f;   // 매일 복리 이자 
 	public static int NowDate = 1;  // 날짜
 	public static int ClearMoney = 0;   // 퀘스트 성공시 받는 돈
 	public const int MoneyStoreCode = 0;    // 대출업체 코드
@@ -82,6 +81,18 @@ public class MoneyStore : Conversation
 			"(첫 대화로 돌아간다.)알겠습니다.",	// 56
         };
 
+		if (Constant.NowDate == 1)
+        {
+			IsTalk = false;
+			StartSonQuest = false;
+			OneChanceClearSon = false;
+			IsTalkOneChanceDiscount = false;
+			SumBorrow = 0;
+			NowDate = 1;
+			ClearMoney = 0;
+			loseMoney = 0;
+		}
+
 		if (Constant.NowDate != NowDate || Constant.NowDate == 1)
 		{
 			SumBorrow = 0;
@@ -91,13 +102,14 @@ public class MoneyStore : Conversation
 			foreach (var key in Constant.PayMoneyDate.Keys)
 			{
 				Constant.PayMoneyDate[key][MoneyStoreCode]++;
-				li.Add(key);
+				SumBorrow += Constant.PayMoneyDate[key][MoneyStoreCode];
+				//li.Add(key);
 			}
-			for (int i = 0; i < li.Count; i++)
-			{
-				Constant.PayMoneyDate[li[i]][MoneyStoreCode] = (int)(Constant.PayMoneyDate[li[i]][MoneyStoreCode] * PlusMoney);
-				SumBorrow += Constant.PayMoneyDate[li[i]][MoneyStoreCode];
-			}
+			//for (int i = 0; i < li.Count; i++)
+			//{
+			//	Constant.PayMoneyDate[li[i]][MoneyStoreCode] = (int)(Constant.PayMoneyDate[li[i]][MoneyStoreCode] * PlusMoney);
+			//	SumBorrow += Constant.PayMoneyDate[li[i]][MoneyStoreCode];
+			//}
 
 			loseMoney = 50000000 - SumBorrow >= 30000000 ? 30000000 : 50000000 - SumBorrow;
 			loseMoney = loseMoney <= 0 ? 0 : loseMoney;
@@ -552,6 +564,7 @@ public class MoneyStore : Conversation
         }
 		else if (temInt == 29)
         {
+			IsTalk = true;
 			SettingConversation(Findidx(29, new int[1] { 30 }));
 			index = -100;
         }
@@ -589,7 +602,7 @@ public class MoneyStore : Conversation
         }
 		else if (temInt == 44)
         {
-			if (LuckyStore.ClearSonQuest)
+			if (!LuckyStore.ClearSonQuest)
             {
 				index = Findidx(44, new int[1] { 45 });
             }
@@ -628,7 +641,7 @@ public class MoneyStore : Conversation
         {
 			if (bo)
             {
-				PlusMoney = 1.05f;
+				Constant.DeptMulitplex[MoneyStoreCode] = 1.05f;
 				SettingConversation(Findidx(15, new int[1] { 17 }));
             }
 			else
@@ -929,14 +942,14 @@ public class MoneyStore : Conversation
 			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 1 })
 		};
 		AddTextList();
-		nowTextNum = 33; nextTextNum = new int[1] { 35 }; nextTextIsAble = new bool[1] { true };
+		nowTextNum = 33; nextTextNum = new int[2] { 35,27 }; nextTextIsAble = new bool[2] { true, true };
 		methodSArr = new MethodS[5]
 		{
 			new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { 34 }),
-			new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 100 } ),
+			new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 200 } ),
 			new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 1 } ),
 			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 1 }),
-			new MethodS(MethodEnum.SETSIZECONTENTS, new int[0])
+			new MethodS(MethodEnum.SETISCONDITION, new int[0])
 		};
 		AddTextList();
 		nowTextNum = 35; nextTextNum = new int[5] { 37, 38, 39, 40, 41 }; nextTextIsAble = new bool[5] { true, true, true, true, true };
@@ -1030,7 +1043,7 @@ public class MoneyStore : Conversation
 			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 1 })
 		};
 		AddTextList();
-		nowTextNum = 44; nextTextNum = new int[1] { 47 }; nextTextIsAble = new bool[1] { false };
+		nowTextNum = 44; nextTextNum = new int[1] { 47 }; nextTextIsAble = new bool[1] { true };
 		methodSArr = new MethodS[4]
 		{
 			new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { 45 }),
@@ -1039,7 +1052,7 @@ public class MoneyStore : Conversation
 			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 3 })
 		};
 		AddTextList();
-		nowTextNum = 44; nextTextNum = new int[1] { 48 }; nextTextIsAble = new bool[1] { false };
+		nowTextNum = 44; nextTextNum = new int[1] { 48 }; nextTextIsAble = new bool[1] { true };
 		methodSArr = new MethodS[5]
 		{
 			new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { 46 }),

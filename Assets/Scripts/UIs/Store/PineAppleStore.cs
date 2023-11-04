@@ -59,6 +59,12 @@ public class PineAppleStore : Conversation
 			"(°£´Ù)"	// 41
 		};
 
+		if (Constant.NowDate == 1)
+        {
+			isFirstTime = true;
+			isFineapple = true;
+		}
+
 		TextList = new List<TextNodeC>();
 		InitTextList();
 	}

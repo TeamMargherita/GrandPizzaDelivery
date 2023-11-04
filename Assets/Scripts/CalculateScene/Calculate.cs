@@ -9,11 +9,49 @@ public class Calculate : MonoBehaviour
     [SerializeField] private Text sumText;
     [SerializeField] private GameObject nextButton;
     private Coroutine calCoroutine;
-
+    private int moneyTime = 7;  // 돈을 갚아야 되기까지 기다려 주는 시간
+    private int temMoney;
+    private int temFine;
+    private int temDept;
+    private int temPizzaIngMoney;
+    private int temClerkMoney;
+    private bool temIsDead;
+    public Dictionary<int, Dictionary<int, int>> temPayMoneyDate = new Dictionary<int, Dictionary<int, int>>();
 
     // Start is called before the first frame update
     void Start()
     {
+        List<int> li = new List<int>();
+        foreach (var key in Constant.PayMoneyDate.Keys)
+        {
+            li.Add(key);
+        }
+        for (int i = 0; i < li.Count; i++)
+        {
+            for (int i2 = 0; i2 < Constant.MoneyStoreCode.Length; i2++)
+            {
+                Constant.PayMoneyDate[li[i]][i2] = (int)(Constant.PayMoneyDate[li[i]][i2] * Constant.DeptMulitplex[i2]);
+            }
+        }
+
+        temMoney = GameManager.Instance.Money;
+        temFine = Constant.Fine;
+        temDept = Constant.Dept;
+        temPizzaIngMoney = Constant.PizzaIngMoney;
+        temClerkMoney = Constant.ClerkMoney;
+        temIsDead = Constant.IsDead;
+        
+        foreach (var k1 in Constant.PayMoneyDate.Keys)
+        {
+            temPayMoneyDate.Add(k1, new Dictionary<int, int>());
+
+            foreach (var k2 in Constant.PayMoneyDate[k1].Keys)
+            {
+                temPayMoneyDate[k1].Add(k2, Constant.PayMoneyDate[k1][k2]);
+            }
+        }
+
+
         calCoroutine = StartCoroutine(Cal());    
     }
     /// <summary>
@@ -36,7 +74,7 @@ public class Calculate : MonoBehaviour
             while (t1 < Constant.Fine)
             {
                 contentsText.text = $"벌금 : {t1}원";
-                t1+= Random.Range(1,1000);
+                t1+= Random.Range(1,10000);
                 
                 yield return Constant.OneTime;
                 continue;
@@ -56,7 +94,7 @@ public class Calculate : MonoBehaviour
             while (t2 < Constant.PizzaIngMoney)
             {
                 contentsText.text = $"벌금 : {t1}원 \n소모된 피자 재료 값 : {t2}원";
-                t2 += Random.Range(1, 1000);
+                t2 += Random.Range(1, 5000);
                 yield return Constant.OneTime;
                 continue;
             }
@@ -75,7 +113,7 @@ public class Calculate : MonoBehaviour
             while (t3 < Constant.ClerkMoney)
             {
                 contentsText.text = $"벌금 : {t1}원 \n소모된 피자 재료 값 : {t2}원 \n점원 일급 : {t3}원";
-                t3+= Random.Range(1, 5000); ;
+                t3+= Random.Range(1, 20000); ;
                 yield return Constant.OneTime;
                 continue;
             }
@@ -95,7 +133,7 @@ public class Calculate : MonoBehaviour
             {
                 contentsText.text = $"벌금 : {t1}원 \n소모된 피자 재료 값 : {t2}원 \n점원 일급 : {t3}원 \n부활비 : {t4}원";
                 if (t4 >= 300000) { break; }
-                t4 += Random.Range(1, 2000); ;
+                t4 += Random.Range(1, 10000); ;
                 yield return Constant.OneTime;
                 continue;
             }
@@ -124,7 +162,7 @@ public class Calculate : MonoBehaviour
             List<int> li2 = new List<int>();
             foreach (var key in Constant.PayMoneyDate.Keys)
             {
-                if (key <= Constant.NowDate - 30)
+                if (key <= Constant.NowDate - moneyTime)
                 {
                     li.Add(key);
                 }
@@ -156,11 +194,9 @@ public class Calculate : MonoBehaviour
                             GameManager.Instance.Money -= Constant.PayMoneyDate[li[i]][li2[i2]];
                             t5 += Constant.PayMoneyDate[li[i]][li2[i2]];
                             Constant.PayMoneyDate[li[i]].Remove(li2[i2]);
-                            Constant.BorrowMoneyDate[li[i]].Remove(li2[i2]);
                             if (Constant.PayMoneyDate[li[i]].Count == 0)
                             {
                                 Constant.PayMoneyDate.Remove(li[i]);
-                                Constant.BorrowMoneyDate.Remove(li[i]);
                             }
                         }
                         else
@@ -192,7 +228,22 @@ public class Calculate : MonoBehaviour
             while (t6 < GameManager.Instance.Money)
             {
                 sumText.text = $"현재 가진 돈 : {t6}원";
-                t6+= Random.Range(1, 100000); ;
+                if (GameManager.Instance.Money >= 100000000)
+                {
+                    t6 += Random.Range(1, 4000000);
+                }
+                else if (GameManager.Instance.Money >= 10000000)
+                {
+                    t6 += Random.Range(1, 2500000);
+                }
+                else if (GameManager.Instance.Money >= 1000000)
+                {
+                    t6 += Random.Range(1, 300000);
+                }
+                else
+                {
+                    t6 += Random.Range(1, 30000);
+                }
                 yield return Constant.OneTime;
                 continue;
             }
@@ -212,7 +263,14 @@ public class Calculate : MonoBehaviour
             while (t7 < n7)
             {
                 sumText.text = $"현재 가진 돈 : {t6}원 \n남은 빚 : {t7}원";
-                t7 += Random.Range(1, 500000); ;
+                if (n7 > 10000000)
+                {
+                    t7 += Random.Range(1, 3000000);
+                }
+                else
+                {
+                    t7 += Random.Range(1, 300000); ;
+                }
                 yield return Constant.OneTime;
                 continue;
             }
@@ -225,12 +283,40 @@ public class Calculate : MonoBehaviour
             Constant.IsDead = false;
 
             nextButton.SetActive(true);
+            break;
         }
     }
 
     public void Skip()
     {
         StopCoroutine(calCoroutine);
+
+        GameManager.Instance.Money = temMoney;
+        Constant.Fine = temFine;
+        Constant.Dept = temDept;
+        Constant.PizzaIngMoney = temPizzaIngMoney;
+        Constant.ClerkMoney = temClerkMoney;
+        Constant.IsDead = temIsDead;
+
+        foreach (var k1 in temPayMoneyDate.Keys)
+        {
+            if (!Constant.PayMoneyDate.ContainsKey(k1))
+            {
+                Constant.PayMoneyDate.Add(k1, new Dictionary<int, int>());
+            }
+
+            foreach (var k2 in temPayMoneyDate[k1].Keys)
+            {
+                if (!Constant.PayMoneyDate.ContainsKey(k1))
+                {
+                    Constant.PayMoneyDate[k1].Add(k2, temPayMoneyDate[k1][k2]);
+                }
+                else
+                {
+                    Constant.PayMoneyDate[k1][k2] = temPayMoneyDate[k1][k2];
+                }
+            }
+        }
 
         contentsText.gameObject.SetActive(true);
         Constant.Dept = 0;
@@ -286,7 +372,7 @@ public class Calculate : MonoBehaviour
         List<int> li2 = new List<int>();
         foreach (var key in Constant.PayMoneyDate.Keys)
         {
-            if (key <= Constant.NowDate - 30)
+            if (key <= Constant.NowDate - moneyTime)
             {
                 li.Add(key);
             }
@@ -308,11 +394,9 @@ public class Calculate : MonoBehaviour
                         GameManager.Instance.Money -= Constant.PayMoneyDate[li[i]][li2[i2]];
                         de += Constant.PayMoneyDate[li[i]][li2[i2]];
                         Constant.PayMoneyDate[li[i]].Remove(li2[i2]);
-                        Constant.BorrowMoneyDate[li[i]].Remove(li2[i2]);
                         if (Constant.PayMoneyDate[li[i]].Count == 0)
                         {
                             Constant.PayMoneyDate.Remove(li[i]);
-                            Constant.BorrowMoneyDate.Remove(li[i]);
                         }
                     }
                     else

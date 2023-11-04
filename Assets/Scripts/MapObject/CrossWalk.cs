@@ -5,6 +5,7 @@ using UnityEngine;
 // 한석호 작성
 public class CrossWalk : MonoBehaviour, ICheckIsGreen
 {
+    [SerializeField] private FinePooling finePooling;
     [SerializeField] private Sprite redSpr;
     [SerializeField] private Sprite greenSpr;
     [SerializeField] private Sprite yellowSpr;
@@ -84,6 +85,11 @@ public class CrossWalk : MonoBehaviour, ICheckIsGreen
             collision.GetComponent<Police>().PausePoliceCar(true);
             // 일시정지한 경찰차를 나중에 해제하기 위해 리스트에 임시로 저장
             policeList.Add(collision.GetComponent<Police>());
+        }
+        // 초록불이고 플레이어인 것들에만 해당
+        if (collision.GetComponent<PlayerMove>() != null && isGreen)
+        {
+            finePooling.AddFine((int)(15000));
         }
     }
 }

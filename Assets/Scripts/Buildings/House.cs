@@ -50,6 +50,11 @@ public class House : MonoBehaviour, IAddress, IHouse, IActiveHouse
         goalObj.transform.position += vec;
         activeObj.transform.position += vec;
 
+        if (Constant.NowDate == 1)
+        {
+            activeColor = new Color(248 / 255f, 70 / 255f, 6 / 255f);
+        }
+
         customerS = new CustomerS(Random.Range(1, 101), Random.Range(60, 240), Random.Range(0, 4), Random.Range(200, 2000));
         activeObj.GetComponent<HouseActiveCheck>().SetIActiveHouse(this);
         houseType = HouseType.HOUSE;

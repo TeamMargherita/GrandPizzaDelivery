@@ -77,8 +77,9 @@ public class MakingPizza : MonoBehaviour, IResetPizzaMaking
         while (true)
         {
             // 만들 피자를 고릅니다.
-            if (pizzaRequestList.Count <= 0) 
+            if (pizzaRequestList.Count <= 0 || CompletePizzaList.Count >= 5) 
             {
+                Debug.Log(CompletePizzaList.Count);
                 for (int i = 0; i < 5; i++)
                 {
                     yield return Constant.OneTime;

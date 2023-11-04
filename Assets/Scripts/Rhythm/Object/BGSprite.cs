@@ -7,7 +7,7 @@ public class BGSprite : MonoBehaviour
     public GameObject[] Sprites;
     
     private float[] lightCycle = new float[] { 1f, 0.5f, 0f };
-    private int lightIndex = 0;
+    private int lightIndex = 1;
 
     private float sizeX = 16f;
     private float sizeY = 9f;

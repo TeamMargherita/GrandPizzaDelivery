@@ -2625,6 +2625,7 @@ MonoBehaviour:
   Title: {fileID: 1648601356}
   Bpm: {fileID: 76532623}
   Level: {fileID: 1982851427}
+  Length: {fileID: 1757594203}
   LPDisk: {fileID: 403420150}
   Menu: {fileID: 1689745492}
   AnimationStart:

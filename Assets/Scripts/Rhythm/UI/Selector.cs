@@ -127,7 +127,10 @@ public class Selector : MonoBehaviour
         Title.text = audioData.Name;
         Bpm.text = audioData.BPM.ToString() + "bpm";
         Level.text = audioData.Level;
-
+        int minute = (int)(audioData.Length / 60);
+        int second = (int)(audioData.Length % 60);
+        Length.text = minute.ToString("0") + "m" + second.ToString("00") + "s";
+        
         // 해당 인덱스의 클립으로 변경 후 재생
         Sound.clip = Highlights[index];
         Sound.Play();

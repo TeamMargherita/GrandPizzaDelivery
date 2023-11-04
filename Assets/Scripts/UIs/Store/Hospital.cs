@@ -197,12 +197,13 @@ public class Hospital : Conversation
 		};
 		AddTextList();
 		nowTextNum = 4; nextTextNum = new int[3] { 1,2,9 }; nextTextIsAble = new bool[3] { true, true, true };
-		methodSArr = new MethodS[4]
+		methodSArr = new MethodS[5]
 		{
 			new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { -1 } ),
 			new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 300 } ),
 			new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 3 } ),
-			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 3 })
+			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 3 }),
+			new MethodS(MethodEnum.SETISCONDITION, new int[0])
 		};
 		AddTextList();
 		nowTextNum = 6; nextTextNum = new int[1] { 9 }; nextTextIsAble = new bool[1] { true };

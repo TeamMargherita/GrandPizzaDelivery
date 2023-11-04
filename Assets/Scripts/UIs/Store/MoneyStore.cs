@@ -16,7 +16,9 @@ public class MoneyStore : Conversation
 	public static float PlusMoney = 1.1f;   // 매일 복리 이자 
 	public static int NowDate = 1;  // 날짜
 	public static int ClearMoney = 0;   // 퀘스트 성공시 받는 돈
-	public const int MoneyStoreCode = 0;	// 대출업체 코드
+	public const int MoneyStoreCode = 0;    // 대출업체 코드
+
+	private static int loseMoney = 0;
 	public MoneyStore()
 	{
 		NpcTextStrArr = new string[57]
@@ -82,6 +84,8 @@ public class MoneyStore : Conversation
 
 		if (Constant.NowDate != NowDate || Constant.NowDate == 1)
 		{
+			SumBorrow = 0;
+
 			NowDate = Constant.NowDate;
 			List<int> li = new List<int>();
 			foreach (var key in Constant.PayMoneyDate.Keys)
@@ -92,7 +96,12 @@ public class MoneyStore : Conversation
 			for (int i = 0; i < li.Count; i++)
 			{
 				Constant.PayMoneyDate[li[i]][MoneyStoreCode] = (int)(Constant.PayMoneyDate[li[i]][MoneyStoreCode] * PlusMoney);
+				SumBorrow += Constant.PayMoneyDate[li[i]][MoneyStoreCode];
 			}
+
+			loseMoney = 50000000 - SumBorrow >= 30000000 ? 30000000 : 50000000 - SumBorrow;
+			loseMoney = loseMoney <= 0 ? 0 : loseMoney;
+			Debug.Log($"SumBorrow {SumBorrow } loseMoney {loseMoney}");
 		}
 
 		TextList = new List<TextNodeC>();
@@ -120,103 +129,23 @@ public class MoneyStore : Conversation
 	{
 		if (num == 5)
         {
-			if (!Constant.BorrowMoneyDate.ContainsKey(Constant.NowDate))
-			{
-				if (SumBorrow <= 50000000 - 30000000) { return true; }
-				else
-				{
-					if (50000000 - SumBorrow <= 1000000) { return true; }
-					else { return false; }
-				}
-			}
-			else
-			{
-				if (SumBorrow <= 50000000 - 30000000)
-				{
-					if (30000000 - Constant.BorrowMoneyDate[Constant.NowDate][MoneyStoreCode] <= 1000000) { return true; }
-					else { return false; }
-				}
-				else
-				{
-					if ((50000000 - SumBorrow) - Constant.BorrowMoneyDate[Constant.NowDate][MoneyStoreCode] <= 1000000) { return true; }
-					else { return false; }
-				}
-			}
+			if (loseMoney >= 1000000) { return true; }
+			else { return false; }
 		}
 		else if (num == 6)
         {
-			if (!Constant.BorrowMoneyDate.ContainsKey(Constant.NowDate))
-			{
-				if (SumBorrow <= 50000000 - 30000000) { return true; }
-				else
-				{
-					if (50000000 - SumBorrow <= 2000000) { return true; }
-					else { return false; }
-				}
-			}
-			else
-			{
-				if (SumBorrow <= 50000000 - 30000000)
-				{
-					if (30000000 - Constant.BorrowMoneyDate[Constant.NowDate][MoneyStoreCode] <= 2000000) { return true; }
-					else { return false; }
-				}
-				else
-				{
-					if ((50000000 - SumBorrow) - Constant.BorrowMoneyDate[Constant.NowDate][MoneyStoreCode] <= 2000000) { return true; }
-					else { return false; }
-				}
-			}
+			if (loseMoney >= 2000000) { return true; }
+			else { return false; }
 		}
 		else if (num == 7)
         {
-			if (!Constant.BorrowMoneyDate.ContainsKey(Constant.NowDate))
-			{
-				if (SumBorrow <= 50000000 - 30000000) { return true; }
-				else
-				{
-					if (50000000 - SumBorrow <= 3000000) { return true; }
-					else { return false; }
-				}
-			}
-			else
-			{
-				if (SumBorrow <= 50000000 - 30000000)
-				{
-					if (30000000 - Constant.BorrowMoneyDate[Constant.NowDate][MoneyStoreCode] <= 3000000) { return true; }
-					else { return false; }
-				}
-				else
-				{
-					if ((50000000 - SumBorrow) - Constant.BorrowMoneyDate[Constant.NowDate][MoneyStoreCode] <= 3000000) { return true; }
-					else { return false; }
-				}
-			}
+			if (loseMoney >= 3000000) { return true; }
+			else { return false; }
 		}
 		else if (num == 8)
         {
-			if (!Constant.BorrowMoneyDate.ContainsKey(Constant.NowDate))
-			{
-				if (SumBorrow <= 50000000 - 30000000) { return true; }
-				else
-				{
-					if (50000000 - SumBorrow <= 4000000) { return true; }
-					else { return false; }
-				}
-			}
-			else
-			{
-				if (SumBorrow <= 50000000 - 30000000)
-				{
-					if (30000000 - Constant.BorrowMoneyDate[Constant.NowDate][MoneyStoreCode] <= 4000000) { return true; }
-					else { return false; }
-				}
-				else
-				{
-					if ((50000000 - SumBorrow) - Constant.BorrowMoneyDate[Constant.NowDate][MoneyStoreCode] <= 4000000) { return true; }
-					else { return false; }
-				}
-			}
+			if (loseMoney >= 4000000) { return true; }
+			else { return false; }
 		}
 		else if (num == 12)
         {
@@ -231,7 +160,7 @@ public class MoneyStore : Conversation
         }
 		else if (num == 21)
         {
-			int money = 0;
+			int money = 0;	// 갚아야 할 빚
 			foreach (var key in Constant.PayMoneyDate.Keys)
             {
 				money += Constant.PayMoneyDate[key][MoneyStoreCode];
@@ -342,31 +271,9 @@ public class MoneyStore : Conversation
     {
 		int index = -1;
 		temInt = tem[0].NowTextNum;
-		Debug.Log($"temInt : {temInt}");
 		if (temInt == 2)
         {
-			if (!Constant.BorrowMoneyDate.ContainsKey(Constant.NowDate))
-            {
-				if (SumBorrow <= 50000000 - 30000000)
-                {
-					SettingConversation(Findidx(2, new int[1] { 4 }), 30000000);
-                }
-				else
-                {
-					SettingConversation(Findidx(2, new int[1] { 4 }), (50000000 - SumBorrow) );
-                }
-            }
-			else
-            {
-				if (SumBorrow <= 50000000 - 30000000)
-                {
-					SettingConversation(Findidx(2, new int[1] { 4 }), 30000000 - Constant.BorrowMoneyDate[Constant.NowDate][MoneyStoreCode]);
-                }
-				else
-                {
-					SettingConversation(Findidx(2, new int[1] { 4 }), (50000000 - SumBorrow) - Constant.BorrowMoneyDate[Constant.NowDate][MoneyStoreCode]);
-                }
-            }
+			SettingConversation(Findidx(2, new int[1] { 4 }), loseMoney);
 			index = -100;
         }
 		else if (temInt == 3)
@@ -377,63 +284,90 @@ public class MoneyStore : Conversation
 		}
 		else if (temInt == 5)
         {
-			if (Constant.BorrowMoneyDate.ContainsKey(Constant.NowDate))
+			if (Constant.PayMoneyDate.ContainsKey(Constant.NowDate))
             {
-				Constant.BorrowMoneyDate[Constant.NowDate][MoneyStoreCode] += 1000000;
-            }
+				Constant.PayMoneyDate[Constant.NowDate][MoneyStoreCode] += 1000000; 
+			}
 			else
             {
-				Constant.BorrowMoneyDate.Add(Constant.NowDate, new Dictionary<int, int>() { { MoneyStoreCode, 1000000} });
-            }
+				Constant.PayMoneyDate.Add(Constant.NowDate, new Dictionary<int, int>() { { MoneyStoreCode, 1000000 } });
+			}
 			Constant.Dept += 1000000;
+			SumBorrow += 1000000;
+			GameManager.Instance.Money += 1000000;
+			loseMoney -= 1000000;
 			SettingConversation(Findidx(5, new int[1] { 10 }));
 			index = -100;
         }
 		else if (temInt == 6)
         {
-			if (Constant.BorrowMoneyDate.ContainsKey(Constant.NowDate))
+			if (Constant.PayMoneyDate.ContainsKey(Constant.NowDate))
 			{
-				Constant.BorrowMoneyDate[Constant.NowDate][MoneyStoreCode] += 2000000;
+				Constant.PayMoneyDate[Constant.NowDate][MoneyStoreCode] += 2000000;
 			}
 			else
 			{
-				Constant.BorrowMoneyDate.Add(Constant.NowDate, new Dictionary<int, int>() { { MoneyStoreCode, 2000000} });
+				Constant.PayMoneyDate.Add(Constant.NowDate, new Dictionary<int, int>() { { MoneyStoreCode, 2000000 } });
 			}
-			Constant.Dept += 20000000;
+			Constant.Dept += 2000000;
+			SumBorrow += 2000000;
+			GameManager.Instance.Money += 2000000;
+			loseMoney -= 2000000;
 			SettingConversation(Findidx(6, new int[1] { 10 }));
 			index = -100;
 		}
 		else if (temInt == 7)
         {
-			if (Constant.BorrowMoneyDate.ContainsKey(Constant.NowDate))
+			if (Constant.PayMoneyDate.ContainsKey(Constant.NowDate))
 			{
-				Constant.BorrowMoneyDate[Constant.NowDate][MoneyStoreCode] += 3000000;
+				Constant.PayMoneyDate[Constant.NowDate][MoneyStoreCode] += 3000000;
 			}
 			else
 			{
-				Constant.BorrowMoneyDate.Add(Constant.NowDate, new Dictionary<int, int>() { { MoneyStoreCode, 3000000 } });
+				Constant.PayMoneyDate.Add(Constant.NowDate, new Dictionary<int, int>() { { MoneyStoreCode, 3000000 } });
 			}
 			Constant.Dept += 3000000;
+			SumBorrow += 3000000;
+			GameManager.Instance.Money += 3000000;
+			loseMoney -= 3000000;
 			SettingConversation(Findidx(7, new int[1] { 10 }));
 			index = -100;
 		}
 		else if (temInt == 8)
         {
-			if (Constant.BorrowMoneyDate.ContainsKey(Constant.NowDate))
+			if (Constant.PayMoneyDate.ContainsKey(Constant.NowDate))
 			{
-				Constant.BorrowMoneyDate[Constant.NowDate][MoneyStoreCode] += 4000000;
+				Constant.PayMoneyDate[Constant.NowDate][MoneyStoreCode] += 4000000;
 			}
 			else
 			{
-				Constant.BorrowMoneyDate.Add(Constant.NowDate, new Dictionary<int, int>() { { MoneyStoreCode, 4000000 } });
+				Constant.PayMoneyDate.Add(Constant.NowDate, new Dictionary<int, int>() { { MoneyStoreCode, 4000000 } });
 			}
 			Constant.Dept += 4000000;
+			SumBorrow += 4000000;
+			GameManager.Instance.Money += 4000000;
+			loseMoney -= 4000000;
 			SettingConversation(Findidx(8, new int[1] { 10 }));
 			index = -100;
 		}
 		else if (temInt == 9)
         {
 			SettingConversation(Findidx(9, new int[1] { -1 }));
+			index = -100;
+        }
+		else if (temInt == 11)
+        {
+			SettingConversation(Findidx(11, new int[1] { -1 }));
+			index = -100;
+        }
+		else if (temInt == 12)
+        {
+			SettingConversation(Findidx(12, new int[1] { 14 }));
+			index = -100;
+        }
+		else if (temInt == 13)
+		{
+			SettingConversation(Findidx(2, new int[1] { 4 }), loseMoney);
 			index = -100;
         }
 		else if (temInt == 15)
@@ -478,7 +412,14 @@ public class MoneyStore : Conversation
                 }
             }
 			Constant.Dept -= 1000000;
-			SettingConversation(Findidx(21, new int[26]));
+			SumBorrow -= 1000000;
+			
+			if (50000000 - SumBorrow > 1000000) { loseMoney += 1000000; }
+			else if (50000000 - SumBorrow > 0) { loseMoney += (50000000 - SumBorrow); }
+			loseMoney = loseMoney >= 30000000 ? 30000000 : loseMoney;
+
+			GameManager.Instance.Money -= 1000000;
+			SettingConversation(Findidx(21, new int[1] { 26 }));
 			index = -100;
         }
 		else if (temInt == 22)
@@ -506,7 +447,14 @@ public class MoneyStore : Conversation
 				}
 			}
 			Constant.Dept -= 2000000;
-			SettingConversation(Findidx(22, new int[26]));
+			SumBorrow -= 2000000;
+
+			if (50000000 - SumBorrow > 2000000) { loseMoney += 2000000; }
+			else if (50000000 - SumBorrow > 0) { loseMoney += (50000000 - SumBorrow); }
+			loseMoney = loseMoney >= 30000000 ? 30000000 : loseMoney;
+
+			GameManager.Instance.Money -= 2000000;
+			SettingConversation(Findidx(22, new int[1] { 26 }));
 			index = -100;
 		}
 		else if (temInt == 23)
@@ -534,12 +482,20 @@ public class MoneyStore : Conversation
 				}
 			}
 			Constant.Dept -= 4000000;
-			SettingConversation(Findidx(23, new int[26]));
+			SumBorrow -= 4000000;
+
+			if (50000000 - SumBorrow > 4000000) { loseMoney += 4000000; }
+			else if (50000000 - SumBorrow > 0) { loseMoney += (50000000 - SumBorrow); }
+			loseMoney = loseMoney >= 30000000 ? 30000000 : loseMoney;
+
+			GameManager.Instance.Money -= 4000000;
+			SettingConversation(Findidx(23, new int[1] { 26 }));
 			index = -100;
 		}
 		else if (temInt == 24)
         {
-			SettingConversation(Findidx(24, new int[1] { 26 }));
+			SettingConversation(Findidx(24, new int[1] { -1 }));
+			index = -100;
         }
 		else if (temInt == 25)
 		{
@@ -549,6 +505,7 @@ public class MoneyStore : Conversation
 				m += Constant.PayMoneyDate[key][MoneyStoreCode];
             }
 			Constant.Dept -= m;
+			GameManager.Instance.Money -= m;
 			while (true)
 			{
 				int k = 0;
@@ -570,10 +527,29 @@ public class MoneyStore : Conversation
 					break;
 				}
 			}
+			SumBorrow = 0;
 
+			loseMoney = 30000000;
+			
 			SettingConversation(Findidx(25, new int[1] { 26 }));
 			index = -100;
 		}
+		else if (temInt == 27)
+        {
+			SettingConversation(Findidx(27, new int[1] { -1 }));
+			index = -100;
+        }
+		else if (temInt == 28)
+        {
+			int n = 0;
+			foreach (var key in Constant.PayMoneyDate.Keys)
+			{
+				n += Constant.PayMoneyDate[key][MoneyStoreCode];
+			}
+
+			SettingConversation(Findidx(28, new int[1] { 20 }), n);
+			index = -100;
+        }
 		else if (temInt == 29)
         {
 			SettingConversation(Findidx(29, new int[1] { 30 }));
@@ -638,6 +614,7 @@ public class MoneyStore : Conversation
 			SettingConversation(Findidx(52, new int[1] { 53 }));
 			index = -100;
         }
+		Debug.Log($"money : {Constant.Dept}");
 
 		return index;
 	}
@@ -651,7 +628,7 @@ public class MoneyStore : Conversation
         {
 			if (bo)
             {
-				PlusMoney = 0.5f;
+				PlusMoney = 1.05f;
 				SettingConversation(Findidx(15, new int[1] { 17 }));
             }
 			else
@@ -748,39 +725,43 @@ public class MoneyStore : Conversation
 		};
 		AddTextList();
 		nowTextNum = 5; nextTextNum = new int[3] { 12, 11, 13 }; nextTextIsAble = new bool[3] { false, true, true };
-		methodSArr = new MethodS[4]
+		methodSArr = new MethodS[5]
 		{
 			new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { 10 }),
 			new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 300 } ),
 			new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 1 } ),
-			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 3 } )
+			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 3 } ),
+			new MethodS(MethodEnum.SETISCONDITION, new int[0])
 		};
 		AddTextList();
 		nowTextNum = 6; nextTextNum = new int[3] { 12, 11, 13 }; nextTextIsAble = new bool[3] { false, true, true };
-		methodSArr = new MethodS[4]
+		methodSArr = new MethodS[5]
 		{
 			new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { 10 }),
 			new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 300 } ),
 			new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 1 } ),
-			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 3 })
+			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 3 }),
+			new MethodS(MethodEnum.SETISCONDITION, new int[0])
 		};
 		AddTextList();
 		nowTextNum = 7; nextTextNum = new int[3] { 12, 11, 13 }; nextTextIsAble = new bool[3] { false, true, true };
-		methodSArr = new MethodS[4]
+		methodSArr = new MethodS[5]
 		{
 			new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { 10 }),
 			new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 300 } ),
 			new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 1 } ),
-			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 3 })
+			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 3 }),
+			new MethodS(MethodEnum.SETISCONDITION, new int[0])
 		};
 		AddTextList();
 		nowTextNum = 8; nextTextNum = new int[3] { 12, 11, 13 }; nextTextIsAble = new bool[3] { false, true, true };
-		methodSArr = new MethodS[4]
+		methodSArr = new MethodS[5]
 		{
 			new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { 10 }),
 			new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 300 } ),
 			new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 1 } ),
-			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 3 })
+			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 3 }),
+			new MethodS(MethodEnum.SETISCONDITION, new int[0])
 		};
 		AddTextList();
 		nowTextNum = 9; nextTextNum = new int[7] { 52, 49, 29, 44, 2, 19, 3 }; nextTextIsAble = new bool[7] { true, false, false, false, true, true, true };
@@ -861,30 +842,33 @@ public class MoneyStore : Conversation
 		};
 		AddTextList();
 		nowTextNum = 21; nextTextNum = new int[2] { 27, 28 }; nextTextIsAble = new bool[2] { true, true };
-		methodSArr = new MethodS[4]
+		methodSArr = new MethodS[5]
 		{
 			new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { 26 }),
 			new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 200 } ),
 			new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 1 } ),
 			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 1 }),
+			new MethodS(MethodEnum.SETISCONDITION, new int[0])
 		};
 		AddTextList();
 		nowTextNum = 22; nextTextNum = new int[2] { 27, 28 }; nextTextIsAble = new bool[2] { true, true };
-		methodSArr = new MethodS[4]
+		methodSArr = new MethodS[5]
 		{
 			new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { 26 }),
 			new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 200 } ),
 			new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 1 } ),
 			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 1 }),
+			new MethodS(MethodEnum.SETISCONDITION, new int[0])
 		};
 		AddTextList();
 		nowTextNum = 23; nextTextNum = new int[2] { 27, 28 }; nextTextIsAble = new bool[2] { true, true };
-		methodSArr = new MethodS[4]
+		methodSArr = new MethodS[5]
 		{
 			new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { 26 }),
 			new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 200 } ),
 			new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 1 } ),
 			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 1 }),
+			new MethodS(MethodEnum.SETISCONDITION, new int[0])
 		};
 		AddTextList();
 		nowTextNum = 24; nextTextNum = new int[7] { 52, 49, 29, 44, 2, 19, 3 }; nextTextIsAble = new bool[7] { true, false, false, false, true, true, true };
@@ -898,12 +882,13 @@ public class MoneyStore : Conversation
 		};
 		AddTextList();
 		nowTextNum = 25; nextTextNum = new int[2] { 27, 28 }; nextTextIsAble = new bool[2] { true, true };
-		methodSArr = new MethodS[4]
+		methodSArr = new MethodS[5]
 		{
 			new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { 26 }),
 			new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 200 } ),
 			new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 1 } ),
 			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 1 }),
+			new MethodS(MethodEnum.SETISCONDITION, new int[0])
 		};
 		AddTextList();
 		nowTextNum = 27; nextTextNum = new int[7] { 52, 49, 29, 44, 2, 19, 3 }; nextTextIsAble = new bool[7] { true, false, false, false, true, true, true };

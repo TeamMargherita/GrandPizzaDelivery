@@ -19,6 +19,8 @@ public class BackTitle : MonoBehaviour
         SceneManager.LoadScene("MainPage");
         Destroystatic("RhythmManager");
         // -------------------------------------static -----------------------------------------------------//
+        Constant.BorrowMoneyDate = new Dictionary<int, Dictionary<int, int>>();
+        Constant.PayMoneyDate = new Dictionary<int, Dictionary<int, int>>();
         Constant.NowDay = DayEnum.MONDAY;
         Constant.NowDate = 1;
         Constant.DiceBonus = 0;
@@ -142,8 +144,7 @@ public class BackTitle : MonoBehaviour
         MoneyStore.StartSonQuest = false;
         MoneyStore.OneChanceClearSon = false;
         MoneyStore.IsTalkOneChanceDiscount = false;
-        MoneyStore.BorrowMoneyDate = new Dictionary<int, int>();
-        MoneyStore.PayMoneyDate = new Dictionary<int, int>();
+
         MoneyStore.SumBorrow = 0;
         MoneyStore.PlusMoney = 1.1f;
         MoneyStore.NowDate = 1;

@@ -13,11 +13,6 @@ public class BGImage : MonoBehaviour
     private float checkX = 0;
     private int curIndex = 0;
 
-    void Start()
-    {
-        
-    }
-
     void Update()
     {
         transform.Translate(new Vector3(sizeX, -sizeY) * 5f * Time.deltaTime);

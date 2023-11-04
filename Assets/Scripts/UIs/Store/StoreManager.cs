@@ -227,7 +227,7 @@ public class StoreManager : MonoBehaviour, IInitStore
     {
         if (!isSelectItemList)
         {
-            if (nowPage < nowStore.StoreItemList.Count / itemPanelArr.Length)
+            if (nowPage < (nowStore.StoreItemList.Count / itemPanelArr.Length) - (nowStore.StoreItemList.Count % itemPanelArr.Length == 0? 1 : 0))
             {
                 nowPage++;
                 InitItemPanel();
@@ -235,7 +235,7 @@ public class StoreManager : MonoBehaviour, IInitStore
         }
         else
 		{
-            if (nowPage < selectItemDic.Count / itemPanelArr.Length)
+            if (nowPage < (selectItemDic.Count / itemPanelArr.Length) - (nowStore.StoreItemList.Count % itemPanelArr.Length == 0 ? 1 : 0))
 			{
                 nowPage++;
                 InitItemPanel();

@@ -103,6 +103,7 @@ public class Conversation
 	}
 	public void SetSizeScrollContents(bool isVert, int size)
 	{
+		ScrollContents.position = Vector3.zero;
 		if (isVert)
 		{
 			ScrollContents.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, size);
@@ -115,7 +116,6 @@ public class Conversation
 	public void ChangeNPCImage(int index)
     {
 		NpcFace.sprite = NpcSprArr[index];
-		Debug.Log(NpcFace.sprite.name);
 	}
 	public void ChangePlayerImage(int index)
     {

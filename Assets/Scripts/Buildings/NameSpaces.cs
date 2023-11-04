@@ -195,6 +195,10 @@ namespace PoliceNS
         {
             NONE, MOVING, STOP, INSPECTING, DESTROY, SPUERCHASE, AUTOMOVE, OUTMAP
         };
+        public enum PoliceType
+        {
+            NORMAL, CHASER
+        };
     }
 }
 /// <summary>

@@ -9,9 +9,13 @@ public class StreetLamp : MonoBehaviour
     public static Color lightOnColor = new Color(255 / 255f, 177 / 255f, 0 / 255f);
     public static Color lightOffColor = Color.black;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-
+        if (Constant.NowDate == 1)
+        {
+            lightOnColor = new Color(255 / 255f, 177 / 255f, 0 / 255f);
+            lightOffColor = Color.black;
+        }
     }
 
     public void ChangeLight2D(bool bo)

@@ -68,6 +68,19 @@ public class IngredientStoreTwo : Conversation
 		text10 = NpcTextStrArr[10];
 		text11 = NpcTextStrArr[11];
 		text12 = NpcTextStrArr[12];
+
+		if (Constant.NowDate == 1)
+        {
+			IsTalk = false;
+			IsGalicQuest = false;
+			OneChanceGalicClear = false;
+			NowDate = 1;
+			Ingredient = 0;
+			Discount = 0;
+			BounsDiscount = 0;
+			Contract = 0;
+		}
+
 		if (Constant.NowDate != NowDate || Constant.NowDate == 1)
 		{
 			Ingredient = (byte)Random.Range(0, 3);

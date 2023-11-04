@@ -266,7 +266,7 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText, ICoroutineD
                     diceRectArr[j].anchoredPosition = originVec[j] + Vector3.Normalize(new Vector3(Random.Range(0, 100), 0, Random.Range(0, 100))) * 10f;
                 }
 
-                rand = Constant.DiceInfo[Constant.nowDice[0]].DiceArr[dice1] + Constant.DiceInfo[Constant.nowDice[1]].DiceArr[dice2];
+                rand = Constant.DiceInfo[Constant.nowDice[0]].DiceArr[dice1] + Constant.DiceInfo[Constant.nowDice[1]].DiceArr[dice2] + Constant.DiceBonus;
 
                 yield return Constant.OneTime;
                 yield return Constant.OneTime;

@@ -7,13 +7,14 @@ using UnityEngine.UI;
 /// </summary>
 public class Selector : MonoBehaviour
 {
-    [SerializeField] private string[] Titles;         // 데이터 파일 이름
-    [SerializeField] private AudioSource Sound;       // 배경음
-    [SerializeField] private AudioClip[] Clips;       // 변경 시켜줄 클립들
-    [SerializeField] private Text Title;              // 곡 제목 텍스트
-    [SerializeField] private Text Bpm;                // Bpm 출력 텍스트
-    [SerializeField] private Text Level;              // 난이도 출력 텍스트
-    [SerializeField] private RectTransform LPDisk;    // 회전연출을 위한 변수
+    [SerializeField] private string[] Titles;           // 데이터 파일 이름
+    [SerializeField] private AudioSource Sound;         // 배경음
+    [SerializeField] private AudioClip[] Highlights;    // 미리듣기 하이라이트 클립들
+    [SerializeField] private AudioClip[] Clips;         // 변경 시켜줄 클립들
+    [SerializeField] private Text Title;                // 곡 제목 텍스트
+    [SerializeField] private Text Bpm;                  // Bpm 출력 텍스트
+    [SerializeField] private Text Level;                // 난이도 출력 텍스트
+    [SerializeField] private RectTransform LPDisk;      // 회전연출을 위한 변수
     [SerializeField] private GameObject Menu;
     [SerializeField] private UnityEvent AnimationStart;
     [SerializeField] private UnityEvent AnimationStop;
@@ -127,7 +128,7 @@ public class Selector : MonoBehaviour
         Level.text = audioData.Level;
 
         // 해당 인덱스의 클립으로 변경 후 재생
-        Sound.clip = Clips[index];
+        Sound.clip = Highlights[index];
         Sound.Play();
         AnimationStart.Invoke();
     }

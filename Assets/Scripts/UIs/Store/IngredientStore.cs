@@ -6,9 +6,9 @@ using ConversationNS;
 // 한석호 작성
 public class IngredientStore : Conversation
 {
-	private static int Contract = 0;
-	private static bool Hint = false;
-	private static bool OneChance = true;
+	public static int Contract = 0;
+	public static bool Hint = false;
+	public static bool OneChance = true;
 	public IngredientStore()
 	{
 		NpcTextStrArr = new string[41]

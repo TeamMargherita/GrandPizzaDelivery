@@ -18,8 +18,7 @@ public class IngredientStoreTwo : Conversation
 	public static byte Ingredient = 0;
 	public static short Discount = -1;
 	public static int BounsDiscount = 0;
-
-	private static int Contract = 0;
+	public static int Contract = 0;
 
 	public IngredientStoreTwo()
 	{

@@ -22,7 +22,7 @@ public class SpeedCheckMachiine : MonoBehaviour
 	{
 		if (collision.tag.Equals("Player"))
 		{
-            if (collision.GetComponent<PlayerMove>().Speed * 10 > limitSpeed)
+            if (collision.GetComponent<PlayerMove>().Speed >= limitSpeed)
 			{
                 sprRen.sprite = redSpr;
 			}

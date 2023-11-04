@@ -342,7 +342,7 @@ public class MoneyStore : Conversation
     {
 		int index = -1;
 		temInt = tem[0].NowTextNum;
-
+		Debug.Log($"temInt : {temInt}");
 		if (temInt == 2)
         {
 			if (!Constant.BorrowMoneyDate.ContainsKey(Constant.NowDate))
@@ -574,6 +574,11 @@ public class MoneyStore : Conversation
 			SettingConversation(Findidx(25, new int[1] { 26 }));
 			index = -100;
 		}
+		else if (temInt == 29)
+        {
+			SettingConversation(Findidx(29, new int[1] { 30 }));
+			index = -100;
+        }
 		else if (temInt == 35)
         {
 			StartSonQuest = true;
@@ -621,6 +626,16 @@ public class MoneyStore : Conversation
         {
 			GameManager.Instance.Money += ClearMoney;
 			SettingConversation(Findidx(48, new int[1] { -1 }));
+			index = -100;
+        }
+		else if (temInt == 49)
+        {
+			SettingConversation(Findidx(49, new int[1] { 50 }));
+			index = -100;
+        }
+		else if (temInt == 52)
+        {
+			SettingConversation(Findidx(52, new int[1] { 53 }));
 			index = -100;
         }
 
@@ -769,21 +784,23 @@ public class MoneyStore : Conversation
 		};
 		AddTextList();
 		nowTextNum = 9; nextTextNum = new int[7] { 52, 49, 29, 44, 2, 19, 3 }; nextTextIsAble = new bool[7] { true, false, false, false, true, true, true };
-		methodSArr = new MethodS[4]
+		methodSArr = new MethodS[5]
 		{
 			new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { -1 }),
 			new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 700 } ),
 			new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 2 } ),
-			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 1 })
+			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 1 }),
+			new MethodS(MethodEnum.SETISCONDITION, new int[0])
 		};
 		AddTextList();
 		nowTextNum =11; nextTextNum = new int[7] { 52, 49, 29, 44, 2, 19, 3 }; nextTextIsAble = new bool[7] { true, false, false, false, true, true, true };
-		methodSArr = new MethodS[4]
+		methodSArr = new MethodS[5]
 		{
 			new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { -1 }),
 			new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 700 } ),
 			new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 1 } ),
-			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 1 })
+			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 1 }),
+			new MethodS(MethodEnum.SETISCONDITION, new int[0])
 		};
 		AddTextList();
 		nowTextNum = 12; nextTextNum = new int[2] { 15, 16 }; nextTextIsAble = new bool[2] { true, true };
@@ -824,12 +841,13 @@ public class MoneyStore : Conversation
 		};
 		AddTextList();
 		nowTextNum = 16; nextTextNum = new int[7] { 52, 49, 29, 44, 2, 19, 3 }; nextTextIsAble = new bool[7] { true, false, false, false, true, true, true };
-		methodSArr = new MethodS[4]
+		methodSArr = new MethodS[5]
 		{
 			new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { -1 }),
 			new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 700 } ),
 			new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 1 } ),
-			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 1 })
+			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 1 }),
+			new MethodS(MethodEnum.SETISCONDITION, new int[0])
 		};
 		AddTextList();
 		nowTextNum = 19; nextTextNum = new int[5] { 21, 22, 23, 24, 25 }; nextTextIsAble = new bool[5] { false, false, false, true, false};
@@ -870,12 +888,13 @@ public class MoneyStore : Conversation
 		};
 		AddTextList();
 		nowTextNum = 24; nextTextNum = new int[7] { 52, 49, 29, 44, 2, 19, 3 }; nextTextIsAble = new bool[7] { true, false, false, false, true, true, true };
-		methodSArr = new MethodS[4]
+		methodSArr = new MethodS[5]
 		{
 			new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { -1 }),
 			new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 700 } ),
 			new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 1 } ),
-			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 1 })
+			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 1 }),
+			new MethodS(MethodEnum.SETISCONDITION, new int[0])
 		};
 		AddTextList();
 		nowTextNum = 25; nextTextNum = new int[2] { 27, 28 }; nextTextIsAble = new bool[2] { true, true };
@@ -888,12 +907,13 @@ public class MoneyStore : Conversation
 		};
 		AddTextList();
 		nowTextNum = 27; nextTextNum = new int[7] { 52, 49, 29, 44, 2, 19, 3 }; nextTextIsAble = new bool[7] { true, false, false, false, true, true, true };
-		methodSArr = new MethodS[4]
+		methodSArr = new MethodS[5]
 		{
 			new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { -1 }),
 			new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 700 } ),
 			new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 1 } ),
-			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 1 })
+			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 1 }),
+			new MethodS(MethodEnum.SETISCONDITION, new int[0])
 		};
 		AddTextList();
 		nowTextNum = 28; nextTextNum = new int[5] { 21, 22, 23, 24, 25 }; nextTextIsAble = new bool[5] { false, false, false, true, false };
@@ -1045,21 +1065,23 @@ public class MoneyStore : Conversation
 		};
 		AddTextList();
 		nowTextNum = 47; nextTextNum = new int[7] { 52, 49, 29, 44, 2, 19, 3 }; nextTextIsAble = new bool[7] { true, false, false, false, true, true, true };
-		methodSArr = new MethodS[4]
+		methodSArr = new MethodS[5]
 		{
 			new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { -1 }),
 			new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 700 } ),
 			new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 2 } ),
-			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 3 })
+			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 3 }),
+			new MethodS(MethodEnum.SETISCONDITION, new int[0])
 		};
 		AddTextList();
 		nowTextNum = 48; nextTextNum = new int[7] { 52, 49, 29, 44, 2, 19, 3 }; nextTextIsAble = new bool[7] { true, false, false, false, true, true, true };
-		methodSArr = new MethodS[4]
+		methodSArr = new MethodS[5]
 		{
 			new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { -1 }),
 			new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 700 } ),
 			new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 1 } ),
-			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 1 })
+			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 1 }),
+			new MethodS(MethodEnum.SETISCONDITION, new int[0])
 		};
 		AddTextList();
 		nowTextNum = 49; nextTextNum = new int[1] { 51 }; nextTextIsAble = new bool[1] { true };
@@ -1072,12 +1094,13 @@ public class MoneyStore : Conversation
 		};
 		AddTextList();
 		nowTextNum = 51; nextTextNum = new int[7] { 52, 49, 29, 44, 2, 19, 3 }; nextTextIsAble = new bool[7] { true, false, false, false, true, true, true };
-		methodSArr = new MethodS[4]
+		methodSArr = new MethodS[5]
 		{
 			new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { -1 }),
 			new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 700 } ),
 			new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 1 } ),
-			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 1 })
+			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 1 }),
+			new MethodS(MethodEnum.SETISCONDITION, new int[0])
 		};
 		AddTextList();
 		nowTextNum = 52; nextTextNum = new int[1] { 54 }; nextTextIsAble = new bool[1] { true };
@@ -1099,12 +1122,13 @@ public class MoneyStore : Conversation
 		};
 		AddTextList();
 		nowTextNum = 56; nextTextNum = new int[7] { 52, 49, 29, 44, 2, 19, 3 }; nextTextIsAble = new bool[7] { true, false, false, false, true, true, true };
-		methodSArr = new MethodS[4]
+		methodSArr = new MethodS[5]
 		{
 			new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { -1 }),
 			new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 700 } ),
 			new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 1 } ),
-			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 1 })
+			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 1 }),
+			new MethodS(MethodEnum.SETISCONDITION, new int[0])
 		};
 		AddTextList();
 	}

@@ -16,7 +16,11 @@ public class Calculate : MonoBehaviour
     {
         calCoroutine = StartCoroutine(Cal());    
     }
-
+    /// <summary>
+    /// 지출 정산
+    /// 여기서 생기는 빚은 은행에서 대출 받은 것.
+    /// </summary>
+    /// <returns></returns>
     IEnumerator Cal()
     {
         int t1 = 0;
@@ -212,7 +216,7 @@ public class Calculate : MonoBehaviour
                 yield return Constant.OneTime;
                 continue;
             }
-            n7 = t7;
+            t7 = n7;
             sumText.text = $"현재 가진 돈 : {t6}원 \n남은 빚 : {t7}원";
 
             Constant.Fine = 0;

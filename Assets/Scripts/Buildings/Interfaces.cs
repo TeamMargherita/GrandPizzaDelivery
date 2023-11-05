@@ -113,7 +113,7 @@ public interface IEndConversation
 public interface IHouse
 {
     public void EnableHouse();
-    public void DisableHouse(Pizza pizza);
+    public void DisableHouse();
     public bool GetIsEnable();
     public void SetHouseType(Sprite mark, HouseType houseType);
     public HouseType GetHouseType();

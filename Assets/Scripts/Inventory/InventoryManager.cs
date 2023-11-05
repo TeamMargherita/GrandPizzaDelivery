@@ -320,7 +320,7 @@ public class InventoryManager : MonoBehaviour
                             PizzaInventorySlot[SlotNum].transform.GetChild(0).GetComponent<Text>().text = "";
                             GameManager.Instance.PizzaInventoryData[SlotNum] = null;
                             Minimap.DeleteDestination(GoalAddressS.iHouse.GetLocation());
-                            GoalAddressS.iHouse.DisableHouse(pizza.Value);
+                            GoalAddressS.iHouse.DisableHouse(/*pizza.Value*/);
                             DeliveryScreen.OnClickCancle(SDRIndex);
                             GoalAddressS = null;
                             DeliveryJudgmentPanel.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "배달이 완료 되었습니다..";

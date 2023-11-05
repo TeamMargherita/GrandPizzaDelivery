@@ -63,6 +63,7 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
 
     public GameObject PizzaInventory;
     public InventoryManager InventoryManager;
+    public SendDeliveryRequest SDR;
     void Awake()
     {
         Caching();
@@ -268,6 +269,7 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
         Time.timeScale = 1;
         light2D.color = new Color(80 / 255f, 80 / 255f, 80 / 255f);
         map.OnStreetLamp();
+        SDR.RequestClear();
     }
 
     public void NoDarkDeliveryPanel()

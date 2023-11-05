@@ -257,12 +257,12 @@ public class InventoryManager : MonoBehaviour
                 i.GetComponent<Image>().color = Color.clear;
            index++;
         }
-        if (Constant.nowGun[0] != -1)
+        if (Constant.NowGun[0] != -1)
         {
-            GunEquipmentSlot.GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(Constant.GunInfo[Constant.nowGun[0]].Path)[0];
+            GunEquipmentSlot.GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(Constant.GunInfo[Constant.NowGun[0]].Path)[0];
             GunEquipmentSlot.GetComponent<Image>().color = Color.white;
             Player.CurrentMagagine = 0;
-            Player.Gun.GetComponent<SpriteRenderer>().sprite = Resources.LoadAll<Sprite>(Constant.GunInfo[Constant.nowGun[0]].Path)[0];
+            Player.Gun.GetComponent<SpriteRenderer>().sprite = Resources.LoadAll<Sprite>(Constant.GunInfo[Constant.NowGun[0]].Path)[0];
         }
         else
             GunEquipmentSlot.GetComponent<Image>().color = Color.clear;
@@ -281,7 +281,7 @@ public class InventoryManager : MonoBehaviour
     }
     private void UIGunImageUpdate()
     {
-        if(Constant.nowGun[0] == -1)
+        if(Constant.NowGun[0] == -1)
             UIGunImage.GetComponent<Image>().color = Color.clear;
         else
         {
@@ -293,7 +293,7 @@ public class InventoryManager : MonoBehaviour
     
     public void UIMagagineTextUpdate(short currentMagagine)
     {
-        if (Constant.nowGun[0] == -1)
+        if (Constant.NowGun[0] == -1)
             MagagineText.text = "";
         else
         {

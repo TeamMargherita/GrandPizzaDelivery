@@ -62,8 +62,8 @@ public class EquipmentSlot : MonoBehaviour , IDropHandler, IPointerEnterHandler,
         }
         else if(name == "GunSlot1")
         {
-            Constant.nowGun[0] = ((ItemS)inventoryManager.CurrentDragItem).ItemNumber;
-            if(Constant.nowGun[0] != -1)
+            Constant.NowGun[0] = ((ItemS)inventoryManager.CurrentDragItem).ItemNumber;
+            if(Constant.NowGun[0] != -1)
             {
                 inventoryManager.EquipmentSlotUpdate();
                 GetComponent<Image>().color = Color.white;

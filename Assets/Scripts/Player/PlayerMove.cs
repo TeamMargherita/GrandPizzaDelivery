@@ -75,7 +75,8 @@ public class PlayerMove : PlayerStat
                 if (Constant.GunInfo[Constant.NowGun[0]].ReloadSpeed <= reloadTime)
                 {
                     reloadTime = 0;
-                    CurrentMagagine = Constant.GunInfo[Constant.NowGun[0]].Magazine;
+                    CurrentMagagine = Constant.GunInfo[Constant.nowGun[0]].Magazine;
+                    gunMethod.time = 100;
                     FireAudio.PlayOneShot(ReloadAudioClip);
                 }
             }
@@ -86,7 +87,7 @@ public class PlayerMove : PlayerStat
         if(!UIControl.isIn)
             PlayerFire();
         InventoryManagerScript.UIMagagineTextUpdate(CurrentMagagine);
-        if (Input.GetKeyDown(KeyCode.X))
+        /*if (Input.GetKeyDown(KeyCode.X))
         {
             if(MakingPizzaScript.CompletePizzaList.Count > 0)
             {
@@ -100,7 +101,7 @@ public class PlayerMove : PlayerStat
                 }
             }
             InventoryManagerScript.inventoryTextUpdate("PizzaInventory");
-        }
+        }*/
         if (!Stop && !bananaTrigger)
         {
             time += Time.deltaTime;

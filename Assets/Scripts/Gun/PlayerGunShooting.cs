@@ -16,7 +16,8 @@ public class PlayerGunShooting : MonoBehaviour, GunShooting
     {
         MyTransform = myTransform;
         layerMask = ((1 << LayerMask.NameToLayer(exception)) | (1 << LayerMask.NameToLayer("WallObstacle"))
-            | (1 << LayerMask.NameToLayer("CrossWalk")));// Everything에서 Player, WallObstacle, CrossWalk 레이어만 제외하고 충돌 체크함
+            | (1 << LayerMask.NameToLayer("CrossWalk")) | (1 << LayerMask.NameToLayer("Default")));// Everything에서 Player, WallObstacle, CrossWalk 레이어만 제외하고 충돌 체크함
+        layerMask = ~layerMask;
     }
 
     public Vector3 GetTargetPos()
@@ -41,7 +42,7 @@ public class PlayerGunShooting : MonoBehaviour, GunShooting
             Hand.SetActive(false);
         }
     }
-    float time;
+    public float time = 100;
     
     public bool ShootRaycast(float fireRate, short damage)
     {
@@ -52,7 +53,6 @@ public class PlayerGunShooting : MonoBehaviour, GunShooting
             {
                 if (Input.GetKey(KeyCode.Mouse0))
                 {
-                    layerMask = ~layerMask;
                     RaycastHit2D hit = Physics2D.Raycast(MyTransform.position, dir.normalized, 1000, layerMask);
                     if (hit.transform.CompareTag("Police") || hit.transform.CompareTag("ChaserPoliceCar"))
                     {
@@ -60,13 +60,12 @@ public class PlayerGunShooting : MonoBehaviour, GunShooting
                         Destroy(blood, 0.3f);
                         hit.transform.GetComponent<Police>().PoliceHp -= damage;
                     }
-                    else
+                    else if(hit.transform.CompareTag("House"))
                     {
                         GameObject wallhit = Instantiate(WallHitEffect, hit.point, MyTransform.rotation);
                         Destroy(wallhit, 0.3f);
                     }
                     time = 0;
-                    Debug.Log("발사");
                     return true;
                 }
             }

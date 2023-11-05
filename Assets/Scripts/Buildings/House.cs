@@ -121,6 +121,13 @@ public class House : MonoBehaviour, IAddress, IHouse, IActiveHouse
         spendingTime = iMap.RemoveAddress(houseAddress);
 	}
 
+    public void EndDeliveryDisableHouse()
+    {
+        spriteRenderer.color = houseColor;
+        isEnable = false;
+        goalObj.SetActive(false);
+        spendingTime = iMap.RemoveAddress(houseAddress);
+    }
     public bool GetIsEnable()
 	{
         return isEnable;

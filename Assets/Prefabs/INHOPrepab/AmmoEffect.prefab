@@ -155,3 +155,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f408ee13d7088548a6271590ae5df7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BloodEffect: {fileID: 5314277202479008652, guid: d3c8c8545ffa26f42be95da8f6ee175d, type: 3}
+  WallHitEffect: {fileID: 1602822174619369196, guid: 9dfbf758936d77443a1b4e70ca304131, type: 3}

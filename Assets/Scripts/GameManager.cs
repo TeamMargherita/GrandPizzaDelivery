@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public bool isDarkDelivery = false;
 
     public TestMoneyText MoneyText;
+    private CameraMove cameraMove;
 
     public static GameManager Instance
     {
@@ -41,9 +42,7 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
         DontDestroyOnLoad(gameObject);
-        
     }
 
 
@@ -68,12 +67,22 @@ public class GameManager : MonoBehaviour
 
     public void PlayerDead()
     {
+        StartCoroutine(DeadWait());
+    }
+    IEnumerator DeadWait()
+    {
+        cameraMove = GameObject.Find("Main Camera").GetComponent<CameraMove>();
+        cameraMove.playerDead = true;
+        Time.timeScale = 0.1f;
+        Time.fixedDeltaTime = Time.timeScale * 0.02f;
+        yield return new WaitForSecondsRealtime(3f);
+        Time.timeScale = 1;
+        Time.fixedDeltaTime = Time.timeScale * 0.02f;
         LoadScene.Instance.LoadNextDay(true);
         HospitalRespawn();
         isDarkDelivery = false;
         time = 32400;
     }
-
     public void NextDay()
     {
         LoadScene.Instance.LoadNextDay(false);
@@ -93,20 +102,20 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
-        TimeSkip();
+        //TimeSkip();
         if (!Constant.StopTime)
         {
             time += Time.deltaTime * timeSpeed; //게임기준1분 = 현실시간1초
         }
-        if (Input.GetKeyDown(KeyCode.F1))
+        /*if (Input.GetKeyDown(KeyCode.F1))
         {
             time = 14400;
         }
         if (Input.GetKeyDown(KeyCode.F2))
 		{
             time = 32400;
-		}
-        if (Input.GetKeyDown(KeyCode.CapsLock))
+		}*/
+        /*if (Input.GetKeyDown(KeyCode.CapsLock))
         {
             if(Time.timeScale == 1)
             {
@@ -117,7 +126,7 @@ public class GameManager : MonoBehaviour
                 Time.timeScale = 1;
                 Time.fixedDeltaTime = Time.timeScale * 0.02f;
             }
-        }
+        }*/
         //게임1초 * timeSpeed = 현실시간1초
         //TimeText.GetComponent<Text>().text = (int)time/3600 + " : " + (int)(time / 60 % 60);
     }

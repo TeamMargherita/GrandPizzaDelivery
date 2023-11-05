@@ -8,6 +8,7 @@ public class SendDeliveryRequest : MonoBehaviour
     public List<Request> RequestList = new List<Request>();
     [SerializeField] private GameObject DarkDeliveryOKPanel;
     [SerializeField] private GameObject EndDeliveryOKPanel;
+    [SerializeField] private Minimap minimap;
     private float time = 0;
     
     public int SumChrisma()
@@ -75,13 +76,24 @@ public class SendDeliveryRequest : MonoBehaviour
             }
         }
     }
+    public void RequestClear()
+    {
+        foreach (var i in RequestList)
+        {
+            if(i.AddressS.IHouse != null)
+            {
+                minimap.DeleteDestination(i.AddressS.IHouse.GetLocation());
+                i.AddressS.IHouse.EndDeliveryDisableHouse();
+            }
+        }
+        RequestList.Clear();
+    }
     private void EndDelivery()
     {
         if (DarkDeliveryOKPanel != null)
         {
             if ((RequestList.Count <= 0 && GameManager.Instance.time >= 75600) || GameManager.Instance.time >= 82800)
             {
-                RequestList.Clear();
                 if (!GameManager.Instance.isDarkDelivery)
                     DarkDeliveryOKPanel.SetActive(true);
                 Time.timeScale = 0;

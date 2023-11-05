@@ -21,6 +21,9 @@ public class RhythmManager : MonoBehaviour
     public JudgeStorage Judges;                     // 판정 저장소
     public KeyCode[] ClearKeys;
 
+    public bool IsSelectGuide = true;
+    public bool IsRhythmGuide = true;
+
     private static RhythmManager instance = null;
 
     private void Awake()

@@ -71,47 +71,59 @@ public class Selector : MonoBehaviour
             if (Menu.activeSelf)
                 return;
 
+            if (RhythmManager.Instance.IsSelectGuide)
+                return;
+
             // UpArrow = 다음 클립
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
-                // index + 1, 만약 배열 범위 벗어나면 0부터 시작
-                index = (index + 1) >= Titles.Length ? 0 : index + 1;
-
-                // 목표 각 90도로 설정
-                endAngle = 90f;
-
-                // 클립 변경중
-                isChange = true;
-
-                AnimationStop.Invoke();
+                Next(0);
             }
 
             // DownArrow = 이전 클립
             else if (Input.GetKeyDown(KeyCode.DownArrow))
             {
-                // index - 1, 만약 배열 범위 벗어나면 마지막 인덱스부터 시작
-                index = (index - 1) < 0 ? Titles.Length - 1 : index - 1;
-
-                // 목표 각 90도로 설정
-                endAngle = -90f;
-
-                // 클립 변경중
-                isChange = true;
-
-                AnimationStop.Invoke();
+                Next(1);
             }
 
             // Enter = 클립 선택
             else if (Input.GetKeyDown(KeyCode.Return))
             {
-                // 리듬 매니저 타이틀, 클립 변경
-                RhythmManager.Instance.Title = Titles[index];
-                RhythmManager.Instance.AudioClip = Clips[index];
-
-                // 씬 전환
-                LoadScene.Instance.ActiveTrueFade("RhythmScene");
+                Select();
             }
         }
+    }
+
+    public void Next(int i)
+    {
+        if (i == 0)
+        {
+            // index + 1, 만약 배열 범위 벗어나면 0부터 시작
+            index = (index + 1) >= Titles.Length ? 0 : index + 1;
+            // 목표 각 90도로 설정
+            endAngle = 90f;
+        }
+        else
+        {
+            // index - 1, 만약 배열 범위 벗어나면 마지막 인덱스부터 시작
+            index = (index - 1) < 0 ? Titles.Length - 1 : index - 1;
+            // 목표 각 90도로 설정
+            endAngle = -90f;
+        }
+
+        // 클립 변경중
+        isChange = true;
+        AnimationStop.Invoke();
+    }
+
+    public void Select()
+    {
+        // 리듬 매니저 타이틀, 클립 변경
+        RhythmManager.Instance.Title = Titles[index];
+        RhythmManager.Instance.AudioClip = Clips[index];
+
+        // 씬 전환
+        LoadScene.Instance.ActiveTrueFade("RhythmScene");
     }
 
     /// <summary>
@@ -130,7 +142,7 @@ public class Selector : MonoBehaviour
         int minute = (int)(audioData.Length / 60);
         int second = (int)(audioData.Length % 60);
         Length.text = minute.ToString("0") + "m" + second.ToString("00") + "s";
-        
+
         // 해당 인덱스의 클립으로 변경 후 재생
         Sound.clip = Highlights[index];
         Sound.Play();

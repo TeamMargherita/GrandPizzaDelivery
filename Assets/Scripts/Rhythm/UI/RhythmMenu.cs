@@ -21,6 +21,9 @@ public class RhythmMenu : MonoBehaviour
         if (Sound.time <= 0f)
             return;
 
+        if (RhythmManager.Instance.IsSelectGuide)
+            return;
+
         // Esc 키로 활성화/비활성화
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -39,7 +42,10 @@ public class RhythmMenu : MonoBehaviour
                 bgSound.RePlay(Delay);
         }
     }
-
+    public void OnOffButton()
+    {
+        Menu.SetActive(!Menu.activeSelf);
+    }
     public void CloseButton()
     {
         Menu.SetActive(false);

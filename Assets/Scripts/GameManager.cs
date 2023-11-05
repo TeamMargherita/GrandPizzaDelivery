@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public bool isDarkDelivery = false;
 
     public TestMoneyText MoneyText;
+    private CameraMove cameraMove;
 
     public static GameManager Instance
     {
@@ -41,9 +42,7 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
         DontDestroyOnLoad(gameObject);
-        
     }
 
 
@@ -68,11 +67,21 @@ public class GameManager : MonoBehaviour
 
     public void PlayerDead()
     {
+        StartCoroutine(DeadWait());
+    }
+    IEnumerator DeadWait()
+    {
+        cameraMove = GameObject.Find("Main Camera").GetComponent<CameraMove>();
+        cameraMove.playerDead = true;
+        Time.timeScale = 0.1f;
+        Time.fixedDeltaTime = Time.timeScale * 0.02f;
+        yield return new WaitForSecondsRealtime(3f);
+        Time.timeScale = 1;
+        Time.fixedDeltaTime = Time.timeScale * 0.02f;
         LoadScene.Instance.LoadNextDay(true);
         isDarkDelivery = false;
         time = 32400;
     }
-
     public void NextDay()
     {
         LoadScene.Instance.LoadNextDay(false);

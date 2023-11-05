@@ -44,3 +44,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DarkDeliveryOKPanel: {fileID: 0}
+  EndDeliveryOKPanel: {fileID: 0}
+  minimap: {fileID: 0}

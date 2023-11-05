@@ -80,8 +80,11 @@ public class SendDeliveryRequest : MonoBehaviour
     {
         foreach (var i in RequestList)
         {
-            minimap.DeleteDestination(i.AddressS.IHouse.GetLocation());
-            i.AddressS.IHouse.EndDeliveryDisableHouse();
+            if(i.AddressS.IHouse != null)
+            {
+                minimap.DeleteDestination(i.AddressS.IHouse.GetLocation());
+                i.AddressS.IHouse.EndDeliveryDisableHouse();
+            }
         }
         RequestList.Clear();
     }

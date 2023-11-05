@@ -12,10 +12,13 @@ public class PlayerStat : MonoBehaviour
     public float MaxSpeed;
     public float acceleration = 10;
 
+    public static bool PlayerIsGod = false;
     public static int HP
     {
         get { return hp; }
         set {
+            if (PlayerIsGod)
+                value = MaxHP;
             if (value <= 0)
             {
                 Debug.Log("플레이어 사망");
@@ -38,4 +41,5 @@ public class PlayerStat : MonoBehaviour
             speed = value;
         }
     }
+
 }

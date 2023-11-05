@@ -279,6 +279,7 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
         //GameManager.Instance.isDarkDelivery = false;
         Time.timeScale = 1;
     }
+
     public void ActiveTrueKeyExplainPanel(bool bo)
     {
         keyExplainPanel.SetActive(bo);

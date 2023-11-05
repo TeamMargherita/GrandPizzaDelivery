@@ -14,7 +14,8 @@ public class PoliceGunShooting : GunShooting
     {
         MyTransform = myTransform;
         layerMask = ((1 << LayerMask.NameToLayer(exception)) | (1 << LayerMask.NameToLayer("WallObstacle"))
-            | (1 << LayerMask.NameToLayer("CrossWalk")));// Everything에서 Player, WallObstacle, CrossWalk 레이어만 제외하고 충돌 체크함
+            | (1 << LayerMask.NameToLayer("CrossWalk")) | (1 << LayerMask.NameToLayer("Default")));// Everything에서 Player, WallObstacle, CrossWalk 레이어만 제외하고 충돌 체크함
+        layerMask = ~layerMask;
     }
 
     public Vector3 GetTargetPos()
@@ -39,10 +40,8 @@ public class PoliceGunShooting : GunShooting
         {
             if (ShootingStance)
             {
-                Debug.Log("플레이어한테 총쏨");
                 ani.SetTrigger("NewStart");
                 ShootAudio.Play();
-                layerMask = ~layerMask;
                 RaycastHit2D hit = Physics2D.Raycast(MyTransform.position, dir.normalized, 1000, layerMask);
                 if (hit)
                 {

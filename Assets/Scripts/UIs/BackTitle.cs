@@ -16,6 +16,7 @@ public class BackTitle : MonoBehaviour
     {
         Destroystatic("GameManager");
         PlayerStat.HP = PlayerStat.MaxHP;
+        PlayerStat.PlayerIsGod = false;
         SceneManager.LoadScene("MainPage");
         Destroystatic("RhythmManager");
         // -------------------------------------static -----------------------------------------------------//

@@ -100,20 +100,20 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
-        TimeSkip();
+        //TimeSkip();
         if (!Constant.StopTime)
         {
             time += Time.deltaTime * timeSpeed; //게임기준1분 = 현실시간1초
         }
-        if (Input.GetKeyDown(KeyCode.F1))
+        /*if (Input.GetKeyDown(KeyCode.F1))
         {
             time = 14400;
         }
         if (Input.GetKeyDown(KeyCode.F2))
 		{
             time = 32400;
-		}
-        if (Input.GetKeyDown(KeyCode.CapsLock))
+		}*/
+        /*if (Input.GetKeyDown(KeyCode.CapsLock))
         {
             if(Time.timeScale == 1)
             {
@@ -124,7 +124,7 @@ public class GameManager : MonoBehaviour
                 Time.timeScale = 1;
                 Time.fixedDeltaTime = Time.timeScale * 0.02f;
             }
-        }
+        }*/
         //게임1초 * timeSpeed = 현실시간1초
         //TimeText.GetComponent<Text>().text = (int)time/3600 + " : " + (int)(time / 60 % 60);
     }

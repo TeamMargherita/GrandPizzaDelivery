@@ -95800,6 +95800,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2017886344865767937, guid: 9e6ee34fe0009f74e884fe01a5409c77, type: 3}
+      propertyPath: minimap
+      value: 
+      objectReference: {fileID: 973720033}
+    - target: {fileID: 2017886344865767937, guid: 9e6ee34fe0009f74e884fe01a5409c77, type: 3}
       propertyPath: EndDeliveryOKPanel
       value: 
       objectReference: {fileID: 1438481768}

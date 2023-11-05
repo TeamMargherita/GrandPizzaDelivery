@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 1527042024745323264}
   - component: {fileID: 1527042024745323267}
   - component: {fileID: 1527042024745323266}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: StreetLamp
-  m_TagString: Untagged
+  m_TagString: House
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

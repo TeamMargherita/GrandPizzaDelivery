@@ -40,6 +40,8 @@ public class PoliceGunShooting : GunShooting
             if (ShootingStance)
             {
                 Debug.Log("ÇÃ·¹ÀÌ¾îÇÑÅ× ÃÑ½ô");
+                ani.SetTrigger("NewStart");
+                ShootAudio.Play();
                 layerMask = ~layerMask;
                 RaycastHit2D hit = Physics2D.Raycast(MyTransform.position, dir.normalized, 1000, layerMask);
                 if (hit)
@@ -56,7 +58,8 @@ public class PoliceGunShooting : GunShooting
         }
         return false;
     }
-
+    public Animator ani;
+    public AudioSource ShootAudio;
     public bool Fire(float fireRate, short damage)
     {
         aiming();

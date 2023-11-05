@@ -70,6 +70,7 @@ public class PlayerMove : PlayerStat
                 {
                     reloadTime = 0;
                     CurrentMagagine = Constant.GunInfo[Constant.nowGun[0]].Magazine;
+                    gunMethod.time = 100;
                     FireAudio.PlayOneShot(ReloadAudioClip);
                 }
             }
@@ -77,7 +78,8 @@ public class PlayerMove : PlayerStat
     }
     void Update()
     {
-        PlayerFire();
+        if(!UIControl.isIn)
+            PlayerFire();
         InventoryManagerScript.UIMagagineTextUpdate(CurrentMagagine);
         if (Input.GetKeyDown(KeyCode.X))
         {

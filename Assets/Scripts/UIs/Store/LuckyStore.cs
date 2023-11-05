@@ -14,7 +14,7 @@ public class LuckyStore : Conversation
 	public static bool BigDiceMinus = false;
 	public static bool SmallDicePlus = false;
 	public static bool SmallDiceMinus = false;
-	public static byte AngryDate = 0;
+	public static int AngryDate = 0;
 	public static int NowDate = 1;
 	public LuckyStore()
 	{
@@ -63,10 +63,22 @@ public class LuckyStore : Conversation
 
 		if (IsAngry)
 		{
-			AngryDate++;
-			if (AngryDate == 3) { IsAngry = false; }
+			AngryDate += (Constant.NowDate - NowDate);
+			if (AngryDate >= 3) { IsAngry = false; AngryDate = 0; }
 		}
-
+		if (Constant.NowDate == 1)
+        {
+			IsAngry = false;
+			IsLuckyTest = false;
+			ClearGalicQuest = false;
+			ClearSonQuest = false;
+			BigDicePlus = false;
+			BigDiceMinus = false;
+			SmallDicePlus = false;
+			SmallDiceMinus = false;
+			AngryDate = 0;
+			NowDate = 1;
+		}
 		if (Constant.NowDate != NowDate)
 		{
 			IsLuckyTest = false;
@@ -129,6 +141,8 @@ public class LuckyStore : Conversation
 			{
 				SettingConversation(Findidx(16, new int[1] { 17 }));
 			}
+			IsLuckyTest = true;
+			isCondition = true;
 			index = -100;
 		}
 		else if (temInt == 18)
@@ -146,6 +160,7 @@ public class LuckyStore : Conversation
 		}
 		else if (temInt == 19)
 		{
+			IsLuckyTest = false;
 			SettingConversation(Findidx(19, new int[1] { -1 }));
 			index = -100;
 		}
@@ -196,6 +211,31 @@ public class LuckyStore : Conversation
 				return false;
 			}
 		}
+		else if (num == 18)
+		{
+			if (ClearSonQuest)
+			{
+				if (GameManager.Instance.Money >= 150000)
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+			else
+			{
+				if (GameManager.Instance.Money >= 200000)
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+		}
 		else if (num == 27)
 		{
 			// 재료 가게2에서 잡담을 해야한다.
@@ -235,6 +275,7 @@ public class LuckyStore : Conversation
 			if (bo)
 			{
 				ClearGalicQuest = true;
+				IngredientStoreTwo.OneChanceGalicClear = true;
 				index = Findidx(11, new int[1] { 13 });
 			}
 			else
@@ -393,7 +434,7 @@ public class LuckyStore : Conversation
 			new MethodS(MethodEnum.ENDPANEL, new int[1] {-1})
 		};
 		AddTextList();
-		nowTextNum = 16; nextTextNum = new int[2] { 18, 19 }; nextTextIsAble = new bool[2] { false, false };
+		nowTextNum = 16; nextTextNum = new int[2] { 18, 19 }; nextTextIsAble = new bool[2] { false, true };
 		methodSArr = new MethodS[5]
 		{
 			new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { 17 }),
@@ -403,7 +444,7 @@ public class LuckyStore : Conversation
 			new MethodS(MethodEnum.SETISCONDITION, new int[0])
 		};
 		AddTextList();
-		nowTextNum = 16; nextTextNum = new int[2] { 18,19 }; nextTextIsAble = new bool[2] { false,false };
+		nowTextNum = 16; nextTextNum = new int[2] { 18,19 }; nextTextIsAble = new bool[2] { false,true };
 		methodSArr = new MethodS[5]
 		{
 			new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { 37 }),

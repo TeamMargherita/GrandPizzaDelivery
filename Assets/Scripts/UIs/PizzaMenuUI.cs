@@ -17,7 +17,8 @@ public class PizzaMenuUI : MonoBehaviour, IAddPizza
 	[SerializeField] private GameObject changePizzaNamePanel;
 	[SerializeField] private Text addPizzaExplainText;
 
-	private static int nowDate = 0;
+	public static int nowDate = 0;
+
 	private List<int> openExplainList = new List<int>();
 	private AddPizzaSlot[] addPizzaSlots;
 	private GameObject[] pizzaMenuSlot;
@@ -40,6 +41,10 @@ public class PizzaMenuUI : MonoBehaviour, IAddPizza
 		//	ing.Add(Ingredient.CHEESE);
 		//	Constant.DevelopPizza.Add(new Pizza("SuperPizza", 60, 5000, 10000, Random.Range(0, 1500) + 500, ing, Random.Range(0, 1500) + 200));
 		//}
+		if (Constant.NowDate == 1)
+        {
+			nowDate = 0;
+        }
 
 		pizzaMenuSlot = new GameObject[pizzaMenuListObj.transform.childCount];
 		pizzaMenuSlotText = new Text[pizzaMenuSlot.Length];

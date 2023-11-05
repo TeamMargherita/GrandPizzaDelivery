@@ -13,13 +13,12 @@ public class IngredientStoreTwo : Conversation
 	public static string text12;
 	public static bool IsTalk = false;  // 가게 주인과 잡담을 한번이라도 했는지 여부
 	public static bool IsGalicQuest = false;    // 가게 주인의 마늘 고민을 한번이라도 들었는지 여부(마늘 고민 해결했는지 여부)
-	public static bool OneChanceGalicClear = true;  // 마늘 고민 해결 후 첫 대화 
+	public static bool OneChanceGalicClear = false;  // 마늘 고민 해결 후 첫 대화 
 	public static int NowDate = 1;
 	public static byte Ingredient = 0;
-	public static byte Discount = 0;
+	public static short Discount = -1;
 	public static int BounsDiscount = 0;
-
-	private static int Contract = 0;
+	public static int Contract = 0;
 
 	public IngredientStoreTwo()
 	{
@@ -69,11 +68,39 @@ public class IngredientStoreTwo : Conversation
 		text10 = NpcTextStrArr[10];
 		text11 = NpcTextStrArr[11];
 		text12 = NpcTextStrArr[12];
-		if (Constant.NowDate != NowDate)
+
+		if (Constant.NowDate == 1)
+        {
+			IsTalk = false;
+			IsGalicQuest = false;
+			OneChanceGalicClear = false;
+			NowDate = 1;
+			Ingredient = 0;
+			Discount = 0;
+			BounsDiscount = 0;
+			Contract = 0;
+		}
+
+		if (Constant.NowDate != NowDate || Constant.NowDate == 1)
 		{
 			Ingredient = (byte)Random.Range(0, 3);
 			Discount = (byte)Random.Range(0, 3);
 			NowDate = Constant.NowDate;
+
+			NpcTextStrArr[0] = text0;
+
+			string s = null;
+			string c = null;
+			if (Ingredient == 0) { s = "마늘"; }
+			else if (Ingredient == 1) { s = "양파"; }
+			else if (Ingredient == 2) { s = "고추"; }
+
+			if (Discount == 0) { c = "1"; }
+			else if (Discount == 1) { c = "2"; }
+			else if (Discount == 2) { c = "3"; }
+
+			NpcTextStrArr[0] = NpcTextStrArr[0].Replace("###", s);
+			NpcTextStrArr[0] = NpcTextStrArr[0].Replace("$$$", c);
 		}
 
 		TextList = new List<TextNodeC>();
@@ -82,37 +109,47 @@ public class IngredientStoreTwo : Conversation
 	}
 	protected override void InitStartText()
 	{
-		NpcTextStrArr[0] = text0;
 
 		if (OneChanceGalicClear)
 		{
 			startText = new int[1] { 30 };
-			OneChanceGalicClear = false;
+			//OneChanceGalicClear = false;
 		}
 		else
 		{
-			if (!IsGalicQuest)
+			if (!LuckyStore.ClearGalicQuest)
 			{
 				startText = new int[1] { 2 };
 			}
 			else
 			{
-				string s = null;
-				string c = null;
-				if (Ingredient == 0) { s = "마늘"; }
-				else if (Ingredient == 1) { s = "양파"; }
-				else if (Ingredient == 2) { s = "고추"; }
-				
-				if (Discount == 0) { c = "1"; }
-				else if (Discount == 1) { c = "2"; }
-				else if (Discount == 2) { c = "3"; }
-
-				NpcTextStrArr[0].Replace("###", s);
-				NpcTextStrArr[0].Replace("$$$", c);
-
 				startText = new int[2] { 0, 1 };
 			}
 		}
+	}
+	protected override void InitPlayerSelectText()
+	{
+		int n = 0;
+		NpcTextStrArr[10] = text10;
+		NpcTextStrArr[11] = text11;
+		NpcTextStrArr[12] = text12;
+
+		if (!LuckyStore.ClearGalicQuest)
+		{
+			n = (320000 - (((Discount + 1) * 10000) + BounsDiscount))/10000;
+			NpcTextStrArr[10] = NpcTextStrArr[10].Replace("$$$", n.ToString());
+		}
+		else
+		{
+			n = (170000 - (((Discount + 1) * 10000) + BounsDiscount))/10000;
+			NpcTextStrArr[10] = NpcTextStrArr[10].Replace("$$$", n.ToString());
+		}
+
+		n = (200000 - (((Discount + 1) * 10000) + BounsDiscount))/10000;
+		NpcTextStrArr[11] = NpcTextStrArr[11].Replace("$$$", n.ToString());
+
+		n = (230000 - (((Discount + 1) * 10000) + BounsDiscount))/10000;
+		NpcTextStrArr[12] = NpcTextStrArr[12].Replace("$$$", n.ToString());
 	}
 	/// <summary>
 	/// 조건에 따른 대화 분기점
@@ -126,162 +163,185 @@ public class IngredientStoreTwo : Conversation
 
 		if (temInt == -1)
 		{
-			if (OneChanceGalicClear && IsGalicQuest)
+			if (OneChanceGalicClear && LuckyStore.ClearGalicQuest)
 			{
-				OneChanceGalicClear = false;
-				index = Findidx(-1, new int[1] { 30 });
+				index = TextList.FindIndex(a => a.NowTextNum == -1 && System.Linq.Enumerable.SequenceEqual(a.NextTextNum,new int[2] {33,31}));
 			}
-			else if (!IsGalicQuest)
+			else if (!OneChanceGalicClear && LuckyStore.ClearGalicQuest)
 			{
-				index = Findidx(-1, new int[1] { 2 });
+				index = Findidx(-1, new int[1] { Random.Range(0, 2) });
 			}
 			else
 			{
-				tem.Remove(TextList[Findidx(-1, new int[1] { 2 })]);
-				index = TextList.FindIndex(a => a.Equals(tem[Random.Range(0, tem.Count)]));
+				index = Findidx(-1, new int[1] { 2 });
 			}
+			SettingConversation(index);
+			OneChanceGalicClear = false;
+			index = -100;
 		}
 		else if (temInt == 10)
 		{
-			NpcTextStrArr[10] = text10;
+			//NpcTextStrArr[10] = text10;
 
-			if (!IsGalicQuest)
+			if (!LuckyStore.ClearGalicQuest)
 			{
 				int n = 320000 - (((Discount + 1) * 10000) + BounsDiscount);
-				NpcTextStrArr[10].Replace("$$$", n.ToString());
+				//NpcTextStrArr[10] = NpcTextStrArr[10].Replace("$$$", n.ToString());
 
 				if (GameManager.Instance.Money >= n)
 				{
 					GameManager.Instance.Money -= n;
 					Constant.UsableIngredient.Add(13);
 					Contract++;
-					index = Findidx(10, new int[18]);
+					index = Findidx(10, new int[1] { 18 });
 				}
 				else
 				{
-					index = Findidx(10, new int[36]);
+					index = Findidx(10, new int[1] { 36 });
 				}
 			}
 			else
 			{
 				int n = 170000 - (((Discount + 1) * 10000) + BounsDiscount);
-				NpcTextStrArr[10].Replace("$$$", n.ToString());
+				//NpcTextStrArr[10] = NpcTextStrArr[10].Replace("$$$", n.ToString());
 
 				if (GameManager.Instance.Money >= n)
 				{
 					GameManager.Instance.Money -= n;
 					Constant.UsableIngredient.Add(13);
 					Contract++;
-					index = Findidx(10, new int[18]);
+					index = Findidx(10, new int[1] { 18 });
 				}
 				else
 				{
-					index = Findidx(10, new int[36]);
+					index = Findidx(10, new int[1] { 36 });
 				}
 			}
 		}
 		else if (temInt == 11)
 		{
-			NpcTextStrArr[11] = text11;
+			//NpcTextStrArr[11] = text11;
 
 			int n = 200000 - (((Discount + 1) * 10000) + BounsDiscount);
-			NpcTextStrArr[11].Replace("$$$", n.ToString());
+			//NpcTextStrArr[11] = NpcTextStrArr[11].Replace("$$$", n.ToString());
 
 			if (GameManager.Instance.Money >= n)
 			{
 				GameManager.Instance.Money -= n;
 				Constant.UsableIngredient.Add(14);
 				Contract++;
-				index = Findidx(11, new int[18]);
+				index = Findidx(11, new int[1] { 18 });
 			}
 			else
 			{
-				index = Findidx(11, new int[36]);
+				index = Findidx(11, new int[1] { 36 });
 			}
 		}
 		else if (temInt == 12)
 		{
-			NpcTextStrArr[12] = text12;
+			//NpcTextStrArr[12] = text12;
 
 			int n = 230000 - (((Discount + 1) * 10000) + BounsDiscount);
-			NpcTextStrArr[12].Replace("$$$", n.ToString());
+			//NpcTextStrArr[12] = NpcTextStrArr[12].Replace("$$$", n.ToString());
 
 			if (GameManager.Instance.Money >= n)
 			{
 				GameManager.Instance.Money -= n;
 				Constant.UsableIngredient.Add(15);
 				Contract++;
-				index = Findidx(12, new int[18]);
+				index = Findidx(12, new int[1] { 18 });
 			}
 			else
 			{
-				index = Findidx(12, new int[36]);
+				index = Findidx(12, new int[1] { 36 });
 			}
 		}
 		else if (temInt == 13)
 		{
-			if (Random.Range(0, 2) == 0 && !IsGalicQuest)
+			if (!LuckyStore.ClearGalicQuest)
 			{
-				index = TextList.FindIndex(a => a.NowTextNum == 10 && a.NextTextNum == new int[5] { 5, 7, 6, 34, 3 });
+				index = Findidx(-1, new int[1] { 2 });
+			}
+			else if (Random.Range(0,2) == 0)
+			{
+				index = Findidx(-1, new int[1] { 1 });
 			}
 			else
 			{
-				index = TextList.FindIndex(a => a.NowTextNum == 10 && a.NextTextNum == new int[4] { 5, 7, 6, 34 });
+				index = Findidx(-1, new int[1] { 0 });
 			}
 		}
 		else if (temInt == 14)
 		{
 			Constant.UsableIngredient.Remove(13);
 			Contract--;
-			SettingConversation(Findidx(14, new int[22]));
+			SettingConversation(Findidx(14, new int[1] { 22 }));
 			index = -100;
 		}
 		else if (temInt == 15)
 		{
 			Constant.UsableIngredient.Remove(14);
 			Contract--;
-			SettingConversation(Findidx(15, new int[22]));
+			SettingConversation(Findidx(15, new int[1] { 22 }));
 			index = -100;
 		}
 		else if (temInt == 16)
 		{
 			Constant.UsableIngredient.Remove(15);
 			Contract--;
-			SettingConversation(Findidx(16, new int[22]));
+			SettingConversation(Findidx(16, new int[1] { 22 }));
 			index = -100;
 		}
 		else if (temInt == 17)
 		{
-			if (Random.Range(0, 2) == 0 && !IsGalicQuest)
+			if (!LuckyStore.ClearGalicQuest)
 			{
-				index = TextList.FindIndex(a => a.NowTextNum == 17 && a.NextTextNum == new int[5] { 5, 7, 6, 34, 3 });
+				index = Findidx(-1, new int[1] { 2 });
+			}
+			else if (Random.Range(0, 2) == 0)
+			{
+				index = Findidx(-1, new int[1] { 1 });
 			}
 			else
 			{
-				index = TextList.FindIndex(a => a.NowTextNum == 17 && a.NextTextNum == new int[4] { 5, 7, 6, 34 });
+				index = Findidx(-1, new int[1] { 0 });
 			}
 		}
 		else if (temInt == 19)
 		{
-			if (Random.Range(0, 2) == 0 && !IsGalicQuest)
+			if (!LuckyStore.ClearGalicQuest)
 			{
-				index = TextList.FindIndex(a => a.NowTextNum == 19 && a.NextTextNum == new int[5] { 5, 7, 6, 34, 3 });
+				index = Findidx(-1, new int[1] { 2 });
+			}
+			else if (Random.Range(0, 2) == 0)
+			{
+				index = Findidx(-1, new int[1] { 1 });
 			}
 			else
 			{
-				index = TextList.FindIndex(a => a.NowTextNum == 19 && a.NextTextNum == new int[4] { 5, 7, 6, 34 });
+				index = Findidx(-1, new int[1] { 0 });
 			}
 		}
 		else if (temInt == 26)
 		{
-			if (Random.Range(0, 2) == 0 && !IsGalicQuest)
+			if (!LuckyStore.ClearGalicQuest)
 			{
-				index = TextList.FindIndex(a => a.NowTextNum == 26 && a.NextTextNum == new int[5] { 5, 7, 6, 34, 3 });
+				index = Findidx(-1, new int[1] { 2 });
+			}
+			else if (Random.Range(0, 2) == 0)
+			{
+				index = Findidx(-1, new int[1] { 1 });
 			}
 			else
 			{
-				index = TextList.FindIndex(a => a.NowTextNum == 26 && a.NextTextNum == new int[4] { 5, 7, 6, 34 });
+				index = Findidx(-1, new int[1] { 0 });
 			}
+		}
+		else if (temInt == 24)
+		{
+			IsGalicQuest = true;
+			SettingConversation(Findidx(24, new int[1] { 25 }));
+			index = -100;
 		}
 		else if (temInt == 28)
 		{
@@ -293,7 +353,18 @@ public class IngredientStoreTwo : Conversation
 		{
 			BounsDiscount = 20000;
 
-			index = TextList.FindIndex(a => a.NowTextNum == 37 && a.NextTextNum == new int[4] { 5, 7, 6, 34 });
+			if (!LuckyStore.ClearGalicQuest)
+			{
+				index = Findidx(-1, new int[1] { 2 });
+			}
+			else if (Random.Range(0, 2) == 0)
+			{
+				index = Findidx(-1, new int[1] { 1 });
+			}
+			else
+			{
+				index = Findidx(-1, new int[1] { 0 });
+			}
 			SettingConversation(index);
 			index = -100;
 		}
@@ -423,24 +494,26 @@ public class IngredientStoreTwo : Conversation
 		nowTextNum = -1; nextTextNum = new int[2] { 33,31 }; nextTextIsAble = new bool[2] { true, true };
 		methodSArr = new MethodS[4]
 		{
-			new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { 0 }),
+			new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { 30 }),
 			new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 200 } ),
 			new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 1 } ),
 			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 1 })
 		};
 		AddTextList();
-		nowTextNum = 3; nextTextNum = new int[1] { 34 }; nextTextIsAble = new bool[1] { true };
-		methodSArr = new MethodS[4]
+		nowTextNum = 3; nextTextNum = new int[1] { 24 }; nextTextIsAble = new bool[1] { true };
+		methodSArr = new MethodS[5]
 		{
 			new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { 4 }),
 			new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 100 } ),
 			new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 2 } ),
-			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 1 })
+			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 1 }),
+			new MethodS(MethodEnum.SETISCONDITION, new int[0])
 		};
 		AddTextList();
 		nowTextNum = 5; nextTextNum = new int[4] { 10, 11, 12, 13 }; nextTextIsAble = new bool[4] { false, false, false, true };
-		methodSArr = new MethodS[5]
+		methodSArr = new MethodS[6]
 		{
+			new MethodS(MethodEnum.INITPLAYERTEXT, new int[0]),
 			new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { 8 }),
 			new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 400 } ),
 			new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 1 } ),
@@ -668,7 +741,7 @@ public class IngredientStoreTwo : Conversation
 		nowTextNum = 31; nextTextNum = new int[4] { 5, 7, 6, 34 }; nextTextIsAble = new bool[4] { true, false, true, true };
 		methodSArr = new MethodS[4]
 		{
-			new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { -1 }),
+			new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { 32 }),
 			new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 400 } ),
 			new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 1 } ),
 			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 2 })
@@ -677,18 +750,19 @@ public class IngredientStoreTwo : Conversation
 		nowTextNum = 33; nextTextNum = new int[1] { 19 }; nextTextIsAble = new bool[1] { true };
 		methodSArr = new MethodS[5]
 		{
-			new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { 37 }),
+			new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { 35 }),
 			new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 100 } ),
 			new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 3 } ),
 			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 1 }),
 			new MethodS(MethodEnum.SETISCONDITION, new int[0])
 		};
 		AddTextList();
-		nowTextNum = 34; nextTextNum = new int[1] { -1 }; nextTextIsAble = new bool[1] { true };
+		nowTextNum = 34; nextTextNum = new int[1] { -1 }; nextTextIsAble = new bool[1] { false };
 		methodSArr = new MethodS[1]
 		{
 			new MethodS(MethodEnum.ENDPANEL, new int[1] { -1 })
 		};
+		AddTextList();
 		nowTextNum = 37; nextTextNum = new int[4] { 5, 7, 6, 34 }; nextTextIsAble = new bool[4] { true, false, true, true };
 		methodSArr = new MethodS[4]
 		{

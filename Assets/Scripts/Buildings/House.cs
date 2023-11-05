@@ -15,7 +15,7 @@ public class House : MonoBehaviour, IAddress, IHouse, IActiveHouse
     [SerializeField] private GameObject goalObj;
     [SerializeField] private GameObject activeObj;
 
-    static private Color activeColor = new Color(248/255f, 70/255f, 6/255f);   // 활성화 색(배달해야 하는 곳임을 알림)
+    public static Color activeColor = new Color(248/255f, 70/255f, 6/255f);   // 활성화 색(배달해야 하는 곳임을 알림)
 
     private SpriteRenderer spriteRenderer;
     private Transform goalTrans;
@@ -49,6 +49,11 @@ public class House : MonoBehaviour, IAddress, IHouse, IActiveHouse
         else if (direction == 3) { vec = new Vector3(1, 0); }
         goalObj.transform.position += vec;
         activeObj.transform.position += vec;
+
+        if (Constant.NowDate == 1)
+        {
+            activeColor = new Color(248 / 255f, 70 / 255f, 6 / 255f);
+        }
 
         customerS = new CustomerS(Random.Range(1, 101), Random.Range(60, 240), Random.Range(0, 4), Random.Range(200, 2000));
         activeObj.GetComponent<HouseActiveCheck>().SetIActiveHouse(this);
@@ -116,6 +121,13 @@ public class House : MonoBehaviour, IAddress, IHouse, IActiveHouse
         spendingTime = iMap.RemoveAddress(houseAddress);
 	}
 
+    public void EndDeliveryDisableHouse()
+    {
+        spriteRenderer.color = houseColor;
+        isEnable = false;
+        goalObj.SetActive(false);
+        spendingTime = iMap.RemoveAddress(houseAddress);
+    }
     public bool GetIsEnable()
 	{
         return isEnable;

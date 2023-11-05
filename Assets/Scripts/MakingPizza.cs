@@ -77,15 +77,16 @@ public class MakingPizza : MonoBehaviour, IResetPizzaMaking
         while (true)
         {
             // 만들 피자를 고릅니다.
-            if (pizzaRequestList.Count <= 0) 
+            if (pizzaRequestList.Count <= 0 || CompletePizzaList.Count >= 5) 
             {
+                Debug.Log(CompletePizzaList.Count);
                 for (int i = 0; i < 5; i++)
                 {
                     yield return Constant.OneTime;
                 }
                 continue; 
             }
-
+            Constant.PizzaIngMoney += pizzaRequestList[0].Pizza.ProductionCost;
             // 피자 만드는데 걸리는 시간을 계산한다.
             makeTime = 80;
             for (int i = 0; i < Constant.ClerkList.Count; i++)

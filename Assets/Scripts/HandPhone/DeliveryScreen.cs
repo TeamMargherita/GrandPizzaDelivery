@@ -18,7 +18,6 @@ public class DeliveryScreen : MonoBehaviour
     //배달앱 텍스트 업데이트
     public void TextUpdate()
     {
-        
         if(SDR.RequestList.Count > 0)
         {
             for (int i = 0; i < 5; i++)
@@ -49,7 +48,19 @@ public class DeliveryScreen : MonoBehaviour
                 }
             }
         }
+        else
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                RequestTextList[i].text = "";
+                AcceptB[i].SetActive(false);
+                MyChildRefreshB[i].SetActive(false);
+                MyChildFaceImage[i].SetActive(false);
+                MyChildRefreshB[i].SetActive(false);
+            }
+        }
     }
+
     private void Update()
     {
         TextUpdate();

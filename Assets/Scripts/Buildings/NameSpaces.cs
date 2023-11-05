@@ -60,7 +60,7 @@ namespace BuildingNS
     /// </summary>
     namespace HouseNS
     {
-        public enum HouseType { NONE, PIZZASTORE, HOUSE, DICESTORE, PINEAPPLESTORE, INGREDIENTSTORE, PINEAPPLESTORETWO, GUNSTORE, HOSPITAL };
+        public enum HouseType { NONE, PIZZASTORE, HOUSE, DICESTORE, PINEAPPLESTORE, INGREDIENTSTORE, PINEAPPLESTORETWO, GUNSTORE, HOSPITAL, LUCKYSTORE, INGREDIENTSTORETWO, MONEYSTORE };
     }
 }
 /// <summary>
@@ -195,6 +195,10 @@ namespace PoliceNS
         {
             NONE, MOVING, STOP, INSPECTING, DESTROY, SPUERCHASE, AUTOMOVE, OUTMAP
         };
+        public enum PoliceType
+        {
+            NORMAL, CHASER
+        };
     }
 }
 /// <summary>
@@ -234,7 +238,7 @@ namespace ConversationNS
     /// <summary>
     /// 실행할 메소드의 종류
     /// </summary>
-    public enum MethodEnum { NONE, SETSIZECONTENTS, CHANGENPCIMAGE, CHANGEPLAYERIMAGE, SETRANDNPCTEXT, ENDPANEL, SPAWNPOLICE, OPENSTORE, SAVETEXTINDEX, SETISCONDITION };
+    public enum MethodEnum { NONE, SETSIZECONTENTS, CHANGENPCIMAGE, CHANGEPLAYERIMAGE, SETRANDNPCTEXT, ENDPANEL, SPAWNPOLICE, OPENSTORE, SAVETEXTINDEX, SETISCONDITION, INITPLAYERTEXT };
 }
 /// <summary>
 /// 가게와 관련된 네임스페이스이다.

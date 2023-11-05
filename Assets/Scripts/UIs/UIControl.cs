@@ -27,6 +27,7 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
     [SerializeField] private UnityEngine.UI.Image addPizzaImg;
     [SerializeField] private UnityEngine.UI.Text alarmMessageText;
     [SerializeField] private Map map;
+    [SerializeField] private GameObject Menu;
 
     private IEndConversation iEndInspecting;
     private IHouse iHouse;
@@ -57,10 +58,12 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
     private bool isPizzaAddButtonBlank = false;
     private bool isAlarmMessage = false;    // 알람메세지 다 내려왔는지 여부
     private bool isColor = false;
-    private bool isIn = false;  // 대화창, 가게 안으로 들어갔는지 여부
+    public static bool isIn = false;  // 대화창, 가게 안으로 들어갔는지 여부
+    private bool menuSetActive = false;
 
     public GameObject PizzaInventory;
     public InventoryManager InventoryManager;
+    public SendDeliveryRequest SDR;
     void Awake()
     {
         Caching();
@@ -266,6 +269,7 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
         Time.timeScale = 1;
         light2D.color = new Color(80 / 255f, 80 / 255f, 80 / 255f);
         map.OnStreetLamp();
+        SDR.RequestClear();
     }
 
     public void NoDarkDeliveryPanel()
@@ -388,8 +392,19 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
         }
     }
 
+
     public void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape) && !menuSetActive)
+        {
+            Menu.SetActive(true);
+            menuSetActive = true;
+        }
+        else if(Input.GetKeyDown(KeyCode.Escape) && menuSetActive)
+        {
+            Menu.SetActive(false);
+            menuSetActive = false;
+        }
         // 일반 집이 아닌 곳에서 z키를 눌렀을 때
         if (houseType != HouseType.NONE && houseType != HouseType.HOUSE
             && Input.GetKeyDown(KeyCode.Z) && !isIn)
@@ -444,6 +459,18 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
 					{
                         break;
 					}
+                    break;
+                case HouseType.INGREDIENTSTORETWO:
+                    iStop.StopMap(true);
+                    ControlConversationUI(true, null, 8);
+                    break;
+                case HouseType.LUCKYSTORE:
+                    iStop.StopMap(true);
+                    ControlConversationUI(true, null, 9);
+                    break;
+                case HouseType.MONEYSTORE:
+                    iStop.StopMap(true);
+                    ControlConversationUI(true, null, 10);
                     break;
             }
         }

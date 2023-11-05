@@ -46,6 +46,12 @@ public struct Pizza
         return Freshness;
     }
 
+    public string GetExplain()
+    {
+        string text;
+        text = "이름 : " + Name + "\n완성도 : " + Perfection + "\n생산비용 : " + ProductionCost + "\n판매가 : " + SellCost + "\n매력도 : " + Charisma;
+        return text;
+    }
     public string GetName()
     {
         return Name;

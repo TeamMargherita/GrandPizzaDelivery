@@ -46,10 +46,11 @@ public class GameManager : MonoBehaviour
         
     }
 
+
     public float time;
     private float timeSpeed = 60; //하루기준시간
 
-    private int money = 1000000000;
+    private int money = 100000000;
     public int Money
     {
         get {
@@ -57,7 +58,8 @@ public class GameManager : MonoBehaviour
         }
         set {
             //나중에 일정금액도달하면 앤딩 화면가는 함수 짜기
-            MoneyText.CreateMoneyEffect(value - money);
+            if(MoneyText != null )
+                MoneyText.CreateMoneyEffect(value - money);
             money = value;
         }
     }
@@ -66,14 +68,14 @@ public class GameManager : MonoBehaviour
 
     public void PlayerDead()
     {
-        LoadScene.Instance.LoadNextDay("InGameScene");
+        LoadScene.Instance.LoadNextDay(true);
         isDarkDelivery = false;
         time = 32400;
     }
 
     public void NextDay()
     {
-        LoadScene.Instance.ActiveTrueFade("InGameScene");
+        LoadScene.Instance.LoadNextDay(false);
         isDarkDelivery = false;
         time = 32400;
     }
@@ -84,7 +86,7 @@ public class GameManager : MonoBehaviour
     }
     private void TimeSkip()
     {
-        if(Input.GetKeyDown(KeyCode.Backspace))
+        if(Input.GetKeyDown(KeyCode.F3))
             time = 82800;
     }
     private void Update()
@@ -102,15 +104,17 @@ public class GameManager : MonoBehaviour
 		{
             time = 32400;
 		}
-        if (Input.GetKeyDown(KeyCode.F3))
+        if (Input.GetKeyDown(KeyCode.CapsLock))
         {
-            Time.timeScale = 0.1f;
-            Time.fixedDeltaTime = Time.timeScale * 0.02f;
-        }
-        else if (Input.GetKeyDown(KeyCode.F4))
-        {
-            Time.timeScale = 1;
-            Time.fixedDeltaTime = Time.timeScale * 0.02f;
+            if(Time.timeScale == 1)
+            {
+                Time.timeScale = 0.1f;
+                Time.fixedDeltaTime = Time.timeScale * 0.02f;
+            }else if (Time.timeScale == 0.1f)
+            {
+                Time.timeScale = 1;
+                Time.fixedDeltaTime = Time.timeScale * 0.02f;
+            }
         }
         //게임1초 * timeSpeed = 현실시간1초
         //TimeText.GetComponent<Text>().text = (int)time/3600 + " : " + (int)(time / 60 % 60);

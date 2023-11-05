@@ -10,6 +10,7 @@ TagManager:
   - Inventory
   - ChaserPoliceCar
   - PizzaInventory
+  - House
   layers:
   - Default
   - TransparentFX

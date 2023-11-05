@@ -34,7 +34,7 @@ public class PrologueUI : MonoBehaviour
         img.sprite = prologueSpr[0];
         text.text = textList[0];
         index = 0;
-        Invoke("ActiveNextButton", 1.5f);
+        Invoke("ActiveNextButton", 0.5f);
     }
 
     private void ActiveNextButton()
@@ -50,7 +50,7 @@ public class PrologueUI : MonoBehaviour
             img.sprite = prologueSpr[index];
             text.text = textList[index];
             nextButton.SetActive(false);
-            Invoke("ActiveNextButton", 1.5f);
+            Invoke("ActiveNextButton", 0.5f);
         }
         else
         {

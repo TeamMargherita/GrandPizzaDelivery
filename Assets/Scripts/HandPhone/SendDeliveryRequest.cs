@@ -81,7 +81,7 @@ public class SendDeliveryRequest : MonoBehaviour
         foreach (var i in RequestList)
         {
             minimap.DeleteDestination(i.AddressS.IHouse.GetLocation());
-            i.AddressS.IHouse.DisableHouse(/*pizza.Value*/);
+            i.AddressS.IHouse.EndDeliveryDisableHouse();
         }
         RequestList.Clear();
     }

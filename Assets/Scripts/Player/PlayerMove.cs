@@ -87,7 +87,7 @@ public class PlayerMove : PlayerStat
         if(!UIControl.isIn)
             PlayerFire();
         InventoryManagerScript.UIMagagineTextUpdate(CurrentMagagine);
-        /*if (Input.GetKeyDown(KeyCode.X))
+        if (Input.GetKeyDown(KeyCode.X))
         {
             if(MakingPizzaScript.CompletePizzaList.Count > 0)
             {
@@ -101,7 +101,7 @@ public class PlayerMove : PlayerStat
                 }
             }
             InventoryManagerScript.inventoryTextUpdate("PizzaInventory");
-        }*/
+        }
         if (!Stop && !bananaTrigger)
         {
             time += Time.deltaTime;

@@ -21,8 +21,11 @@ public class PlayerStat : MonoBehaviour
                 value = MaxHP;
             if (value <= 0)
             {
-                Debug.Log("플레이어 사망");
-                GameManager.Instance.PlayerDead();
+                if (hp > 0)
+                {
+                    Debug.Log("플레이어 사망");
+                    GameManager.Instance.PlayerDead();
+                }
             }
             else if (value > 0)
                 Debug.Log("플레이어 생존");

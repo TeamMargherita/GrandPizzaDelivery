@@ -34,6 +34,7 @@ public class House : MonoBehaviour, IAddress, IHouse, IActiveHouse
 
     private float spendingTime; // 배달에 소요한 시간
     private int houseNumber;    // 건물 내에서 집 번호
+    private int tip;    // 팁
     private bool isEnable = false;  // 해당 집에 주문을 해야되는지 여부
     private bool inHouse = false;
     
@@ -131,7 +132,7 @@ public class House : MonoBehaviour, IAddress, IHouse, IActiveHouse
 
     private void AddTip(Pizza pizza)
     {
-        int tip = 0;
+        tip = 0;
         int percent = 0;
         if (customerS.PizzaCutLine > pizza.Perfection)
         {
@@ -153,10 +154,11 @@ public class House : MonoBehaviour, IAddress, IHouse, IActiveHouse
             }
         }
 
+        percent = (int)(percent * (pizza.Freshness * 0.01f));
+
         tip = (int)(customerS.MoneyPower * (percent * 0.01f));
 
-        GameManager.Instance.Money += tip;
-
+        Invoke("PlusMoney", 1.5f);
         if (tip < 40)
         {
             Constant.PizzaStoreStar += -0.001f * tip;
@@ -165,6 +167,10 @@ public class House : MonoBehaviour, IAddress, IHouse, IActiveHouse
         {
             Constant.PizzaStoreStar += 0.001f * (tip - 40);
         }
+    }
+    private void PlusMoney()
+    {
+        GameManager.Instance.Money += tip;
     }
 
     public void EndDeliveryDisableHouse()

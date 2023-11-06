@@ -391,6 +391,10 @@ public static class Constant
             {
 				pizzaStoreStar = 5.0f;
             }
+			else if (value < 0)
+            {
+				pizzaStoreStar = 0.0f;
+            }
 			else
             {
 				pizzaStoreStar = value;

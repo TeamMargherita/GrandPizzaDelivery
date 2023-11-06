@@ -79,6 +79,7 @@ public class Calculate : MonoBehaviour
         while (true)
         {
             contentsText.gameObject.SetActive(true);
+
             while (t1 < Constant.Fine)
             {
                 contentsText.text = $"¹ú±Ý : {t1}¿ø";

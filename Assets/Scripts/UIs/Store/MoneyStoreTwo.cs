@@ -275,7 +275,7 @@ public class MoneyStoreTwo : Conversation
                 Constant.PayMoneyDate.Add(Constant.NowDate, new Dictionary<int, int>() { { MoneyStoreCode, 20000000 } });
             }
             Constant.Dept += 20000000;
-            Debug.Log("???????????????????????");
+            //Debug.Log("???????????????????????");
             SumBorrow += 20000000;
             GameManager.Instance.Money += 20000000;
             loseMoney -= 20000000;

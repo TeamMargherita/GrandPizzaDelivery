@@ -45,8 +45,9 @@ public class BGSound : MonoBehaviour
             }
             else
             {
-                // 타이머를 시간만큼 빼주기
-                timer -= Time.deltaTime;
+                if (!manager.IsRhythmGuide || timer > 1f)
+                    // 타이머를 시간만큼 빼주기
+                    timer -= Time.deltaTime;
             }
 
             if (!source.isPlaying && timer < 0f)
@@ -67,7 +68,6 @@ public class BGSound : MonoBehaviour
             manager.CurrentTime = (decimal)source.time;
         }
     }
-
     public void RePlay(float delay)
     {
         timer = 0;

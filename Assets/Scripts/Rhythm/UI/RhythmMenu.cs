@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// 리듬게임 플레이 도중 메뉴판 활성화 클래스
@@ -21,7 +22,7 @@ public class RhythmMenu : MonoBehaviour
         if (Sound.time <= 0f)
             return;
 
-        if (RhythmManager.Instance.IsSelectGuide)
+        if (SceneManager.GetActiveScene().name == "SelectScene" && RhythmManager.Instance.IsSelectGuide)
             return;
 
         // Esc 키로 활성화/비활성화

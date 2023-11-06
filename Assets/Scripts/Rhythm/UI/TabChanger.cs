@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class TabChanger : MonoBehaviour
 {
@@ -14,17 +15,24 @@ public class TabChanger : MonoBehaviour
 
     private UnityEvent Work;
     private int currentTab;
-    private static int guideCount = 2;
     private bool isNext = false;
 
     private void Start()
     {
-        if (guideCount <= 0)
+        if (SceneManager.GetActiveScene().name == "SelectScene" && RhythmManager.Instance.IsSelectGuide)
+        {
+            currentTab = 0;
+            Invoke("NextTabOpen", delays[currentTab]);
+        }
+        else if (SceneManager.GetActiveScene().name == "RhythmScene" && RhythmManager.Instance.IsRhythmGuide)
+        {
+            currentTab = 0;
+            Invoke("NextTabOpen", delays[currentTab]);
+        }
+        else
+        {
             return;
-
-        guideCount--;
-        currentTab = 0;
-        Invoke("NextTabOpen", delays[currentTab]);
+        }
     }
 
     private void Update()
@@ -87,26 +95,49 @@ public class TabChanger : MonoBehaviour
         {
             NextStep();
             MusicSelect.Invoke();
-            RhythmManager.Instance.IsSelectGuide = false;
         }
     }
+    public void NextTab()
+    {
+        if (isNext)
+            return;
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            NextStep();
+        }
+    }
+
     public void NextStep()
     {
         isNext = true;
         if (currentTab >= Tabs.Count)
             return;
 
-        Tabs[currentTab - 1].SetActive(false);
-        Invoke("NextTabOpen", delays[currentTab]);
+        if (currentTab >= 0)
+            Tabs[currentTab].SetActive(false);
+        currentTab++;
+        if (currentTab >= Tabs.Count)
+        {
+            if (SceneManager.GetActiveScene().name == "SelectScene" && RhythmManager.Instance.IsSelectGuide)
+            {
+                RhythmManager.Instance.IsSelectGuide = false;
+            }
+            else if (SceneManager.GetActiveScene().name == "RhythmScene" && RhythmManager.Instance.IsRhythmGuide)
+            {
+                RhythmManager.Instance.IsRhythmGuide = false;
+            }
+        }
+        else
+        {
+            Invoke("NextTabOpen", delays[currentTab]);
+        }
     }
+
     private void NextTabOpen()
     {
-        if (currentTab >= Tabs.Count)
-            return;
-
         Tabs[currentTab].SetActive(true);
         Work = Orders[currentTab];
-        currentTab++;
         isNext = false;
     }
 }

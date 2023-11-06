@@ -30,7 +30,10 @@ public class Calculate : MonoBehaviour
         {
             for (int i2 = 0; i2 < Constant.MoneyStoreCode.Length; i2++)
             {
-                Constant.PayMoneyDate[li[i]][i2] = (int)(Constant.PayMoneyDate[li[i]][i2] * Constant.DeptMulitplex[i2]);
+                if (Constant.PayMoneyDate[li[i]].ContainsKey(i2))
+                {
+                    Constant.PayMoneyDate[li[i]][i2] = (int)(Constant.PayMoneyDate[li[i]][i2] * Constant.DeptMulitplex[i2]);
+                }
             }
         }
 
@@ -166,7 +169,6 @@ public class Calculate : MonoBehaviour
                 contentsText.text = $"벌금 : {t1}원 \n소모된 피자 재료 값 : {t2}원 \n점원 일급 : {t3}원 \n부활비 : {t4}원";
             }
             List<int> li = new List<int>();
-            List<int> li2 = new List<int>();
             foreach (var key in Constant.PayMoneyDate.Keys)
             {
                 if (key <= Constant.NowDate - moneyTime)
@@ -189,28 +191,26 @@ public class Calculate : MonoBehaviour
 
                 for (int i = 0; i < li.Count; i++)
                 {
-                    foreach (var key in Constant.PayMoneyDate[li[i]].Keys)
+                    for (int i2 = 0; i2 < Constant.MoneyStoreCode.Length; i2++)
                     {
-                        li2.Add(key);
-                    }
-
-                    for (int i2 = 0; i2 < li2.Count; i2++)
-                    {
-                        if (Constant.PayMoneyDate[li[i]][li2[i2]] <= GameManager.Instance.Money)
+                        if (Constant.PayMoneyDate[li[i]].ContainsKey(i2))
                         {
-                            GameManager.Instance.Money -= Constant.PayMoneyDate[li[i]][li2[i2]];
-                            t5 += Constant.PayMoneyDate[li[i]][li2[i2]];
-                            Constant.PayMoneyDate[li[i]].Remove(li2[i2]);
-                            if (Constant.PayMoneyDate[li[i]].Count == 0)
+                            if (Constant.PayMoneyDate[li[i]][Constant.MoneyStoreCode[i2]] <= GameManager.Instance.Money)
                             {
-                                Constant.PayMoneyDate.Remove(li[i]);
+                                GameManager.Instance.Money -= Constant.PayMoneyDate[li[i]][Constant.MoneyStoreCode[i2]];
+                                t5 += Constant.PayMoneyDate[li[i]][Constant.MoneyStoreCode[i2]];
+                                Constant.PayMoneyDate[li[i]].Remove(Constant.MoneyStoreCode[i2]);
+                                if (Constant.PayMoneyDate[li[i]].Count == 0)
+                                {
+                                    Constant.PayMoneyDate.Remove(li[i]);
+                                }
                             }
-                        }
-                        else
-                        {
-                            Constant.PayMoneyDate[li[i]][li2[i2]] -= GameManager.Instance.Money;
-                            t5 += GameManager.Instance.Money;
-                            GameManager.Instance.Money = 0;
+                            else
+                            {
+                                Constant.PayMoneyDate[li[i]][Constant.MoneyStoreCode[i2]] -= GameManager.Instance.Money;
+                                t5 += GameManager.Instance.Money;
+                                GameManager.Instance.Money = 0;
+                            }
                         }
                     }
                 }
@@ -257,12 +257,14 @@ public class Calculate : MonoBehaviour
             t6 = GameManager.Instance.Money;
 
             int n7 = Constant.Dept;
+            Debug.Log(n7);
 
             foreach (var key in Constant.PayMoneyDate.Keys)
             {
                 foreach (var key2 in Constant.PayMoneyDate[key].Keys)
                 {
                     n7 += Constant.PayMoneyDate[key][key2];
+                    Debug.Log($"{Constant.PayMoneyDate[key][key2]}");
                 }
             }
             Constant.Dept = n7;
@@ -376,7 +378,6 @@ public class Calculate : MonoBehaviour
             t99 = 0;
 		}
         List<int> li = new List<int>();
-        List<int> li2 = new List<int>();
         foreach (var key in Constant.PayMoneyDate.Keys)
         {
             if (key <= Constant.NowDate - moneyTime)
@@ -385,22 +386,17 @@ public class Calculate : MonoBehaviour
             }
         }
 
-        if (li.Count > 0)
+        for (int i = 0; i < li.Count; i++)
         {
-            for (int i = 0; i < li.Count; i++)
+            for (int i2 = 0; i2 < Constant.MoneyStoreCode.Length; i2++)
             {
-                foreach (var key in Constant.PayMoneyDate[li[i]].Keys)
+                if (Constant.PayMoneyDate[li[i]].ContainsKey(i2))
                 {
-                    li2.Add(key);
-                }
-
-                for (int i2 = 0; i2 < li2.Count; i2++)
-                {
-                    if (Constant.PayMoneyDate[li[i]][li2[i2]] <= GameManager.Instance.Money)
+                    if (Constant.PayMoneyDate[li[i]][Constant.MoneyStoreCode[i2]] <= GameManager.Instance.Money)
                     {
-                        GameManager.Instance.Money -= Constant.PayMoneyDate[li[i]][li2[i2]];
-                        de += Constant.PayMoneyDate[li[i]][li2[i2]];
-                        Constant.PayMoneyDate[li[i]].Remove(li2[i2]);
+                        GameManager.Instance.Money -= Constant.PayMoneyDate[li[i]][Constant.MoneyStoreCode[i2]];
+                        de += Constant.PayMoneyDate[li[i]][Constant.MoneyStoreCode[i2]];
+                        Constant.PayMoneyDate[li[i]].Remove(Constant.MoneyStoreCode[i2]);
                         if (Constant.PayMoneyDate[li[i]].Count == 0)
                         {
                             Constant.PayMoneyDate.Remove(li[i]);
@@ -408,7 +404,7 @@ public class Calculate : MonoBehaviour
                     }
                     else
                     {
-                        Constant.PayMoneyDate[li[i]][li2[i2]] -= GameManager.Instance.Money;
+                        Constant.PayMoneyDate[li[i]][Constant.MoneyStoreCode[i2]] -= GameManager.Instance.Money;
                         de += GameManager.Instance.Money;
                         GameManager.Instance.Money = 0;
                     }
@@ -417,12 +413,14 @@ public class Calculate : MonoBehaviour
         }
 
         int n7 = Constant.Dept;
-
+        Debug.Log(n7);
         foreach (var key in Constant.PayMoneyDate.Keys)
         {
             foreach (var key2 in Constant.PayMoneyDate[key].Keys)
             {
                 n7 += Constant.PayMoneyDate[key][key2];
+                Debug.Log($"{Constant.PayMoneyDate[key][key2]}");
+
             }
         }
         Constant.Dept = n7;

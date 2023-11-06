@@ -118,11 +118,11 @@ public static class Constant
 	/// <summary>
 	/// 대출업체별 이자 배율(매일 복리)
 	/// </summary>
-	public static float[] DeptMulitplex = new float[1] { 1.1f };
+	public static float[] DeptMulitplex = new float[2] { 1.1f, 1.05f };
 	/// <summary>
 	/// 대출업체 코드
 	/// </summary>
-	public static int[] MoneyStoreCode = new int[1] { 0 };
+	public static int[] MoneyStoreCode = new int[2] { 0 , 1};
 	/// <summary>
 	/// 하루 동안 점원에게 쓴 비용
 	/// </summary>

@@ -31,7 +31,7 @@ public class EmployeeRecruit : MonoBehaviour
     {
         if (Constant.NowDate == 1 && GameManager.Instance.time >= 32400 && GameManager.Instance.time > 32500)
         {
-            nowDate = 1;
+            nowDate = 0;
         }
 
         for (int i = 0; i < limitCount; i++)

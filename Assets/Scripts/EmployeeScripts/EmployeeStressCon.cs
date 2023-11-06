@@ -17,13 +17,15 @@ public class EmployeeStressCon : EmployeeFire
             WorkStress();
         }
 
-        if(GameManager.Instance.time == 9 * 3600)
+        if (EmployeeRecruit.nowDate != Constant.NowDate)
         {
-            isMorning = true;  
+            isMorning = true;
+
+            EmployeeRecruit.nowDate = Constant.NowDate;
         }
         else
         {
-            isMorning = false;  
+            isMorning = false;
         }
     }
 

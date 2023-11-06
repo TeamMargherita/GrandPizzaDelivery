@@ -16,19 +16,17 @@ public class EmployeeStressCon : EmployeeFire
         {
             isMorning = true;
 
-            nowDate = Constant.NowDate;
+            nowDate++;
         }
         else
         {
             isMorning = false;
         }
 
-        Debug.Log(isMorning);
-
         if (isMorning)
         {
-            PayStress();
             WorkStress();
+            PayStress();
         }
     }
 
@@ -36,40 +34,48 @@ public class EmployeeStressCon : EmployeeFire
     {
         string Message = null;
 
-        Debug.Log(Constant.ClerkList.Count);
-
         for (int i = 0; i < Constant.ClerkList.Count; i++)
         {
-            Debug.Log(Constant.ClerkList[i].MinPayScale);
-
             if (Constant.ClerkList[i].Pay < Constant.ClerkList[i].MinPayScale)
             {
-                if (Constant.ClerkList[i].Stress < Constant.ClerkList[i].MinPayScale)
+                if (Constant.ClerkList[i].Stress < Constant.ClerkList[i].MaxStress)
                 {
                     Constant.ClerkList[i].Stress += (Constant.ClerkList[i].MinPayScale - Constant.ClerkList[i].Pay) / 100;
-                }
-                else
-                {
-                    if(Message != null)
-                    {
-                        Message += " ,";
-                    }
-
-                    Message += Constant.ClerkList[i].Name;
-
-                    Constant.ClerkList.RemoveAt(i); 
                 }
             }
             else if(Constant.ClerkList[i].Pay > Constant.ClerkList[i].MaxPayScale)
             {
                 if (Constant.ClerkList[i].Stress > 0)
                 {
-                    Constant.ClerkList[i].Stress -= (Constant.ClerkList[i].Pay - Constant.ClerkList[i].MaxPayScale) / 100;
+                    Constant.ClerkList[i].Stress -= (Constant.ClerkList[i].Pay - Constant.ClerkList[i].MaxPayScale) / 100; 
+                }
+            }
 
-                    if(Constant.ClerkList[i].Stress < 0)
+            if (Constant.ClerkList[i].Stress < 0)
+            {
+                Constant.ClerkList[i].Stress = 0;
+            }
+
+            if (i > 0)
+            {
+                if (Constant.ClerkList[i].Stress > Constant.ClerkList[i].MaxStress)
+                {
+                    if (Message != null)
                     {
-                        Constant.ClerkList[i].Stress = 0;
+                        Message += " ,";
                     }
+
+                    Message += Constant.ClerkList[i].Name;
+
+                    for (int k = 0; k < WorkingDay.Count; k++)
+                    {
+                        if (WorkingDay[k].Contains(Constant.ClerkList[i]))
+                        {
+                            WorkingDay[k].Remove(Constant.ClerkList[i]);
+                        }
+                    }
+
+                    Constant.ClerkList.RemoveAt(i);
                 }
             }
         }
@@ -88,9 +94,15 @@ public class EmployeeStressCon : EmployeeFire
         {
             for (int i = 0; i < Constant.ClerkList.Count; i++)
             {
-                if (WorkingDay[j].Contains(Constant.ClerkList[i]) == false)
+                if (WorkingDay[j].Contains(Constant.ClerkList[i]) == true)
                 {
-                    Constant.ClerkList[i].Stress--;
+                    if (i > 0)
+                    {
+                        if (Constant.ClerkList[i].PreferredDate.Contains((Day)j) == false)
+                        {
+                            Constant.ClerkList[i].Stress++;
+                        }
+                    }
                 }
             }
         }

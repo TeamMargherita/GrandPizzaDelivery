@@ -1,3 +1,4 @@
+using ClerkNS;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.SymbolStore;
@@ -9,6 +10,14 @@ public class EmployeeStressCon : EmployeeFire
     [SerializeField] bool isMorning = false;
 
     private static int nowDate = 0;
+
+    private void Awake()
+    {
+        if (Constant.NowDate == 1 && GameManager.Instance.time >= 32400 && GameManager.Instance.time > 32500)
+        {
+            nowDate = 0;
+        }
+    }
 
     private void Update()
     {

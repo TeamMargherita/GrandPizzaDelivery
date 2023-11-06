@@ -56281,6 +56281,8 @@ RectTransform:
   - {fileID: 10444077}
   - {fileID: 1796784886}
   - {fileID: 1183784916}
+  - {fileID: 902660200}
+  - {fileID: 1380018126}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -60890,6 +60892,62 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 901812222}
   m_CullTransparentMesh: 1
+--- !u!1 &902660199
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 902660200}
+  - component: {fileID: 902660201}
+  m_Layer: 5
+  m_Name: EmployeeStress
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &902660200
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 902660199}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 791406285}
+  m_RootOrder: 24
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &902660201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 902660199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6065f0284e1d6074f89d1f15d0759c84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FireWinParent: {fileID: 0}
+  FireWinBG: {fileID: 0}
+  EmployeeParent: {fileID: 0}
+  WorkDayWinParent: {fileID: 0}
+  isApear: 0
+  DayText: []
+  NoticeWin: {fileID: 1380018125}
+  isMorning: 0
 --- !u!1 &907522281
 GameObject:
   m_ObjectHideFlags: 0
@@ -76588,7 +76646,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1280032787}
   - component: {fileID: 1280032788}
-  - component: {fileID: 1280032789}
   m_Layer: 5
   m_Name: EmployeeRecruitWin
   m_TagString: Untagged
@@ -76655,26 +76712,6 @@ MonoBehaviour:
   - 
   - 
   preferedDateCount: 000000000000000000000000
---- !u!114 &1280032789
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1280032786}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6065f0284e1d6074f89d1f15d0759c84, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  FireWinParent: {fileID: 0}
-  FireWinBG: {fileID: 0}
-  EmployeeParent: {fileID: 0}
-  WorkDayWinParent: {fileID: 0}
-  isApear: 0
-  DayText: []
-  NoticeWin: {fileID: 1380018125}
-  isMorning: 0
 --- !u!1 &1281080054
 GameObject:
   m_ObjectHideFlags: 0
@@ -79151,8 +79188,8 @@ RectTransform:
   m_Children:
   - {fileID: 370611415}
   - {fileID: 509912449}
-  m_Father: {fileID: 1457395498}
-  m_RootOrder: 6
+  m_Father: {fileID: 791406285}
+  m_RootOrder: 25
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -82234,7 +82271,6 @@ RectTransform:
   - {fileID: 1850554136}
   - {fileID: 277024252}
   - {fileID: 1514415247}
-  - {fileID: 1380018126}
   m_Father: {fileID: 1188847974}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

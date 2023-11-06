@@ -34,6 +34,11 @@ public class Calculate : MonoBehaviour
             }
         }
 
+        for (int i = 0; i < EmployeeFire.WorkingDay[(int)Constant.NowDay].Count; i++)
+        {
+            Constant.ClerkMoney += EmployeeFire.WorkingDay[(int)Constant.NowDay][i].Pay;
+        }
+
         temMoney = GameManager.Instance.Money;
         temFine = Constant.Fine;
         temDept = Constant.Dept;
@@ -110,6 +115,8 @@ public class Calculate : MonoBehaviour
                 t2 += GameManager.Instance.Money;
                 GameManager.Instance.Money = 0;
             }
+
+
             while (t3 < Constant.ClerkMoney)
             {
                 contentsText.text = $"벌금 : {t1}원 \n소모된 피자 재료 값 : {t2}원 \n점원 일급 : {t3}원";

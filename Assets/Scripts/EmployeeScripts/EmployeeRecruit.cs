@@ -24,11 +24,16 @@ public class EmployeeRecruit : MonoBehaviour
     public Dictionary<int, List<Day>> preferedDay = new Dictionary<int, List<Day>>();
 
     private bool isMorning = false;
-
+    
     Tier tier = Tier.ONE;
 
     private void Awake()
     {
+        if (Constant.NowDate == 1 && GameManager.Instance.time >= 32400 && GameManager.Instance.time > 32500)
+        {
+            nowDate = 1;
+        }
+
         for (int i = 0; i < limitCount; i++)
         {
             preferedDay.Add(i, new List<Day>());

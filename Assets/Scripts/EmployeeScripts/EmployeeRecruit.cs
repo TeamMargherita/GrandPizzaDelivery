@@ -35,18 +35,22 @@ public class EmployeeRecruit : MonoBehaviour
         }
     }
 
+    private static int nowDate = 0;
+
     private void Update()
     {
-        ShowApplicant();
-
-        if (GameManager.Instance.time == 9 * 3600)
+        if (nowDate != Constant.NowDate)
         {
             isMorning = true;
+
+            nowDate = Constant.NowDate;
         }
         else
         {
             isMorning = false;
         }
+
+        ShowApplicant();
     }
 
     // 고용인원 스텟 표시 및 저장

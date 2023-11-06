@@ -285,7 +285,7 @@ public class InventoryManager : MonoBehaviour
             UIGunImage.GetComponent<Image>().color = Color.clear;
         else
         {
-            UIGunImage.GetComponent<Image>().sprite = GunEquipmentSlot.GetComponent<Image>().sprite;
+            UIGunImage.GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(Constant.GunInfo[Constant.nowGun[0]].Path)[0];
             UIGunImage.GetComponent<Image>().color = Color.white;
         }
     }

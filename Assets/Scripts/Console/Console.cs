@@ -13,56 +13,103 @@ public class Console : MonoBehaviour
     private List<string> time = new List<string>() { "Stop", "Play", "NextDay", "DarkDay" };
     private Dictionary<string, List<string>> ConsolDB = new Dictionary<string, List<string>>();
 
+    delegate void del();
+    del dl = null;
+
     private bool setActive = false;
+
+    [SerializeField] private Text[] ConsoleHistoryText;
     private void Awake()
     {
         ConsolDB.Add(Key[0], player);
         ConsolDB.Add(Key[1], time);
+        dl = () =>
+        {
+            if (mainInputField.text == "Player.AddMoney")
+            {
+                GameManager.Instance.Money += 1000000;
+                mainInputField.text = "";
+            }
+        };
+        dl += () => {
+            if (mainInputField.text == "Player.Dead")
+            {
+                PlayerStat.HP -= PlayerStat.MaxHP;
+                mainInputField.text = "";
+            }
+        };
+        dl += () =>
+        {
+            if (mainInputField.text == "Player.God")
+            {
+                PlayerStat.PlayerIsGod = true;
+                mainInputField.text = "";
+            }
+        };
+        dl += () => 
+        {
+            if (mainInputField.text == "Time.Stop")
+            {
+                Time.timeScale = 0;
+                mainInputField.text = "";
+            }
+        };
+        dl += () => 
+        {
+            if (mainInputField.text == "Time.Play")
+            {
+                Time.timeScale = 1;
+                mainInputField.text = "";
+            }
+        };
+        dl += () =>
+        {
+            if (mainInputField.text == "Time.NextDay")
+            {
+                GameManager.Instance.time = 14200;
+                mainInputField.text = "";
+                transform.GetChild(0).gameObject.SetActive(false);
+                setActive = false;
+            }
+        };
+        dl += () =>
+        {
+            if (mainInputField.text == "Time.DarkDay")
+            {
+                GameManager.Instance.time = 82800;
+                mainInputField.text = "";
+                transform.GetChild(0).gameObject.SetActive(false);
+                setActive = false;
+            }
+        };
+    }
+
+    void ConsoleHistoryTextUpdate()
+    {
+        for(int i = ConsoleHistoryText.Length - 1; i > 0; i--)
+        {
+            ConsoleHistoryText[i].text = ConsoleHistoryText[i - 1].text;
+        }
+        ConsoleHistoryText[0].text = mainInputField.text;
     }
     void InputConsole()
     {
         if (Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return))
         {
+            //mainInputField.Select();
             if (setActive)
             {
-                if (mainInputField.text == "Player.AddMoney")
+                if (ConsolDB.ContainsKey(firstString))
                 {
-                    GameManager.Instance.Money += 1000000;
-                    mainInputField.text = "";
-                }
-                else if (mainInputField.text == "Player.Dead")
-                {
-                    PlayerStat.HP -= PlayerStat.MaxHP;
-                    mainInputField.text = "";
-                }
-                else if (mainInputField.text == "Player.God")
-                {
-                    PlayerStat.PlayerIsGod = true;
-                    mainInputField.text = "";
-                }
-                else if (mainInputField.text == "Time.Stop")
-                {
-                    Time.timeScale = 0;
-                    mainInputField.text = "";
-                }
-                else if (mainInputField.text == "Time.Play")
-                {
-                    Time.timeScale = 1;
-                    mainInputField.text = "";
-                }
-                else if (mainInputField.text == "Time.NextDay")
-                {
-                    GameManager.Instance.time = 14200;
-                    mainInputField.text = "";
-                    transform.GetChild(0).gameObject.SetActive(false);
-                    setActive = false;
-                }
-                else if(mainInputField.text == "Time.DarkDay")
-                {
-                    GameManager.Instance.time = 82800;
-                    mainInputField.text = "";
-                    transform.GetChild(0).gameObject.SetActive(false);
-                    setActive = false;
+                    foreach(var i in ConsolDB[firstString])
+                    {
+                        if(mainInputField.text == firstString + i)
+                        {
+                            ConsoleHistoryTextUpdate();
+                            dl();
+                            break;
+                        }
+                    }
                 }
             }
 		}
@@ -72,6 +119,7 @@ public class Console : MonoBehaviour
     public void AutoText()
     {
         if (firstString == mainInputField.text) { index = 1; }
+        else if (mainInputField.text == "") { index = 1; }
         string key = "";
         if(index == 1)
         {
@@ -118,14 +166,27 @@ public class Console : MonoBehaviour
         }
     }
 
-    private void Update()
+    void ExplainPanelONOFF()
+    {
+        if (ExplainPanel.transform.GetChild(0).GetComponent<Text>().text.Length > 0)
+        {
+            ExplainPanel.SetActive(true);
+        }
+        else
+        {
+            ExplainPanel.SetActive(false);
+        }
+    }
+
+    void ConSolePanelONOFF()
     {
         if (Input.GetKeyDown(KeyCode.BackQuote) && !setActive)
         {
             transform.GetChild(0).gameObject.SetActive(true);
             setActive = true;
+            mainInputField.Select();
         }
-        else if(Input.GetKeyDown(KeyCode.BackQuote) && setActive)
+        else if (Input.GetKeyDown(KeyCode.BackQuote) && setActive)
         {
             transform.GetChild(0).gameObject.SetActive(false);
             setActive = false;
@@ -133,6 +194,11 @@ public class Console : MonoBehaviour
             firstString = "";
             index = 1;
         }
+    }
+    private void Update()
+    {
+        ConSolePanelONOFF();
+        ExplainPanelONOFF();
         InputConsole();
 	}
 }

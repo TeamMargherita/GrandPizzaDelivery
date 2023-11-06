@@ -237,34 +237,86 @@ public class EmployeeFire : MonoBehaviour
     {
         string EmployeeStat = null;
 
-        EmployeeStat += Constant.ClerkList[value - 1].Name + "\n";
-
         if (value > 0)
         {
+            EmployeeStat += Constant.ClerkList[value - 1].Name + "\n";
+
             pay[value - 1]++;
 
             for (int j = 0; j < 5; j++)
             {
-                EmployeeStat += Stat(value - 1, j) + "\n";
+                EmployeeStat += Stat(value - 1, j);
+
+                if (j == 0)
+                {
+                    EmployeeStat += "                     선호요일 : ";
+
+                    for (int k = 0; k < (int)Constant.ClerkList[value - 1].PreferredDateCount; k++)
+                    {
+                        if (k != (int)Constant.ClerkList[value - 1].PreferredDateCount - 1)
+                        {
+                            EmployeeStat += DayText[(int)Constant.ClerkList[value - 1].PreferredDate[k]] + ", ";
+                        }
+                        else
+                        {
+                            EmployeeStat += DayText[(int)Constant.ClerkList[value - 1].PreferredDate[k]];
+                        }
+                    }
+
+                    if ((int)Constant.ClerkList[value - 1].PreferredDateCount == 0)
+                    {
+                        EmployeeStat += "없음";
+                    } 
+                }
+
+                EmployeeStat += "\n";
             }
 
             EmployeeStat += "일급 :     " + (Constant.ClerkList[value - 1].Pay + pay[value - 1]).ToString() + "\n";
+
+            Debug.Log((value - 1) * 2 + 1);
 
             FireWinParent.GetChild((value - 1) * 2 + 1).GetChild(0).
                    GetComponent<Text>().text = EmployeeStat;
         }
         else if(value < 0)
         {
-            pay[(value + 1) * -1]--;
+            EmployeeStat += Constant.ClerkList[value * -1 - 1].Name + "\n";
+
+            pay[value * -1 - 1]--;
 
             for (int j = 0; j < 5; j++)
             {
-                EmployeeStat += Stat((value + 1) * -1, j) + "\n";
-            }
+                EmployeeStat += Stat(value * -1 - 1, j);
 
-            EmployeeStat += "일급 :     " + (Constant.ClerkList[(value + 1) * -1].Pay + pay[(value + 1) * -1]).ToString() + "\n";
+                if(j == 0)
+                {
+                    EmployeeStat += "                     선호요일 : ";
 
-            FireWinParent.GetChild(((value + 1) * -1) * 2 + 1).GetChild(0).
+                    for (int k = 0; k < (int)Constant.ClerkList[value * -1 - 1].PreferredDateCount; k++)
+                    {
+                        if (k != (int)Constant.ClerkList[value * -1 - 1].PreferredDateCount - 1)
+                        {
+                            EmployeeStat += DayText[(int)Constant.ClerkList[value * -1 - 1].PreferredDate[k]] + ", ";
+                        }
+                        else
+                        {
+                            EmployeeStat += DayText[(int)Constant.ClerkList[value * -1 - 1].PreferredDate[k]];
+                        }
+                    }
+
+                    if ((int)Constant.ClerkList[value * -1 - 1].PreferredDateCount == 0)
+                    {
+                        EmployeeStat += "없음";
+                    }
+                }
+
+                EmployeeStat += "\n";
+            } 
+
+            EmployeeStat += "일급 :     " + (Constant.ClerkList[value * -1 - 1].Pay + pay[value * -1 - 1]).ToString() + "\n";
+
+            FireWinParent.GetChild((value * -1 - 1) * 2 + 1).GetChild(0).
                    GetComponent<Text>().text = EmployeeStat;
         }
     }
@@ -411,23 +463,30 @@ public class EmployeeFire : MonoBehaviour
 
     public void SetWorkingDay(int value)
     {
-        if (WorkingDay[value].Contains(Constant.ClerkList[employeeValue]))
+        if (employeeValue != 0)
         {
-            if (WorkingDay[value].Count < 5)
+            if (WorkingDay[value].Contains(Constant.ClerkList[employeeValue]))
             {
-                WorkingDay[value].Remove(Constant.ClerkList[employeeValue]);
+                if (WorkingDay[value].Count < 5)
+                {
+                    WorkingDay[value].Remove(Constant.ClerkList[employeeValue]);
+                }
+                else
+                {
+                    NoticeMessage("한 요일에는 5명 이상의 사람들이 근무할 수 없습니다.");
+                }
+
             }
             else
             {
-                NoticeMessage("한 요일에는 5명 이상의 사람들이 근무할 수 없습니다.");
+                WorkingDay[value].Add(Constant.ClerkList[employeeValue]);
             }
 
+            SetEmployeeDay(employeeValue);
         }
         else
         {
-            WorkingDay[value].Add(Constant.ClerkList[employeeValue]);
+            NoticeMessage("피자가게에는 상주인원이 반드시 필요합니다!");
         }
-
-        SetEmployeeDay(employeeValue);
     }
 }

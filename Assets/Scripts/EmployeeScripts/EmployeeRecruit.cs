@@ -35,7 +35,7 @@ public class EmployeeRecruit : MonoBehaviour
         }
     }
 
-    private static int nowDate = 0;
+    public static int nowDate = 0;
 
     private void Update()
     {

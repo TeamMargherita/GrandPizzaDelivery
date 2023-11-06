@@ -133,7 +133,7 @@ public class SendDeliveryRequest : MonoBehaviour
         {
             if (RequestList.Count < 5)
                 time += Time.deltaTime;
-            if (time > 1)
+            if (time > 10)
             {
                 time = 0;
                 RandomCall();

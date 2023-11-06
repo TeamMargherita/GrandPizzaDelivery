@@ -6,26 +6,29 @@ using UnityEngine.UI;
 
 public class EmployeeStressCon : EmployeeFire
 {
-    [SerializeField] GameObject NoticeWin;
     [SerializeField] bool isMorning = false;
+
+    private static int nowDate = 0;
 
     private void Update()
     {
-        if (isMorning)
-        {
-            PayStress();
-            WorkStress();
-        }
-
-        if (EmployeeRecruit.nowDate != Constant.NowDate)
+        if (nowDate != Constant.NowDate)
         {
             isMorning = true;
 
-            EmployeeRecruit.nowDate = Constant.NowDate;
+            nowDate = Constant.NowDate;
         }
         else
         {
             isMorning = false;
+        }
+
+        Debug.Log(isMorning);
+
+        if (isMorning)
+        {
+            PayStress();
+            WorkStress();
         }
     }
 
@@ -33,13 +36,17 @@ public class EmployeeStressCon : EmployeeFire
     {
         string Message = null;
 
+        Debug.Log(Constant.ClerkList.Count);
+
         for (int i = 0; i < Constant.ClerkList.Count; i++)
         {
-            if(Constant.ClerkList[i].Pay < Constant.ClerkList[i].MinPayScale)
+            Debug.Log(Constant.ClerkList[i].MinPayScale);
+
+            if (Constant.ClerkList[i].Pay < Constant.ClerkList[i].MinPayScale)
             {
-                if (Constant.ClerkList[i].Stress < Constant.ClerkList[i].MaxStress)
+                if (Constant.ClerkList[i].Stress < Constant.ClerkList[i].MinPayScale)
                 {
-                    Constant.ClerkList[i].Stress += (Constant.ClerkList[i].MinPayScale - Constant.ClerkList[i].Pay);
+                    Constant.ClerkList[i].Stress += (Constant.ClerkList[i].MinPayScale - Constant.ClerkList[i].Pay) / 100;
                 }
                 else
                 {
@@ -57,7 +64,12 @@ public class EmployeeStressCon : EmployeeFire
             {
                 if (Constant.ClerkList[i].Stress > 0)
                 {
-                    Constant.ClerkList[i].Stress -= (Constant.ClerkList[i].Pay - Constant.ClerkList[i].MaxPayScale);
+                    Constant.ClerkList[i].Stress -= (Constant.ClerkList[i].Pay - Constant.ClerkList[i].MaxPayScale) / 100;
+
+                    if(Constant.ClerkList[i].Stress < 0)
+                    {
+                        Constant.ClerkList[i].Stress = 0;
+                    }
                 }
             }
         }

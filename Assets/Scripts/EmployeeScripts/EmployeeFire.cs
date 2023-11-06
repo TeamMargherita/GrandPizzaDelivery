@@ -241,7 +241,7 @@ public class EmployeeFire : MonoBehaviour
         {
             EmployeeStat += Constant.ClerkList[value - 1].Name + "\n";
 
-            pay[value - 1]++;
+            pay[value - 1] += 100;
 
             for (int j = 0; j < 5; j++)
             {
@@ -266,7 +266,7 @@ public class EmployeeFire : MonoBehaviour
                     if ((int)Constant.ClerkList[value - 1].PreferredDateCount == 0)
                     {
                         EmployeeStat += "없음";
-                    } 
+                    }
                 }
 
                 EmployeeStat += "\n";
@@ -278,46 +278,50 @@ public class EmployeeFire : MonoBehaviour
 
             FireWinParent.GetChild((value - 1) * 2 + 1).GetChild(0).
                    GetComponent<Text>().text = EmployeeStat;
+
         }
-        else if(value < 0)
+        else if (value < 0)
         {
-            EmployeeStat += Constant.ClerkList[value * -1 - 1].Name + "\n";
-
-            pay[value * -1 - 1]--;
-
-            for (int j = 0; j < 5; j++)
+            if (Constant.ClerkList[value * -1 - 1].Pay + pay[value * -1 - 1] >= 100)
             {
-                EmployeeStat += Stat(value * -1 - 1, j);
+                EmployeeStat += Constant.ClerkList[value * -1 - 1].Name + "\n";
 
-                if(j == 0)
+                pay[value * -1 - 1] -= 100;
+
+                for (int j = 0; j < 5; j++)
                 {
-                    EmployeeStat += "                     선호요일 : ";
+                    EmployeeStat += Stat(value * -1 - 1, j);
 
-                    for (int k = 0; k < (int)Constant.ClerkList[value * -1 - 1].PreferredDateCount; k++)
+                    if (j == 0)
                     {
-                        if (k != (int)Constant.ClerkList[value * -1 - 1].PreferredDateCount - 1)
+                        EmployeeStat += "                     선호요일 : ";
+
+                        for (int k = 0; k < (int)Constant.ClerkList[value * -1 - 1].PreferredDateCount; k++)
                         {
-                            EmployeeStat += DayText[(int)Constant.ClerkList[value * -1 - 1].PreferredDate[k]] + ", ";
+                            if (k != (int)Constant.ClerkList[value * -1 - 1].PreferredDateCount - 1)
+                            {
+                                EmployeeStat += DayText[(int)Constant.ClerkList[value * -1 - 1].PreferredDate[k]] + ", ";
+                            }
+                            else
+                            {
+                                EmployeeStat += DayText[(int)Constant.ClerkList[value * -1 - 1].PreferredDate[k]];
+                            }
                         }
-                        else
+
+                        if ((int)Constant.ClerkList[value * -1 - 1].PreferredDateCount == 0)
                         {
-                            EmployeeStat += DayText[(int)Constant.ClerkList[value * -1 - 1].PreferredDate[k]];
+                            EmployeeStat += "없음";
                         }
                     }
 
-                    if ((int)Constant.ClerkList[value * -1 - 1].PreferredDateCount == 0)
-                    {
-                        EmployeeStat += "없음";
-                    }
+                    EmployeeStat += "\n";
                 }
 
-                EmployeeStat += "\n";
-            } 
+                EmployeeStat += "일급 :     " + (Constant.ClerkList[value * -1 - 1].Pay + pay[value * -1 - 1]).ToString() + "\n";
 
-            EmployeeStat += "일급 :     " + (Constant.ClerkList[value * -1 - 1].Pay + pay[value * -1 - 1]).ToString() + "\n";
-
-            FireWinParent.GetChild((value * -1 - 1) * 2 + 1).GetChild(0).
-                   GetComponent<Text>().text = EmployeeStat;
+                FireWinParent.GetChild((value * -1 - 1) * 2 + 1).GetChild(0).
+                       GetComponent<Text>().text = EmployeeStat;
+            }
         }
     }
 
@@ -351,7 +355,7 @@ public class EmployeeFire : MonoBehaviour
         ShowFireWin();
     }
 
-    [SerializeField] GameObject NoticeWin;
+    [SerializeField] protected GameObject NoticeWin;
 
     void NoticeMessage(string Message)
     {

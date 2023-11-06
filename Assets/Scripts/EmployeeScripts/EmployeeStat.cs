@@ -34,6 +34,6 @@ public class EmployeeStat : MonoBehaviour
 
     private void Awake()
     {
-        Pay = Handy - (int)Agility + (int)Creativity + (int)Career + Random.Range(-10, 11);
+        Pay = (Handy - (int)Agility + (int)Creativity + (int)Career) * 100 + Random.Range(-1000, 1001);
     }
 }

@@ -35,7 +35,7 @@ public class EmployeeRecruit : MonoBehaviour
         }
     }
 
-    public static int nowDate = 0;
+    private static int nowDate = 0;
 
     private void Update()
     {
@@ -147,7 +147,7 @@ public class EmployeeRecruit : MonoBehaviour
                 result = employee.GetComponent<EmployeeStat>().CreativityStat[ChangeStatMark(Creativity[index])];
                 break;
             case 4:
-                Pay[index] = Handy[index] + Agility[index] + Creativity[index] + Career[index] + Random.Range(-10, 11);
+                Pay[index] = (Handy[index] + Agility[index] + Creativity[index] + Career[index]) * 100 + Random.Range(-1000, 1001);
 
                 result = Pay[index].ToString();
                 break;

@@ -7829,7 +7829,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2971789020282506780, guid: e6a66398b0928e5469c18e83ce576710, type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2971789020282506780, guid: e6a66398b0928e5469c18e83ce576710, type: 3}
       propertyPath: m_AnchorMax.x
@@ -37971,7 +37971,7 @@ RectTransform:
   m_Children:
   - {fileID: 539893974}
   m_Father: {fileID: 791406285}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -51401,7 +51401,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 791406285}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -56261,6 +56261,7 @@ RectTransform:
   - {fileID: 1862523259}
   - {fileID: 512403449}
   - {fileID: 973720032}
+  - {fileID: 1451859058}
   - {fileID: 2110865186}
   - {fileID: 862639303}
   - {fileID: 324818749}
@@ -56269,7 +56270,6 @@ RectTransform:
   - {fileID: 167484684}
   - {fileID: 1520679754}
   - {fileID: 653502720}
-  - {fileID: 1451859058}
   - {fileID: 470240755}
   - {fileID: 1300454607}
   - {fileID: 1041044915}
@@ -58540,7 +58540,7 @@ RectTransform:
   m_Children:
   - {fileID: 2008907441}
   m_Father: {fileID: 791406285}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -69747,7 +69747,7 @@ RectTransform:
   m_Children:
   - {fileID: 916742495}
   m_Father: {fileID: 791406285}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -76674,7 +76674,6 @@ MonoBehaviour:
   isApear: 0
   DayText: []
   NoticeWin: {fileID: 1380018125}
-  NoticeWin: {fileID: 1380018125}
   isMorning: 0
 --- !u!1 &1281080054
 GameObject:
@@ -81680,6 +81679,7 @@ GameObject:
   - component: {fileID: 1451859058}
   - component: {fileID: 1451859060}
   - component: {fileID: 1451859059}
+  - component: {fileID: 1451859061}
   m_Layer: 5
   m_Name: PineapplePanel
   m_TagString: Untagged
@@ -81701,7 +81701,7 @@ RectTransform:
   - {fileID: 1480100655}
   - {fileID: 609723519}
   m_Father: {fileID: 791406285}
-  m_RootOrder: 12
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -81746,6 +81746,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1451859057}
   m_CullTransparentMesh: 1
+--- !u!114 &1451859061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1451859057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 985eb13d8fe967c4698e5a6fefff4a7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: {fileID: 216163593}
 --- !u!1 &1452188119
 GameObject:
   m_ObjectHideFlags: 0
@@ -84862,7 +84875,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 791406285}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -99074,7 +99087,7 @@ MonoBehaviour:
   Menu: {fileID: 1448629343}
   PizzaInventory: {fileID: 1989879981}
   InventoryManager: {fileID: 32887005}
-  SDR: {fileID: 0}
+  SDR: {fileID: 1884514280}
 --- !u!4 &1930384848
 Transform:
   m_ObjectHideFlags: 0
@@ -100540,7 +100553,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4261749777833074856, guid: 681e259147c5b1e4faaae98330ca1555, type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 4261749777833074856, guid: 681e259147c5b1e4faaae98330ca1555, type: 3}
       propertyPath: m_AnchorMax.x
@@ -106195,7 +106208,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5428313802742270298, guid: 098decd66950fd741adcf439d13fefb7, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5428313802742270298, guid: 098decd66950fd741adcf439d13fefb7, type: 3}
       propertyPath: m_AnchorMax.x

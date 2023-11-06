@@ -52,7 +52,7 @@ public class House : MonoBehaviour, IAddress, IHouse, IActiveHouse
         goalObj.transform.position += vec;
         activeObj.transform.position += vec;
 
-        if (Constant.NowDate == 1)
+        if (Constant.NowDate == 1 && GameManager.Instance.time >= 32400 && GameManager.Instance.time <= 32500)
         {
             activeColor = new Color(248 / 255f, 70 / 255f, 6 / 255f);
         }

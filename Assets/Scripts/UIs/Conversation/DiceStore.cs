@@ -60,7 +60,7 @@ public class DiceStore : Conversation , ICloseStore
 			"(주사위 합 8 이상)한번 해보겠습니다."	// 38
 		};
 
-		if (Constant.NowDate == 1)
+		if (Constant.NowDate == 1 && GameManager.Instance.time >= 32400 && GameManager.Instance.time <= 32500)
         {
 			IsOneDayDiceStore = false;
 		}

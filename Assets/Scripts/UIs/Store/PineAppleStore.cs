@@ -59,7 +59,7 @@ public class PineAppleStore : Conversation
 			"(°£´Ù)"	// 41
 		};
 
-		if (Constant.NowDate == 1)
+		if (Constant.NowDate == 1 && GameManager.Instance.time >= 32400 && GameManager.Instance.time <= 32500)
         {
 			isFirstTime = true;
 			isFineapple = true;

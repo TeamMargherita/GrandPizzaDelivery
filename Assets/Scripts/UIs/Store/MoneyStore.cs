@@ -81,7 +81,7 @@ public class MoneyStore : Conversation
 			"(첫 대화로 돌아간다.)알겠습니다.",	// 56
         };
 
-		if (Constant.NowDate == 1)
+		if (Constant.NowDate == 1 && GameManager.Instance.time >= 32400 && GameManager.Instance.time <= 32500)
         {
 			IsTalk = false;
 			StartSonQuest = false;

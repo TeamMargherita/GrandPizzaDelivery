@@ -57,8 +57,8 @@ public class LoadScene : MonoBehaviour
     }
     public void LoadS(string str)
 	{
-		SceneManager.LoadScene(str);
         oneTimeMethod = false;
+        SceneManager.LoadScene(str);
 	}
 	public void LoadRhythm()
 	{

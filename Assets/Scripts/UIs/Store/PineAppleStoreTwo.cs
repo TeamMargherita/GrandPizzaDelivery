@@ -51,7 +51,7 @@ public class PineAppleStoreTwo : Conversation
 			"(간다.)알겠습니다. 다음에 뵙겠습니다."	// 35
 		};
 
-		if (Constant.NowDate == 1)
+		if (Constant.NowDate == 1 && GameManager.Instance.time >= 32400 && GameManager.Instance.time <= 32500)
         {
 			isPineapple = true;
 			isContract = false;

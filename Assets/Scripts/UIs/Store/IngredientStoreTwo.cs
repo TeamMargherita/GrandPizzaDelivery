@@ -69,7 +69,7 @@ public class IngredientStoreTwo : Conversation
 		text11 = NpcTextStrArr[11];
 		text12 = NpcTextStrArr[12];
 
-		if (Constant.NowDate == 1)
+		if (Constant.NowDate == 1 && GameManager.Instance.time >= 32400 && GameManager.Instance.time <= 32500)
         {
 			IsTalk = false;
 			IsGalicQuest = false;

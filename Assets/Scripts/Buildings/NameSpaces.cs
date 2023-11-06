@@ -140,17 +140,25 @@ namespace PizzaNS
         public struct CustomerS
         {
             //public List<Ingredient> IngredList;  //선호 재료
-            public int PizzaCutLine;    //피자 완성도 커트라인
-            public float PizzaDeliverySpeed;    // 피자 배달 속도
-            public int PizzaState;  // 피자 식은 정도
-            public int PizzaCarismaCutLine; // 피자 매력도 커트라인
+            public int PizzaCutLine;    //피자 완성도 커트라인   15퍼
+            public float PizzaDeliverySpeed;    // 피자 배달 속도 15퍼
+            public int PizzaCarismaCutLine; // 피자 매력도 커트라인  20퍼
+            public List<Ingredient> IngList;    // 선호 피자 재료 50퍼 (재료당 10퍼)
+            public int MoneyPower;  // 재산 수준
 
-            public CustomerS(int pizzaCutLine, float pizzaDeliverySpeed, int pizzaState, int pizzaCarismaCutLine)
+            public CustomerS(int pizzaCutLine, float pizzaDeliverySpeed, int pizzaCarismaCutLine, List<Ingredient> ingList, int moneyPower)
             {
+                IngList = new List<Ingredient>();
                 PizzaCutLine = pizzaCutLine;
                 PizzaDeliverySpeed = pizzaDeliverySpeed;
-                PizzaState = pizzaState;
                 PizzaCarismaCutLine = pizzaCarismaCutLine;
+
+                for (int i = 0; i < ingList.Count; i++)
+                {
+                    IngList.Add(ingList[i]);
+                }
+
+                MoneyPower = moneyPower;
             }
             //public CustomerS(int pizzaCutLine, List<Ingredient> ingredList)
             //{

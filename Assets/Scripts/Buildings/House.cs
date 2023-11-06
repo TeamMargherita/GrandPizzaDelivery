@@ -24,6 +24,7 @@ public class House : MonoBehaviour, IAddress, IHouse, IActiveHouse
     private IDeliveryPanelControl iDeliveryPanelControl;
     private IHouseActiveUIControl iHouseActiveUIControl;
 
+    private List<Ingredient> temIng;
     private HouseType houseType;
 
     private Color houseColor;
@@ -55,7 +56,7 @@ public class House : MonoBehaviour, IAddress, IHouse, IActiveHouse
             activeColor = new Color(248 / 255f, 70 / 255f, 6 / 255f);
         }
 
-        customerS = new CustomerS(Random.Range(1, 101), Random.Range(60, 240), Random.Range(0, 4), Random.Range(200, 2000));
+        //customerS = new CustomerS(Random.Range(1, 101), Random.Range(60, 240), Random.Range(200, 2000));
         activeObj.GetComponent<HouseActiveCheck>().SetIActiveHouse(this);
         houseType = HouseType.HOUSE;
         SetCustomer();
@@ -65,16 +66,22 @@ public class House : MonoBehaviour, IAddress, IHouse, IActiveHouse
     /// </summary>
     private void SetCustomer()
     {
-        List<Ingredient> ing = new List<Ingredient>();
+        temIng = new List<Ingredient>();
         int r = 0;
-        while (ing.Count < 2)
+        while (temIng.Count < 5)
         {
             r = Random.Range(0, System.Enum.GetValues(typeof(Ingredient)).Length);
-            if (ing.FindIndex(a => a.Equals((Ingredient)r)) == -1 && r != 0)
+            if (temIng.FindIndex(a => a.Equals((Ingredient)r)) == -1 && r != 0)
             {
-                ing.Add((Ingredient)r);
+                temIng.Add((Ingredient)r);
             }
         }
+
+        int pizzaCutline = Random.Range(0,101);
+        float pizzaSpeed = Random.Range(30f, 120f);
+        int pizzaCarismaCutline = Random.Range(200, 2000);
+        int moneyPower = (int)(Random.Range(1, 10f) * Mathf.Pow(10, Constant.PizzaStoreStar));
+        customerS = new CustomerS(pizzaCutline, pizzaSpeed, pizzaCarismaCutline, temIng, moneyPower);
     }
     /// <summary>
     /// 주소 초기화
@@ -115,11 +122,50 @@ public class House : MonoBehaviour, IAddress, IHouse, IActiveHouse
     public void DisableHouse(Pizza pizza)
 	{
         // 전달받은 피자를 손님의 취향과 비교해서 팁을 얼마나 줄지 정하고, 평점을 얼마나 줄지 정한다.
+        AddTip(pizza);
         spriteRenderer.color = houseColor;
         isEnable = false;
         goalObj.SetActive(false);
         spendingTime = iMap.RemoveAddress(houseAddress);
 	}
+
+    private void AddTip(Pizza pizza)
+    {
+        int tip = 0;
+        int percent = 0;
+        if (customerS.PizzaCutLine > pizza.Perfection)
+        {
+            percent += 15;
+        }
+        if (customerS.PizzaDeliverySpeed > spendingTime)
+        {
+            percent += 15;
+        }
+        if (customerS.PizzaCarismaCutLine > pizza.Charisma)
+        {
+            percent += 20;
+        }
+        for (int i = 0; i < customerS.IngList.Count; i++)
+        {
+            if (pizza.Ingreds.FindIndex(a => a.Equals(customerS.IngList[i])) != -1)
+            {
+                percent += 10;
+            }
+        }
+
+        tip = (int)(customerS.MoneyPower * (percent * 0.01f));
+
+        GameManager.Instance.Money += tip;
+
+        if (tip < 40)
+        {
+            Constant.PizzaStoreStar += -0.001f * tip;
+        }
+        else
+        {
+            Constant.PizzaStoreStar += 0.001f * (tip - 40);
+        }
+    }
 
     public void EndDeliveryDisableHouse()
     {

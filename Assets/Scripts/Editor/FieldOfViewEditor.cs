@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 // 한석호 작성
 
@@ -28,6 +30,5 @@ public class FieldOfViewEditor : Editor
 		{
 			Handles.DrawLine(fow.transform.position, visibleTarget.position);
 		}
-
 	}
 }

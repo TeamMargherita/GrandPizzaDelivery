@@ -29,6 +29,7 @@ public class DeliveryScreen : MonoBehaviour
                     {
                         AcceptB[i].SetActive(true);
                         MyChildFaceImage[i].SetActive(true);
+                        MyChildRefreshB[i].SetActive(false);
                         MyChildFaceImage[i].GetComponent<RawImage>().color = Color.white;
                     }
                     else

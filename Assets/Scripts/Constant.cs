@@ -103,7 +103,8 @@ public static class Constant
 		new GunS(LoadEnum.AUTO, 0.9f, 20, 100, 30, 3, "UI/KressVictor_240_120"),
 		new GunS(LoadEnum.AUTO, 0.65f, 10, 100, 30, 3, "UI/ThimpsonSMG_240_120")
    };
-		nowGun = new int[1] { -1 };
+		NowGun = new int[1] { -1 };
+		IsHospital = false;
 	}
 	/// <summary>
 	/// 빚
@@ -367,5 +368,9 @@ public static class Constant
 	/// <summary>
 	/// 현재 착용한 총. -1은 미착용 상태를 의미함.
 	/// </summary>
-	public static int[] nowGun = new int[1] { -1 };
+	public static int[] NowGun = new int[1] { -1 };
+	/// <summary>
+	/// 병원에서 부활해야하는 지 여부
+	/// </summary>
+	public static bool IsHospital = false;
 }

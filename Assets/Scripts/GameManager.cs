@@ -79,6 +79,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1;
         Time.fixedDeltaTime = Time.timeScale * 0.02f;
         LoadScene.Instance.LoadNextDay(true);
+        HospitalRespawn();
         isDarkDelivery = false;
         time = 32400;
     }
@@ -90,8 +91,9 @@ public class GameManager : MonoBehaviour
     }
 
     public void HospitalRespawn()
-    { 
+    {
         //석호에게 주는 선물
+        Constant.IsHospital = true;
     }
     private void TimeSkip()
     {

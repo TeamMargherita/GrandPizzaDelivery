@@ -43,15 +43,21 @@ public class PlayerMove : PlayerStat
         gunMethod.WallHitEffect = WallHitEffect;
         gunMethod.Hand = Hand;
         FireAudio = GetComponent<AudioSource>();
+
+        if (Constant.IsHospital) 
+        {
+            Constant.IsHospital = false;
+            this.transform.position = new Vector3(6, 23);
+        }
     }
 
     void PlayerFire()
     {
         if(CurrentMagagine > 0)
         {
-            if(Constant.nowGun[0] != -1)
+            if(Constant.NowGun[0] != -1)
             {
-                if (gunMethod.Fire(1 - Constant.GunInfo[Constant.nowGun[0]].Speed, Constant.GunInfo[Constant.nowGun[0]].Damage))
+                if (gunMethod.Fire(1 - Constant.GunInfo[Constant.NowGun[0]].Speed, Constant.GunInfo[Constant.NowGun[0]].Damage))
                 {
                     Instantiate(ammoEffect, Gun.transform.position, Hand.transform.rotation);
                     CurrentMagagine -= 1;
@@ -63,13 +69,13 @@ public class PlayerMove : PlayerStat
         else
         {
             Hand.SetActive(false);
-            if (Constant.nowGun[0] != -1)
+            if (Constant.NowGun[0] != -1)
             {
                 reloadTime += Time.deltaTime;
-                if (Constant.GunInfo[Constant.nowGun[0]].ReloadSpeed <= reloadTime)
+                if (Constant.GunInfo[Constant.NowGun[0]].ReloadSpeed <= reloadTime)
                 {
                     reloadTime = 0;
-                    CurrentMagagine = Constant.GunInfo[Constant.nowGun[0]].Magazine;
+                    CurrentMagagine = Constant.GunInfo[Constant.NowGun[0]].Magazine;
                     gunMethod.time = 100;
                     FireAudio.PlayOneShot(ReloadAudioClip);
                 }

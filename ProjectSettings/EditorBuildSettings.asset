@@ -29,4 +29,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/DateScene.unity
     guid: f04ce80b7456b054cbedf466ce3c1ece
+  - enabled: 1
+    path: Assets/Scenes/EndingScene.unity
+    guid: c442b419ecf07a4438f2501caebe2b53
   m_configObjects: {}

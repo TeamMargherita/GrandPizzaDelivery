@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+// 한석호 작성
 public class Calculate : MonoBehaviour
 {
     [SerializeField] private Text contentsText;
@@ -444,6 +444,15 @@ public class Calculate : MonoBehaviour
     public void GoInGame()
     {
         PlayerStat.HP = PlayerStat.MaxHP;
-        LoadScene.Instance.ActiveTrueFade("DateScene");
+        GameManager.Instance.time = 32400;
+
+        if (Constant.NowDate != 8)
+        {
+            LoadScene.Instance.ActiveTrueFade("DateScene");
+        }
+        else
+		{
+            LoadScene.Instance.ActiveTrueFade("EndingScene");
+		}
     }
 }

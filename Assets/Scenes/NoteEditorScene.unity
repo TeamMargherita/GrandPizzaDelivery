@@ -4273,6 +4273,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1546192685}
     - target: {fileID: 6634236408629544170, guid: 4660bf51ef171ce44825f9935438f472, type: 3}
+      propertyPath: BarInterval
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 6634236408629544170, guid: 4660bf51ef171ce44825f9935438f472, type: 3}
       propertyPath: Lines.Array.size
       value: 2
       objectReference: {fileID: 0}

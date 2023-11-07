@@ -310,6 +310,7 @@ public class Conversation
 	/// <param name="ind"></param>
 	public void NextText(int ind)
 	{
+		Debug.Log($"Constant.Dept {Constant.Dept}");
 		List<TextNodeC> tem = TextList.FindAll(a => a.NowTextNum == ind);
 		
 		int index2 = -1;

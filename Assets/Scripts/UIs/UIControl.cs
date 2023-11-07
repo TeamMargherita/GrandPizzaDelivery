@@ -473,6 +473,10 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
                     iStop.StopMap(true);
                     ControlConversationUI(true, null, 10);
                     break;
+                case HouseType.MONEYSTORETWO:
+                    iStop.StopMap(true);
+                    ControlConversationUI(true, null, 11);
+                    break;
             }
         }
     }

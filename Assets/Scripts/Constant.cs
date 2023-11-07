@@ -76,7 +76,10 @@ public static class Constant
 
 		PineappleCount.nowDate = 0;
 
-		Dept = 0;
+		EmployeeRecruit.RecruitClerk = new ClerkC[3];
+		EmployeeRecruit.IsRecruited = new bool[3] { false, false, false };
+
+	Dept = 0;
 		PayMoneyDate = PayMoneyDate = new Dictionary<int, Dictionary<int, int>>() { { 1, new Dictionary<int, int>() { { 1, 20000000 } } } };
 		DeptMulitplex = new float[2] { 1.1f, 1.05f };
 		MoneyStoreCode = new int[2] { 0, 1 };

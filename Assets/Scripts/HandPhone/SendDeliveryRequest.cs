@@ -5,12 +5,12 @@ using UnityEngine;
 public class SendDeliveryRequest : MonoBehaviour
 {
     //주문리스트
-    public List<Request> RequestList = new List<Request>();
+    public static List<Request> RequestList = new List<Request>();
     [SerializeField] private GameObject DarkDeliveryOKPanel;
     [SerializeField] private GameObject EndDeliveryOKPanel;
     [SerializeField] private Minimap minimap;
     private float time = 0;
-    
+
     public int SumChrisma()
     {
         int sumChrisma = 0;

@@ -41,5 +41,5 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats: []
     m_Colors:
-    - _GlowColor: {r: 766.9961, g: 766.9961, b: 766.9961, a: 0}
+    - _GlowColor: {r: 196351, g: 196351, b: 196351, a: 0}
   m_BuildTextureStacks: []

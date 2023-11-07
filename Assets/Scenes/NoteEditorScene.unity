@@ -343,6 +343,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BGSound
       objectReference: {fileID: 0}
+    - target: {fileID: 3998123421187157515, guid: f89a4abdf4ef9624e95faba4ae634923, type: 3}
+      propertyPath: m_Volume
+      value: 0.412
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f89a4abdf4ef9624e95faba4ae634923, type: 3}
 --- !u!1 &220164246
@@ -1341,8 +1345,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3489562485681704539, guid: cce559ef0d4fcbe4ea06e3b7f576ddf8, type: 3}
       propertyPath: m_Volume
-      value: 0.5
+      value: 0.389
       objectReference: {fileID: 0}
+    - target: {fileID: 3489562485681704539, guid: cce559ef0d4fcbe4ea06e3b7f576ddf8, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 1813d7a4f0f815149b820c8ef32aaac2, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cce559ef0d4fcbe4ea06e3b7f576ddf8, type: 3}
 --- !u!1 &872059073
@@ -4100,12 +4108,20 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1044286199950050072, guid: a83cc78eea476dd48b0a466ead8e257d, type: 3}
       propertyPath: Title
-      value: River Crossing
+      value: Pluck It Up
       objectReference: {fileID: 0}
     - target: {fileID: 1044286199950050072, guid: a83cc78eea476dd48b0a466ead8e257d, type: 3}
       propertyPath: AudioClip
       value: 
-      objectReference: {fileID: 8300000, guid: 0a02c2afe76ba6d419faef0957db5ce0, type: 3}
+      objectReference: {fileID: 8300000, guid: efbccec9e0e570445bf9e09550101a0d, type: 3}
+    - target: {fileID: 1044286199950050072, guid: a83cc78eea476dd48b0a466ead8e257d, type: 3}
+      propertyPath: IsRhythmGuide
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1044286199950050072, guid: a83cc78eea476dd48b0a466ead8e257d, type: 3}
+      propertyPath: IsSelectGuide
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1044286199950050072, guid: a83cc78eea476dd48b0a466ead8e257d, type: 3}
       propertyPath: ClearKeys.Array.size
       value: 4

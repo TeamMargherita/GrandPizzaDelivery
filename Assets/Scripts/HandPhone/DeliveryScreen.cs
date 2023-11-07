@@ -18,14 +18,14 @@ public class DeliveryScreen : MonoBehaviour
     //배달앱 텍스트 업데이트
     public void TextUpdate()
     {
-        if(SDR.RequestList.Count > 0)
+        if(SendDeliveryRequest.RequestList.Count > 0)
         {
             for (int i = 0; i < 5; i++)
             {
-                if (i < SDR.RequestList.Count)
+                if (i < SendDeliveryRequest.RequestList.Count)
                 {
-                    RequestTextList[i].text = SDR.RequestList[i].Pizza.Name;
-                    if (!SDR.RequestList[i].Accept)
+                    RequestTextList[i].text = SendDeliveryRequest.RequestList[i].Pizza.Name;
+                    if (!SendDeliveryRequest.RequestList[i].Accept)
                     {
                         AcceptB[i].SetActive(true);
                         MyChildFaceImage[i].SetActive(true);
@@ -69,11 +69,11 @@ public class DeliveryScreen : MonoBehaviour
     public void OnClickAccept(int i)//피자주문수락버튼클릭
     {
         AcceptB[i].SetActive(false);
-        SDR.RequestList[i].Accept = true;
-        SDR.RequestList[i].AddressS = Map.GetRandAddressS();
-        SDR.RequestList[i].AddressS.IHouse.EnableHouse();
-        Minimap.CreateDestination(SDR.RequestList[i]);
-        ma.AddRequestPizza(SDR.RequestList[i]);
+        SendDeliveryRequest.RequestList[i].Accept = true;
+        SendDeliveryRequest.RequestList[i].AddressS = Map.GetRandAddressS();
+        SendDeliveryRequest.RequestList[i].AddressS.IHouse.EnableHouse();
+        Minimap.CreateDestination(SendDeliveryRequest.RequestList[i]);
+        ma.AddRequestPizza(SendDeliveryRequest.RequestList[i]);
         MyChildRefreshB[i].SetActive(true);
     }
     
@@ -82,11 +82,11 @@ public class DeliveryScreen : MonoBehaviour
         MyChildRefreshB[i].SetActive(false);
         AcceptB[i].SetActive(false);
         RequestTextList[i].text = "";
-        SDR.RequestList.RemoveAt(i);
+        SendDeliveryRequest.RequestList.RemoveAt(i);
     }
 
     public void OnClickAddRequestPizza(int i)
     {
-        ma.AddRequestPizza(SDR.RequestList[i]);
+        ma.AddRequestPizza(SendDeliveryRequest.RequestList[i]);
     }
 }

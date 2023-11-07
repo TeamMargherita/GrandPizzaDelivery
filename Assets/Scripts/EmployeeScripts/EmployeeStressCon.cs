@@ -105,7 +105,6 @@ public class EmployeeStressCon : EmployeeFire
         {
             for (int i = 0; i < Constant.ClerkList.Count; i++)
             {
-                Debug.Log(WorkingDay.Count);
                 if (WorkingDay[j].Contains(Constant.ClerkList[i]) == true)
                 {
                     if (i > 0)

@@ -62,6 +62,7 @@ public class Map : MonoBehaviour, IMap, IStop
         houseAddressList[144].IHouse.SetHouseType(houseMarkArr[3], HouseType.INGREDIENTSTORETWO);
         houseAddressList[119].IHouse.SetHouseType(houseMarkArr[6], HouseType.LUCKYSTORE);
         houseAddressList[165].IHouse.SetHouseType(houseMarkArr[7], HouseType.MONEYSTORE);
+        houseAddressList[190].IHouse.SetHouseType(houseMarkArr[7], HouseType.MONEYSTORETWO);
         // 경찰차를 생성한다.
         MakeAPoliceCar(45);
     }

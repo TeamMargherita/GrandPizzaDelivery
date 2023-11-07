@@ -15,10 +15,10 @@ public class EmployeeFire : MonoBehaviour
 
     protected void Awake()
     {
-        if (Constant.NowDate == 1 && GameManager.Instance.time >= 32400 && GameManager.Instance.time > 32500)
-        {
-            WorkingDay = new Dictionary<int, List<ClerkC>>();
-        }
+        //if (Constant.NowDate == 1 && GameManager.Instance.time >= 32400 && GameManager.Instance.time > 32500)
+        //{
+        //    WorkingDay = new Dictionary<int, List<ClerkC>>();
+        //}
 
         SetEmployee();
         Debug.Log("작동");

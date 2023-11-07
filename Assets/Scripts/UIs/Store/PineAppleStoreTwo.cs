@@ -51,12 +51,12 @@ public class PineAppleStoreTwo : Conversation
 			"(간다.)알겠습니다. 다음에 뵙겠습니다."	// 35
 		};
 
-		if (Constant.NowDate == 1 && GameManager.Instance.time >= 32400 && GameManager.Instance.time <= 32500)
-        {
-			isPineapple = true;
-			isContract = false;
-			isMeet = false;
-		}
+		//if (Constant.NowDate == 1 && GameManager.Instance.time >= 32400 && GameManager.Instance.time <= 32500)
+  //      {
+		//	isPineapple = true;
+		//	isContract = false;
+		//	isMeet = false;
+		//}
 
 		TextList = new List<TextNodeC>();
 		InitTextList();
@@ -130,7 +130,7 @@ public class PineAppleStoreTwo : Conversation
 		else if (temInt == 7)
 		{
 			isPineapple = false;
-			Constant.PineappleCount++;
+			Constant.PineAppleCount++;
 			GameManager.Instance.Money -= 550000;
 			index = Findidx(7, new int[1] { 10 });
 		}
@@ -165,7 +165,7 @@ public class PineAppleStoreTwo : Conversation
 		else if (temInt == 35)
 		{
 			isPineapple = false;
-			Constant.PineappleCount++;
+			Constant.PineAppleCount++;
 			SettingConversation(TextList.FindIndex(a => a.NowTextNum == 35));
 			index = -100;
 		}

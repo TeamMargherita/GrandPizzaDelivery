@@ -6,7 +6,7 @@ public class FineMessage : MonoBehaviour
 {
     [SerializeField] private UnityEngine.UI.Text text;
 
-    private static Color minusColor = new Color(0, 0, 0, 0.1f / 255f);
+    public static Color minusColor = new Color(0, 0, 0, 0.1f / 255f);
 
     private UnityEngine.UI.Image img;
     public void Awake()

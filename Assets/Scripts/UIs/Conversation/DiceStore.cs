@@ -8,7 +8,7 @@ public class DiceStore : Conversation , ICloseStore
 {
 	public static bool IsOneDayDiceStore = false;
 
-	private static int NowDate = 1;
+	public static int NowDate = 1;
 
 	private int diceLuck = -1;
 	private int itemSumCost = -1;
@@ -60,10 +60,10 @@ public class DiceStore : Conversation , ICloseStore
 			"(주사위 합 8 이상)한번 해보겠습니다."	// 38
 		};
 
-		if (Constant.NowDate == 1 && GameManager.Instance.time >= 32400 && GameManager.Instance.time <= 32500)
-        {
-			IsOneDayDiceStore = false;
-		}
+		//if (Constant.NowDate == 1 && GameManager.Instance.time >= 32400 && GameManager.Instance.time <= 32500)
+  //      {
+		//	IsOneDayDiceStore = false;
+		//}
 
 		if (Constant.NowDate == 1 || NowDate != Constant.NowDate)
         {

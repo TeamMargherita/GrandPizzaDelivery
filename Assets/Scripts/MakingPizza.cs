@@ -11,9 +11,11 @@ public class MakingPizza : MonoBehaviour, IResetPizzaMaking
     [SerializeField] private GameObject[] makingPizzaPanelArr; // 만들고 있는, 혹은 만든 피자를 보여주기 위한 패널들
     [SerializeField] private GameObject uiControl;
 
-    private List<Request> pizzaRequestList = new List<Request>();   // 만들어야할 피자 리스트
+    public static List<Request> pizzaRequestList = new List<Request>();   // 만들어야할 피자 리스트
 
-    public List<Pizza> CompletePizzaList = new List<Pizza>();  // 완성된 피자 리스트
+    public static List<Pizza> CompletePizzaList = new List<Pizza>();  // 완성된 피자 리스트
+    public static int MakeTimeIndex = 0;
+    public static bool IsSaveIndex = false;
 
     private RectTransform[] makingPizzaPanelRect;
     private MakingPizzaPanel[] makingPizzaPanelClass;
@@ -26,10 +28,22 @@ public class MakingPizza : MonoBehaviour, IResetPizzaMaking
 	{
         //Constant.ClerkList.Add(new ClerkC(47, Tier.THREE, Tier.ONE, Tier.FOUR, 0, 20000));  // 임의로 점원 생성
         iAlarmMessagePanel = uiControl.GetComponent<IAlarmMessagePanel>();
+        IsSaveIndex = false;
         InitArr();
     }
 	void Start()
     {
+        for (int j = 0; j < CompletePizzaList.Count; j++)
+        {
+            makingPizzaPanelArr[j].SetActive(true);
+
+            makingPizzaPanelRect[j].localPosition -= new Vector3(0, 140 * (j + 1));
+            makingPizzaPanelClass[j].SetMainPanelRect(100f);
+            makingPizzaPanelClass[j].SetPizza(CompletePizzaList[j]);
+
+        }
+
+
         makingPizzaCoroutine = StartCoroutine(Making());
     }
     /// <summary>
@@ -91,11 +105,12 @@ public class MakingPizza : MonoBehaviour, IResetPizzaMaking
 
             Constant.PizzaIngMoney += pizzaRequestList[0].Pizza.ProductionCost;
             // 피자 만드는데 걸리는 시간을 계산한다.
-            makeTime = 345;
-            for (int i = 0; i < EmployeeStressCon.WorkingDay[(int)Constant.NowDate].Count; i++)
+            makeTime = 120;
+            for (int i = 0; i < EmployeeStressCon.WorkingDay[(int)Constant.NowDay].Count; i++)
             {
                 //makeTime -= (60 + (int)Constant.ClerkList[i].Agility);
-                makeTime -= (60 + (int)EmployeeStressCon.WorkingDay[(int)Constant.NowDate][i].Agility);
+                makeTime -= (15 + (int)EmployeeStressCon.WorkingDay[(int)Constant.NowDay][i].Agility);
+                Debug.Log(makeTime);
             }
             // 돈이 빠져나간다.
 
@@ -121,8 +136,9 @@ public class MakingPizza : MonoBehaviour, IResetPizzaMaking
                 yield return Constant.OneTime;
 			}
 
+            int k = (MakeTimeIndex < makeTime * 10 ? MakeTimeIndex : makeTime * 10 - 5);
             // 만드는 중.
-            for (int i = 0; i < makeTime * 10; i++)
+            for (int i = k; i < makeTime * 10; i++)
             {
                 // 얼만큼 만들어졌는지 퍼센트를 보여줍니다.
                 makingRate = (100f / (makeTime * 10f)) * i;
@@ -131,6 +147,10 @@ public class MakingPizza : MonoBehaviour, IResetPizzaMaking
                 // 일정 시간 대기
                 for (int j = 0; j < 5; j++)
                 {
+                    if (IsSaveIndex)
+					{
+                        MakeTimeIndex = i + 600;
+					}
                     yield return Constant.OneTime;
                 }
                 while (Constant.StopTime)
@@ -139,6 +159,12 @@ public class MakingPizza : MonoBehaviour, IResetPizzaMaking
                     yield return Constant.OneTime;
                 }
             }
+            MakeTimeIndex = MakeTimeIndex >= makeTime * 10 ? MakeTimeIndex - makeTime * 10 : MakeTimeIndex;
+
+            if (pizzaRequestList.Count <= 1)
+			{
+                MakeTimeIndex = 0;
+			}
             // 피자가 완성되었다. 완성된 피자는 피자집 인벤에 들어간다.
             pizzaRequestList[0].Pizza.ProductTime = GameManager.Instance.time;
             CompletePizzaList.Add(pizzaRequestList[0].Pizza);
@@ -166,6 +192,8 @@ public class MakingPizza : MonoBehaviour, IResetPizzaMaking
             
             // 완성된 피자는 리스트에서 제거
             pizzaRequestList.RemoveAt(0);
+
+            
         }
 	}
     /// <summary>

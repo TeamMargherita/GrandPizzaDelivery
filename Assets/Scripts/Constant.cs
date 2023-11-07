@@ -79,7 +79,11 @@ public static class Constant
 		EmployeeRecruit.RecruitClerk = new ClerkC[3];
 		EmployeeRecruit.IsRecruited = new bool[3] { false, false, false };
 
-	Dept = 0;
+		MakingPizza.pizzaRequestList = new List<Request>();   // 만들어야할 피자 리스트
+		MakingPizza.CompletePizzaList = new List<Pizza>();  // 완성된 피자 리스트
+		MakingPizza.IsSaveIndex = false;
+
+		Dept = 0;
 		PayMoneyDate = PayMoneyDate = new Dictionary<int, Dictionary<int, int>>() { { 1, new Dictionary<int, int>() { { 1, 20000000 } } } };
 		DeptMulitplex = new float[2] { 1.1f, 1.05f };
 		MoneyStoreCode = new int[2] { 0, 1 };

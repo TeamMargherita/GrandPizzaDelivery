@@ -17,7 +17,6 @@ public class Calculate : MonoBehaviour
     private int temClerkMoney;
     private bool temIsDead;
     public Dictionary<int, Dictionary<int, int>> temPayMoneyDate = new Dictionary<int, Dictionary<int, int>>();
-
     // Start is called before the first frame update
     void Start()
     {
@@ -96,7 +95,37 @@ public class Calculate : MonoBehaviour
             else
             {
                 t1 -= GameManager.Instance.Money;
-                Constant.Dept += t1;
+                //Constant.Dept += t1;
+                if (Constant.PayMoneyDate.ContainsKey(Constant.NowDate))
+                {
+                    for (int i = 0; i < Constant.MoneyStoreCode.Length; i++)
+                    {
+                        if (!Constant.MoneyConfiscated[i])
+                        {
+                            if (Constant.PayMoneyDate[Constant.NowDate].ContainsKey(Constant.MoneyStoreCode[i]))
+                            {
+                                Constant.PayMoneyDate[Constant.NowDate][Constant.MoneyStoreCode[i]] += t1;
+                            }
+                            else
+                            {
+                                Constant.PayMoneyDate[Constant.NowDate].Add(Constant.MoneyStoreCode[i], t1);
+                            }
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < Constant.MoneyStoreCode.Length; i++)
+                    {
+                        if (!Constant.MoneyConfiscated[i])
+                        {
+                            Constant.PayMoneyDate.Add(Constant.NowDate, new Dictionary<int, int>() { { Constant.MoneyStoreCode[i], t1 } });
+                            Debug.Log("date");
+                            break;
+                        }
+                    }
+                }
                 t1 += GameManager.Instance.Money;
                 GameManager.Instance.Money = 0;
             }
@@ -115,7 +144,36 @@ public class Calculate : MonoBehaviour
             else
             {
                 t2 -= GameManager.Instance.Money;
-                Constant.Dept += t2;
+                //Constant.Dept += t2;
+                if (Constant.PayMoneyDate.ContainsKey(Constant.NowDate))
+                {
+                    for (int i = 0; i < Constant.MoneyStoreCode.Length; i++)
+                    {
+                        if (!Constant.MoneyConfiscated[i])
+                        {
+                            if (Constant.PayMoneyDate[Constant.NowDate].ContainsKey(Constant.MoneyStoreCode[i]))
+                            {
+                                Constant.PayMoneyDate[Constant.NowDate][Constant.MoneyStoreCode[i]] += t2;
+                            }
+                            else
+                            {
+                                Constant.PayMoneyDate[Constant.NowDate].Add(Constant.MoneyStoreCode[i], t2);
+                            }
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < Constant.MoneyStoreCode.Length; i++)
+                    {
+                        if (!Constant.MoneyConfiscated[i])
+                        {
+                            Constant.PayMoneyDate.Add(Constant.NowDate, new Dictionary<int, int>() { { Constant.MoneyStoreCode[i], t2 } });
+                            break;
+                        }
+                    }
+                }
                 t2 += GameManager.Instance.Money;
                 GameManager.Instance.Money = 0;
             }
@@ -136,7 +194,36 @@ public class Calculate : MonoBehaviour
             else
             {
                 t3 -= GameManager.Instance.Money;
-                Constant.Dept += t3;
+                //Constant.Dept += t3;
+                if (Constant.PayMoneyDate.ContainsKey(Constant.NowDate))
+                {
+                    for (int i = 0; i < Constant.MoneyStoreCode.Length; i++)
+                    {
+                        if (!Constant.MoneyConfiscated[i])
+                        {
+                            if (Constant.PayMoneyDate[Constant.NowDate].ContainsKey(Constant.MoneyStoreCode[i]))
+                            {
+                                Constant.PayMoneyDate[Constant.NowDate][Constant.MoneyStoreCode[i]] += t3;
+                            }
+                            else
+                            {
+                                Constant.PayMoneyDate[Constant.NowDate].Add(Constant.MoneyStoreCode[i], t3);
+                            }
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < Constant.MoneyStoreCode.Length; i++)
+                    {
+                        if (!Constant.MoneyConfiscated[i])
+                        {
+                            Constant.PayMoneyDate.Add(Constant.NowDate, new Dictionary<int, int>() { { Constant.MoneyStoreCode[i], t3 } });
+                            break;
+                        }
+                    }
+                }
                 t3 += GameManager.Instance.Money;
                 GameManager.Instance.Money = 0;
             }
@@ -159,7 +246,37 @@ public class Calculate : MonoBehaviour
                 else
                 {
                     t4 -= GameManager.Instance.Money;
-                    Constant.Dept += t4;
+                    Debug.Log(t4);
+                    if (Constant.PayMoneyDate.ContainsKey(Constant.NowDate))
+                    {
+                        for (int i = 0; i < Constant.MoneyStoreCode.Length; i++)
+                        {
+                            if (!Constant.MoneyConfiscated[i])
+                            {
+                                if (Constant.PayMoneyDate[Constant.NowDate].ContainsKey(Constant.MoneyStoreCode[i]))
+                                {
+                                    Constant.PayMoneyDate[Constant.NowDate][Constant.MoneyStoreCode[i]] += t4;
+                                }
+                                else
+                                {
+                                    Constant.PayMoneyDate[Constant.NowDate].Add(Constant.MoneyStoreCode[i], t4);
+                                }
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < Constant.MoneyStoreCode.Length; i++)
+                        {
+                            if (!Constant.MoneyConfiscated[i])
+                            {
+                                Constant.PayMoneyDate.Add(Constant.NowDate, new Dictionary<int, int>() { { Constant.MoneyStoreCode[i], t4 } });
+                                Debug.Log("µé¾î°©´Ï±î??");
+                                break;
+                            }
+                        }
+                    }
                     t4 += GameManager.Instance.Money;
                     GameManager.Instance.Money = 0;
                 }
@@ -235,6 +352,7 @@ public class Calculate : MonoBehaviour
             yield return Constant.OneTime;
             yield return Constant.OneTime;
             sumText.gameObject.SetActive(true);
+            Constant.Dept = 0;
 
             while (t6 < GameManager.Instance.Money)
             {
@@ -310,7 +428,7 @@ public class Calculate : MonoBehaviour
         Constant.PizzaIngMoney = temPizzaIngMoney;
         Constant.ClerkMoney = temClerkMoney;
         Constant.IsDead = temIsDead;
-
+        Constant.PayMoneyDate.Clear();
         foreach (var k1 in temPayMoneyDate.Keys)
         {
             if (!Constant.PayMoneyDate.ContainsKey(k1))
@@ -340,7 +458,37 @@ public class Calculate : MonoBehaviour
         }
         else
         {
-            Constant.Dept += Constant.Fine;
+            //Constant.Dept += Constant.Fine;
+            Constant.Fine -= GameManager.Instance.Money;
+            if (Constant.PayMoneyDate.ContainsKey(Constant.NowDate))
+            {
+                for (int i = 0; i < Constant.MoneyStoreCode.Length; i++)
+                {
+                    if (!Constant.MoneyConfiscated[i])
+                    {
+                        if (Constant.PayMoneyDate[Constant.NowDate].ContainsKey(Constant.MoneyStoreCode[i]))
+                        {
+                            Constant.PayMoneyDate[Constant.NowDate][Constant.MoneyStoreCode[i]] += Constant.Fine;
+                        }
+                        else
+                        {
+                            Constant.PayMoneyDate[Constant.NowDate].Add(Constant.MoneyStoreCode[i], Constant.Fine);
+                        }
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < Constant.MoneyStoreCode.Length; i++)
+                {
+                    if (!Constant.MoneyConfiscated[i])
+                    {
+                        Constant.PayMoneyDate.Add(Constant.NowDate, new Dictionary<int, int>() { { Constant.MoneyStoreCode[i], Constant.Fine } });
+                        break;
+                    }
+                }
+            }
             GameManager.Instance.Money = 0;
         }
 
@@ -350,7 +498,37 @@ public class Calculate : MonoBehaviour
         }
         else
         {
-            Constant.Dept += Constant.PizzaIngMoney;
+            //Constant.Dept += Constant.PizzaIngMoney;
+            Constant.PizzaIngMoney -= GameManager.Instance.Money;
+            if (Constant.PayMoneyDate.ContainsKey(Constant.NowDate))
+            {
+                for (int i = 0; i < Constant.MoneyStoreCode.Length; i++)
+                {
+                    if (!Constant.MoneyConfiscated[i])
+                    {
+                        if (Constant.PayMoneyDate[Constant.NowDate].ContainsKey(Constant.MoneyStoreCode[i]))
+                        {
+                            Constant.PayMoneyDate[Constant.NowDate][Constant.MoneyStoreCode[i]] += Constant.PizzaIngMoney;
+                        }
+                        else
+                        {
+                            Constant.PayMoneyDate[Constant.NowDate].Add(Constant.MoneyStoreCode[i], Constant.PizzaIngMoney);
+                        }
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < Constant.MoneyStoreCode.Length; i++)
+                {
+                    if (!Constant.MoneyConfiscated[i])
+                    {
+                        Constant.PayMoneyDate.Add(Constant.NowDate, new Dictionary<int, int>() { { Constant.MoneyStoreCode[i], Constant.PizzaIngMoney } });
+                        break;
+                    }
+                }
+            }
             GameManager.Instance.Money = 0;
         }
 
@@ -360,7 +538,37 @@ public class Calculate : MonoBehaviour
         }
         else
         {
-            Constant.Dept += Constant.ClerkMoney;
+            //Constant.Dept += Constant.ClerkMoney;
+            Constant.ClerkMoney -= GameManager.Instance.Money;
+            if (Constant.PayMoneyDate.ContainsKey(Constant.NowDate))
+            {
+                for (int i = 0; i < Constant.MoneyStoreCode.Length; i++)
+                {
+                    if (!Constant.MoneyConfiscated[i])
+                    {
+                        if (Constant.PayMoneyDate[Constant.NowDate].ContainsKey(Constant.MoneyStoreCode[i]))
+                        {
+                            Constant.PayMoneyDate[Constant.NowDate][Constant.MoneyStoreCode[i]] += Constant.ClerkMoney;
+                        }
+                        else
+                        {
+                            Constant.PayMoneyDate[Constant.NowDate].Add(Constant.MoneyStoreCode[i], Constant.ClerkMoney);
+                        }
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < Constant.MoneyStoreCode.Length; i++)
+                {
+                    if (!Constant.MoneyConfiscated[i])
+                    {
+                        Constant.PayMoneyDate.Add(Constant.NowDate, new Dictionary<int, int>() { { Constant.MoneyStoreCode[i], Constant.ClerkMoney } });
+                        break;
+                    }
+                }
+            }
             GameManager.Instance.Money = 0;
         }
         int t99 = 0;
@@ -373,7 +581,38 @@ public class Calculate : MonoBehaviour
             }
             else
             {
-                Constant.Dept += 300000;
+                //Constant.Dept += 300000;
+                int n = 300000 - GameManager.Instance.Money;
+                Debug.Log(GameManager.Instance.Money);
+                if (Constant.PayMoneyDate.ContainsKey(Constant.NowDate))
+                {
+                    for (int i = 0; i < Constant.MoneyStoreCode.Length; i++)
+                    {
+                        if (!Constant.MoneyConfiscated[i])
+                        {
+                            if (Constant.PayMoneyDate[Constant.NowDate].ContainsKey(Constant.MoneyStoreCode[i]))
+                            {
+                                Constant.PayMoneyDate[Constant.NowDate][Constant.MoneyStoreCode[i]] += n;
+                            }
+                            else
+                            {
+                                Constant.PayMoneyDate[Constant.NowDate].Add(Constant.MoneyStoreCode[i], n);
+                            }
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < Constant.MoneyStoreCode.Length; i++)
+                    {
+                        if (!Constant.MoneyConfiscated[i])
+                        {
+                            Constant.PayMoneyDate.Add(Constant.NowDate, new Dictionary<int, int>() { { Constant.MoneyStoreCode[i], n } });
+                            break;
+                        }
+                    }
+                }
                 GameManager.Instance.Money = 0;
             }
         }

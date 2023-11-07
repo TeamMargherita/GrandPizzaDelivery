@@ -40,7 +40,7 @@ public class PoliceCar : Police, IPoliceCar, IMovingPoliceCarControl, IInspectin
     {
         base.Awake();
         PoliceHp = 100; // 경찰차 초기 체력 설정
-
+        policeType = PoliceType.NORMAL;
         trans = this.transform; // transform 캐싱
         if (checkColObj != null)
         {

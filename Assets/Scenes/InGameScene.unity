@@ -193,7 +193,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uC0AD\uC81C"
 --- !u!222 &2412223
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2944,7 +2944,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uB044\uAE30"
 --- !u!222 &63031990
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3447,7 +3447,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uC0AD\uC81C"
 --- !u!222 &73185650
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5792,7 +5792,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uB044\uAE30"
 --- !u!222 &115030749
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -9165,7 +9165,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uC0AD\uC81C"
 --- !u!222 &194397459
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -10757,7 +10757,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uB044\uAE30"
 --- !u!222 &253154080
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -12060,7 +12060,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uC0AD\uC81C"
 --- !u!222 &285585825
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -12205,7 +12205,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uB044\uAE30"
 --- !u!222 &293678366
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -38240,7 +38240,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uC0AD\uC81C"
 --- !u!222 &329228307
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -38329,7 +38329,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uB044\uAE30"
 --- !u!222 &340879435
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -38631,7 +38631,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uC0AD\uC81C"
 --- !u!222 &351246170
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -39336,7 +39336,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uB044\uAE30"
 --- !u!222 &361851342
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -42631,7 +42631,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uB044\uAE30"
 --- !u!222 &449934128
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -46418,7 +46418,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uC0AD\uC81C"
 --- !u!222 &534053707
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -46497,7 +46497,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uB044\uAE30"
 --- !u!222 &534062631
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -50291,7 +50291,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uC0AD\uC81C"
 --- !u!222 &631602858
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -51999,7 +51999,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uB044\uAE30"
 --- !u!222 &673324343
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -52343,7 +52343,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uC0AD\uC81C"
 --- !u!222 &690099675
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -53427,7 +53427,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uC0AD\uC81C"
 --- !u!222 &729260850
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -53576,7 +53576,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uC0AD\uC81C"
 --- !u!222 &734297257
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -54415,7 +54415,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uC0AD\uC81C"
 --- !u!222 &740795633
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -57886,7 +57886,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uC0AD\uC81C"
 --- !u!222 &843377233
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -61727,7 +61727,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uC0AD\uC81C"
 --- !u!222 &922168624
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -61977,7 +61977,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uB044\uAE30"
 --- !u!222 &928785378
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -62901,7 +62901,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uB044\uAE30"
 --- !u!222 &943176698
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -63306,7 +63306,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uB044\uAE30"
 --- !u!222 &944634608
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -64067,7 +64067,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uC0AD\uC81C"
 --- !u!222 &958513146
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -65424,7 +65424,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uB044\uAE30"
 --- !u!222 &981074266
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -67566,7 +67566,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uB044\uAE30"
 --- !u!222 &1032391373
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -68948,7 +68948,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uB044\uAE30"
 --- !u!222 &1064459889
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -69830,7 +69830,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uC0AD\uC81C"
 --- !u!222 &1100322858
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -71545,7 +71545,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uC0AD\uC81C"
 --- !u!222 &1134464674
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -72753,7 +72753,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uC0AD\uC81C"
 --- !u!222 &1149572762
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -73778,7 +73778,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uB044\uAE30"
 --- !u!222 &1174805326
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -76626,7 +76626,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uB044\uAE30"
 --- !u!222 &1272603707
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -76914,7 +76914,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uC0AD\uC81C"
 --- !u!222 &1281080057
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -77202,7 +77202,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uB044\uAE30"
 --- !u!222 &1302556806
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -77522,7 +77522,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uC0AD\uC81C"
 --- !u!222 &1318979662
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -78475,7 +78475,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1358327458
 RectTransform:
   m_ObjectHideFlags: 0
@@ -78857,7 +78857,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uB044\uAE30"
 --- !u!222 &1368162839
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -85343,7 +85343,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uB044\uAE30"
 --- !u!222 &1533465558
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -87970,7 +87970,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uB044\uAE30"
 --- !u!222 &1606959689
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -88832,7 +88832,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uB044\uAE30"
 --- !u!222 &1635767466
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -88957,7 +88957,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uC0AD\uC81C"
 --- !u!222 &1650764927
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -91025,7 +91025,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uC0AD\uC81C"
 --- !u!222 &1705355421
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -91812,7 +91812,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uC0AD\uC81C"
 --- !u!222 &1727289884
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -92522,7 +92522,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uC0AD\uC81C"
 --- !u!222 &1751830616
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -92969,7 +92969,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uB044\uAE30"
 --- !u!222 &1775198432
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -93247,7 +93247,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uB044\uAE30"
 --- !u!222 &1777069730
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -93326,7 +93326,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uC0AD\uC81C"
 --- !u!222 &1778885271
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -94496,7 +94496,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uC0AD\uC81C"
 --- !u!222 &1808073461
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -96985,7 +96985,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uB044\uAE30"
 --- !u!222 &1883069721
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -97144,7 +97144,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uB044\uAE30"
 --- !u!222 &1886385752
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -98827,7 +98827,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uC0AD\uC81C"
 --- !u!222 &1924540308
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -99944,7 +99944,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uC0AD\uC81C"
 --- !u!222 &1954333121
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -103313,7 +103313,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uC0AD\uC81C"
 --- !u!222 &2020846188
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -104154,7 +104154,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uB044\uAE30"
 --- !u!222 &2040687972
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -104233,7 +104233,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uB044\uAE30"
 --- !u!222 &2040889576
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -105301,7 +105301,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uB044\uAE30"
 --- !u!222 &2084167614
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -106755,7 +106755,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uB044\uAE30"
 --- !u!222 &2129235883
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -106992,7 +106992,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uC0AD\uC81C"
 --- !u!222 &2139445450
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -62,7 +62,7 @@ public class MakingPizza : MonoBehaviour, IResetPizzaMaking
     /// <param name="request"></param>
     public void AddRequestPineapplePizza(Request request)
 	{
-        if (Constant.PineappleCount <= 0) { return; }
+        if (Constant.PineAppleCount <= 0) { return; }
         pizzaRequestList.Add(request);
 	}
     /// <summary>
@@ -79,7 +79,7 @@ public class MakingPizza : MonoBehaviour, IResetPizzaMaking
         {
             isIng = true;
             // 만들 피자를 고릅니다.
-            if ((pizzaRequestList.Count <= 0 || CompletePizzaList.Count >= 5) || (GameManager.Instance.isDarkDelivery) && Constant.PineappleCount == 0) 
+            if ((pizzaRequestList.Count <= 0 || CompletePizzaList.Count >= 5) || (GameManager.Instance.isDarkDelivery) && Constant.PineAppleCount == 0) 
             {
                 //Debug.Log(CompletePizzaList.Count);
                 for (int i = 0; i < 5; i++)
@@ -144,7 +144,7 @@ public class MakingPizza : MonoBehaviour, IResetPizzaMaking
             // 파인애플 피자였다면 파인애플이 하나 줄어든다.
             if (pizzaRequestList[0].Pizza.Ingreds.FindIndex(a => a.Equals(PizzaNS.Ingredient.PINEAPPLE)) != -1)
 			{
-                Constant.PineappleCount--;
+                Constant.PineAppleCount--;
 			}
 
             // 알림이 뜬다.

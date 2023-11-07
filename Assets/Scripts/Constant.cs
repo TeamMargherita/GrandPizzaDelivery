@@ -11,10 +11,76 @@ public static class Constant
 {
 	public static void InitConstant()
 	{
+		House.activeColor = new Color(248 / 255f, 70 / 255f, 6 / 255f);
+
+		Color lightOnColor = new Color(255 / 255f, 177 / 255f, 0 / 255f);
+		Color lightOffColor = Color.black;
+
+		EmployeeStressCon.nowDate = 0;
+		EmployeeRecruit.nowDate = 0;
+		EmployeeFire.WorkingDay = new Dictionary<int, List<ClerkC>>();
+
+		PlayerStat.PlayerIsGod = false;
+		PlayerStat.HP = PlayerStat.MaxHP;
+
+		ChasePoliceCar.isStop = false;
+
+		DiceStore.IsOneDayDiceStore = false;
+		DiceStore.NowDate = 1;
+
+		IngredientStore.Contract = 0;
+		IngredientStore.Hint = false;
+		IngredientStore.OneChance = true;
+
+		IngredientStoreTwo.IsTalk = false;  // 가게 주인과 잡담을 한번이라도 했는지 여부
+		IngredientStoreTwo.IsGalicQuest = false;    // 가게 주인의 마늘 고민을 한번이라도 들었는지 여부(마늘 고민 해결했는지 여부)
+		IngredientStoreTwo.OneChanceGalicClear = false;  // 마늘 고민 해결 후 첫 대화 
+		IngredientStoreTwo.NowDate = 1;
+		IngredientStoreTwo.Ingredient = 0;
+		IngredientStoreTwo.Discount = -1;
+		IngredientStoreTwo.BounsDiscount = 0;
+		IngredientStoreTwo.Contract = 0;
+
+		LuckyStore.IsAngry = false;
+		LuckyStore.IsLuckyTest = false;
+		LuckyStore.ClearGalicQuest = false;
+		LuckyStore.ClearSonQuest = false;
+		LuckyStore.BigDicePlus = false;
+		LuckyStore.BigDiceMinus = false;
+		LuckyStore.SmallDicePlus = false;
+		LuckyStore.SmallDiceMinus = false;
+		LuckyStore.AngryDate = 0;
+		LuckyStore.NowDate = 1;
+
+		MoneyStore.IsTalk = false;  // 대출업체의 어머니에 관한 이야기를 했는지 여부
+		MoneyStore.StartSonQuest = false;   // 가족 관련 퀘스트를 시작했는지 여부
+		MoneyStore.OneChanceClearSon = false;   // 클리어 이후 첫 대사
+		MoneyStore.IsTalkOneChanceDiscount = false; // 한번에 한해서 이자를 깎을 수 있음. true가 되면 할인 시도 이미 한 것.
+		MoneyStore.SumBorrow = 0;    // 총 빌린 금액
+		MoneyStore.NowDate = 1;  // 날짜
+		MoneyStore.ClearMoney = 0;   // 퀘스트 성공시 받는 돈
+		MoneyStore.loseMoney = 0;    // 오늘 하루 빌릴수 있는 돈
+
+		MoneyStoreTwo.SumBorrow = 0;    // 총 빌린 금액
+		MoneyStoreTwo.NowDate = 1;  // 날짜
+		MoneyStoreTwo.loseMoney = 0;   // 오늘 하루 빌릴수 있는 돈
+
+		PineAppleStoreTwo.isPineapple = true;
+		PineAppleStoreTwo.isContract = false;
+		PineAppleStoreTwo.isMeet = false;
+
+		PineAppleStore.isFineapple = true;
+		PineAppleStore.isFirstTime = true;
+
+		FineMessage.minusColor = new Color(0, 0, 0, 0.1f / 255f);
+
+		PineappleCount.nowDate = 0;
+
 		Dept = 0;
 		PayMoneyDate = new Dictionary<int, Dictionary<int, int>>();
-		DeptMulitplex = new float[1] { 1.1f };
-		MoneyStoreCode = new int[1] { 0 };
+		DeptMulitplex = new float[2] { 1.1f, 1.05f };
+		MoneyStoreCode = new int[2] { 0, 1 };
+		MoneyMaxBorrow = new int[2] { 50000000, 60000000 };
 		ClerkMoney = 0;
 		PizzaIngMoney = 0;
 		Fine = 0;
@@ -49,7 +115,7 @@ public static class Constant
 		IsMakePizza = false;
 		isStartGame = false;
 		StopTime = false;
-		PineappleCount = 0;
+		PineAppleCount = 0;
 		PineapplePizza = new Pizza("PineapplePizza", 100, 0, 2000000, 99999, new List<Ingredient>() { Ingredient.TOMATO, Ingredient.CHEESE, Ingredient.PINEAPPLE }, 0, 100, 0);
 		OneTime = new WaitForSeconds(0.02f);
 		ClerkList = new List<ClerkC>() { new ClerkC(47, Tier.THREE, Tier.ONE, Tier.FOUR, 0, 20000, "프레이야", null, 0) };
@@ -123,6 +189,14 @@ public static class Constant
 	/// 대출업체 코드
 	/// </summary>
 	public static int[] MoneyStoreCode = new int[2] { 0 , 1};
+	/// <summary>
+	/// 대출업체에서 빌릴 수 있는 최대 금액
+	/// </summary>
+	public static int[] MoneyMaxBorrow = new int[2] { 50000000, 60000000 };
+	/// <summary>
+	/// 강제로 돈을 빌리러 오는지 여부
+	/// </summary>
+	public static bool[] MoneyConfiscated = new bool[2] { true, false };
 	/// <summary>
 	/// 하루 동안 점원에게 쓴 비용
 	/// </summary>
@@ -204,7 +278,7 @@ public static class Constant
 	/// <summary>
 	/// 소지한 파인애플 개수
 	/// </summary>
-	public static int PineappleCount = 0;
+	public static int PineAppleCount = 0;
 	/// <summary>
 	/// 파인애플 피자
 	/// </summary>

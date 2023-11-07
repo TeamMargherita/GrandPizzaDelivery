@@ -10,7 +10,7 @@ public class MoneyStoreTwo : Conversation
     public static int NowDate = 1;  // ³¯Â¥
     public const int MoneyStoreCode = 1;    // ´ëÃâ¾÷Ã¼ ÄÚµå
 
-    private static int loseMoney = 0;	// ¿À´Ã ÇÏ·ç ºô¸±¼ö ÀÖ´Â µ·
+    public static int loseMoney = 0;	// ¿À´Ã ÇÏ·ç ºô¸±¼ö ÀÖ´Â µ·
     public MoneyStoreTwo()
     {
         NpcTextStrArr = new string[18]
@@ -35,12 +35,12 @@ public class MoneyStoreTwo : Conversation
             "(°£´Ù.)"
         };
 
-        if (Constant.NowDate == 1 && GameManager.Instance.time >= 32400 && GameManager.Instance.time <= 32500)
-        {
-            SumBorrow = 0;
-            NowDate = 1;
-            loseMoney = 0;
-        }
+        //if (Constant.NowDate == 1 && GameManager.Instance.time >= 32400 && GameManager.Instance.time <= 32500)
+        //{
+        //    SumBorrow = 0;
+        //    NowDate = 1;
+        //    loseMoney = 0;
+        //}
 
         if (Constant.NowDate != NowDate || Constant.NowDate == 1)
         {
@@ -54,7 +54,7 @@ public class MoneyStoreTwo : Conversation
                 SumBorrow += Constant.PayMoneyDate[key][MoneyStoreCode];
             }
 
-            loseMoney = 60000000 - SumBorrow;
+            loseMoney = Constant.MoneyMaxBorrow[MoneyStoreCode] - SumBorrow;
             loseMoney = loseMoney <= 0 ? 0 : loseMoney;
             Debug.Log($"SumBorrow {SumBorrow } loseMoney {loseMoney}");
         }
@@ -176,9 +176,9 @@ public class MoneyStoreTwo : Conversation
         }
         else if (temInt == 2)
         {
-            SettingConversation(Findidx(2, new int[1] { 4 }), 60000000 - loseMoney);
+            SettingConversation(Findidx(2, new int[1] { 4 }), Constant.MoneyMaxBorrow[MoneyStoreCode] - loseMoney);
             index = -100;
-        }
+        } 
         else if (temInt == 5)
         {
             if (Constant.PayMoneyDate.ContainsKey(Constant.NowDate))

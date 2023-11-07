@@ -59,11 +59,12 @@ public class PineAppleStore : Conversation
 			"(°£´Ù)"	// 41
 		};
 
-		if (Constant.NowDate == 1 && GameManager.Instance.time >= 32400 && GameManager.Instance.time <= 32500)
-        {
-			isFirstTime = true;
-			isFineapple = true;
-		}
+		//if (Constant.NowDate == 1 && GameManager.Instance.time >= 32400 && GameManager.Instance.time <= 32500)
+  //      {
+		//	Debug.Log("¤±¤¤ÀÌ¤¿·³´Ï¤¿¤··Ú¤¿¤¤¤··ò¤¿¤¤¿ì¶ó¤Ó¤¤À¸¤¿¤Ó¤©¤·¤©¤·");
+		//	isFirstTime = true;
+		//	isFineapple = true;
+		//}
 
 		TextList = new List<TextNodeC>();
 		InitTextList();
@@ -171,7 +172,7 @@ public class PineAppleStore : Conversation
 		else if (temInt == 31)
 		{
 			GameManager.Instance.Money -= requireMoney;
-			Constant.PineappleCount++;
+			Constant.PineAppleCount++;
 			isFineapple = false;
 			SettingConversation(Findidx(31, new int[1] { 33 }));
 			index = -100;
@@ -184,7 +185,7 @@ public class PineAppleStore : Conversation
 		else if (temInt == 38)
 		{
 			GameManager.Instance.Money -= 600000;
-			Constant.PineappleCount++;
+			Constant.PineAppleCount++;
 			isFineapple = false;
 			SettingConversation(Findidx(38, new int[1] { 40 }));
 			index = -100;

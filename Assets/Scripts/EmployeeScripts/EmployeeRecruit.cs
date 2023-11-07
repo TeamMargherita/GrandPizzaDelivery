@@ -29,10 +29,10 @@ public class EmployeeRecruit : MonoBehaviour
 
     private void Awake()
     {
-        if (Constant.NowDate == 1 && GameManager.Instance.time >= 32400 && GameManager.Instance.time > 32500)
-        {
-            nowDate = 0;
-        }
+        //if (Constant.NowDate == 1 && GameManager.Instance.time >= 32400 && GameManager.Instance.time > 32500)
+        //{
+        //    nowDate = 0;
+        //}
 
         for (int i = 0; i < limitCount; i++)
         {
@@ -40,7 +40,7 @@ public class EmployeeRecruit : MonoBehaviour
         }
     }
 
-    private static int nowDate = 0;
+    public static int nowDate = 0;
 
     private void Update()
     {

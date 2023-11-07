@@ -15,11 +15,6 @@ public class EmployeeFire : MonoBehaviour
 
     protected void Awake()
     {
-        //if (Constant.NowDate == 1 && GameManager.Instance.time >= 32400 && GameManager.Instance.time > 32500)
-        //{
-        //    WorkingDay = new Dictionary<int, List<ClerkC>>();
-        //}
-
         SetEmployee();
         Debug.Log("작동");
     }
@@ -220,6 +215,14 @@ public class EmployeeFire : MonoBehaviour
             string name = Constant.ClerkList[value].Name + "가 해고되었습니다.";
 
             NoticeMessage(name);
+
+            for (int i = 0; i < 7; i++)
+            {
+                if (WorkingDay[i].Contains(Constant.ClerkList[value]))
+                {
+                    WorkingDay[i].Remove(Constant.ClerkList[value]);
+                }
+            }
 
             Constant.ClerkList.RemoveAt(value);
 

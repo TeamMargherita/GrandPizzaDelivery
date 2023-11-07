@@ -42,6 +42,7 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText, ICoroutineD
     private IngredientStoreTwo ingredientStoreTwo;  // 재료 가게2 대화 그래프 클래스
     private LuckyStore luckyStore;  // 점집 대화 그래프 클래스
     private MoneyStore moneyStore;  // 대출업체 그래프 클래스
+    private MoneyStoreTwo moneyStoreTwo;    // 대출업체 2 그래프 클래스
     private Conversation temCon;
     private bool isAwake = false;
 
@@ -61,6 +62,7 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText, ICoroutineD
         ingredientStoreTwo = new IngredientStoreTwo();
         luckyStore = new LuckyStore();
         moneyStore = new MoneyStore();
+        moneyStoreTwo = new MoneyStoreTwo();
 
         playerTextArr = new Text[playerTextObjArr.Length];
         playerTextsArr = new PlayerTexts[playerTextObjArr.Length];
@@ -150,6 +152,10 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText, ICoroutineD
             case 10:
                 npcSprArr = Resources.LoadAll<Sprite>("UI/MoneyStore_400_500");
                 InitConversation(moneyStore);
+                break;
+            case 11:
+                npcSprArr = Resources.LoadAll<Sprite>("UI?MoneyStoreTwo_400_500");
+                InitConversation(moneyStoreTwo);
                 break;
 		}
     }

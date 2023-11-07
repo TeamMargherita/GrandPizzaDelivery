@@ -9,14 +9,14 @@ public class EmployeeStressCon : EmployeeFire
 {
     [SerializeField] bool isMorning = false;
 
-    private static int nowDate = 0;
+    public static int nowDate = 0;
 
     private void Awake()
     {
-        if (Constant.NowDate == 1 && GameManager.Instance.time >= 32400 && GameManager.Instance.time > 32500)
-        {
-            nowDate = 0;
-        }
+        //if (Constant.NowDate == 1 && GameManager.Instance.time >= 32400 && GameManager.Instance.time > 32500)
+        //{
+        //    nowDate = 0;
+        //}
         base.Awake();
         Debug.Log("¿€µø2");
     }
@@ -105,7 +105,6 @@ public class EmployeeStressCon : EmployeeFire
         {
             for (int i = 0; i < Constant.ClerkList.Count; i++)
             {
-                Debug.Log(WorkingDay.Count);
                 if (WorkingDay[j].Contains(Constant.ClerkList[i]) == true)
                 {
                     if (i > 0)

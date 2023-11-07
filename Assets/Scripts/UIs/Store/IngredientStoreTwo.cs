@@ -69,17 +69,17 @@ public class IngredientStoreTwo : Conversation
 		text11 = NpcTextStrArr[11];
 		text12 = NpcTextStrArr[12];
 
-		if (Constant.NowDate == 1 && GameManager.Instance.time >= 32400 && GameManager.Instance.time <= 32500)
-        {
-			IsTalk = false;
-			IsGalicQuest = false;
-			OneChanceGalicClear = false;
-			NowDate = 1;
-			Ingredient = 0;
-			Discount = 0;
-			BounsDiscount = 0;
-			Contract = 0;
-		}
+		//if (Constant.NowDate == 1 && GameManager.Instance.time >= 32400 && GameManager.Instance.time <= 32500)
+  //      {
+		//	IsTalk = false;
+		//	IsGalicQuest = false;
+		//	OneChanceGalicClear = false;
+		//	NowDate = 1;
+		//	Ingredient = 0;
+		//	Discount = 0;
+		//	BounsDiscount = 0;
+		//	Contract = 0;
+		//}
 
 		if (Constant.NowDate != NowDate || Constant.NowDate == 1)
 		{

@@ -56,12 +56,12 @@ public class IngredientStore : Conversation
 			"돈이 부족해 보이는걸?"	// 40
 		};
 
-		if (Constant.NowDate == 1 && GameManager.Instance.time >= 32400 && GameManager.Instance.time <= 32500)
-        {
-			Contract = 0;
-			Hint = false;
-			OneChance = true;
-		}
+		//if (Constant.NowDate == 1 && GameManager.Instance.time >= 32400 && GameManager.Instance.time <= 32500)
+  //      {
+		//	Contract = 0;
+		//	Hint = false;
+		//	OneChance = true;
+		//}
 
 		TextList = new List<TextNodeC>();
 		InitTextList();

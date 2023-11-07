@@ -66,19 +66,19 @@ public class LuckyStore : Conversation
 			AngryDate += (Constant.NowDate - NowDate);
 			if (AngryDate >= 3) { IsAngry = false; AngryDate = 0; }
 		}
-		if (Constant.NowDate == 1 && GameManager.Instance.time >= 32400 && GameManager.Instance.time <= 32500)
-        {
-			IsAngry = false;
-			IsLuckyTest = false;
-			ClearGalicQuest = false;
-			ClearSonQuest = false;
-			BigDicePlus = false;
-			BigDiceMinus = false;
-			SmallDicePlus = false;
-			SmallDiceMinus = false;
-			AngryDate = 0;
-			NowDate = 1;
-		}
+		//if (Constant.NowDate == 1 && GameManager.Instance.time >= 32400 && GameManager.Instance.time <= 32500)
+  //      {
+		//	IsAngry = false;
+		//	IsLuckyTest = false;
+		//	ClearGalicQuest = false;
+		//	ClearSonQuest = false;
+		//	BigDicePlus = false;
+		//	BigDiceMinus = false;
+		//	SmallDicePlus = false;
+		//	SmallDiceMinus = false;
+		//	AngryDate = 0;
+		//	NowDate = 1;
+		//}
 		if (Constant.NowDate != NowDate)
 		{
 			IsLuckyTest = false;

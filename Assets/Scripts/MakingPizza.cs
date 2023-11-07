@@ -91,10 +91,11 @@ public class MakingPizza : MonoBehaviour, IResetPizzaMaking
 
             Constant.PizzaIngMoney += pizzaRequestList[0].Pizza.ProductionCost;
             // 피자 만드는데 걸리는 시간을 계산한다.
-            makeTime = 80;
-            for (int i = 0; i < Constant.ClerkList.Count; i++)
+            makeTime = 345;
+            for (int i = 0; i < EmployeeStressCon.WorkingDay[(int)Constant.NowDate].Count; i++)
             {
-                makeTime -= (60 + (int)Constant.ClerkList[i].Agility);
+                //makeTime -= (60 + (int)Constant.ClerkList[i].Agility);
+                makeTime -= (60 + (int)EmployeeStressCon.WorkingDay[(int)Constant.NowDate][i].Agility);
             }
             // 돈이 빠져나간다.
 

@@ -10,7 +10,7 @@ using DayNS;
 public static class Constant
 {
 	public static void InitConstant()
-    {
+	{
 		Dept = 0;
 		PayMoneyDate = new Dictionary<int, Dictionary<int, int>>();
 		DeptMulitplex = new float[1] { 1.1f };
@@ -105,6 +105,7 @@ public static class Constant
    };
 		NowGun = new int[1] { -1 };
 		IsHospital = false;
+		pizzaStoreStar = 1.0f;
 	}
 	/// <summary>
 	/// 빚
@@ -271,7 +272,7 @@ public static class Constant
 	/// <param name="one"></param>
 	/// <returns></returns>
 	public static bool CompareIngredientList(this List<Ingredient> list, List<Ingredient> one)
-    {
+	{
 		if (one.Count != list.Count) { return false; }
 
 		int index = -1;
@@ -284,17 +285,17 @@ public static class Constant
 		}
 
 		for (int i = 0; i < list.Count; i++)
-        {
+		{
 			index = two.FindIndex(a => a.Equals(list[i]));
 			if (index == -1)
-            {
+			{
 				return false;
-            }
+			}
 			else
-            {
+			{
 				two.RemoveAt(index);
-            }
-        }
+			}
+		}
 		if (two.Count == 0)
 		{
 			return true;
@@ -305,7 +306,7 @@ public static class Constant
 		}
 
 		return false;
-    }
+	}
 	public static ItemS[] DiceItem = new ItemS[10]
 	{
 		new ItemS(ItemType.DICE, 2, "고무 주사위", "고무로 만든 주사위다. \n 주사위 각 면은 0,1,2,3,4,5 을 상징한다.", 0),
@@ -337,7 +338,7 @@ public static class Constant
 		new DiceS(6, new int[6] { 1, 2, 3, 4, 5, 6} , "UI/MiniDice_80_80")
 	};
 
-	public static int[] nowDice = new int[2] { 9, 9};
+	public static int[] nowDice = new int[2] { 9, 9 };
 
 	public static ItemS[] GunItem = new ItemS[8]
 	{
@@ -373,4 +374,32 @@ public static class Constant
 	/// 병원에서 부활해야하는 지 여부
 	/// </summary>
 	public static bool IsHospital = false;
+
+	private static float pizzaStoreStar = 1.0f;
+	/// <summary>
+	/// 피자 가게 평점
+	/// </summary>
+	public static float PizzaStoreStar
+	{
+		get
+		{
+			return pizzaStoreStar;
+		}
+		set
+		{
+			if (value >= 5)
+            {
+				pizzaStoreStar = 5.0f;
+            }
+			else if (value < 0)
+            {
+				pizzaStoreStar = 0.0f;
+            }
+			else
+            {
+				pizzaStoreStar = value;
+            }
+		}
+	}
+
 }

@@ -11,7 +11,7 @@ public class StreetLamp : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        if (Constant.NowDate == 1)
+        if (Constant.NowDate == 1 && GameManager.Instance.time >= 32400 && GameManager.Instance.time <= 32500)
         {
             lightOnColor = new Color(255 / 255f, 177 / 255f, 0 / 255f);
             lightOffColor = Color.black;

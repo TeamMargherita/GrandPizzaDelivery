@@ -12,7 +12,10 @@ public class TestMoneyText : MonoBehaviour
 
     private void Awake()
     {
-        GameManager.Instance.MoneyText = this;
+        if (GameManager.Instance.MoneyText == null)
+        {
+            GameManager.Instance.MoneyText = this;
+        }
     }
     public void CreateMoneyEffect(int changeMoney)
     {

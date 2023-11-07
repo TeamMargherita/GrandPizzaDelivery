@@ -13,7 +13,7 @@ public class EmployeeFire : MonoBehaviour
 
     public static Dictionary<int, List<ClerkC>> WorkingDay = new Dictionary<int, List<ClerkC>>(); // 0~6 월~일
 
-    private void Awake()
+    protected void Awake()
     {
         if (Constant.NowDate == 1 && GameManager.Instance.time >= 32400 && GameManager.Instance.time > 32500)
         {
@@ -21,6 +21,7 @@ public class EmployeeFire : MonoBehaviour
         }
 
         SetEmployee();
+        Debug.Log("작동");
     }
 
     private void Update()

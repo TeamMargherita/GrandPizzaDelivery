@@ -17,6 +17,8 @@ public class EmployeeStressCon : EmployeeFire
         {
             nowDate = 0;
         }
+        base.Awake();
+        Debug.Log("¿€µø2");
     }
 
     private void Update()
@@ -103,6 +105,7 @@ public class EmployeeStressCon : EmployeeFire
         {
             for (int i = 0; i < Constant.ClerkList.Count; i++)
             {
+                Debug.Log(WorkingDay.Count);
                 if (WorkingDay[j].Contains(Constant.ClerkList[i]) == true)
                 {
                     if (i > 0)

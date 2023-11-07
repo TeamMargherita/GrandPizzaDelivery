@@ -14,7 +14,7 @@ public class EndingSetting : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        if (GameManager.Instance.Money - Constant.Dept >= 10000000)
+        if (GameManager.Instance.Money - Constant.Dept >= 100000000)
 		{
             endingImg.sprite = spriteImg[2];
             endingTypeText.text = "(굿 엔딩) - 1억 이상 흑자";

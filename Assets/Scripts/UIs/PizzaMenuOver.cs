@@ -14,7 +14,7 @@ public class PizzaMenuOver : MonoBehaviour, IPointerEnterHandler, IPointerDownHa
 
 	private UnityEngine.UI.Image img;
 
-	private Color alpha = new Color(0, 0, 0, 185 / 255f);
+	private Color alpha = new Color(0, 0, 0, 255 / 255f);
 
 	private bool isDown = false;
 	private bool isEnter = false;

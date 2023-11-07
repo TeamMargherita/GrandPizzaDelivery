@@ -74,10 +74,12 @@ public class MakingPizza : MonoBehaviour, IResetPizzaMaking
         int makeTime = 0;
         float makingRate = 0;
         int panelIndex = -1;
+        bool isIng = true ;
         while (true)
         {
+            isIng = true;
             // 만들 피자를 고릅니다.
-            if (pizzaRequestList.Count <= 0 || CompletePizzaList.Count >= 5) 
+            if ((pizzaRequestList.Count <= 0 || CompletePizzaList.Count >= 5) || (GameManager.Instance.isDarkDelivery) && Constant.PineappleCount == 0) 
             {
                 //Debug.Log(CompletePizzaList.Count);
                 for (int i = 0; i < 5; i++)
@@ -86,6 +88,7 @@ public class MakingPizza : MonoBehaviour, IResetPizzaMaking
                 }
                 continue; 
             }
+
             Constant.PizzaIngMoney += pizzaRequestList[0].Pizza.ProductionCost;
             // 피자 만드는데 걸리는 시간을 계산한다.
             makeTime = 80;

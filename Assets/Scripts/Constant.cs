@@ -80,7 +80,7 @@ public static class Constant
 		PayMoneyDate = new Dictionary<int, Dictionary<int, int>>();
 		DeptMulitplex = new float[2] { 1.1f, 1.05f };
 		MoneyStoreCode = new int[2] { 0, 1 };
-		MoneyMaxBorrow = new int[2] { 50000000, 60000000 };
+		MoneyMaxBorrow = new int[2] { 50000000, 30000000 };
 		ClerkMoney = 0;
 		PizzaIngMoney = 0;
 		Fine = 0;
@@ -192,7 +192,7 @@ public static class Constant
 	/// <summary>
 	/// 대출업체에서 빌릴 수 있는 최대 금액
 	/// </summary>
-	public static int[] MoneyMaxBorrow = new int[2] { 50000000, 60000000 };
+	public static int[] MoneyMaxBorrow = new int[2] { 50000000, 30000000 };
 	/// <summary>
 	/// 강제로 돈을 빌리러 오는지 여부
 	/// </summary>

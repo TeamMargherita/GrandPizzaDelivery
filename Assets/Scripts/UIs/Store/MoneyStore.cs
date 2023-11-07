@@ -101,8 +101,11 @@ public class MoneyStore : Conversation
 			List<int> li = new List<int>();
 			foreach (var key in Constant.PayMoneyDate.Keys)
 			{
-				Constant.PayMoneyDate[key][MoneyStoreCode]++;
-				SumBorrow += Constant.PayMoneyDate[key][MoneyStoreCode];
+				//Constant.PayMoneyDate[key][MoneyStoreCode]++;
+				if (Constant.PayMoneyDate[key].ContainsKey(MoneyStoreCode))
+				{
+					SumBorrow += Constant.PayMoneyDate[key][MoneyStoreCode];
+				}
 			}
 
 			loseMoney = Constant.MoneyMaxBorrow[MoneyStoreCode] - SumBorrow >= 30000000 ? 30000000 : Constant.MoneyMaxBorrow[MoneyStoreCode] - SumBorrow;
@@ -414,9 +417,12 @@ public class MoneyStore : Conversation
         {
 			int n = 0;
 			foreach (var key in Constant.PayMoneyDate.Keys)
-            {
-				n += Constant.PayMoneyDate[key][MoneyStoreCode];
-            }
+			{
+				if (Constant.PayMoneyDate[key].ContainsKey(MoneyStoreCode))
+				{
+					n += Constant.PayMoneyDate[key][MoneyStoreCode];
+				}
+			}
 
 			SettingConversation(Findidx(19, new int[1] { 20 }), n);
 			index = -100;

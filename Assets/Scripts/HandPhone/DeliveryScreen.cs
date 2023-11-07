@@ -15,8 +15,21 @@ public class DeliveryScreen : MonoBehaviour
     public Map Map;
     public House House;
     public Minimap Minimap;
-    //배달앱 텍스트 업데이트
-    public void TextUpdate()
+
+    public void Start()
+    {
+        for (int i = 0; i < SendDeliveryRequest.RequestList.Count; i++)
+        {
+            if (SendDeliveryRequest.RequestList[i].Accept)
+            {
+                SendDeliveryRequest.RequestList[i].AddressS = Map.GetSpecAddress(Constant.TemAddress[i]);
+                SendDeliveryRequest.RequestList[i].AddressS.IHouse.EnableHouse();
+                Minimap.CreateDestination(SendDeliveryRequest.RequestList[i]);
+            }
+        }
+    }
+	//배달앱 텍스트 업데이트
+	public void TextUpdate()
     {
         if(SendDeliveryRequest.RequestList.Count > 0)
         {
@@ -71,6 +84,7 @@ public class DeliveryScreen : MonoBehaviour
         AcceptB[i].SetActive(false);
         SendDeliveryRequest.RequestList[i].Accept = true;
         SendDeliveryRequest.RequestList[i].AddressS = Map.GetRandAddressS();
+        Constant.TemAddress[i] = Map.GetSpecAddress();
         SendDeliveryRequest.RequestList[i].AddressS.IHouse.EnableHouse();
         Minimap.CreateDestination(SendDeliveryRequest.RequestList[i]);
         ma.AddRequestPizza(SendDeliveryRequest.RequestList[i]);

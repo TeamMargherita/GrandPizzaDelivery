@@ -16,6 +16,7 @@ public class MakingPizza : MonoBehaviour, IResetPizzaMaking
     public static List<Pizza> CompletePizzaList = new List<Pizza>();  // 완성된 피자 리스트
     public static int MakeTimeIndex = 0;
     public static bool IsSaveIndex = false;
+    public static int nowDate = 0;
 
     private RectTransform[] makingPizzaPanelRect;
     private MakingPizzaPanel[] makingPizzaPanelClass;
@@ -33,6 +34,15 @@ public class MakingPizza : MonoBehaviour, IResetPizzaMaking
     }
 	void Start()
     {
+        if (nowDate != Constant.NowDate)
+		{
+            pizzaRequestList.Clear();
+            CompletePizzaList.Clear();
+            nowDate = Constant.NowDate;
+            MakeTimeIndex = 0;
+            IsSaveIndex = false;
+		}
+
         for (int j = 0; j < CompletePizzaList.Count; j++)
         {
             makingPizzaPanelArr[j].SetActive(true);

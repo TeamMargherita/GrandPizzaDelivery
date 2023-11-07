@@ -16,6 +16,8 @@ public class House : MonoBehaviour, IAddress, IHouse, IActiveHouse
     [SerializeField] private GameObject activeObj;
 
     public static Color activeColor = new Color(248/255f, 70/255f, 6/255f);   // 활성화 색(배달해야 하는 곳임을 알림)
+    public static Dictionary<int, Dictionary<int, CustomerS>> CustomerSDic = new Dictionary<int, Dictionary<int, CustomerS>>();
+    public static Dictionary<int, Dictionary<int, int>> nowDate = new Dictionary<int, Dictionary<int, int>>();
 
     private SpriteRenderer spriteRenderer;
     private Transform goalTrans;
@@ -29,7 +31,7 @@ public class House : MonoBehaviour, IAddress, IHouse, IActiveHouse
 
     private Color houseColor;
 
-    private CustomerS customerS;
+    private CustomerS customerS;    // 손님
     private AddressS houseAddress;  // 집주소
 
     private float spendingTime; // 배달에 소요한 시간
@@ -60,7 +62,6 @@ public class House : MonoBehaviour, IAddress, IHouse, IActiveHouse
         //customerS = new CustomerS(Random.Range(1, 101), Random.Range(60, 240), Random.Range(200, 2000));
         activeObj.GetComponent<HouseActiveCheck>().SetIActiveHouse(this);
         houseType = HouseType.HOUSE;
-        SetCustomer();
 	}
     /// <summary>
     /// 고객 생성
@@ -78,11 +79,32 @@ public class House : MonoBehaviour, IAddress, IHouse, IActiveHouse
             }
         }
 
-        int pizzaCutline = Random.Range(0,101);
+        int pizzaCutline = Random.Range(0, 101);
         float pizzaSpeed = Random.Range(30f, 120f);
         int pizzaCarismaCutline = Random.Range(200, 2000);
         int moneyPower = (int)(Random.Range(1, 10f) * Mathf.Pow(10, Constant.PizzaStoreStar));
-        customerS = new CustomerS(pizzaCutline, pizzaSpeed, pizzaCarismaCutline, temIng, moneyPower);
+
+        if (nowDate[houseAddress.BuildingAddress][houseAddress.HouseAddress] != Constant.NowDate)
+        {
+            nowDate[houseAddress.BuildingAddress][houseAddress.HouseAddress] = Constant.NowDate;
+            customerS = new CustomerS(pizzaCutline, pizzaSpeed, pizzaCarismaCutline, temIng, moneyPower);
+            if (!CustomerSDic.ContainsKey(houseAddress.BuildingAddress))
+            {
+                CustomerSDic.Add(houseAddress.BuildingAddress, new Dictionary<int, CustomerS>() { { houseAddress.HouseAddress, customerS } });
+
+            }
+            else
+            {
+                if (!CustomerSDic[houseAddress.BuildingAddress].ContainsKey(houseAddress.HouseAddress))
+                {
+                    CustomerSDic[houseAddress.BuildingAddress].Add(houseAddress.HouseAddress, customerS);
+                }
+                else
+				{
+                    CustomerSDic[houseAddress.BuildingAddress][houseAddress.HouseAddress] = customerS;
+				}
+            }
+        }
     }
     /// <summary>
     /// 주소 초기화
@@ -96,6 +118,21 @@ public class House : MonoBehaviour, IAddress, IHouse, IActiveHouse
         goalObj.GetComponent<GoalCheckCollider>().addr = houseAddress;
 
         addressSList.Add(houseAddress);
+        if (!nowDate.ContainsKey(houseAddress.BuildingAddress))
+        {
+           nowDate.Add(houseAddress.BuildingAddress, new Dictionary<int, int>() { { houseAddress.HouseAddress, 0 } });
+
+        }
+        else
+        {
+            if (!nowDate[houseAddress.BuildingAddress].ContainsKey(houseAddress.HouseAddress))
+            {
+                nowDate[houseAddress.BuildingAddress].Add(houseAddress.HouseAddress, 0);
+            }
+        }
+
+        SetCustomer();
+
     }
     public void SetIMap(IMap iMap)
 	{
@@ -134,21 +171,21 @@ public class House : MonoBehaviour, IAddress, IHouse, IActiveHouse
     {
         tip = 0;
         int percent = 0;
-        if (customerS.PizzaCutLine > pizza.Perfection)
+        if (CustomerSDic[houseAddress.BuildingAddress][houseAddress.HouseAddress].PizzaCutLine > pizza.Perfection)
         {
             percent += 15;
         }
-        if (customerS.PizzaDeliverySpeed > spendingTime)
+        if (CustomerSDic[houseAddress.BuildingAddress][houseAddress.HouseAddress].PizzaDeliverySpeed > spendingTime)
         {
             percent += 15;
         }
-        if (customerS.PizzaCarismaCutLine > pizza.Charisma)
+        if (CustomerSDic[houseAddress.BuildingAddress][houseAddress.HouseAddress].PizzaCarismaCutLine > pizza.Charisma)
         {
             percent += 20;
         }
-        for (int i = 0; i < customerS.IngList.Count; i++)
+        for (int i = 0; i < CustomerSDic[houseAddress.BuildingAddress][houseAddress.HouseAddress].IngList.Count; i++)
         {
-            if (pizza.Ingreds.FindIndex(a => a.Equals(customerS.IngList[i])) != -1)
+            if (pizza.Ingreds.FindIndex(a => a.Equals(CustomerSDic[houseAddress.BuildingAddress][houseAddress.HouseAddress].IngList[i])) != -1)
             {
                 percent += 10;
             }
@@ -156,8 +193,8 @@ public class House : MonoBehaviour, IAddress, IHouse, IActiveHouse
 
         percent = (int)(percent * (pizza.Freshness * 0.01f));
 
-        tip = (int)(customerS.MoneyPower * (percent * 0.01f));
-
+        tip = (int)(CustomerSDic[houseAddress.BuildingAddress][houseAddress.HouseAddress].MoneyPower * (percent * 0.01f));
+        Debug.Log(tip);
         Invoke("PlusMoney", 1.5f);
         if (tip < 40)
         {
@@ -170,6 +207,7 @@ public class House : MonoBehaviour, IAddress, IHouse, IActiveHouse
     }
     private void PlusMoney()
     {
+        Debug.Log("abc");
         GameManager.Instance.Money += tip;
     }
 

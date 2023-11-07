@@ -27,7 +27,7 @@ public class Console : MonoBehaviour
         {
             if (mainInputField.text == "Player.AddMoney")
             {
-                GameManager.Instance.Money += 1000000;
+                GameManager.Instance.Money += 10000000;
                 mainInputField.text = "";
             }
         };

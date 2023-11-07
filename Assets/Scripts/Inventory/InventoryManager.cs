@@ -306,7 +306,7 @@ public class InventoryManager : MonoBehaviour
         {
             int SDRIndex = 0;
             int SlotNum = 0;
-            foreach(var i in SDR.RequestList)
+            foreach(var i in SendDeliveryRequest.RequestList)
             {
                 //�ֹ�����Ʈ�� ���ּ� == �÷��̾� ��ġ ���ּ�
                 if(i.AddressS.HouseAddress == GoalAddressS.addr.HouseAddress)

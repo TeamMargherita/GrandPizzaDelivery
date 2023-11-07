@@ -92,5 +92,14 @@ public class EquipmentSlot : MonoBehaviour , IDropHandler, IPointerEnterHandler,
             GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(Constant.DiceInfo[Constant.nowDice[0]].Path)[0];
         else if(name == "DiceSlot2")
             GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(Constant.DiceInfo[Constant.nowDice[1]].Path)[0];
+        else if(name == "GunSlot1")
+        {
+            if (Constant.NowGun[0] != -1)
+            {
+                inventoryManager.EquipmentSlotUpdate();
+                GetComponent<Image>().color = Color.white;
+            }
+        }
+            
     }
 }

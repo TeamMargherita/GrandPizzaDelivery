@@ -412,6 +412,8 @@ public class EmployeeFire : MonoBehaviour
     {
         WorkDayWinParent.gameObject.SetActive(true);
 
+        employeeValue = value;
+
         SetEmployeeDay(value);
     }
 
@@ -431,11 +433,10 @@ public class EmployeeFire : MonoBehaviour
     void SetEmployeeDay(int value)
     {
         Transform imageParent = WorkDayWinParent.GetChild(0).GetChild(0);
-        Transform TextParent = WorkDayWinParent.GetChild(0).GetChild(0);
 
         string NameText = null;
 
-        employeeValue = value;
+        WorkDayWinParent.GetChild(0).GetChild(2).GetComponent<Text>().text = "-" + Constant.ClerkList[employeeValue].Name + "-";
 
         for (int i = 0; i < 7; i++)
         {
@@ -454,7 +455,7 @@ public class EmployeeFire : MonoBehaviour
                 NameText += WorkingDay[i][j].Name + "\n";
             }
 
-            TextParent.GetChild(i).GetChild(2).GetChild(0).GetComponent<Text>().text = NameText;
+            imageParent.GetChild(i).GetChild(2).GetChild(0).GetComponent<Text>().text = NameText;
 
             NameText = "";
 
@@ -466,6 +467,8 @@ public class EmployeeFire : MonoBehaviour
             {
                 WorkDayWinParent.GetChild(0).GetChild(0).GetChild(i).GetComponent<Image>().color = Color.white;
             }
+
+            Debug.Log(employeeValue);
         }
     } // 일하는 날짜 보여주는
 

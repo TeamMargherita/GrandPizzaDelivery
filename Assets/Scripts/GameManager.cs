@@ -47,16 +47,16 @@ public class GameManager : MonoBehaviour
 
 
     public float time;
-    private float timeSpeed = 60; //ÇÏ·ç±âÁØ½Ã°£
+    private float timeSpeed = 60; //ï¿½Ï·ï¿½ï¿½ï¿½Ø½Ã°ï¿½
 
-    private int money = 0;
+    private int money = 150000;
     public int Money
     {
         get {
             return money;
         }
         set {
-            //³ªÁß¿¡ ÀÏÁ¤±Ý¾×µµ´ÞÇÏ¸é ¾Øµù È­¸é°¡´Â ÇÔ¼ö Â¥±â
+            //ï¿½ï¿½ï¿½ß¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ý¾×µï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½Øµï¿½ È­ï¿½é°¡ï¿½ï¿½ ï¿½Ô¼ï¿½ Â¥ï¿½ï¿½
             if(MoneyText != null )
                 MoneyText.CreateMoneyEffect(value - money);
             money = value;
@@ -92,7 +92,7 @@ public class GameManager : MonoBehaviour
 
     public void HospitalRespawn()
     {
-        //¼®È£¿¡°Ô ÁÖ´Â ¼±¹°
+        //ï¿½ï¿½È£ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½
         Constant.IsHospital = true;
     }
     private void TimeSkip()
@@ -105,7 +105,7 @@ public class GameManager : MonoBehaviour
         //TimeSkip();
         if (!Constant.StopTime)
         {
-            time += Time.deltaTime * timeSpeed; //°ÔÀÓ±âÁØ1ºÐ = Çö½Ç½Ã°£1ÃÊ
+            time += Time.deltaTime * timeSpeed; //ï¿½ï¿½ï¿½Ó±ï¿½ï¿½ï¿½1ï¿½ï¿½ = ï¿½ï¿½ï¿½Ç½Ã°ï¿½1ï¿½ï¿½
         }
         /*if (Input.GetKeyDown(KeyCode.F1))
         {
@@ -127,7 +127,7 @@ public class GameManager : MonoBehaviour
                 Time.fixedDeltaTime = Time.timeScale * 0.02f;
             }
         }*/
-        //°ÔÀÓ1ÃÊ * timeSpeed = Çö½Ç½Ã°£1ÃÊ
+        //ï¿½ï¿½ï¿½ï¿½1ï¿½ï¿½ * timeSpeed = ï¿½ï¿½ï¿½Ç½Ã°ï¿½1ï¿½ï¿½
         //TimeText.GetComponent<Text>().text = (int)time/3600 + " : " + (int)(time / 60 % 60);
     }
 }

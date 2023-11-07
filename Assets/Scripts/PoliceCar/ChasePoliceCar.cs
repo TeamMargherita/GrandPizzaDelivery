@@ -56,6 +56,7 @@ public class ChasePoliceCar : Police, ISetTransform, IUpdateCheckList
     protected override void Awake()
     {
         base.Awake();
+        policeType = PoliceType.CHASER;
         PoliceHp = 500;
         policeState = PoliceState.SPUERCHASE;
         temState = PoliceState.NONE;

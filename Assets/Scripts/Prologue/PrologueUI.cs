@@ -10,6 +10,8 @@ public class PrologueUI : MonoBehaviour
     [SerializeField] private Image img;
     [SerializeField] private Text text;
     [SerializeField] private GameObject nextButton;
+    [SerializeField] private GameObject soundObject;
+    [SerializeField] private GameObject optionObject;
 
     private string[] textList = new string[13]
     {
@@ -57,4 +59,27 @@ public class PrologueUI : MonoBehaviour
             LoadScene.Instance.LoadPrologueToInGameScene();
         }
     }
+
+    public void Quit()
+    {
+        Application.Quit();
+    }
+
+    public void Sound()
+    {
+        soundObject.SetActive(true);
+    }
+
+    public void Close()
+    {
+        optionObject.SetActive(false);
+    }
+	public void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.Escape))
+		{
+            optionObject.SetActive(true);
+		}
+	}
+
 }

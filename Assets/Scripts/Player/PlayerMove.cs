@@ -91,7 +91,7 @@ public class PlayerMove : PlayerStat
         InventoryManagerScript.UIMagagineTextUpdate(CurrentMagagine);
         if (Input.GetKeyDown(KeyCode.X))
         {
-            if(MakingPizzaScript.CompletePizzaList.Count > 0)
+            if(MakingPizza.CompletePizzaList.Count > 0)
             {
                 foreach (var i in GameManager.Instance.PizzaInventoryData)
                 {

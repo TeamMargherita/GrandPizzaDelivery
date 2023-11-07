@@ -2,6 +2,7 @@ using ClerkNS;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.SymbolStore;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,10 +14,6 @@ public class EmployeeStressCon : EmployeeFire
 
     private void Awake()
     {
-        //if (Constant.NowDate == 1 && GameManager.Instance.time >= 32400 && GameManager.Instance.time > 32500)
-        //{
-        //    nowDate = 0;
-        //}
         base.Awake();
         Debug.Log("작동2");
     }
@@ -41,9 +38,11 @@ public class EmployeeStressCon : EmployeeFire
         }
     }
 
+    string Message = null;
+
     void PayStress()
     {
-        string Message = null;
+        Message = null;
 
         for (int i = 0; i < Constant.ClerkList.Count; i++)
         {
@@ -95,7 +94,7 @@ public class EmployeeStressCon : EmployeeFire
         {
             Message += "가 당신의 부당한 대우를 참지 못하고 떠났습니다.";
 
-            NoticeMessage(Message);
+            NoticeMessage();
         }
     }
 
@@ -119,7 +118,7 @@ public class EmployeeStressCon : EmployeeFire
         }
     }
 
-    void NoticeMessage(string Message)
+    void NoticeMessage()
     {
         NoticeWin.SetActive(true);
 

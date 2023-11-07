@@ -40,12 +40,8 @@ public class CreateEmployee : MonoBehaviour
 
     public void GetStat(int SValue)
     {
-        EmployeeRecruit employeeStat = EmployeeRecruitMother.GetComponent<EmployeeRecruit>();
+        Constant.ClerkList.Add(EmployeeRecruit.RecruitClerk[SValue]);
 
-        ClerkC clerk = 
-            new ClerkC(employeeStat.Handy[SValue], (Tier)employeeStat.Agility[SValue], (Tier)employeeStat.Career[SValue], (Tier)employeeStat.Creativity[SValue], 
-             0, employeeStat.Pay[SValue], employeeStat.Name[SValue], employeeStat.preferedDay[SValue], employeeStat.preferedDateCount[SValue]);
-
-        Constant.ClerkList.Add(clerk);
+        EmployeeRecruit.IsRecruited[SValue] = false;
     }
 }

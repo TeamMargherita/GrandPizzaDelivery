@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using ClerkNS;
+using System.Reflection;
 
 public class EmployeeRecruit : MonoBehaviour
 {
@@ -58,6 +59,10 @@ public class EmployeeRecruit : MonoBehaviour
         ShowApplicant();
     }
 
+    public static ClerkC[] RecruitClerk = new ClerkC[3];
+
+    public static bool[] IsRecruited = new bool[3] { false, false, false };
+
     // 고용인원 스텟 표시 및 저장
     void ShowApplicant()
     {
@@ -71,6 +76,8 @@ public class EmployeeRecruit : MonoBehaviour
 
             for (int i = 0; i < limitCount; i++)
             {
+                IsRecruited[i] = true;
+
                 preferedDay[i].Clear();
 
                 Name[i] = RecruitWin.transform.GetChild(i).GetComponent<EmployeeStat>().RanName[Random.Range(0, 41)];
@@ -110,6 +117,8 @@ public class EmployeeRecruit : MonoBehaviour
                     {
                         StatText += WorkDay[Day];
                     }
+
+                    StatText += "선호 근무 요일 : ";
                 }
 
                 RecruitWin.transform.GetChild(i).GetChild(0).
@@ -119,9 +128,70 @@ public class EmployeeRecruit : MonoBehaviour
                     = true;
 
                 StatText = null;
+
+                ClerkC clerk = new ClerkC(Handy[i], (Tier)Agility[i], (Tier)Career[i], (Tier)Creativity[i], 0, Pay[i], Name[i], preferedDay[i], preferedDateCount[i]);
+
+                RecruitClerk[i] = clerk;    
             }
 
             isMorning = false;
+        }
+        else
+        {
+            for (int i = 0; i < limitCount; i++)
+            {
+                StatText += RecruitClerk[i].Name + "\n";
+
+                for (int j = 0; j < Stat.Length; j++)
+                {
+                    StatText += Stat[j];
+
+                    switch (j)
+                    {
+                        case 0:
+                            StatText += RecruitClerk[i].Handicraft;
+                            break;
+                        case 1:
+                            StatText += RecruitWin.transform.GetChild(i).GetComponent<EmployeeStat>().AgilityStat[ChangeStatMark((int)RecruitClerk[i].Agility)];
+                            break;
+                        case 2:
+                            StatText += RecruitWin.transform.GetChild(i).GetComponent<EmployeeStat>().CareerStat[ChangeStatMark((int)RecruitClerk[i].Career)];
+                            break;
+                        case 3:
+                            StatText += RecruitWin.transform.GetChild(i).GetComponent<EmployeeStat>().CreativityStat[ChangeStatMark((int)RecruitClerk[i].Creativity)];
+                            break;
+                        case 4:
+                            StatText += RecruitClerk[i].Pay;
+                            break;
+                        case 5:
+                            StatText += RecruitClerk[i].Stress;
+                            break;
+                    }
+
+                    StatText += "\n";
+                }
+
+                StatText += "선호 근무 요일 : ";
+
+                for (int j = 0; j < RecruitClerk[i].PreferredDateCount; j++)
+                {
+                    if (j < RecruitClerk[i].PreferredDateCount - 1)
+                    {
+                        StatText += WorkDay[(int)RecruitClerk[i].PreferredDate[j]] + ",";
+                    }
+                    else if (j == RecruitClerk[i].PreferredDateCount - 1)
+                    {
+                        StatText += WorkDay[(int)RecruitClerk[i].PreferredDate[j]];
+                    }
+                }
+                    RecruitWin.transform.GetChild(i).GetChild(0).
+                        GetComponent<Text>().text = StatText;
+
+                RecruitWin.transform.GetChild(i).GetChild(1).GetComponent<Button>().interactable
+                    = IsRecruited[i];
+
+                StatText = null;
+            }
         }
     }
 

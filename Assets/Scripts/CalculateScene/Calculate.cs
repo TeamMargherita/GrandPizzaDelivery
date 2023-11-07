@@ -286,16 +286,27 @@ public class Calculate : MonoBehaviour
                 t4 = 0;
                 contentsText.text = $"벌금 : {t1}원 \n소모된 피자 재료 값 : {t2}원 \n점원 일급 : {t3}원 \n부활비 : {t4}원";
             }
+            bool isOk = false;
             List<int> li = new List<int>();
             foreach (var key in Constant.PayMoneyDate.Keys)
             {
                 if (key <= Constant.NowDate - moneyTime)
                 {
                     li.Add(key);
+                    for (int i = 0; i < Constant.MoneyStoreCode.Length; i++)
+                    {
+                        if (Constant.MoneyConfiscated[i])
+                        {
+                            if (Constant.PayMoneyDate[key].ContainsKey(Constant.MoneyStoreCode[i]))
+                            {
+                                isOk = true;
+                            }
+                        }
+                    }
                 }
             }
 
-            if (li.Count > 0)
+            if (li.Count > 0 && isOk)
             {
                 contentsText.text = $"벌금 : {t1}원 \n소모된 피자 재료 값 : {t2}원 \n점원 일급 : {t3}원 \n부활비 : {t4}원 \n...";
                 yield return Constant.OneTime;
@@ -620,12 +631,23 @@ public class Calculate : MonoBehaviour
 		{
             t99 = 0;
 		}
+        bool isOk = false;
         List<int> li = new List<int>();
         foreach (var key in Constant.PayMoneyDate.Keys)
         {
             if (key <= Constant.NowDate - moneyTime)
             {
                 li.Add(key);
+                for (int i = 0; i < Constant.MoneyStoreCode.Length; i++)
+                {
+                    if (Constant.MoneyConfiscated[i])
+                    {
+                        if (Constant.PayMoneyDate[key].ContainsKey(Constant.MoneyStoreCode[i]))
+                        {
+                            isOk = true;
+                        }
+                    }
+                }
             }
         }
 
@@ -671,7 +693,7 @@ public class Calculate : MonoBehaviour
         }
         Constant.Dept = n7;
 
-        if (li.Count > 0)
+        if (li.Count > 0 && isOk)
         {
             contentsText.text = $"벌금 : {Constant.Fine}원 \n소모된 피자 재료 값 : {Constant.PizzaIngMoney}원 \n점원 일급 : {Constant.ClerkMoney}원 \n부활비 : {t99}원 \n...\n앗! 대여자들이 들이닥쳤다!\n대여자들에게 갚은 돈 : {de}원";
         }

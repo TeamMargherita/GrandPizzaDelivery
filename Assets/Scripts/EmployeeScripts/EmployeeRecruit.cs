@@ -261,6 +261,6 @@ public class EmployeeRecruit : MonoBehaviour
 
     public void EmployeeDataReset()
     {
-        isMorning = true;
-    }// 나중에 시간 설정되면 날짜 바뀔때마다 설정되게 바꾸기~
+        nowDate++;
+    }
 }

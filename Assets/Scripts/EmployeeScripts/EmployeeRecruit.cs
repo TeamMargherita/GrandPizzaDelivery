@@ -30,11 +30,6 @@ public class EmployeeRecruit : MonoBehaviour
 
     private void Awake()
     {
-        //if (Constant.NowDate == 1 && GameManager.Instance.time >= 32400 && GameManager.Instance.time > 32500)
-        //{
-        //    nowDate = 0;
-        //}
-
         for (int i = 0; i < limitCount; i++)
         {
             preferedDay.Add(i, new List<Day>());
@@ -82,19 +77,15 @@ public class EmployeeRecruit : MonoBehaviour
 
                 Name[i] = RecruitWin.transform.GetChild(i).GetComponent<EmployeeStat>().RanName[Random.Range(0, 41)];
 
-                StatText += Name[i] + "\n";
-
                 for (int j = 0; j < Stat.Length; j++)
                 {
                     StatText += Stat[j] +
-                     State(i, j, RecruitWin.transform.GetChild(i)) + "\n";
+                     State(i, j, RecruitWin.transform.GetChild(i));
                 }
 
                 Day = Random.Range(1, limitCount);
 
                 preferedDateCount.Add(Day);
-
-                StatText += "선호 근무 요일 : ";
 
                 for (int j = 0; j < preferedDateCount[i]; j++)
                 {
@@ -108,21 +99,7 @@ public class EmployeeRecruit : MonoBehaviour
                     }
 
                     preferedDay[i].Add((Day)Day);
-
-                    if (j < preferedDateCount[i] - 1)
-                    {
-                        StatText += WorkDay[Day] + ",";
-                    }
-                    else if (j == preferedDateCount[i] - 1)
-                    {
-                        StatText += WorkDay[Day];
-                    }
-
-                    StatText += "선호 근무 요일 : ";
                 }
-
-                RecruitWin.transform.GetChild(i).GetChild(0).
-                        GetComponent<Text>().text = StatText;
 
                 RecruitWin.transform.GetChild(i).GetChild(1).GetComponent<Button>().interactable
                     = true;

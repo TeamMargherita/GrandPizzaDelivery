@@ -11,7 +11,7 @@ using DayNS;
 public class BackTitle : MonoBehaviour
 {
     [SerializeField] private GameObject gameManager;
-
+    [SerializeField] private GameObject soundMenu;
     public void OnClickTitle()
     {
         Destroystatic("GameManager");
@@ -37,4 +37,9 @@ public class BackTitle : MonoBehaviour
     {
         Application.Quit();
     }
+
+    public void OnClickSound()
+	{
+        soundMenu.SetActive(true);
+	}
 }

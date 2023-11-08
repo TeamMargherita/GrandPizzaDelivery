@@ -76,6 +76,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0.1f;
         Time.fixedDeltaTime = Time.timeScale * 0.02f;
         yield return new WaitForSecondsRealtime(3f);
+        SendDeliveryRequest.RequestList.Clear();
         Time.timeScale = 1;
         Time.fixedDeltaTime = Time.timeScale * 0.02f;
         LoadScene.Instance.LoadNextDay(true);
@@ -85,6 +86,7 @@ public class GameManager : MonoBehaviour
     }
     public void NextDay()
     {
+        SendDeliveryRequest.RequestList.Clear();
         LoadScene.Instance.LoadNextDay(false);
         isDarkDelivery = false;
         time = 32400;

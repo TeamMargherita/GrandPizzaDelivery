@@ -33,6 +33,8 @@ public class PlayerMove : PlayerStat
     [SerializeField]
     private AudioClip ReloadAudioClip;
     [SerializeField]
+    private AudioSource CrushSound;
+    [SerializeField]
     private GameObject ammoEffect;
 
     PlayerGunShooting gunMethod;
@@ -59,7 +61,7 @@ public class PlayerMove : PlayerStat
             {
                 if (gunMethod.Fire(1 - Constant.GunInfo[Constant.NowGun[0]].Speed, Constant.GunInfo[Constant.NowGun[0]].Damage))
                 {
-                    Instantiate(ammoEffect, Gun.transform.position, Hand.transform.rotation);
+                    Instantiate(ammoEffect, Gun.transform.position + (Gun.transform.right * -0.7f), Hand.transform.rotation);
                     CurrentMagagine -= 1;
                     FireEffect.GetComponent<Animator>().SetTrigger("NewStart");
                     FireAudio.Play();
@@ -89,7 +91,7 @@ public class PlayerMove : PlayerStat
         InventoryManagerScript.UIMagagineTextUpdate(CurrentMagagine);
         if (Input.GetKeyDown(KeyCode.X))
         {
-            if(MakingPizzaScript.CompletePizzaList.Count > 0)
+            if(MakingPizza.CompletePizzaList.Count > 0)
             {
                 foreach (var i in GameManager.Instance.PizzaInventoryData)
                 {
@@ -210,6 +212,10 @@ public class PlayerMove : PlayerStat
     }
     Vector2 Power;
     float TestPower;
+    int currentCollisionType = -1;//Police = 0, ChaserPoliceCar = 1, House = 2;
+    int preCollisionType = -1;
+    Transform preTransform;
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.transform.CompareTag("Police"))
@@ -217,11 +223,24 @@ public class PlayerMove : PlayerStat
             Power = GetComponent<Rigidbody2D>().velocity - (Vector2)(collision.transform.right * collision.transform.GetComponent<PoliceCar>().Speed);
             TestPower = Power.magnitude;
             HP -= (int)(TestPower * 1.5);
-        }else if (collision.transform.CompareTag("ChaserPoliceCar"))
+            currentCollisionType = 0;
+        }
+        else if (collision.transform.CompareTag("ChaserPoliceCar"))
         {
             Power = GetComponent<Rigidbody2D>().velocity - (Vector2)(collision.transform.right * collision.transform.GetComponent<ChasePoliceCar>().Speed);
             TestPower = Power.magnitude;
             HP -= (int)(TestPower * 1.5);
+            currentCollisionType = 1;
+        }
+        else if (collision.transform.CompareTag("House"))
+        {
+            currentCollisionType = 2;
+        }
+        if(currentCollisionType != preCollisionType || !CrushSound.isPlaying)
+        {
+            preCollisionType = currentCollisionType;
+            preTransform = collision.transform;
+            CrushSound.Play();
         }
     }
 }

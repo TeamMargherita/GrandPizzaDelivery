@@ -17,7 +17,8 @@ public class Map : MonoBehaviour, IMap, IStop
     [SerializeField] private GameObject streetLamps;
     [SerializeField] private PlayerMove playerMove;
     [SerializeField] private Sprite[] houseMarkArr;
-    
+
+    //public static int nowDate = 0;
     // addressList를 통해 빌딩의 주소를 초기화하거나 받아올 수 있습니다.
     private List<IAddress> addressList = new List<IAddress>();
     // 각 건물에 경찰차를 배정하기 위한 리스트입니다.
@@ -193,12 +194,24 @@ public class Map : MonoBehaviour, IMap, IStop
 
             if (!houseAddressList[r].IHouse.GetIsEnable() && houseAddressList[r].IHouse.GetHouseType() == HouseType.HOUSE)
             {
+                temInd = r;
                 Debug.Log(houseAddressList[r].IHouse.GetLocation());
                 return houseAddressList[r];
             }
         }
-
+        
     }
+    private int temInd = -1;
+    public int GetSpecAddress()
+    {
+        return temInd;
+    }
+    public AddressS GetSpecAddress(int num)
+	{
+        return houseAddressList[num];
+	}
+
+
     /// <summary>
     /// 맵에 경찰차들과 플레이어를 정지시킨다.
     /// </summary>

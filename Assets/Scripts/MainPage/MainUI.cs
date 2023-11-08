@@ -5,6 +5,8 @@ using UnityEngine;
 // 한석호 작성
 public class MainUI : MonoBehaviour
 {
+    [SerializeField] private GameObject soundObject;
+    [SerializeField] private GameObject optionObject;
     private bool isFade = false;
     // Start is called before the first frame update
     void Start()
@@ -34,4 +36,24 @@ public class MainUI : MonoBehaviour
     {
         LoadScene.Instance.ActiveTrueFade("Prologue");
     }
+
+    public void Quit()
+	{
+        Application.Quit();
+	}
+
+    public void Sound()
+	{
+        soundObject.SetActive(true);
+	}
+
+    public void Close()
+	{
+        optionObject.SetActive(false);
+	}
+
+    public void Open()
+	{
+        optionObject.SetActive(true);
+	}
 }

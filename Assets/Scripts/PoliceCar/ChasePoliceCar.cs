@@ -13,6 +13,7 @@ public class ChasePoliceCar : Police, ISetTransform, IUpdateCheckList
 
     [SerializeField] private GameObject[] colArr;
     [SerializeField] private Animator ani;
+    [SerializeField] private AudioSource PoliceAudio;
 
     private const int RIGHTUP = 0; // 앞
     private const int RIGHTDOWN = 1;    // 앞
@@ -479,9 +480,10 @@ public class ChasePoliceCar : Police, ISetTransform, IUpdateCheckList
         }
     }
 
-    
+    bool isPoliceAudio = false;
     private void FixedUpdate()
 	{
+        
         // 특정상황에서 모든 추격 경찰차 정지
         if (ControlMove()) { return; }
         if (policeState == PoliceState.DESTROY ||  policeState == PoliceState.NONE) { return; }
@@ -490,6 +492,16 @@ public class ChasePoliceCar : Police, ISetTransform, IUpdateCheckList
         ChangeFOVColor(policeState);
 
         // 플레이어를 발견한다면 슈팅 자세
+        if (iGetBool.GetBool() && !isPoliceAudio)
+        {
+            PoliceAudio.Play();
+            isPoliceAudio = !isPoliceAudio;
+        }
+        else if(!iGetBool.GetBool() && isPoliceAudio)
+        {
+            PoliceAudio.Stop();
+            isPoliceAudio = !isPoliceAudio;
+        }
         GunMethod.ShootingStance = iGetBool.GetBool();
         GunMethod.Fire(1f, 10);
 

@@ -60,7 +60,7 @@ public class NoteClear : MonoBehaviour
                 // 자동 플레이를 위한 조건
                 if (storage.NoteLoad[i].Count > 0)
                 {
-                    if (storage.NoteLoad[i].Peek().SendJudge() == Judge.PERFECT)
+                    if (storage.NoteLoad[i].Peek().SendJudge() == Judge.PERFECT && storage.NoteLoad[i].Peek().Timing <= 0)
                     {
                         Clear(i);
                     }

@@ -11,13 +11,27 @@ public class SpeedSetting : MonoBehaviour
 
     private RhythmManager manager;          // ¸®µë ¸Å´ÏÀú Ä³½Ì
 
+    private float CurrentSpeed;
     private void Start()
     {
-        // ¸®µë ¸Å´ÏÀú Ä³½Ì
-        manager = RhythmManager.Instance;
+        SpeedSlider.onValueChanged.AddListener(SetSpeed);
+    }
+
+    private void OnEnable()
+    {
+        if (manager == null)
+            manager = RhythmManager.Instance;
+        SpeedSlider.value = manager.Speed / 5f;
+        CurrentSpeed = manager.Speed;
+    }
+
+    private void Update()
+    {
+        if (CurrentSpeed == manager.Speed)
+            return;
 
         SpeedSlider.value = manager.Speed / 5f;
-        SpeedSlider.onValueChanged.AddListener(SetSpeed);
+        CurrentSpeed = manager.Speed;
     }
 
     /// <summary>
@@ -26,6 +40,7 @@ public class SpeedSetting : MonoBehaviour
     /// <param name="volume">½½¶óÀÌ´õ °ª</param>
     public void SetSpeed(float volume)
     {
-        manager.Speed = volume * 5f;
+        float v = Mathf.Round(volume * 50);
+        manager.Speed = v / 10;
     }
 }

@@ -15,10 +15,10 @@ public class ClearKeyInput : MonoBehaviour
     private int index;
     private Dictionary<char, bool> keyMap = new Dictionary<char, bool>();
 
-    private void Start()
-    {
-        Init();
-    }
+    //private void Start()
+    //{
+    //    Init();
+    //}
 
     private void OnEnable()
     {

@@ -144,6 +144,8 @@ public class PizzaMenuUI : MonoBehaviour, IAddPizza
 	}
 	public void RemoveQuestion(int index)
 	{
+		if (GameManager.Instance.PizzaMenu.Count <= 1) { return; }
+
 		temIndex = index;
 		questionPanel.SetActive(true);
 	}
@@ -154,6 +156,7 @@ public class PizzaMenuUI : MonoBehaviour, IAddPizza
 	}
 	public void ReMovePizza()
 	{
+
 		explainMenuSlotText[temIndex].gameObject.transform.parent.gameObject.SetActive(false);
 		openExplainList.Remove(temIndex);
 
@@ -266,9 +269,10 @@ public class PizzaMenuUI : MonoBehaviour, IAddPizza
 		string str = "";
 		for (int i = 0; i < Constant.DevelopPizza[num].Ingreds.Count; i++)
 		{
-			str += Constant.DevelopPizza[num].Ingreds[i].ToString() + ", ";
+			str += Constant.IngredientsArray[(int)(Constant.DevelopPizza[num].Ingreds[i]), 4] + ", ";
 		}
-		addPizzaExplainText.text = "피자이름 : " + Constant.DevelopPizza[num].Name 
+		addPizzaExplainText.text = "피자이름 : " + Constant.DevelopPizza[num].Name
+								+ "\n완성도 : " + Constant.DevelopPizza[num].Perfection
 								+ "\n피자매력도 : " + Constant.DevelopPizza[num].Charisma
 								+ "\n피자가격 : " + Constant.DevelopPizza[num].SellCost
 								+ "\n피자생산비용 : " + Constant.DevelopPizza[num].ProductionCost

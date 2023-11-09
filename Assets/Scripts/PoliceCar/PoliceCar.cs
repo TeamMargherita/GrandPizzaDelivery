@@ -11,7 +11,6 @@ public class PoliceCar : Police, IPoliceCar, IMovingPoliceCarControl, IInspectin
     [SerializeField] private GameObject checkColObj;    // 이동 시 충돌을 방지하기 위한 콜라이더
     [SerializeField] private GameObject stopCheckColObj;    // 정지 시, 불심검문을 위한 콜라이더
     public static bool IsInspecting { get; private set; }   // 플레이어가 불심검문 중인지 확인하는 정적 변수
-
     private static List<int> policeCarCodeList = new List<int>();  // 경찰차 고유번호 리스트
 
     // 경로를 차례대로 들고 있다.

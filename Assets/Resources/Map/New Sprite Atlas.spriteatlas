@@ -58,6 +58,10 @@ SpriteAtlas:
     - {fileID: -8425356044095528577, guid: eb85a966c446c054da28a286b73429c5, type: 3}
     - {fileID: -5558029795583885721, guid: eb85a966c446c054da28a286b73429c5, type: 3}
     - {fileID: -5774929456085492100, guid: eb85a966c446c054da28a286b73429c5, type: 3}
+    - {fileID: -5550123143135437025, guid: eb85a966c446c054da28a286b73429c5, type: 3}
+    - {fileID: -2391609043982446602, guid: eb85a966c446c054da28a286b73429c5, type: 3}
+    - {fileID: -6399879338995445889, guid: eb85a966c446c054da28a286b73429c5, type: 3}
+    - {fileID: -8513335189655816105, guid: eb85a966c446c054da28a286b73429c5, type: 3}
     bindAsDefault: 1
     isAtlasV2: 0
     cachedData: {fileID: 0}
@@ -79,7 +83,11 @@ SpriteAtlas:
   - {fileID: -5360500586861833829, guid: cd3ed081f112ae742922894f3cb3dd2a, type: 3}
   - {fileID: 1523070381988707729, guid: cd3ed081f112ae742922894f3cb3dd2a, type: 3}
   - {fileID: 6086900524112552533, guid: cd3ed081f112ae742922894f3cb3dd2a, type: 3}
+  - {fileID: -8513335189655816105, guid: eb85a966c446c054da28a286b73429c5, type: 3}
+  - {fileID: -2391609043982446602, guid: eb85a966c446c054da28a286b73429c5, type: 3}
+  - {fileID: -6399879338995445889, guid: eb85a966c446c054da28a286b73429c5, type: 3}
   - {fileID: -5774929456085492100, guid: eb85a966c446c054da28a286b73429c5, type: 3}
+  - {fileID: -5550123143135437025, guid: eb85a966c446c054da28a286b73429c5, type: 3}
   - {fileID: 8508721237159705231, guid: eb85a966c446c054da28a286b73429c5, type: 3}
   - {fileID: 7412543961215354093, guid: eb85a966c446c054da28a286b73429c5, type: 3}
   - {fileID: 2739316514366043512, guid: eb85a966c446c054da28a286b73429c5, type: 3}
@@ -107,7 +115,11 @@ SpriteAtlas:
   - Grand_Pizza_DeliveryMan_TileMap_40_40_2
   - Grand_Pizza_DeliveryMan_TileMap_40_40_9
   - Grand_Pizza_DeliveryMan_TileMap_40_40_8
+  - MapGridSeat_40_40_14
+  - MapGridSeat_40_40_12
+  - MapGridSeat_40_40_13
   - MapGridSeat_40_40_10
+  - MapGridSeat_40_40_11
   - MapGridSeat_40_40_3
   - MapGridSeat_40_40_2
   - MapGridSeat_40_40_1

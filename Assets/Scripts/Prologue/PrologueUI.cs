@@ -82,4 +82,8 @@ public class PrologueUI : MonoBehaviour
 		}
 	}
 
+    public void Skip()
+    {
+        LoadScene.Instance.LoadPrologueToInGameScene();
+    }
 }

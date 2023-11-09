@@ -106,6 +106,9 @@ public class RhythmManager : MonoBehaviour
         // 씬 전환
         SceneChange = true;
 
+        // 정확도 전달
+        Constant.Perfection = Mathf.RoundToInt(Judges.Accuracy);
+
         // 매력도 전달
         Constant.PizzaAttractiveness = Judges.Attractive;
 

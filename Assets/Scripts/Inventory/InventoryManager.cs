@@ -239,6 +239,7 @@ public class InventoryManager : MonoBehaviour
                 else
                 {
                     PizzaInventorySlot[i].transform.GetChild(1).gameObject.SetActive(false);
+                    PizzaInventorySlot[i].transform.GetChild(0).GetComponent<Text>().text = "";
                 }
             }
         }
@@ -386,6 +387,6 @@ public class InventoryManager : MonoBehaviour
         inventoryOpenClose();
         UIGunImageUpdate();
         inventoryTextUpdate("PizzaInventory");
-        UpdateInventoryText();
+        //UpdateInventoryText();
     }
 }

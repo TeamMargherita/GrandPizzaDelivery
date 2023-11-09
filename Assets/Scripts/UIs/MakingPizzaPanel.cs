@@ -10,6 +10,7 @@ public class MakingPizzaPanel : MonoBehaviour
 	[SerializeField] private Text backText;
 	[SerializeField] private Text mainText;
 
+	public bool isComplete { get; set; }
 	private Pizza temPizza = new Pizza();	// 임시로 저장할 피자
 
 	/// <summary>

@@ -199,7 +199,7 @@ public class MakingPizza : MonoBehaviour, IResetPizzaMaking
                 }
                 yield return Constant.OneTime;
 			}
-            
+            makingPizzaPanelClass[panelIndex].isComplete = true;
             // 완성된 피자는 리스트에서 제거
             pizzaRequestList.RemoveAt(0);
 

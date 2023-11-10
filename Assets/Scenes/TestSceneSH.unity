@@ -45726,6 +45726,10 @@ PrefabInstance:
       propertyPath: Minimap
       value: 
       objectReference: {fileID: 973720033}
+    - target: {fileID: 1232639671345604971, guid: 924657db66813a54080377e7f494ef1e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1232639671884107108, guid: 924657db66813a54080377e7f494ef1e, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

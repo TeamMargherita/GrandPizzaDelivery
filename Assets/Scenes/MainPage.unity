@@ -3439,7 +3439,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Fire - https://soundeffect-lab.info/argreement
+  m_Text: 'Fire - https://soundeffect-lab.info/argreement
+
+    https://pgtd.tistory.com/227'
 --- !u!222 &1623458514
 CanvasRenderer:
   m_ObjectHideFlags: 0

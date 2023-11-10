@@ -1942,7 +1942,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "*\uC704 \uB9AC\uC18C\uC2A4\uB4E4\uC740 \uC0C1\uC5C5\uC801\uC778 \uBAA9\uD45C\uB85C
+  m_Text: "*\uC704 \uB9AC\uC18C\uC2A4\uB4E4\uC740 \uC0C1\uC5C5\uC801\uC778 \uBAA9\uC801\uC73C\uB85C
     \uC0AC\uC6A9\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
 --- !u!222 &865490112
 CanvasRenderer:
@@ -3043,7 +3043,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "*\uC704 \uB9AC\uC18C\uC2A4\uB4E4\uC740 \uC0C1\uC5C5\uC801\uC778 \uBAA9\uD45C\uB85C
+  m_Text: "*\uC704 \uB9AC\uC18C\uC2A4\uB4E4\uC740 \uC0C1\uC5C5\uC801\uC778 \uBAA9\uC801\uC73C\uB85C
     \uC0AC\uC6A9\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
 --- !u!222 &1445453837
 CanvasRenderer:

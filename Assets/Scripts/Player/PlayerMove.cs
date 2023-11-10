@@ -89,21 +89,10 @@ public class PlayerMove : PlayerStat
         if(!UIControl.isIn)
             PlayerFire();
         InventoryManagerScript.UIMagagineTextUpdate(CurrentMagagine);
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            if(MakingPizza.CompletePizzaList.Count > 0)
-            {
-                foreach (var i in GameManager.Instance.PizzaInventoryData)
-                {
-                    if (i == null)
-                    {
-                        InventoryManagerScript.InventoryAddItem(MakingPizzaScript.GetInvenPizzaList(0));
-                        break;
-                    }
-                }
-            }
-            InventoryManagerScript.inventoryTextUpdate("PizzaInventory");
-        }
+        //if (Input.GetKeyDown(KeyCode.X))
+        //{
+
+        //}
         if (!Stop && !bananaTrigger)
         {
             time += Time.deltaTime;
@@ -242,5 +231,21 @@ public class PlayerMove : PlayerStat
             preTransform = collision.transform;
             CrushSound.Play();
         }
+    }
+
+    public void AddPizzaInven(int index)
+    {
+        if (MakingPizza.CompletePizzaList.Count > 0)
+        {
+            foreach (var i in GameManager.Instance.PizzaInventoryData)
+            {
+                if (i == null)
+                {
+                    InventoryManagerScript.InventoryAddItem(MakingPizzaScript.GetInvenPizzaList(index));
+                    break;
+                }
+            }
+        }
+        InventoryManagerScript.inventoryTextUpdate("PizzaInventory");
     }
 }

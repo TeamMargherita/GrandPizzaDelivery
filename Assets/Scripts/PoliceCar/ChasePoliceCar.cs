@@ -480,7 +480,6 @@ public class ChasePoliceCar : Police, ISetTransform, IUpdateCheckList
         }
     }
 
-    bool isPoliceAudio = false;
     private void FixedUpdate()
 	{
         
@@ -490,18 +489,22 @@ public class ChasePoliceCar : Police, ISetTransform, IUpdateCheckList
 
         time += Time.deltaTime;
         ChangeFOVColor(policeState);
-
-        // 플레이어를 발견한다면 슈팅 자세
-        if (iGetBool.GetBool() && !isPoliceAudio)
+        if (!UIControl.isIn)
         {
-            PoliceAudio.Play();
-            isPoliceAudio = !isPoliceAudio;
+            if (iGetBool.GetBool() && !PoliceAudio.isPlaying)
+            {
+                PoliceAudio.Play();
+            }
+            else if (!iGetBool.GetBool() && PoliceAudio.isPlaying)
+            {
+                PoliceAudio.Stop();
+            }
         }
-        else if(!iGetBool.GetBool() && isPoliceAudio)
+        else
         {
             PoliceAudio.Stop();
-            isPoliceAudio = !isPoliceAudio;
         }
+        // 플레이어를 발견한다면 슈팅 자세
         GunMethod.ShootingStance = iGetBool.GetBool();
         GunMethod.Fire(1f, 10);
 

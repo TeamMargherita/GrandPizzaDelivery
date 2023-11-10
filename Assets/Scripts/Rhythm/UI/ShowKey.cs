@@ -22,12 +22,5 @@ public class ShowKey : MonoBehaviour
             k2 = (char)RhythmManager.Instance.ClearKeys[3];
         }
         text.text = "배정된 키 : [ " + k1.ToString().ToUpper() + " ] " + " [ " + k2.ToString().ToUpper() + " ]";
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }

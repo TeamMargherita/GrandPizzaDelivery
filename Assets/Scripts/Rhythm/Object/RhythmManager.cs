@@ -40,7 +40,7 @@ public class RhythmManager : MonoBehaviour
 
         Judges = new JudgeStorage();
         Data = new AudioData();
-        MusicSound = 0.5f;
+        MusicSound = 0.75f;
         KeySound = 1f;
         ClearKeys[0] = KeyCode.A;
         ClearKeys[1] = KeyCode.S;

@@ -15,11 +15,6 @@ public class ClearKeyInput : MonoBehaviour
     private int index;
     private Dictionary<char, bool> keyMap = new Dictionary<char, bool>();
 
-    private void Start()
-    {
-        Init();
-    }
-
     private void OnEnable()
     {
         Init();
@@ -58,6 +53,7 @@ public class ClearKeyInput : MonoBehaviour
 
         // 새로 받은 키 저장
         char newKey = str[0];
+        newKey = char.ToLower(newKey);
 
         // 기존 키 저장
         char oldKey = (char)clearKeys[index];

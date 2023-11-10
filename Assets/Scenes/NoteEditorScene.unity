@@ -1350,7 +1350,7 @@ PrefabInstance:
     - target: {fileID: 3489562485681704539, guid: cce559ef0d4fcbe4ea06e3b7f576ddf8, type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: 1813d7a4f0f815149b820c8ef32aaac2, type: 3}
+      objectReference: {fileID: 8300000, guid: 1112e90dc2a51ae418ea7dc145fe5445, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cce559ef0d4fcbe4ea06e3b7f576ddf8, type: 3}
 --- !u!1 &872059073
@@ -4108,12 +4108,12 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1044286199950050072, guid: a83cc78eea476dd48b0a466ead8e257d, type: 3}
       propertyPath: Title
-      value: Pluck It Up
+      value: Busy City
       objectReference: {fileID: 0}
     - target: {fileID: 1044286199950050072, guid: a83cc78eea476dd48b0a466ead8e257d, type: 3}
       propertyPath: AudioClip
       value: 
-      objectReference: {fileID: 8300000, guid: efbccec9e0e570445bf9e09550101a0d, type: 3}
+      objectReference: {fileID: 8300000, guid: 275e6894095a6c144a4df351c4666064, type: 3}
     - target: {fileID: 1044286199950050072, guid: a83cc78eea476dd48b0a466ead8e257d, type: 3}
       propertyPath: IsRhythmGuide
       value: 0
@@ -4272,6 +4272,10 @@ PrefabInstance:
       propertyPath: storage
       value: 
       objectReference: {fileID: 1546192685}
+    - target: {fileID: 6634236408629544170, guid: 4660bf51ef171ce44825f9935438f472, type: 3}
+      propertyPath: BarInterval
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 6634236408629544170, guid: 4660bf51ef171ce44825f9935438f472, type: 3}
       propertyPath: Lines.Array.size
       value: 2

@@ -84,7 +84,10 @@ public class EmployeeFire : MonoBehaviour
 
         FindEmployeeData(value);
 
-        pay[value / 2] = 0;
+        if (value != 0)
+            pay[value / 2] = 0;
+        else
+            pay[value] = 0;
     }
 
     [SerializeField] string[] DayText;
@@ -240,7 +243,7 @@ public class EmployeeFire : MonoBehaviour
         }
     }
 
-    int[] pay = new int[5];
+    int[] pay = new int[29];
 
     public void PayRateButton(int value)// 일급 조절.
     {
@@ -352,7 +355,7 @@ public class EmployeeFire : MonoBehaviour
     {
         RectTransform rect = FireWinParent.GetComponent<RectTransform>();
 
-        rect.sizeDelta = new Vector3(rect.sizeDelta.x, rect.sizeDelta.y + 150);
+        rect.sizeDelta = new Vector3(rect.sizeDelta.x, rect.sizeDelta.y + 160);
     }
 
     public void SavePayRate(int value)

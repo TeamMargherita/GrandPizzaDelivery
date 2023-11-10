@@ -15,7 +15,7 @@ public class ClearEffect : MonoBehaviour
         render = GetComponent<SpriteRenderer>();
 
         // 색상 지정
-        color = new Color[] { Color.cyan, Color.green, Color.yellow };
+        color = new Color[] { Color.cyan, Color.green, Color.yellow, Color.gray };
 
         // 시작 색상 저장
         startColor = render.color;
@@ -51,6 +51,9 @@ public class ClearEffect : MonoBehaviour
             case Judge.GOOD:
                 Init(2);
                 break;
+            case Judge.NONE:
+                Init(3);
+                break;
             default:
                 break;
         }
@@ -66,12 +69,16 @@ public class ClearEffect : MonoBehaviour
         endColor = color[index];
 
         // 이펙트 링 인스턴싱
-        GameObject ring = Instantiate(Ring, transform);
-        Destroy(ring, 5f);
+        if(index != 3)
+        {
+            GameObject ring = Instantiate(Ring, transform);
+            Destroy(ring, 5f);
 
-        // 링 색상, 좌표 초기화
-        ring.GetComponent<SpriteRenderer>().color = color[index];
-        ring.transform.localPosition = Vector2.zero;
+            // 링 색상, 좌표 초기화
+            ring.GetComponent<SpriteRenderer>().color = color[index];
+            ring.transform.localPosition = Vector2.zero;
+        }
+
         timer = 1f;
     }
 }

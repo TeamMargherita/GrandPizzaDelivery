@@ -68,6 +68,8 @@ public class MakingPizza : MonoBehaviour, IResetPizzaMaking
         {
             makingPizzaPanelRect[i] = makingPizzaPanelArr[i].GetComponent<RectTransform>();
             makingPizzaPanelClass[i] = makingPizzaPanelArr[i].GetComponent<MakingPizzaPanel>();
+            makingPizzaPanelClass[i].MakingPizza = this;
+            makingPizzaPanelClass[i].PizzaIndex = i;
         }
     }
     /// <summary>
@@ -115,11 +117,11 @@ public class MakingPizza : MonoBehaviour, IResetPizzaMaking
 
             Constant.PizzaIngMoney += pizzaRequestList[0].Pizza.ProductionCost;
             // 피자 만드는데 걸리는 시간을 계산한다.
-            makeTime = 120;
+            makeTime = 82;
             for (int i = 0; i < EmployeeStressCon.WorkingDay[(int)Constant.NowDay].Count; i++)
             {
                 //makeTime -= (60 + (int)Constant.ClerkList[i].Agility);
-                makeTime -= (15 + (int)EmployeeStressCon.WorkingDay[(int)Constant.NowDay][i].Agility);
+                makeTime -= (10 + (int)EmployeeStressCon.WorkingDay[(int)Constant.NowDay][i].Agility);
                 Debug.Log(makeTime);
             }
             // 돈이 빠져나간다.
@@ -199,7 +201,7 @@ public class MakingPizza : MonoBehaviour, IResetPizzaMaking
                 }
                 yield return Constant.OneTime;
 			}
-            
+            makingPizzaPanelClass[panelIndex].isComplete = true;
             // 완성된 피자는 리스트에서 제거
             pizzaRequestList.RemoveAt(0);
 
@@ -212,15 +214,34 @@ public class MakingPizza : MonoBehaviour, IResetPizzaMaking
     /// <param name="index">가져올 피자리스트의 인덱스. 맞지 않는다면 빈 피자를 반환한다.</param>
     /// <returns></returns>
     public Pizza GetInvenPizzaList(int index)
-	{
-        // 가져올 수 없는 범위에 있다면 빈 피자를 반환함
-        if (CompletePizzaList.Count <= index) { return new Pizza(); }
+    {
+        int k = 0;
+        for (int i = 0; i < GameManager.Instance.PizzaInventoryData.Length; i++)
+        {
+            if (GameManager.Instance.PizzaInventoryData[i] != null)
+            {
+                k++;
+            }
+        }
+
+        Debug.Log( $"{k} CompletePizzaList.Count : {CompletePizzaList.Count}");
+        
+        if (k < 0) { return new Pizza(); }
 
         // 피자를 임시로 저장한다.
-        Pizza temPizza = CompletePizzaList[index];
-        // 피자집에 있는 피자들 명단에서 제외한다.
+        int nn = -1;
+        Pizza temPizza = new Pizza();
+        for (int i = 0; i < CompletePizzaList.Count; i++)
+        {
+            if (makingPizzaPanelClass[index].ComparePizza(CompletePizzaList[i]))
+            {
+                temPizza = CompletePizzaList[i];
+                nn = i;
+                break;
+            }
+        }// 피자집에 있는 피자들 명단에서 제외한다.
         //Debug.Log(temPizza.Name);
-        CompletePizzaList.RemoveAt(index);
+        CompletePizzaList.RemoveAt(nn);
         //Debug.Log(index + " " + CompletePizzaList.Count);
         // 명단에서 제외했으므로, 피자집 피자 패널을 꺼준다.
         for (int i = 0; i < makingPizzaPanelArr.Length; i++)
@@ -229,6 +250,8 @@ public class MakingPizza : MonoBehaviour, IResetPizzaMaking
 			{
                 makingPizzaPanelClass[i].SetMainPanelRect(0f);
                 makingPizzaPanelClass[i].gameObject.SetActive(false);
+                makingPizzaPanelClass[i].isComplete = false;
+                makingPizzaPanelClass[i].PizzaIndex = i;
                 break;
 			}
 		}

@@ -51,6 +51,7 @@ public class InventoryManager : MonoBehaviour
             }
         }
     }
+    
     /// <summary>
     /// �κ��丮�� �ֻ��� �̹��� �ҷ�����
     /// </summary>
@@ -366,10 +367,25 @@ public class InventoryManager : MonoBehaviour
         InventoryActive = false;
     }
 
+    private void UpdateInventoryText()
+    {
+        if (PizzaInventorySlot[0].transform.parent.gameObject.activeSelf)
+        {
+            for (int i = 0; i < PizzaInventorySlot.Length; i++)
+            {
+                if (GameManager.Instance.PizzaInventoryData[i] == null)
+                {
+                    PizzaInventorySlot[i].transform.GetChild(0).GetComponent<Text>().text = "";
+                }
+            }
+        }
+    }
+
     void Update()
     {
         inventoryOpenClose();
         UIGunImageUpdate();
         inventoryTextUpdate("PizzaInventory");
+        UpdateInventoryText();
     }
 }

@@ -43,7 +43,7 @@ public class House : MonoBehaviour, IAddress, IHouse, IActiveHouse
 	private void Awake()
 	{
         spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
-        houseColor = Color.HSVToRGB(Random.Range(0, 361f) / 360f, 12 / 100f, 100 / 100f);
+        houseColor = Color.HSVToRGB(Random.Range(0, 361f) / 360f, 40 / 100f, 100 / 100f);
         spriteRenderer.color = houseColor;
         goalTrans = goalObj.transform;
         Vector3 vec = Vector3.zero;

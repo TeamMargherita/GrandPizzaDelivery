@@ -35,8 +35,14 @@ public class NoteClear : MonoBehaviour
                 // 해당 로드의 판정 전달
                 judge = storage.NoteLoad[i].Peek().SendJudge();
 
+                // 
+                if (KeyDownInput(i) && judge == Judge.NONE)
+                {
+                    // 판정판에 판정 전달
+                    Effects[i].GetJudge(judge);
+                }
                 // 로드에 맞는 입력과 판정이 유효한 경우
-                if (KeyDownInput(i) && judge != Judge.NONE)
+                else if (KeyDownInput(i) && judge != Judge.NONE)
                 {
                     Clear(i);
                 }

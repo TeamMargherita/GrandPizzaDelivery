@@ -11,21 +11,21 @@ public class AudioMixerController : MonoBehaviour
 
     private void Awake()
     {
-        float value = 0;
-        m_AudioMixer.GetFloat("Master", out value);
+        float bolume = 0;
+        m_AudioMixer.GetFloat("Master", out bolume);
         // Mathf.Log10(volume) * 20 = value
         // value / 20 = Mathf.Log10(volume)
         // Mathf.Pow(10, value / 20) = volume
-        value = Mathf.Pow(10, value / 20);
-        m_MusicMasterSlider.value = value;
+        bolume = Mathf.Pow(10, bolume / 20);
+        m_MusicMasterSlider.value = bolume;
 
-        m_AudioMixer.GetFloat("BGM", out value);
-        value = Mathf.Pow(10, value / 20);
-        m_MusicBGMSlider.value = value;
+        m_AudioMixer.GetFloat("BGM", out bolume);
+        bolume = Mathf.Pow(10, bolume / 20);
+        m_MusicBGMSlider.value = bolume;
 
-        m_AudioMixer.GetFloat("SFX", out value);
-        value = Mathf.Pow(10, value / 20);
-        m_MusicSFXSlider.value = value;
+        m_AudioMixer.GetFloat("SFX", out bolume);
+        bolume = Mathf.Pow(10, bolume / 20);
+        m_MusicSFXSlider.value = bolume;
 
         m_MusicMasterSlider.onValueChanged.AddListener(SetMasterVolume);
         m_MusicBGMSlider.onValueChanged.AddListener(SetMusicVolume);

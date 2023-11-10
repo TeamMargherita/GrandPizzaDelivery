@@ -7,6 +7,10 @@ public class MainUI : MonoBehaviour
 {
     [SerializeField] private GameObject soundObject;
     [SerializeField] private GameObject optionObject;
+    [SerializeField] private GameObject leftLisence;
+    [SerializeField] private GameObject rightLisence;
+
+
     private bool isFade = false;
     // Start is called before the first frame update
     void Start()
@@ -56,4 +60,16 @@ public class MainUI : MonoBehaviour
 	{
         optionObject.SetActive(true);
 	}
+
+    public void LicenseOpen()
+    {
+        leftLisence.SetActive(true); 
+        rightLisence.SetActive(true);
+    }
+
+    public void LicenseClose()
+    {
+        leftLisence.SetActive(false);
+        rightLisence.SetActive(false);
+    }
 }

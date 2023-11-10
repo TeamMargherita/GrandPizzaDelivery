@@ -41,7 +41,7 @@ public class RhythmManager : MonoBehaviour
         Judges = new JudgeStorage();
         Data = new AudioData();
         MusicSound = 0.5f;
-        KeySound = 0.5f;
+        KeySound = 1f;
         ClearKeys[0] = KeyCode.A;
         ClearKeys[1] = KeyCode.S;
         ClearKeys[2] = KeyCode.Semicolon;
@@ -105,6 +105,9 @@ public class RhythmManager : MonoBehaviour
     {
         // 씬 전환
         SceneChange = true;
+
+        // 정확도 전달
+        Constant.Perfection = Mathf.RoundToInt(Judges.Accuracy);
 
         // 매력도 전달
         Constant.PizzaAttractiveness = Judges.Attractive;

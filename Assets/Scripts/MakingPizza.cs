@@ -226,7 +226,7 @@ public class MakingPizza : MonoBehaviour, IResetPizzaMaking
 
         Debug.Log( $"{k} CompletePizzaList.Count : {CompletePizzaList.Count}");
         
-        if (k > CompletePizzaList.Count) { return new Pizza(); }
+        if (k < 0) { return new Pizza(); }
 
         // 피자를 임시로 저장한다.
         int nn = -1;

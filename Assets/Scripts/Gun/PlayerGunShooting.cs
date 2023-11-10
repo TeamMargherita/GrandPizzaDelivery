@@ -54,16 +54,19 @@ public class PlayerGunShooting : MonoBehaviour, GunShooting
                 if (Input.GetKey(KeyCode.Mouse0))
                 {
                     RaycastHit2D hit = Physics2D.Raycast(MyTransform.position, dir.normalized, 1000, layerMask);
-                    if (hit.transform.CompareTag("Police") || hit.transform.CompareTag("ChaserPoliceCar"))
+                    if(hit.transform != null)
                     {
-                        GameObject blood = Instantiate(BloodEffect, hit.point, MyTransform.rotation);
-                        Destroy(blood, 0.3f);
-                        hit.transform.GetComponent<Police>().PoliceHp -= damage;
-                    }
-                    else if(hit.transform.CompareTag("House"))
-                    {
-                        GameObject wallhit = Instantiate(WallHitEffect, hit.point, MyTransform.rotation);
-                        Destroy(wallhit, 0.3f);
+                        if (hit.transform.CompareTag("Police") || hit.transform.CompareTag("ChaserPoliceCar"))
+                        {
+                            GameObject blood = Instantiate(BloodEffect, hit.point, MyTransform.rotation);
+                            Destroy(blood, 0.3f);
+                            hit.transform.GetComponent<Police>().PoliceHp -= damage;
+                        }
+                        else if (hit.transform.CompareTag("House"))
+                        {
+                            GameObject wallhit = Instantiate(WallHitEffect, hit.point, MyTransform.rotation);
+                            Destroy(wallhit, 0.3f);
+                        }
                     }
                     time = 0;
                     return true;

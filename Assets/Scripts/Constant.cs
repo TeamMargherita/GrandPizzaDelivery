@@ -87,6 +87,7 @@ public static class Constant
 		MakingPizza.IsSaveIndex = false;
 		MakingPizza.nowDate = 0;
 		//Map.nowDate = 0;
+		Turorial.IsTuto = false;
 
 		Dept = 0;
 		PayMoneyDate = PayMoneyDate = new Dictionary<int, Dictionary<int, int>>() { { 1, new Dictionary<int, int>() { { 1, 20000000 } } } };

@@ -26,6 +26,8 @@ public class EmployeeFire : MonoBehaviour
 
     [SerializeField] bool isApear = false;
 
+    int[] pay = new int[29];
+
     public void ApearCheck(bool Check)
     {
         EmploeeWinOff();
@@ -85,9 +87,13 @@ public class EmployeeFire : MonoBehaviour
         FindEmployeeData(value);
 
         if (value != 0)
+        {
             pay[value / 2] = 0;
+        }
         else
+        {
             pay[value] = 0;
+        }
     }
 
     [SerializeField] string[] DayText;
@@ -204,7 +210,19 @@ public class EmployeeFire : MonoBehaviour
                 result = "스트레스 : " + Constant.ClerkList[Evalue].Stress.ToString();
                 break;
             case 5:
-                result = "일급 :     " + Constant.ClerkList[Evalue].Pay.ToString();
+                if (Constant.ClerkList[Evalue].Pay > Constant.ClerkList[Evalue].MaxPayScale)
+                {
+                    result += "<color=green>일급 :     </color>" + $"<color=green>{(Constant.ClerkList[Evalue].Pay).ToString()}</color>" + "\n";
+
+                }
+                else if (Constant.ClerkList[Evalue].Pay < Constant.ClerkList[Evalue].MinPayScale)
+                {
+                    result += "<color=red>일급 :     </color>" + $"<color=red>{(Constant.ClerkList[Evalue].Pay).ToString()}</color>" + "\n";
+                }
+                else
+                {
+                    result += "<color=black>일급 :     </color>" + $"<color=black>{(Constant.ClerkList[Evalue].Pay).ToString()}</color>" + "\n";
+                }
                 break;
         }
 
@@ -243,39 +261,41 @@ public class EmployeeFire : MonoBehaviour
         }
     }
 
-    int[] pay = new int[29];
-
     public void PayRateButton(int value)// 일급 조절.
     {
         string EmployeeStat = null;
 
+        int Value = 0;
+
         if (value > 0)
         {
-            EmployeeStat += Constant.ClerkList[value - 1].Name + "\n";
+            Value = value - 1;
 
-            pay[value - 1] += 100;
+            EmployeeStat += Constant.ClerkList[Value].Name + "\n";
+
+            pay[Value] += 100;
 
             for (int j = 0; j < 5; j++)
             {
-                EmployeeStat += Stat(value - 1, j);
+                EmployeeStat += Stat(Value, j);
 
                 if (j == 0)
                 {
                     EmployeeStat += "                     선호요일 : ";
 
-                    for (int k = 0; k < (int)Constant.ClerkList[value - 1].PreferredDateCount; k++)
+                    for (int k = 0; k < (int)Constant.ClerkList[Value].PreferredDateCount; k++)
                     {
-                        if (k != (int)Constant.ClerkList[value - 1].PreferredDateCount - 1)
+                        if (k != (int)Constant.ClerkList[Value].PreferredDateCount - 1)
                         {
-                            EmployeeStat += DayText[(int)Constant.ClerkList[value - 1].PreferredDate[k]] + ", ";
+                            EmployeeStat += DayText[(int)Constant.ClerkList[Value].PreferredDate[k]] + ", ";
                         }
                         else
                         {
-                            EmployeeStat += DayText[(int)Constant.ClerkList[value - 1].PreferredDate[k]];
+                            EmployeeStat += DayText[(int)Constant.ClerkList[Value].PreferredDate[k]];
                         }
                     }
 
-                    if ((int)Constant.ClerkList[value - 1].PreferredDateCount == 0)
+                    if ((int)Constant.ClerkList[Value].PreferredDateCount == 0)
                     {
                         EmployeeStat += "없음";
                     }
@@ -284,43 +304,45 @@ public class EmployeeFire : MonoBehaviour
                 EmployeeStat += "\n";
             }
 
-            EmployeeStat += "일급 :     " + (Constant.ClerkList[value - 1].Pay + pay[value - 1]).ToString() + "\n";
+            if (Constant.ClerkList[Value].Pay + pay[Value] > Constant.ClerkList[Value].MaxPayScale)
+            {
+                EmployeeStat += "일급 :     " + (Constant.ClerkList[Value].Pay + pay[Value]).ToString() + "\n";
+            }
 
-            Debug.Log((value - 1) * 2 + 1);
-
-            FireWinParent.GetChild((value - 1) * 2 + 1).GetChild(0).
+            FireWinParent.GetChild((Value) * 2 + 1).GetChild(0).
                    GetComponent<Text>().text = EmployeeStat;
-
         }
         else if (value < 0)
         {
-            if (Constant.ClerkList[value * -1 - 1].Pay + pay[value * -1 - 1] >= 100)
-            {
-                EmployeeStat += Constant.ClerkList[value * -1 - 1].Name + "\n";
+            Value = value * -1 - 1;
 
-                pay[value * -1 - 1] -= 100;
+            if (Constant.ClerkList[Value].Pay + pay[Value] >= 100)
+            {
+                EmployeeStat += Constant.ClerkList[Value].Name + "\n";
+
+                pay[Value] -= 100;
 
                 for (int j = 0; j < 5; j++)
                 {
-                    EmployeeStat += Stat(value * -1 - 1, j);
+                    EmployeeStat += Stat(Value, j);
 
                     if (j == 0)
                     {
                         EmployeeStat += "                     선호요일 : ";
 
-                        for (int k = 0; k < (int)Constant.ClerkList[value * -1 - 1].PreferredDateCount; k++)
+                        for (int k = 0; k < (int)Constant.ClerkList[Value].PreferredDateCount; k++)
                         {
-                            if (k != (int)Constant.ClerkList[value * -1 - 1].PreferredDateCount - 1)
+                            if (k != (int)Constant.ClerkList[Value].PreferredDateCount - 1)
                             {
-                                EmployeeStat += DayText[(int)Constant.ClerkList[value * -1 - 1].PreferredDate[k]] + ", ";
+                                EmployeeStat += DayText[(int)Constant.ClerkList[Value].PreferredDate[k]] + ", ";
                             }
                             else
                             {
-                                EmployeeStat += DayText[(int)Constant.ClerkList[value * -1 - 1].PreferredDate[k]];
+                                EmployeeStat += DayText[(int)Constant.ClerkList[Value].PreferredDate[k]];
                             }
                         }
 
-                        if ((int)Constant.ClerkList[value * -1 - 1].PreferredDateCount == 0)
+                        if ((int)Constant.ClerkList[Value].PreferredDateCount == 0)
                         {
                             EmployeeStat += "없음";
                         }
@@ -328,13 +350,25 @@ public class EmployeeFire : MonoBehaviour
 
                     EmployeeStat += "\n";
                 }
-
-                EmployeeStat += "일급 :     " + (Constant.ClerkList[value * -1 - 1].Pay + pay[value * -1 - 1]).ToString() + "\n";
-
-                FireWinParent.GetChild((value * -1 - 1) * 2 + 1).GetChild(0).
-                       GetComponent<Text>().text = EmployeeStat;
             }
         }
+
+        if (Constant.ClerkList[Value].Pay + pay[Value] > Constant.ClerkList[Value].MaxPayScale)
+        {
+            EmployeeStat += "<color=green>일급 :     </color>" + $"<color=green>{(Constant.ClerkList[Value].Pay + pay[Value]).ToString()}</color>" + "\n";
+
+        }
+        else if (Constant.ClerkList[Value].Pay + pay[Value] < Constant.ClerkList[Value].MinPayScale)
+        {
+            EmployeeStat += "<color=red>일급 :     </color>" + $"<color=red>{(Constant.ClerkList[Value].Pay + pay[Value]).ToString()}</color>" + "\n";
+        }
+        else
+        {
+            EmployeeStat += "<color=black>일급 :     </color>" + $"<color=black>{(Constant.ClerkList[Value].Pay + pay[Value]).ToString()} </color>" + "\n";
+        }
+
+        FireWinParent.GetChild((Value) * 2 + 1).GetChild(0).
+                  GetComponent<Text>().text = EmployeeStat;
     }
 
     public void FireWinHeightCon(bool value)

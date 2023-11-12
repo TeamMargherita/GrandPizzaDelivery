@@ -205,6 +205,22 @@ public class PlayerMove : PlayerStat
     int preCollisionType = -1;
     Transform preTransform;
 
+    /*IEnumerator VibCoroutine;
+
+    IEnumerator VibCamera(float time)
+    {
+        float count = 0;
+        while (true)
+        {
+            count += Time.deltaTime;
+            Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+            if (count > time)
+            {
+                break;
+            }
+            yield return null;
+        }
+    }*/
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.transform.CompareTag("Police"))
@@ -213,6 +229,7 @@ public class PlayerMove : PlayerStat
             TestPower = Power.magnitude;
             HP -= (int)(TestPower * 1.5);
             currentCollisionType = 0;
+            //StartCoroutine(VibCamera(0.5f));
         }
         else if (collision.transform.CompareTag("ChaserPoliceCar"))
         {
@@ -220,10 +237,12 @@ public class PlayerMove : PlayerStat
             TestPower = Power.magnitude;
             HP -= (int)(TestPower * 1.5);
             currentCollisionType = 1;
+            //StartCoroutine(VibCamera(0.5f));
         }
         else if (collision.transform.CompareTag("House"))
         {
             currentCollisionType = 2;
+            //StartCoroutine(VibCamera(0.5f));
         }
         if(currentCollisionType != preCollisionType || !CrushSound.isPlaying)
         {

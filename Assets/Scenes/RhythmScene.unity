@@ -3409,6 +3409,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3859223624834147056, guid: 6432a7a4ba6635c4a9726e6f6e60c00b, type: 3}
+      propertyPath: menu
+      value: 
+      objectReference: {fileID: 957707093}
+    - target: {fileID: 3859223624834147056, guid: 6432a7a4ba6635c4a9726e6f6e60c00b, type: 3}
       propertyPath: BgSound
       value: 
       objectReference: {fileID: 2019146961}

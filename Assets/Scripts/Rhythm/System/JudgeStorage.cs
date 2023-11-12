@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 /// <summary>
 /// 정확도 측정을 위한 변수를 담는 클래스
 /// </summary>
@@ -43,7 +39,7 @@ public class JudgeStorage
 
         // 판정된 노트가 하나라도 있을 시
         if (Perfect + Great + Good + Miss > 0)
-            Accuracy = (float)(Perfect + Great * 0.7f + Good * 0.5f) / (Perfect + Great + Good + Miss) * 100f;
+            Accuracy = (float)(Perfect + Great * 0.8f + Good * 0.6f) / (Perfect + Great + Good + Miss) * 100f;
         // 하나도 없을 시
         else
             Accuracy = 100;

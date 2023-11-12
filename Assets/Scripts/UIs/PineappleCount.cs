@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// 한석호 작성
 public class PineappleCount : MonoBehaviour
 {
     [SerializeField] private UnityEngine.UI.Text text;
@@ -20,7 +21,7 @@ public class PineappleCount : MonoBehaviour
         if (nowDate != Constant.NowDate)
         {
             nowDate = Constant.NowDate;
-            Constant.PineAppleCount += 5;
+            Constant.PineAppleCount += 4;
         }
 
     }

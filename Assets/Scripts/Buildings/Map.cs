@@ -65,7 +65,14 @@ public class Map : MonoBehaviour, IMap, IStop
         houseAddressList[165].IHouse.SetHouseType(houseMarkArr[7], HouseType.MONEYSTORE);
         houseAddressList[190].IHouse.SetHouseType(houseMarkArr[7], HouseType.MONEYSTORETWO);
         // 경찰차를 생성한다.
-        MakeAPoliceCar(45);
+        if (!GameManager.Instance.isDarkDelivery)
+        {
+            MakeAPoliceCar(19);
+        }
+        else
+		{
+            MakeAPoliceCar(45);
+		}
     }
     private void test()
     {

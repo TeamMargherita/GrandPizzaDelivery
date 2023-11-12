@@ -23,6 +23,7 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
     [SerializeField] private GameObject DarkDeliveryAppButton;
     [SerializeField] private GameObject player; // 플레이어
     [SerializeField] private GameObject makingPizzaObj;
+    [SerializeField] private GameObject debtListPanel;
     [SerializeField] private Light2D light2D;
     [SerializeField] private UnityEngine.UI.Image addPizzaImg;
     [SerializeField] private UnityEngine.UI.Text alarmMessageText;
@@ -235,7 +236,10 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
             addPizzaImg.color = Color.white;
 		}
 	}
-
+    public void ControlDebtListMenu(bool isOn)
+	{
+        debtListPanel.SetActive(isOn);
+	}
 	public void ControlEmployeeRecruit(bool isOn)
 	{
 		employeeRecruitPanel.SetActive(isOn);

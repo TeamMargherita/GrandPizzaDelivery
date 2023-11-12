@@ -215,6 +215,10 @@ public static class Constant
 	/// </summary>
 	public static bool[] MoneyConfiscated = new bool[2] { true, false };
 	/// <summary>
+	/// 대출업체 이름
+	/// </summary>
+	public static string[] MoneyStoreName = new string[2] { "미소", "행복" };
+	/// <summary>
 	/// 하루 동안 점원에게 쓴 비용
 	/// </summary>
 	public static int ClerkMoney = 0;

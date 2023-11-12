@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+using DayNS;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using DayNS;
 
 // 한석호 작성
 public class LoadScene : MonoBehaviour
@@ -34,10 +32,10 @@ public class LoadScene : MonoBehaviour
     /// </summary>
     /// <param name="str">불러올 씬의 이름입니다.</param>
     public void ActiveTrueFade(string str)
-	{
+    {
         Fade.Instance.gameObject.SetActive(true);
         Fade.Instance.SetLoadSceneName(str);
-	}
+    }
     public void LoadNextDay(bool isDead)
     {
         if (oneTimeMethod) { return; }
@@ -47,37 +45,38 @@ public class LoadScene : MonoBehaviour
             Constant.NowDay++;
         }
         else
-		{
+        {
             Constant.NowDay = DayEnum.MONDAY;
-		}
+        }
         Constant.NowDate++;
         if (isDead) { Constant.IsDead = true; }
 
         ActiveTrueFade("CalculateScene");
     }
     public void LoadS(string str)
-	{
+    {
         oneTimeMethod = false;
         SceneManager.LoadScene(str);
-	}
-	public void LoadRhythm()
-	{
-		if (Constant.ChoiceIngredientList.Count > 0)
-		{
+    }
+    public void LoadRhythm()
+    {
+        if (Constant.ChoiceIngredientList.Count > 0)
+        {
             ActiveTrueFade("SelectScene");
-		}
-	}
+        }
+    }
     public void LoadPrologueToInGameScene()
     {
         Constant.isStartGame = true;
+        DataManager.LoadData();
         ActiveTrueFade("InGameScene");
     }
 
     public void LoadPizzaMenu()
-	{
+    {
         Constant.IsMakePizza = true;
-        Constant.DevelopPizza.Add(new Pizza("Pizza" + System.DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss"), Constant.Perfection , Constant.ProductionCost
-            ,Random.Range(4000,4000 * Constant.ingreds.Count + 1) + 10000,Constant.PizzaAttractiveness, Constant.ingreds, Constant.TotalDeclineAt, 100, 0));
+        Constant.DevelopPizza.Add(new Pizza("Pizza" + System.DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss"), Constant.Perfection, Constant.ProductionCost
+            , Random.Range(4000, 4000 * Constant.ingreds.Count + 1) + 10000, Constant.PizzaAttractiveness, Constant.ingreds, Constant.TotalDeclineAt, 100, 0));
         ActiveTrueFade("InGameScene");
-	}
+    }
 }

@@ -1,12 +1,7 @@
-using System.Collections;
+using ClerkNS;
 using System.Collections.Generic;
 using UnityEngine;
-using PizzaNS;
-using Inventory;
 using UnityEngine.SceneManagement;
-using ClerkNS;
-using StoreNS;
-using DayNS;
 
 public class BackTitle : MonoBehaviour
 {
@@ -21,7 +16,8 @@ public class BackTitle : MonoBehaviour
         Destroystatic("RhythmManager");
         // -------------------------------------static -----------------------------------------------------//
         Constant.InitConstant();
-        EmployeeFire.WorkingDay = new Dictionary<int, List<ClerkC>>(); ;
+        EmployeeFire.WorkingDay = new Dictionary<int, List<ClerkC>>();
+        DataManager.SaveData();
         // -------------------------------------------------------------------------------------------------//
     }
     private void Destroystatic(string gameOB)
@@ -39,7 +35,7 @@ public class BackTitle : MonoBehaviour
     }
 
     public void OnClickSound()
-	{
+    {
         soundMenu.SetActive(true);
-	}
+    }
 }

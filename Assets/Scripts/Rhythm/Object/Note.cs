@@ -52,7 +52,7 @@ public class Note : MonoBehaviour
         timing = 300m;
 
         // 목적지 지정
-        end = _end;                                 
+        end = _end;
     }
 
     /// <summary>
@@ -63,9 +63,9 @@ public class Note : MonoBehaviour
     {
         if (Mathf.Abs((float)timing) > 0.12501f)
             return Judge.NONE;
-        else if (Mathf.Abs((float)timing) <= 0.04167f)
+        else if (Mathf.Abs((float)timing) <= 0.065f)
             return Judge.PERFECT;
-        else if (Mathf.Abs((float)timing) <= 0.08334f)
+        else if (Mathf.Abs((float)timing) <= 0.105f)
             return Judge.GREAT;
         else
             return Judge.GOOD;

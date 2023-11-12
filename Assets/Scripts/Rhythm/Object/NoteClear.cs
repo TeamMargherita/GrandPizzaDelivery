@@ -9,6 +9,7 @@ public class NoteClear : MonoBehaviour
     public RhythmStorage storage;           // 노트를 클리어하며 돌려보낼 저장소 캐싱
     public ClearEffect[] Effects;           // 노트 클리어 시 이펙트 출력할 판정판
     public AudioSource BgSound;             // 배경음 불러올 오디오 소스
+    [SerializeField] GameObject menu;
     private RhythmManager manager;          // 리듬 매니저 캐싱
     private Judge judge;                    // 판정 정보
     private KeyCode[] clearKeys;
@@ -23,7 +24,7 @@ public class NoteClear : MonoBehaviour
     private void Update()
     {
         // 플레이 중이 아니면 동작 x
-        if (!BgSound.isPlaying)
+        if (menu != null && menu.activeSelf)
             return;
 
         // 모든 로드 탐색

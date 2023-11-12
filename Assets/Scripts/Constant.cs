@@ -89,6 +89,8 @@ public static class Constant
 		//Map.nowDate = 0;
 		Turorial.IsTuto = false;
 
+		UIControl.isIn = false;
+
 		Dept = 0;
 		PayMoneyDate = PayMoneyDate = new Dictionary<int, Dictionary<int, int>>() { { 1, new Dictionary<int, int>() { { 1, 20000000 } } } };
 		DeptMulitplex = new float[2] { 1.1f, 1.05f };

@@ -280,6 +280,7 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
         iResetPizzaMaking.ResetPizzaMaking();
         Time.timeScale = 1;
         SDR.RequestClear();
+        isIn = false;
         LoadScene.Instance.ActiveTrueFade("InGameScene");
     }
 

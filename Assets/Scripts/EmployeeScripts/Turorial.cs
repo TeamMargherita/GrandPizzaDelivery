@@ -27,18 +27,34 @@ public class Turorial : MonoBehaviour
         "그럼 무운을 빌어요, 점장님~"
            };
 
-    string[] employeeTutoText = new string[10];
+    string[] employeeTutoText = new string[7]
+    {
+    "고용 가능한 인원은 하루에 3명으로 한정되어있으며, 아침마다 새로운 인원이 들어옵니다.",//0
+    "고용한 인원은 정보창을 눌러서 상세 정보를 볼 수 있습니다.",//1
+    "일급은 숫자 옆의 화살표를 눌러 줄이거나, 늘릴 수 있습니다. 숫자가 빨간 색이면 적정 급여보다 적다는 뜻이고, 초록 색이면 적정 급여보다 많다는 뜻입니다.",
+    "적정 급여보다 많으면 스트레스가 줄어들고 적정 급여보다 적으면 스트레스가 증가합니다.",
+    "근무표를 통해 해당 알바의 근무 요일을 설정할 수 있습니다.",//4
+    "요일이 적힌 버튼이 빨간색이면 버튼을 눌렀을 시 밑의 근무 인원 목록에서 삭제되며, 하얀색일 시 추가됩니다.",
+    "만약 선호요일과 다른 날에 근무를 서게 된다면 알바의 스트레스가 쌓입니다.",
+    };
 
     [SerializeField] GameObject Tuto;
+    [SerializeField] GameObject EmployeeTutoPanel;
+    [SerializeField] GameObject EmloyeePanel;
 
     bool isSkip = true;
     public static bool IsTuto = false;
+    public static bool IsEmployeeTuto = false;
 
     int tutoProgressCount = 0;
+
+    [SerializeField] Vector2[] TutoPos;
 
     private void Awake()
     {
         tutoProgressCount = 0;
+
+        EmloyeePanel.SetActive(false);
 
         if (IsTuto == false)
         {
@@ -186,8 +202,56 @@ public class Turorial : MonoBehaviour
         tutoProgressCount = 4;
     }
 
+    int EmployeeTutoCount = 0;
+    int TextPosCount = 0;
+
     public void EmployeeTuto()
     {
+        if (IsEmployeeTuto == false && IsTuto == true)
+        {
+            switch (EmployeeTutoCount)
+            {
+                case 0:
+                    EmployeeTutoPanel.SetActive(true);
 
+                    EmployeeTutoPanel.transform.GetChild(1).gameObject.SetActive(true);
+                    EmployeeTutoPanel.transform.GetChild(1).GetChild(0).gameObject.SetActive(true);
+                    EmployeeTutoPanel.transform.GetChild(1).GetChild(1).gameObject.SetActive(false);
+                    EmployeeTutoPanel.transform.GetChild(1).GetChild(2).gameObject.SetActive(false);
+                    break;
+                case 1:
+                    EmployeeTutoPanel.transform.GetChild(1).GetChild(0).gameObject.SetActive(false);
+                    EmployeeTutoPanel.transform.GetChild(1).GetChild(1).gameObject.SetActive(true);
+                    EmployeeTutoPanel.transform.GetChild(1).GetChild(2).gameObject.SetActive(false);
+                    break;
+                case 5:
+                    EmployeeTutoPanel.transform.GetChild(1).GetChild(2).gameObject.SetActive(true);
+                    break;
+                case 6:
+                    IsEmployeeTuto = true;
+                    break;
+            }
+
+            if (EmployeeTutoCount == 0 || EmployeeTutoCount == 1 || EmployeeTutoCount == 4)
+            {
+                EmployeeTutoPanel.transform.GetChild(2).GetComponent<RectTransform>().anchoredPosition = TutoPos[TextPosCount];
+
+                TextPosCount++;
+            }
+
+            EmployeeTutoPanel.transform.GetChild(2).GetChild(0).GetChild(0).GetComponent<Text>().text = employeeTutoText[EmployeeTutoCount];
+
+            if (EmployeeTutoCount < employeeTutoText.Length - 1)
+            {
+                EmployeeTutoCount++;
+            }
+        }
+        else if(IsEmployeeTuto == true)
+        {
+            EmployeeTutoPanel.SetActive(false);
+
+            TextPosCount = 0;
+            EmployeeTutoCount = 0;
+        }
     }
 }

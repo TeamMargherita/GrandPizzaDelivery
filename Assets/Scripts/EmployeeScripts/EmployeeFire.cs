@@ -129,7 +129,7 @@ public class EmployeeFire : MonoBehaviour
 
                 if((int)Constant.ClerkList[value / 2].PreferredDateCount == 0)
                 {
-                    EmployeeStat += "없음";
+                    EmployeeStat += "상주인원";
                 }
 
                 EmployeeStat += "\n";

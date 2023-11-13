@@ -88,6 +88,7 @@ public static class Constant
 		MakingPizza.nowDate = 0;
 		//Map.nowDate = 0;
 		Turorial.IsTuto = false;
+		Turorial.IsEmployeeTuto = false;
 
 		UIControl.isIn = false;
 

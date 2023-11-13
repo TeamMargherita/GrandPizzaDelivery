@@ -75,7 +75,7 @@ public class LoadScene : MonoBehaviour
     public void LoadPizzaMenu()
     {
         Constant.IsMakePizza = true;
-        Constant.DevelopPizza.Add(new Pizza("New Pizza" + System.DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss"), Constant.Perfection, Constant.ProductionCost
+        Constant.DevelopPizza.Add(new Pizza("»õ ÇÇÀÚ" + System.DateTime.Now.ToString("MM-dd-HH-mm-ss"), Constant.Perfection, Constant.ProductionCost
             , Random.Range(2000 * Constant.ingreds.Count, 4000 * Constant.ingreds.Count + 1) + 10000, Constant.PizzaAttractiveness, Constant.ingreds, Constant.TotalDeclineAt, 100, 0));
         ActiveTrueFade("InGameScene");
     }

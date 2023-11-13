@@ -43,7 +43,7 @@ public class MakingPizzaPanel : MonoBehaviour, IPointerClickHandler
 	{
 		if (temPizza.Ingreds == null) { return false; }
 		// 구조체 안에 리스트 들어있어서 equals가 안먹혀서 일일히 비교해야됨 아오.
-		if (temPizza.Name.Equals(pizza.Name) && temPizza.Perfection == pizza.Perfection && temPizza.Charisma == pizza.Charisma
+		if (temPizza.Name.Equals(pizza.Name) && temPizza.Charisma == pizza.Charisma
 			&& temPizza.ProductionCost == pizza.ProductionCost && temPizza.SellCost == pizza.SellCost &&
 			temPizza.TotalDeclineAt == pizza.TotalDeclineAt && temPizza.Ingreds.Count == pizza.Ingreds.Count)
 		{

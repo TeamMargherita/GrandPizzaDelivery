@@ -89,6 +89,8 @@ public static class Constant
 		//Map.nowDate = 0;
 		Turorial.IsTuto = false;
 
+		UIControl.isIn = false;
+
 		Dept = 0;
 		PayMoneyDate = PayMoneyDate = new Dictionary<int, Dictionary<int, int>>() { { 1, new Dictionary<int, int>() { { 1, 20000000 } } } };
 		DeptMulitplex = new float[2] { 1.1f, 1.05f };
@@ -212,6 +214,10 @@ public static class Constant
 	/// 강제로 돈을 빌리러 오는지 여부
 	/// </summary>
 	public static bool[] MoneyConfiscated = new bool[2] { true, false };
+	/// <summary>
+	/// 대출업체 이름
+	/// </summary>
+	public static string[] MoneyStoreName = new string[2] { "미소", "행복" };
 	/// <summary>
 	/// 하루 동안 점원에게 쓴 비용
 	/// </summary>

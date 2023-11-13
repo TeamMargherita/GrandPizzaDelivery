@@ -286,7 +286,7 @@ public class PoliceInspecting : Conversation
         nowTextNum = 19; nextTextNum = new int[1] { -1 }; nextTextIsAble = new bool[2] { true, true };
         methodSArr = new MethodS[2]
         {
-            new MethodS(MethodEnum.SPAWNPOLICE, new int[1] { 4 } ),
+            new MethodS(MethodEnum.SPAWNPOLICE, new int[1] { 6 } ),
             new MethodS(MethodEnum.ENDPANEL, new int[1] { -1 } )
         };
         AddTextList();

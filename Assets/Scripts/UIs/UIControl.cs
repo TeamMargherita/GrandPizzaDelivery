@@ -23,6 +23,7 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
     [SerializeField] private GameObject DarkDeliveryAppButton;
     [SerializeField] private GameObject player; // 플레이어
     [SerializeField] private GameObject makingPizzaObj;
+    [SerializeField] private GameObject debtListPanel;
     [SerializeField] private Light2D light2D;
     [SerializeField] private UnityEngine.UI.Image addPizzaImg;
     [SerializeField] private UnityEngine.UI.Text alarmMessageText;
@@ -42,6 +43,7 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
     private RectTransform pizzaMenuTrans;   // 피자 메뉴 RectTransform
     private RectTransform employeeRecruitTrans;
     private RectTransform alarmMessageTrans;    // 알람 메시지 RectTransform
+    private UnityEngine.UI.Text keyExplainText;
 
     private Vector3 alarmMessageStart = new Vector3(0, 590);    // 알람 메시지 이동 시작 위치(위)
     private Vector3 alarmMessageEnd = new Vector3(0, 490);  // 알람 메시지 이동 종료 위치(아래)
@@ -70,6 +72,8 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
 
         houseType = HouseType.NONE;
 
+        keyExplainText = keyExplainPanel.transform.GetChild(0).GetComponent<UnityEngine.UI.Text>();
+
         if (Constant.IsMakePizza)
 		{
             Constant.IsMakePizza = false;
@@ -83,6 +87,15 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
             DirectPizzaStore();
             player.transform.position = new Vector3(9f, 3.8f);
         }
+
+        if (GameManager.Instance.isDarkDelivery)
+        {
+            DeliveryAppButton.SetActive(false);
+            DarkDeliveryAppButton.SetActive(true);
+            light2D.color = new Color(80 / 255f, 80 / 255f, 80 / 255f);
+            map.OnStreetLamp();
+        }
+
         //PizzaInventory = GameObject.FindWithTag("PizzaInventory");
     }
     private void Caching()
@@ -223,7 +236,10 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
             addPizzaImg.color = Color.white;
 		}
 	}
-
+    public void ControlDebtListMenu(bool isOn)
+	{
+        debtListPanel.SetActive(isOn);
+	}
 	public void ControlEmployeeRecruit(bool isOn)
 	{
 		employeeRecruitPanel.SetActive(isOn);
@@ -267,9 +283,9 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
         GameManager.Instance.isDarkDelivery = true;
         iResetPizzaMaking.ResetPizzaMaking();
         Time.timeScale = 1;
-        light2D.color = new Color(80 / 255f, 80 / 255f, 80 / 255f);
-        map.OnStreetLamp();
         SDR.RequestClear();
+        isIn = false;
+        LoadScene.Instance.ActiveTrueFade("InGameScene");
     }
 
     public void NoDarkDeliveryPanel()
@@ -421,34 +437,49 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
                     ControlPizzaStore(true);
                     break;
                 case HouseType.DICESTORE:
-                    // 맵에 오브젝트를 정지시킨다.
-                    iStop.StopMap(true);
-                    // 대화창을 연다.
-                    ControlConversationUI(true, null, 2);
+                    if (GameManager.Instance.time >= 32400 && GameManager.Instance.time < 82800)
+                    {
+                        // 맵에 오브젝트를 정지시킨다.
+                        iStop.StopMap(true);
+                        // 대화창을 연다.
+                        ControlConversationUI(true, null, 2);
+                    }
                     break;
                 case HouseType.PINEAPPLESTORE:
-                    // 맵에 오브젝트를 정지시킨다.
-                    iStop.StopMap(true);
-                    // 대화창을 연다.
-                    ControlConversationUI(true, null, 3);
+                    if (GameManager.Instance.time >= 32400 && GameManager.Instance.time < 82800)
+                    {
+                        // 맵에 오브젝트를 정지시킨다.
+                        iStop.StopMap(true);
+                        // 대화창을 연다.
+                        ControlConversationUI(true, null, 3);
+                    }
                     break;
                 case HouseType.INGREDIENTSTORE:
-                    // 맵에 오브젝트를 정지시킨다.
-                    iStop.StopMap(true);
-                    // 대화창을 연다.
-                    ControlConversationUI(true, null, 4);
+                    if (GameManager.Instance.time >= 32400 && GameManager.Instance.time < 82800)
+                    {
+                        // 맵에 오브젝트를 정지시킨다.
+                        iStop.StopMap(true);
+                        // 대화창을 연다.
+                        ControlConversationUI(true, null, 4);
+                    }
                     break;
                 case HouseType.PINEAPPLESTORETWO:
-                    // 맵에 오브젝트를 정지시킨다.
-                    iStop.StopMap(true);
-                    // 대화창을 연다.
-                    ControlConversationUI(true, null, 5);
+                    if (GameManager.Instance.time >= 32400 && GameManager.Instance.time < 82800)
+                    {
+                        // 맵에 오브젝트를 정지시킨다.
+                        iStop.StopMap(true);
+                        // 대화창을 연다.
+                        ControlConversationUI(true, null, 5);
+                    }
                     break;
                 case HouseType.GUNSTORE:
-                    // 맵에 오브젝트를 정지시킨다.
-                    iStop.StopMap(true);
-                    // 대화창을 연다.
-                    ControlConversationUI(true, null, 6);
+                    if (GameManager.Instance.time >= 32400 && GameManager.Instance.time < 82800)
+                    {
+                        // 맵에 오브젝트를 정지시킨다.
+                        iStop.StopMap(true);
+                        // 대화창을 연다.
+                        ControlConversationUI(true, null, 6);
+                    }
                     break;
                 case HouseType.HOSPITAL:
                     if (GameManager.Instance.time >= 32400 && GameManager.Instance.time <= 64800)
@@ -456,26 +487,143 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
                         iStop.StopMap(true);
                         ControlConversationUI(true, null, 7);
                     }
-                    else
-					{
-                        break;
-					}
                     break;
                 case HouseType.INGREDIENTSTORETWO:
-                    iStop.StopMap(true);
-                    ControlConversationUI(true, null, 8);
+                    if (GameManager.Instance.time >= 32400 && GameManager.Instance.time < 82800)
+                    {
+                        iStop.StopMap(true);
+                        ControlConversationUI(true, null, 8);
+                    }
                     break;
                 case HouseType.LUCKYSTORE:
-                    iStop.StopMap(true);
-                    ControlConversationUI(true, null, 9);
+                    if (GameManager.Instance.time >= 32400 && GameManager.Instance.time < 82800)
+                    {
+                        iStop.StopMap(true);
+                        ControlConversationUI(true, null, 9);
+                    }
                     break;
                 case HouseType.MONEYSTORE:
-                    iStop.StopMap(true);
-                    ControlConversationUI(true, null, 10);
+                    if (GameManager.Instance.time >= 32400 && GameManager.Instance.time < 82800)
+                    {
+                        iStop.StopMap(true);
+                        ControlConversationUI(true, null, 10);
+                    }
                     break;
                 case HouseType.MONEYSTORETWO:
-                    iStop.StopMap(true);
-                    ControlConversationUI(true, null, 11);
+                    if (GameManager.Instance.time >= 32400 && GameManager.Instance.time < 82800)
+                    {
+                        iStop.StopMap(true);
+                        ControlConversationUI(true, null, 11);
+                    }
+                    break;
+            }
+        }
+        else if (houseType != HouseType.NONE && houseType != HouseType.HOUSE && !isIn)
+		{
+            switch (houseType)
+            {
+                case HouseType.PIZZASTORE:
+                    keyExplainText.text = "Z : 들어가기 \n<size=20>'Pizzaria' 피자 가게</size>";
+                    break;
+                case HouseType.DICESTORE:
+                    if (GameManager.Instance.time >= 32400 && GameManager.Instance.time < 82800)
+                    {
+                        keyExplainText.text = "Z : 들어가기 \n<size=20>'운명' 주사위 가게</size>";
+                    }
+                    else
+                    {
+                        keyExplainText.text = "Z : 들어가기 \n<size=20>'운명' 주사위 가게(문닫음)</size>";
+                    }
+                    break;
+                case HouseType.PINEAPPLESTORE:
+                    if (GameManager.Instance.time >= 32400 && GameManager.Instance.time < 82800)
+                    {
+                        keyExplainText.text = "Z : 들어가기 \n<size=20>'솔방울' 파인애플 가게</size>";
+                    }
+                    else
+                    {
+                        keyExplainText.text = "Z : 들어가기 \n<size=20>'솔방울' 파인애플(문닫음)</size>";
+                    }
+                    break;
+                case HouseType.INGREDIENTSTORE:
+                    if (GameManager.Instance.time >= 32400 && GameManager.Instance.time < 82800)
+                    {
+                        keyExplainText.text = "Z : 들어가기 \n<size=20>'싱싱' 식재료 가게</size>";
+                    }
+                    else
+                    {
+                        keyExplainText.text = "Z : 들어가기 \n<size=20>'싱싱' 식재료 가게(문닫음)</size>";
+                    }
+                    break;
+                case HouseType.PINEAPPLESTORETWO:
+                    if (GameManager.Instance.time >= 32400 && GameManager.Instance.time < 82800)
+                    {
+                        keyExplainText.text = "Z : 들어가기 \n<size=20>'검은 고양이' 파인애플 가게</size>";
+                    }
+                    else
+                    {
+                        keyExplainText.text = "Z : 들어가기 \n<size=20>'검은 고양이' 파인애플 가게(문닫음)</size>";
+                    }
+                    break;
+                case HouseType.GUNSTORE:
+                    if (GameManager.Instance.time >= 32400 && GameManager.Instance.time < 82800)
+                    {
+                        keyExplainText.text = "Z : 들어가기 \n<size=20>'원샷' 총기 가게</size>";
+                    }
+                    else
+                    {
+                        keyExplainText.text = "Z : 들어가기 \n<size=20>'원샷' 총기 가게(문닫음)</size>";
+                    }
+                    break;
+                case HouseType.HOSPITAL:
+                    if (GameManager.Instance.time >= 32400 && GameManager.Instance.time <= 64800)
+                    {
+                        keyExplainText.text = "Z : 들어가기 \n<size=20>'김철수' 병원</size>";
+                    }
+                    else
+                    {
+                        keyExplainText.text = "Z : 들어가기 \n<size=20>'김철수' 병원(문닫음)</size>";
+                    }
+                    break;
+                case HouseType.INGREDIENTSTORETWO:
+                    if (GameManager.Instance.time >= 32400 && GameManager.Instance.time < 82800)
+                    {
+                        keyExplainText.text = "Z : 들어가기 \n<size=20>'풍미' 식재료 가게</size>";
+                    }
+                    else
+                    {
+                        keyExplainText.text = "Z : 들어가기 \n<size=20>'풍미' 식재료 가게(문닫음)</size>";
+                    }
+                    break;
+                case HouseType.LUCKYSTORE:
+                    if (GameManager.Instance.time >= 32400 && GameManager.Instance.time < 82800)
+                    {
+                        keyExplainText.text = "Z : 들어가기 \n<size=20>'카시오페아' 점 가게</size>";
+                    }
+                    else
+                    {
+                        keyExplainText.text = "Z : 들어가기 \n<size=20>'카시오페아' 점 가게(문닫음)</size>";
+                    }
+                    break;
+                case HouseType.MONEYSTORE:
+                    if (GameManager.Instance.time >= 32400 && GameManager.Instance.time < 82800)
+                    {
+                        keyExplainText.text = "Z : 들어가기 \n<size=20>'미소' 대출업체</size>";
+                    }
+                    else
+                    {
+                        keyExplainText.text = "Z : 들어가기 \n<size=20>'미소' 대출업체(문닫음)</size>";
+                    }
+                    break;
+                case HouseType.MONEYSTORETWO:
+                    if (GameManager.Instance.time >= 32400 && GameManager.Instance.time < 82800)
+                    {
+                        keyExplainText.text = "Z : 들어가기 \n<size=20>'행복' 대출업체</size>";
+                    }
+                    else
+                    {
+                        keyExplainText.text = "Z : 들어가기 \n<size=20>'행복' 대출업체(문닫음)</size>";
+                    }
                     break;
             }
         }

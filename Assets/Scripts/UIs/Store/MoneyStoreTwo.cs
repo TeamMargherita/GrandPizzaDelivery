@@ -440,10 +440,10 @@ public class MoneyStoreTwo : Conversation
                 if (Constant.PayMoneyDate[k][MoneyStoreCode] <= m)
                 {
                     m -= Constant.PayMoneyDate[k][MoneyStoreCode];
-                    Debug.Log($"Constant.PayMoneyDate[k][MoneyStoreCode] {Constant.PayMoneyDate[k][MoneyStoreCode]}");
+                    //Debug.Log($"Constant.PayMoneyDate[k][MoneyStoreCode] {Constant.PayMoneyDate[k][MoneyStoreCode]}");
                     Constant.PayMoneyDate[k].Remove(MoneyStoreCode);
-                    Debug.Log("발동??????");
-                    Debug.Log(Constant.PayMoneyDate[k].ContainsKey(MoneyStoreCode));
+                    //Debug.Log("발동??????");
+                    //Debug.Log(Constant.PayMoneyDate[k].ContainsKey(MoneyStoreCode));
                     if (m == 0) { break; }
                 }
                 else
@@ -451,7 +451,7 @@ public class MoneyStoreTwo : Conversation
                     Constant.PayMoneyDate[k][MoneyStoreCode] -= m;
                     break;
                 }
-                Debug.Log("발동????2222");
+                //Debug.Log("발동????2222");
             }
             Constant.Dept -= 20000000;
             SumBorrow -= 20000000;
@@ -477,7 +477,10 @@ public class MoneyStoreTwo : Conversation
             int m = 0;
             foreach (var key in Constant.PayMoneyDate.Keys)
             {
-                m += Constant.PayMoneyDate[key][MoneyStoreCode];
+                if (Constant.PayMoneyDate[key].ContainsKey(MoneyStoreCode))
+                {
+                    m += Constant.PayMoneyDate[key][MoneyStoreCode];
+                }
             }
             Constant.Dept -= m;
             GameManager.Instance.Money -= m;

@@ -1,7 +1,7 @@
 public class TotalData
 {
     public int TotalMoney;
-
+    public int TotalKill;
     public TotalData()
     {
         TotalMoney = 0;

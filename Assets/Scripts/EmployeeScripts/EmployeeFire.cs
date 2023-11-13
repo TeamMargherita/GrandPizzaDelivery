@@ -76,10 +76,13 @@ public class EmployeeFire : MonoBehaviour
                 FireWinParent.GetChild(i).gameObject.SetActive(false);
             }
         }
+
+        FireWinBG.GetComponent<ScrollRect>().verticalNormalizedPosition = 1;
     }
 
     public void ShowDetail(int value)
     {
+
         FireWinParent.GetChild(value + 1).gameObject.SetActive(true);
 
         FireWinParent.GetChild(value).GetComponent<Button>().interactable = false; 
@@ -110,7 +113,7 @@ public class EmployeeFire : MonoBehaviour
             {
                 EmployeeStat += Stat(value / 2, j);
 
-                EmployeeStat += "                     선호요일 : ";
+                EmployeeStat += " / 선호요일 : ";
 
                 for (int k = 0; k < (int)Constant.ClerkList[value / 2].PreferredDateCount; k++)
                 {
@@ -126,14 +129,19 @@ public class EmployeeFire : MonoBehaviour
 
                 if((int)Constant.ClerkList[value / 2].PreferredDateCount == 0)
                 {
-                    EmployeeStat += "없음";
+                    EmployeeStat += "상주인원";
                 }
 
                 EmployeeStat += "\n";
             }
             else
             {
+                if(j % 2 == 0)
                 EmployeeStat += Stat(value / 2, j) + "\n";
+                else
+                {
+                    EmployeeStat += Stat(value / 2, j) + " / ";
+                }
             }
         }
 
@@ -259,6 +267,8 @@ public class EmployeeFire : MonoBehaviour
         {
             NoticeMessage("가게에는 1명 이상의 직원이 필요합니다.");
         }
+
+        FireWinBG.GetComponent<ScrollRect>().verticalNormalizedPosition = 1;
     }
 
     public void PayRateButton(int value)// 일급 조절.
@@ -377,11 +387,14 @@ public class EmployeeFire : MonoBehaviour
 
         if (value == true)
         {
-            rect.sizeDelta = new Vector3(rect.sizeDelta.x, rect.sizeDelta.y + 250);
+            //rect.sizeDelta = new Vector3(rect.sizeDelta.x, rect.sizeDelta.y + 250);
+            rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, rect.sizeDelta.y + 250);
         }
         else
         {
-            rect.sizeDelta = new Vector3(rect.sizeDelta.x, rect.sizeDelta.y - 250);
+            //rect.sizeDelta = new Vector3(rect.sizeDelta.x, rect.sizeDelta.y - 250);
+            rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, rect.sizeDelta.y - 250);
+
         }
     }
 

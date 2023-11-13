@@ -110,7 +110,7 @@ public class EmployeeStressCon : EmployeeFire
                     {
                         if (Constant.ClerkList[i].PreferredDate.Contains((Day)j) == false)
                         {
-                            Constant.ClerkList[i].Stress++;
+                            Constant.ClerkList[i].Stress += 3;
                         }
                     }
                 }

@@ -133,6 +133,7 @@ public abstract class Police : MonoBehaviour
             SpawnCar.SpawnCar(1);
         }
         DestroyPolice();
+        DataManager.killCount++;
         Destroy(this.gameObject);
     }
     protected virtual void DestroyPolice() { }

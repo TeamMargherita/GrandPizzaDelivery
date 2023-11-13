@@ -266,5 +266,11 @@ public class Hospital : Conversation
 			new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 3 })
 		};
 		AddTextList();
+		nowTextNum = 16; nextTextNum = new int[1] { -1 }; nextTextIsAble = new bool[1] { false };
+		methodSArr = new MethodS[1]
+		{
+			new MethodS(MethodEnum.ENDPANEL, new int[1] {-1})
+		};
+		AddTextList();
 	}
 }

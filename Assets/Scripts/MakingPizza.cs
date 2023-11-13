@@ -117,13 +117,16 @@ public class MakingPizza : MonoBehaviour, IResetPizzaMaking
 
             Constant.PizzaIngMoney += pizzaRequestList[0].Pizza.ProductionCost;
             // 피자 만드는데 걸리는 시간을 계산한다.
-            makeTime = 82;
+            makeTime = 57;
+            int han = 0;
             for (int i = 0; i < EmployeeStressCon.WorkingDay[(int)Constant.NowDay].Count; i++)
             {
                 //makeTime -= (60 + (int)Constant.ClerkList[i].Agility);
-                makeTime -= (10 + (int)EmployeeStressCon.WorkingDay[(int)Constant.NowDay][i].Agility);
+                makeTime -= (5 + (int)EmployeeStressCon.WorkingDay[(int)Constant.NowDay][i].Agility);
+                han += Random.Range((int)EmployeeStressCon.WorkingDay[(int)Constant.NowDay][i].Min, (int)EmployeeStressCon.WorkingDay[(int)Constant.NowDay][i].Max);
                 Debug.Log(makeTime);
             }
+            han /= EmployeeStressCon.WorkingDay[(int)Constant.NowDay].Count;
             // 돈이 빠져나간다.
 
             // 피자를 만들 준비합니다.
@@ -179,7 +182,20 @@ public class MakingPizza : MonoBehaviour, IResetPizzaMaking
 			}
             // 피자가 완성되었다. 완성된 피자는 피자집 인벤에 들어간다.
             pizzaRequestList[0].Pizza.ProductTime = GameManager.Instance.time;
-            CompletePizzaList.Add(pizzaRequestList[0].Pizza);
+
+
+            CompletePizzaList.Add(
+                new Pizza
+                (pizzaRequestList[0].Pizza.Name,
+                (int)(pizzaRequestList[0].Pizza.Perfection * han * 0.01),
+                pizzaRequestList[0].Pizza.ProductionCost,
+                pizzaRequestList[0].Pizza.SellCost,
+                pizzaRequestList[0].Pizza.Charisma,
+                pizzaRequestList[0].Pizza.Ingreds,
+                pizzaRequestList[0].Pizza.TotalDeclineAt,
+                pizzaRequestList[0].Pizza.Freshness,
+                pizzaRequestList[0].Pizza.ProductTime)
+                );
             // 파인애플 피자였다면 파인애플이 하나 줄어든다.
             if (pizzaRequestList[0].Pizza.Ingreds.FindIndex(a => a.Equals(PizzaNS.Ingredient.PINEAPPLE)) != -1)
 			{

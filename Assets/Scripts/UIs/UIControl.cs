@@ -24,6 +24,7 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
     [SerializeField] private GameObject player; // 플레이어
     [SerializeField] private GameObject makingPizzaObj;
     [SerializeField] private GameObject debtListPanel;
+    [SerializeField] private GameObject keyExplainPanel2;
     [SerializeField] private Light2D light2D;
     [SerializeField] private UnityEngine.UI.Image addPizzaImg;
     [SerializeField] private UnityEngine.UI.Text alarmMessageText;
@@ -62,7 +63,7 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
     private bool isColor = false;
     public static bool isIn = false;  // 대화창, 가게 안으로 들어갔는지 여부
     private bool menuSetActive = false;
-
+    private bool isPanel3On = false;
     public GameObject PizzaInventory;
     public InventoryManager InventoryManager;
     public SendDeliveryRequest SDR;
@@ -236,6 +237,11 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
             addPizzaImg.color = Color.white;
 		}
 	}
+    public void ControlKeyExplainPanel2()
+    {
+        isPanel3On = !isPanel3On;
+        keyExplainPanel2.SetActive(isPanel3On);
+    }
     public void ControlDebtListMenu(bool isOn)
 	{
         debtListPanel.SetActive(isOn);
@@ -422,6 +428,12 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
             Menu.SetActive(false);
             menuSetActive = false;
         }
+
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            ControlKeyExplainPanel2();
+        }
+
         // 일반 집이 아닌 곳에서 z키를 눌렀을 때
         if (houseType != HouseType.NONE && houseType != HouseType.HOUSE
             && Input.GetKeyDown(KeyCode.Z) && !isIn)

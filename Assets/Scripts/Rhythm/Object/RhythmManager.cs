@@ -57,11 +57,6 @@ public class RhythmManager : MonoBehaviour
         {
             EndScene();
         }
-        // Áßµµ ½ºÅµ = F5
-        else if (Input.GetKeyDown(KeyCode.F5) && SceneManager.GetActiveScene().name == "RhythmScene" && !SceneChange)
-        {
-            EndScene();
-        }
     }
 
     /// <summary>

@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
     public float time;
     private float timeSpeed = 120; //�Ϸ���ؽð�
 
-    private int money = 100150000;
+    private int money = 500000;
     public int Money
     {
         get {

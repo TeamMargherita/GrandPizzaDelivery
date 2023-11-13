@@ -15,8 +15,9 @@ public class PizzaMenuUI : MonoBehaviour, IAddPizza
 	[SerializeField] private GameObject questionPanel;
 	[SerializeField] private GameObject addPizzaPanel;
 	[SerializeField] private GameObject changePizzaNamePanel;
+	[SerializeField] private GameObject okAddPanel;
 	[SerializeField] private Text addPizzaExplainText;
-
+	
 	public static int nowDate = 0;
 
 	private List<int> openExplainList = new List<int>();
@@ -318,6 +319,12 @@ public class PizzaMenuUI : MonoBehaviour, IAddPizza
 		InitAddPizzaPage(nowPage);
 		changePizzaNamePanel.SetActive(false);
 	}
+
+	public void OKAddPizza(bool bo)
+    {
+		okAddPanel.SetActive(bo);
+    }
+
 	/// <summary>
 	/// 개발한 피자를 메뉴에 추가한다.
 	/// </summary>

@@ -104,13 +104,16 @@ public class EmployeeStressCon : EmployeeFire
         {
             for (int i = 0; i < Constant.ClerkList.Count; i++)
             {
-                if (WorkingDay[j].Contains(Constant.ClerkList[i]) == true)
+                if (WorkingDay.ContainsKey(j))
                 {
-                    if (i > 0)
+                    if (WorkingDay[j].Contains(Constant.ClerkList[i]) == true)
                     {
-                        if (Constant.ClerkList[i].PreferredDate.Contains((Day)j) == false)
+                        if (i > 0)
                         {
-                            Constant.ClerkList[i].Stress += 3;
+                            if (Constant.ClerkList[i].PreferredDate.Contains((Day)j) == false)
+                            {
+                                Constant.ClerkList[i].Stress += 3;
+                            }
                         }
                     }
                 }

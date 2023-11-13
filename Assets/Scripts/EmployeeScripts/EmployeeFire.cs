@@ -281,17 +281,17 @@ public class EmployeeFire : MonoBehaviour
         {
             Value = value - 1;
 
-            EmployeeStat += Constant.ClerkList[Value].Name + "\n";
+            EmployeeStat = Constant.ClerkList[Value].Name + "\n";
 
             pay[Value] += 100;
 
             for (int j = 0; j < 5; j++)
             {
-                EmployeeStat += Stat(Value, j);
-
                 if (j == 0)
                 {
-                    EmployeeStat += "                     선호요일 : ";
+                    EmployeeStat += Stat(value / 2, j);
+
+                    EmployeeStat += " / 선호요일 : ";
 
                     for (int k = 0; k < (int)Constant.ClerkList[Value].PreferredDateCount; k++)
                     {
@@ -307,11 +307,17 @@ public class EmployeeFire : MonoBehaviour
 
                     if ((int)Constant.ClerkList[Value].PreferredDateCount == 0)
                     {
-                        EmployeeStat += "없음";
+                        EmployeeStat += "상주인원" + "\n";
                     }
                 }
 
-                EmployeeStat += "\n";
+                if (j != 0)
+                {
+                    if (j % 2 == 0)
+                        EmployeeStat += Stat(value / 2, j) + "\n";
+                    else
+                        EmployeeStat += Stat(value / 2, j) + " / ";
+                }
             }
 
             if (Constant.ClerkList[Value].Pay + pay[Value] > Constant.ClerkList[Value].MaxPayScale)
@@ -328,17 +334,17 @@ public class EmployeeFire : MonoBehaviour
 
             if (Constant.ClerkList[Value].Pay + pay[Value] >= 100)
             {
-                EmployeeStat += Constant.ClerkList[Value].Name + "\n";
+                EmployeeStat = Constant.ClerkList[Value].Name + "\n";
 
                 pay[Value] -= 100;
 
                 for (int j = 0; j < 5; j++)
                 {
-                    EmployeeStat += Stat(Value, j);
-
                     if (j == 0)
                     {
-                        EmployeeStat += "                     선호요일 : ";
+                        EmployeeStat += Stat(value / 2, j);
+
+                        EmployeeStat += " / 선호요일 : ";
 
                         for (int k = 0; k < (int)Constant.ClerkList[Value].PreferredDateCount; k++)
                         {
@@ -354,11 +360,17 @@ public class EmployeeFire : MonoBehaviour
 
                         if ((int)Constant.ClerkList[Value].PreferredDateCount == 0)
                         {
-                            EmployeeStat += "없음";
+                            EmployeeStat += "상주인원" + "\n";
                         }
                     }
 
-                    EmployeeStat += "\n";
+                    if (j != 0)
+                    {
+                        if (j % 2 == 0)
+                            EmployeeStat += Stat(value / 2, j) + "\n";
+                        else
+                            EmployeeStat += Stat(value / 2, j) + " / ";
+                    }
                 }
             }
         }

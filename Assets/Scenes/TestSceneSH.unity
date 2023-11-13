@@ -8048,6 +8048,10 @@ PrefabInstance:
       propertyPath: playerMove
       value: 
       objectReference: {fileID: 1586257779}
+    - target: {fileID: 4267261321369318065, guid: 841f989155f670c47bc8cd60f924df7c, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4267261321369318066, guid: 841f989155f670c47bc8cd60f924df7c, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -83039,6 +83043,10 @@ PrefabInstance:
       propertyPath: playerMove
       value: 
       objectReference: {fileID: 1586257779}
+    - target: {fileID: 4267261321369318065, guid: 841f989155f670c47bc8cd60f924df7c, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4267261321369318066, guid: 841f989155f670c47bc8cd60f924df7c, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -83641,6 +83649,10 @@ PrefabInstance:
       propertyPath: playerMove
       value: 
       objectReference: {fileID: 1586257779}
+    - target: {fileID: 4267261321369318065, guid: 841f989155f670c47bc8cd60f924df7c, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4267261321369318066, guid: 841f989155f670c47bc8cd60f924df7c, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -91549,6 +91561,10 @@ PrefabInstance:
       propertyPath: playerMove
       value: 
       objectReference: {fileID: 1586257779}
+    - target: {fileID: 4267261321369318065, guid: 841f989155f670c47bc8cd60f924df7c, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4267261321369318066, guid: 841f989155f670c47bc8cd60f924df7c, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -95784,6 +95800,10 @@ PrefabInstance:
       propertyPath: playerMove
       value: 
       objectReference: {fileID: 1586257779}
+    - target: {fileID: 4267261321369318065, guid: 841f989155f670c47bc8cd60f924df7c, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4267261321369318066, guid: 841f989155f670c47bc8cd60f924df7c, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -123868,6 +123888,10 @@ PrefabInstance:
       propertyPath: playerMove
       value: 
       objectReference: {fileID: 1586257779}
+    - target: {fileID: 4267261321369318065, guid: 841f989155f670c47bc8cd60f924df7c, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4267261321369318066, guid: 841f989155f670c47bc8cd60f924df7c, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

@@ -169,11 +169,14 @@ public class MoneyStore : Conversation
         }
 		else if (num == 21)
         {
-			int money = 0;	// °±¾Æ¾ß ÇÒ ºú
+			int money = 0;  // °±¾Æ¾ß ÇÒ ºú
 			foreach (var key in Constant.PayMoneyDate.Keys)
-            {
-				money += Constant.PayMoneyDate[key][MoneyStoreCode];
-            }
+			{
+				if (Constant.PayMoneyDate[key].ContainsKey(MoneyStoreCode))
+				{
+					money += Constant.PayMoneyDate[key][MoneyStoreCode];
+				}
+			}
 
 			if (money >= 1000000 && GameManager.Instance.Money >= 1000000)
             {
@@ -189,7 +192,10 @@ public class MoneyStore : Conversation
 			int money = 0;
 			foreach (var key in Constant.PayMoneyDate.Keys)
 			{
-				money += Constant.PayMoneyDate[key][MoneyStoreCode];
+				if (Constant.PayMoneyDate[key].ContainsKey(MoneyStoreCode))
+				{
+					money += Constant.PayMoneyDate[key][MoneyStoreCode];
+				}
 			}
 
 			if (money >= 2000000 && GameManager.Instance.Money >= 2000000)
@@ -206,7 +212,10 @@ public class MoneyStore : Conversation
 			int money = 0;
 			foreach (var key in Constant.PayMoneyDate.Keys)
 			{
-				money += Constant.PayMoneyDate[key][MoneyStoreCode];
+				if (Constant.PayMoneyDate[key].ContainsKey(MoneyStoreCode))
+				{
+					money += Constant.PayMoneyDate[key][MoneyStoreCode];
+				}
 			}
 
 			if (money >= 4000000 && GameManager.Instance.Money >= 4000000)
@@ -223,7 +232,10 @@ public class MoneyStore : Conversation
 			int money = 0;
 			foreach (var key in Constant.PayMoneyDate.Keys)
 			{
-				money += Constant.PayMoneyDate[key][MoneyStoreCode];
+				if (Constant.PayMoneyDate[key].ContainsKey(MoneyStoreCode))
+				{
+					money += Constant.PayMoneyDate[key][MoneyStoreCode];
+				}
 			}
 
 			if (money <= GameManager.Instance.Money)

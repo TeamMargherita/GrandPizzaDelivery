@@ -289,7 +289,7 @@ public class EmployeeFire : MonoBehaviour
             {
                 if (j == 0)
                 {
-                    EmployeeStat += Stat(value / 2, j);
+                    EmployeeStat += Stat(Value, j);
 
                     EmployeeStat += " / 선호요일 : ";
 
@@ -307,22 +307,19 @@ public class EmployeeFire : MonoBehaviour
 
                     if ((int)Constant.ClerkList[Value].PreferredDateCount == 0)
                     {
-                        EmployeeStat += "상주인원" + "\n";
+                        EmployeeStat += "상주인원";
                     }
+
+                    EmployeeStat += "\n";
                 }
 
                 if (j != 0)
                 {
                     if (j % 2 == 0)
-                        EmployeeStat += Stat(value / 2, j) + "\n";
+                        EmployeeStat += Stat(Value, j) + "\n";
                     else
-                        EmployeeStat += Stat(value / 2, j) + " / ";
+                        EmployeeStat += Stat(Value, j) + " / ";
                 }
-            }
-
-            if (Constant.ClerkList[Value].Pay + pay[Value] > Constant.ClerkList[Value].MaxPayScale)
-            {
-                EmployeeStat += "일급 :     " + (Constant.ClerkList[Value].Pay + pay[Value]).ToString() + "\n";
             }
 
             FireWinParent.GetChild((Value) * 2 + 1).GetChild(0).
@@ -330,7 +327,7 @@ public class EmployeeFire : MonoBehaviour
         }
         else if (value < 0)
         {
-            Value = value * -1 - 1;
+            Value = (value * -1) - 1;
 
             if (Constant.ClerkList[Value].Pay + pay[Value] >= 100)
             {
@@ -342,7 +339,7 @@ public class EmployeeFire : MonoBehaviour
                 {
                     if (j == 0)
                     {
-                        EmployeeStat += Stat(value / 2, j);
+                        EmployeeStat += Stat(Value / 2, j);
 
                         EmployeeStat += " / 선호요일 : ";
 
@@ -360,16 +357,18 @@ public class EmployeeFire : MonoBehaviour
 
                         if ((int)Constant.ClerkList[Value].PreferredDateCount == 0)
                         {
-                            EmployeeStat += "상주인원" + "\n";
+                            EmployeeStat += "상주인원";
                         }
+
+                        EmployeeStat += "\n";
                     }
 
                     if (j != 0)
                     {
                         if (j % 2 == 0)
-                            EmployeeStat += Stat(value / 2, j) + "\n";
+                            EmployeeStat += Stat(Value, j) + "\n";
                         else
-                            EmployeeStat += Stat(value / 2, j) + " / ";
+                            EmployeeStat += Stat(Value, j) + " / ";
                     }
                 }
             }
@@ -378,7 +377,6 @@ public class EmployeeFire : MonoBehaviour
         if (Constant.ClerkList[Value].Pay + pay[Value] > Constant.ClerkList[Value].MaxPayScale)
         {
             EmployeeStat += "<color=green>일급 :     </color>" + $"<color=green>{(Constant.ClerkList[Value].Pay + pay[Value]).ToString()}</color>" + "\n";
-
         }
         else if (Constant.ClerkList[Value].Pay + pay[Value] < Constant.ClerkList[Value].MinPayScale)
         {
@@ -386,7 +384,7 @@ public class EmployeeFire : MonoBehaviour
         }
         else
         {
-            EmployeeStat += "<color=black>일급 :     </color>" + $"<color=black>{(Constant.ClerkList[Value].Pay + pay[Value]).ToString()} </color>" + "\n";
+            EmployeeStat += "<color=black>일급 :     </color>" + $"<color=black>{(Constant.ClerkList[Value].Pay + pay[Value]).ToString()}</color>" + "\n";
         }
 
         FireWinParent.GetChild((Value) * 2 + 1).GetChild(0).

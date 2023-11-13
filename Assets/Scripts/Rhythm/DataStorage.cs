@@ -19,16 +19,23 @@ public class DataStorage
         Id = PlayerData.Count;
     }
 
-    public void AddData(int money)
+    public void AddData(int money, int count)
     {
-        PlayerData player = new PlayerData(money);
+        PlayerData player = new PlayerData(money, count);
         PlayerData.Add(Id, player);
 
-        int total = 0;
+        int totalMoney = 0;
         foreach (var value in PlayerData.Values)
         {
-            total += value.Money;
+            totalMoney += value.Money;
         }
-        TotalData.TotalMoney = total;
+
+        int totalKill = 0;
+        foreach (var value in PlayerData.Values)
+        {
+            totalKill += value.KillCount;
+        }
+        TotalData.TotalMoney = totalMoney;
+        TotalData.TotalKill = totalKill;
     }
 }

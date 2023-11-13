@@ -5,20 +5,8 @@ using UnityEngine.UI;
 
 public class Turorial : MonoBehaviour
 {
-    string[] TutorialText;
-    [SerializeField] GameObject Tuto;
-
-    bool isSkip = true;
-    public static bool IsTuto = false;
-
-    int tutoProgressCount = 0;
-
-    private void Awake()
-    {
-        tutoProgressCount = 0;
-
-        TutorialText = new string[19]
-       { "안녕하세요! 점장님께 일이 생기신 후 정말 걱정했는데 이렇게 대신 와주셔서 다행이에요!",
+    string[] tutorialText = new string[19]
+           { "안녕하세요! 점장님께 일이 생기신 후 정말 걱정했는데 이렇게 대신 와주셔서 다행이에요!",
             "피자 가게를 운영해 보신 적이 있으신가요?",
             "그러시군요... 그래도 문제 없어요! 제가 옆에서 도와드릴 수 있어요!",
         "믿음직스럽네요! 그럼 오늘부터 당분간 잘 부탁드려요~",
@@ -31,13 +19,26 @@ public class Turorial : MonoBehaviour
         "재료를 고르고, 박자에 맞춰 키를 누르면 레시피는 금방이랍니다!",
             "이쪽은 개발해둔 피자 메뉴를 등록하는 곳이에요.", //11
             "레시피의 이름도 직접 고르시고, 등록하고 싶은 메뉴를 추가하실 수 있죠. 물론 삭제도 가능하답니다.",
-            "이쪽은 채무 목록이에요. 빛을... 남기고 가셨거든요. 잘 확인하고 갚아주세요",//13
+            "이쪽은 채무 목록이에요. 빛을... 남기고 가셨거든요. 잘 확인하고 갚아주세요.",//13
             "갚지 않으신다면... 끝이 좋지 않으실거에요! 그러니 주의해주세요.",
             "자아 이제 조금 넘어가서 이쪽에서는 피자를 굽는것을 확인 하실수 있으며, 또한 좌클릭으로 받아서 배달하실 수도 있답니다.", // 15
             "빨간색이 꽉 차면 전부 구워졌다는 신호입니다.",
         "제가 알려드릴 것은 여기까지에요.", // 17
         "그럼 무운을 빌어요, 점장님~"
-       };
+           };
+
+    string[] employeeTutoText = new string[10];
+
+    [SerializeField] GameObject Tuto;
+
+    bool isSkip = true;
+    public static bool IsTuto = false;
+
+    int tutoProgressCount = 0;
+
+    private void Awake()
+    {
+        tutoProgressCount = 0;
 
         if (IsTuto == false)
         {
@@ -123,19 +124,19 @@ public class Turorial : MonoBehaviour
 
         if(tutoProgressCount < 15)
         {
-            Tuto.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = TutorialText[tutoProgressCount];
+            Tuto.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = tutorialText[tutoProgressCount];
 
             tutoProgressCount++;
         }
-        else if(tutoProgressCount == TutorialText.Length)
+        else if(tutoProgressCount == tutorialText.Length)
         {
             tutoProgressCount = 0;
 
             IsTuto = true;
         }
-        else if(tutoProgressCount >= 15 && tutoProgressCount != TutorialText.Length)
+        else if(tutoProgressCount >= 15 && tutoProgressCount != tutorialText.Length)
         {
-            Tuto.transform.GetChild(2).GetChild(0).GetComponent<Text>().text = TutorialText[tutoProgressCount];
+            Tuto.transform.GetChild(2).GetChild(0).GetComponent<Text>().text = tutorialText[tutoProgressCount];
 
             tutoProgressCount++;
         }
@@ -162,7 +163,7 @@ public class Turorial : MonoBehaviour
             Tuto.transform.GetChild(1).GetChild(2).gameObject.SetActive(false);
             Tuto.transform.GetChild(1).GetChild(1).gameObject.SetActive(true);
 
-            Tuto.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = TutorialText[tutoProgressCount];
+            Tuto.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = tutorialText[tutoProgressCount];
 
             TextBox();
 
@@ -175,7 +176,7 @@ public class Turorial : MonoBehaviour
             Tuto.transform.GetChild(1).GetChild(2).gameObject.SetActive(false);
             Tuto.transform.GetChild(1).GetChild(1).gameObject.SetActive(true);
 
-            Tuto.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = TutorialText[tutoProgressCount];
+            Tuto.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = tutorialText[tutoProgressCount];
 
             TextBox();
 
@@ -183,5 +184,10 @@ public class Turorial : MonoBehaviour
         }
 
         tutoProgressCount = 4;
+    }
+
+    public void EmployeeTuto()
+    {
+
     }
 }

@@ -27,7 +27,7 @@ public class MakingPizzaPanel : MonoBehaviour, IPointerClickHandler
 		temPizza = pizza;
 		backText.text = temPizza.Name;
 		mainText.text = temPizza.Name;
-		Debug.Log("작동 1");
+		//Debug.Log("작동 1");
 	}
 
 	public Pizza GetPizza()

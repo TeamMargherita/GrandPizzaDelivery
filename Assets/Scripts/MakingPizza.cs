@@ -124,7 +124,7 @@ public class MakingPizza : MonoBehaviour, IResetPizzaMaking
                 //makeTime -= (60 + (int)Constant.ClerkList[i].Agility);
                 makeTime -= (5 + (int)EmployeeStressCon.WorkingDay[(int)Constant.NowDay][i].Agility);
                 han += Random.Range((int)EmployeeStressCon.WorkingDay[(int)Constant.NowDay][i].Min, (int)EmployeeStressCon.WorkingDay[(int)Constant.NowDay][i].Max);
-                Debug.Log(makeTime);
+                //Debug.Log(makeTime);
             }
             han /= EmployeeStressCon.WorkingDay[(int)Constant.NowDay].Count;
             // 돈이 빠져나간다.
@@ -240,7 +240,7 @@ public class MakingPizza : MonoBehaviour, IResetPizzaMaking
             }
         }
 
-        Debug.Log( $"{k} CompletePizzaList.Count : {CompletePizzaList.Count}");
+        //Debug.Log( $"{k} CompletePizzaList.Count : {CompletePizzaList.Count}");
         
         if (k < 0) { return new Pizza(); }
 

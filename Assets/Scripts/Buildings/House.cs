@@ -194,7 +194,8 @@ public class House : MonoBehaviour, IAddress, IHouse, IActiveHouse
         percent = (int)(percent * (pizza.Freshness * 0.01f));
 
         tip = (int)(CustomerSDic[houseAddress.BuildingAddress][houseAddress.HouseAddress].MoneyPower * (percent * 0.01f));
-        Debug.Log(tip);
+        tip += (int)(pizza.Charisma * Random.Range(Constant.PizzaStoreStar, Constant.PizzaStoreStar + 1f));
+        //Debug.Log(tip);
         Invoke("PlusMoney", 1.5f);
         if (tip < 40)
         {

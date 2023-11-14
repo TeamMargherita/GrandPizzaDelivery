@@ -716,6 +716,23 @@ public class Calculate : MonoBehaviour
 
     public void GoInGame()
     {
+        for (int i = 0; i < GameManager.Instance.PizzaMenu.Count; i++)
+		{
+            GameManager.Instance.PizzaMenu[i]
+                = new Pizza
+                (GameManager.Instance.PizzaMenu[i].Name,
+                GameManager.Instance.PizzaMenu[i].Perfection,
+                GameManager.Instance.PizzaMenu[i].ProductionCost,
+                GameManager.Instance.PizzaMenu[i].SellCost,
+                (GameManager.Instance.PizzaMenu[i].Charisma - GameManager.Instance.PizzaMenu[i].TotalDeclineAt <= 0 ? 0 : GameManager.Instance.PizzaMenu[i].Charisma - GameManager.Instance.PizzaMenu[i].TotalDeclineAt),
+                GameManager.Instance.PizzaMenu[i].Ingreds,
+                GameManager.Instance.PizzaMenu[i].TotalDeclineAt,
+                GameManager.Instance.PizzaMenu[i].Freshness,
+                GameManager.Instance.PizzaMenu[i].ProductTime
+                    );
+		}
+
+
         PlayerStat.HP = PlayerStat.MaxHP;
         GameManager.Instance.time = 32400;
 

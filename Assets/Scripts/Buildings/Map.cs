@@ -202,7 +202,7 @@ public class Map : MonoBehaviour, IMap, IStop
             if (!houseAddressList[r].IHouse.GetIsEnable() && houseAddressList[r].IHouse.GetHouseType() == HouseType.HOUSE)
             {
                 temInd = r;
-                Debug.Log(houseAddressList[r].IHouse.GetLocation());
+                //Debug.Log(houseAddressList[r].IHouse.GetLocation());
                 return houseAddressList[r];
             }
         }

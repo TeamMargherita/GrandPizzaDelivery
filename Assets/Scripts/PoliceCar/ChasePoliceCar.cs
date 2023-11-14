@@ -484,12 +484,28 @@ public class ChasePoliceCar : Police, ISetTransform, IUpdateCheckList
 	{
         
         // 특정상황에서 모든 추격 경찰차 정지
-        if (ControlMove()) { return; }
-        if (policeState == PoliceState.DESTROY ||  policeState == PoliceState.NONE) { return; }
+        if (ControlMove()) 
+        {
+            if (playerTrans.GetComponent<PlayerMove>().Stop)
+            {
+                Debug.Log(playerTrans.GetComponent<PlayerMove>().Stop);
+                PoliceAudio.Stop();
+            }
+            return; 
+        }
+        if (policeState == PoliceState.DESTROY ||  policeState == PoliceState.NONE) 
+        {
+            if (playerTrans.GetComponent<PlayerMove>().Stop)
+            {
+                Debug.Log(playerTrans.GetComponent<PlayerMove>().Stop);
+                PoliceAudio.Stop();
+            }
+            return; 
+        }
 
         time += Time.deltaTime;
         ChangeFOVColor(policeState);
-        if (!UIControl.isIn)
+        if(!playerTrans.GetComponent<PlayerMove>().Stop)
         {
             if (iGetBool.GetBool() && !PoliceAudio.isPlaying)
             {
@@ -500,8 +516,9 @@ public class ChasePoliceCar : Police, ISetTransform, IUpdateCheckList
                 PoliceAudio.Stop();
             }
         }
-        else
+        else if(playerTrans.GetComponent<PlayerMove>().Stop)
         {
+            Debug.Log(playerTrans.GetComponent<PlayerMove>().Stop);
             PoliceAudio.Stop();
         }
         // 플레이어를 발견한다면 슈팅 자세

@@ -339,7 +339,7 @@ public class EmployeeFire : MonoBehaviour
                 {
                     if (j == 0)
                     {
-                        EmployeeStat += Stat(Value / 2, j);
+                        EmployeeStat += Stat(Value, j);
 
                         EmployeeStat += " / 선호요일 : ";
 

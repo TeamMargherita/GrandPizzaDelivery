@@ -76975,6 +76975,7 @@ MonoBehaviour:
   questionPanel: {fileID: 475061088}
   addPizzaPanel: {fileID: 884853045}
   changePizzaNamePanel: {fileID: 248992866}
+  okAddPanel: {fileID: 0}
   addPizzaExplainText: {fileID: 974987346}
 --- !u!1 &1052103279
 GameObject:
@@ -92556,7 +92557,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1441752818
 RectTransform:
   m_ObjectHideFlags: 0
@@ -114580,6 +114581,7 @@ MonoBehaviour:
   player: {fileID: 1586257776}
   makingPizzaObj: {fileID: 1187700878}
   debtListPanel: {fileID: 1375928307}
+  keyExplainPanel2: {fileID: 0}
   light2D: {fileID: 303622077}
   addPizzaImg: {fileID: 1563996481}
   alarmMessageText: {fileID: 1788539172}

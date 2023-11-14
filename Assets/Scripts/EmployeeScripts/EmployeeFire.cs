@@ -16,7 +16,7 @@ public class EmployeeFire : MonoBehaviour
     protected void Awake()
     {
         SetEmployee();
-        Debug.Log("작동");
+        //Debug.Log("작동");
     }
 
     private void Update()

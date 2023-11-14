@@ -16,6 +16,10 @@ public class PlayerTexts : MonoBehaviour, IPointerClickHandler, IPointerEnterHan
 
     private IInspectingUIText iInspectingUIText;
 
+    public void OnEnable()
+    {
+        panelImg.color = twoC;
+    }
     public void SetIInspectingUIText(IInspectingUIText iInspectingUIText)
 	{
         this.iInspectingUIText = iInspectingUIText;

@@ -80,7 +80,7 @@ public class SendDeliveryRequest : MonoBehaviour
     {
         foreach (var i in RequestList)
         {
-            if(i.AddressS.IHouse != null)
+            if (!(i.AddressS.IHouse.Equals(null)))
             {
                 minimap.DeleteDestination(i.AddressS.IHouse.GetLocation());
                 i.AddressS.IHouse.EndDeliveryDisableHouse();

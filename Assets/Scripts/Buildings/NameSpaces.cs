@@ -9,6 +9,7 @@ using UnityEngine;
 namespace ClerkNS
 {
     public enum Tier{ ONE = -1, TWO = 1, THREE = 3, FOUR = 6 };
+    
     // 나중에 클래스로 바꿀듯
     public class ClerkC
     {
@@ -20,7 +21,13 @@ namespace ClerkNS
         public int Pay { get; set; } // 주급
         public int Max { get; private set; }    // 최종 능력치 최대치
         public int Min { get; private set; }    // 최종 능력치 최소치
-        public ClerkC (int Handicraft, Tier Agility, Tier Career, Tier Creativity, int Stress, int Pay)
+        public string Name { get; private set; } // 이름
+        public int MinPayScale { get; private set; }
+        public int MaxPayScale { get; private set; }
+        public int MaxStress { get; private set; }
+        public List<Day> PreferredDate { get; private set; }
+        public int PreferredDateCount { get; private set; }
+        public ClerkC (int Handicraft, Tier Agility, Tier Career, Tier Creativity, int Stress, int Pay, string Name, List<Day> PreferredDate, int PreferredDateCount)
 		{
             this.Handicraft = Handicraft;
             this.Agility = Agility;
@@ -28,10 +35,18 @@ namespace ClerkNS
             this.Creativity = Creativity;
             this.Stress = Stress;
             this.Pay = Pay;
+            this.Name = Name;
+            this.PreferredDate = PreferredDate;
+            this.PreferredDateCount = PreferredDateCount;
 
             Max = (this.Handicraft + 8) + (int)Creativity;
             Min = (this.Handicraft - 8) + (int)Career;
-		}
+
+            MinPayScale = (Handicraft - (int)Agility + (int)Creativity + (int)Career) * 100 - 1000;
+            MaxPayScale = (Handicraft - (int)Agility + (int)Creativity + (int)Career) * 100 + 1000;
+
+            MaxStress = 150;
+        }
     }
 }
 /// <summary>
@@ -45,7 +60,7 @@ namespace BuildingNS
     /// </summary>
     namespace HouseNS
     {
-        public enum HouseType { NONE, PIZZASTORE, HOUSE, DICESTORE, PINEAPPLESTORE, INGREDIENTSTORE, PINEAPPLESTORETWO, GUNSTORE };
+        public enum HouseType { NONE, PIZZASTORE, HOUSE, DICESTORE, PINEAPPLESTORE, INGREDIENTSTORE, PINEAPPLESTORETWO, GUNSTORE, HOSPITAL, LUCKYSTORE, INGREDIENTSTORETWO, MONEYSTORE, MONEYSTORETWO };
     }
 }
 /// <summary>
@@ -78,7 +93,7 @@ namespace BuildingAddressNS
 /// </summary>
 namespace PizzaNS
 {
-    public enum Ingredient { PINEAPPLE, TOMATO, CHEESE, BASIL, POTATO, BACON, CORN, JALAPENO, CHICKEN, MEAT };
+    public enum Ingredient { PINEAPPLE, TOMATO, CHEESE, BASIL, POTATO, BACON, CORN, JALAPENO, CHICKEN, MEAT, APPLE, CARROT, BIGGREENONION, GALIC, ONION, PEPPER };
     /// <summary>
     /// 재료 네임스페이스
     /// </summary>
@@ -97,6 +112,8 @@ namespace PizzaNS
             this.IngredientPrice = ingredientPrice;
 		}
     }
+
+    public enum Freshness {WHITE, SKYBLUE, BLUE };
     /// <summary>
     /// 완성된 피자의 설명을 위한 구조체
     /// </summary>
@@ -122,19 +139,38 @@ namespace PizzaNS
     {
         public struct CustomerS
         {
-            public List<Ingredient> IngredList;  //선호 재료
-            public int PizzaCutLine;    //피자 완성도 커트라인
+            //public List<Ingredient> IngredList;  //선호 재료
+            public int PizzaCutLine;    //피자 완성도 커트라인   15퍼
+            public float PizzaDeliverySpeed;    // 피자 배달 속도 15퍼
+            public int PizzaCarismaCutLine; // 피자 매력도 커트라인  20퍼
+            public List<Ingredient> IngList;    // 선호 피자 재료 50퍼 (재료당 10퍼)
+            public int MoneyPower;  // 재산 수준
 
-            public CustomerS(int pizzaCutLine, List<Ingredient> ingredList)
+            public CustomerS(int pizzaCutLine, float pizzaDeliverySpeed, int pizzaCarismaCutLine, List<Ingredient> ingList, int moneyPower)
             {
+                IngList = new List<Ingredient>();
                 PizzaCutLine = pizzaCutLine;
+                PizzaDeliverySpeed = pizzaDeliverySpeed;
+                PizzaCarismaCutLine = pizzaCarismaCutLine;
 
-                IngredList = new List<Ingredient>();
-                for (int i = 0; i < ingredList.Count; i++)
+                for (int i = 0; i < ingList.Count; i++)
                 {
-                    IngredList.Add(ingredList[i]);
+                    IngList.Add(ingList[i]);
                 }
+
+                MoneyPower = moneyPower;
             }
+            //public CustomerS(int pizzaCutLine, List<Ingredient> ingredList)
+            //{
+            //    PizzaCutLine = pizzaCutLine;
+
+            //    IngredList = new List<Ingredient>();
+            //    for (int i = 0; i < ingredList.Count; i++)
+            //    {
+            //        IngredList.Add(ingredList[i]);
+            //    }
+            //}
+            
         }
     }
 }
@@ -166,6 +202,10 @@ namespace PoliceNS
         public enum PoliceState
         {
             NONE, MOVING, STOP, INSPECTING, DESTROY, SPUERCHASE, AUTOMOVE, OUTMAP
+        };
+        public enum PoliceType
+        {
+            NORMAL, CHASER
         };
     }
 }
@@ -206,7 +246,7 @@ namespace ConversationNS
     /// <summary>
     /// 실행할 메소드의 종류
     /// </summary>
-    public enum MethodEnum { NONE, SETSIZECONTENTS, CHANGENPCIMAGE, CHANGEPLAYERIMAGE, SETRANDNPCTEXT, ENDPANEL, SPAWNPOLICE, OPENSTORE, SAVETEXTINDEX, SETISCONDITION };
+    public enum MethodEnum { NONE, SETSIZECONTENTS, CHANGENPCIMAGE, CHANGEPLAYERIMAGE, SETRANDNPCTEXT, ENDPANEL, SPAWNPOLICE, OPENSTORE, SAVETEXTINDEX, SETISCONDITION, INITPLAYERTEXT };
 }
 /// <summary>
 /// 가게와 관련된 네임스페이스이다.
@@ -281,4 +321,11 @@ namespace StoreNS
             Path = path;
 		}
 	}
+}
+/// <summary>
+/// 날짜와 관련된 네임스페이스이다.
+/// </summary>
+namespace DayNS
+{
+    public enum DayEnum { MONDAY, TUESDAY, WENDESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY };
 }

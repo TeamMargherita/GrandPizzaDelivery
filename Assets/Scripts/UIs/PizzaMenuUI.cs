@@ -15,8 +15,11 @@ public class PizzaMenuUI : MonoBehaviour, IAddPizza
 	[SerializeField] private GameObject questionPanel;
 	[SerializeField] private GameObject addPizzaPanel;
 	[SerializeField] private GameObject changePizzaNamePanel;
+	[SerializeField] private GameObject okAddPanel;
 	[SerializeField] private Text addPizzaExplainText;
 	
+	public static int nowDate = 0;
+
 	private List<int> openExplainList = new List<int>();
 	private AddPizzaSlot[] addPizzaSlots;
 	private GameObject[] pizzaMenuSlot;
@@ -39,6 +42,10 @@ public class PizzaMenuUI : MonoBehaviour, IAddPizza
 		//	ing.Add(Ingredient.CHEESE);
 		//	Constant.DevelopPizza.Add(new Pizza("SuperPizza", 60, 5000, 10000, Random.Range(0, 1500) + 500, ing, Random.Range(0, 1500) + 200));
 		//}
+		if (Constant.NowDate == 1 && GameManager.Instance.time >= 32400 && GameManager.Instance.time <= 32500)
+        {
+			nowDate = 0;
+        }
 
 		pizzaMenuSlot = new GameObject[pizzaMenuListObj.transform.childCount];
 		pizzaMenuSlotText = new Text[pizzaMenuSlot.Length];
@@ -67,6 +74,15 @@ public class PizzaMenuUI : MonoBehaviour, IAddPizza
 	private void OnEnable()
 	{
 		RefreshAllSlot();
+
+	}
+	private void Start()
+	{
+		if (Constant.NowDate != nowDate)
+		{
+			OneDayMenuInit(Constant.NowDate - nowDate);
+			nowDate = Constant.NowDate;
+		}
 	}
 	private void RefreshAllSlot()
 	{
@@ -129,6 +145,8 @@ public class PizzaMenuUI : MonoBehaviour, IAddPizza
 	}
 	public void RemoveQuestion(int index)
 	{
+		if (GameManager.Instance.PizzaMenu.Count <= 1) { return; }
+
 		temIndex = index;
 		questionPanel.SetActive(true);
 	}
@@ -139,6 +157,7 @@ public class PizzaMenuUI : MonoBehaviour, IAddPizza
 	}
 	public void ReMovePizza()
 	{
+
 		explainMenuSlotText[temIndex].gameObject.transform.parent.gameObject.SetActive(false);
 		openExplainList.Remove(temIndex);
 
@@ -251,9 +270,10 @@ public class PizzaMenuUI : MonoBehaviour, IAddPizza
 		string str = "";
 		for (int i = 0; i < Constant.DevelopPizza[num].Ingreds.Count; i++)
 		{
-			str += Constant.DevelopPizza[num].Ingreds[i].ToString() + ", ";
+			str += Constant.IngredientsArray[(int)(Constant.DevelopPizza[num].Ingreds[i]), 4] + ", ";
 		}
-		addPizzaExplainText.text = "피자이름 : " + Constant.DevelopPizza[num].Name 
+		addPizzaExplainText.text = "피자이름 : " + Constant.DevelopPizza[num].Name
+								+ "\n완성도 : " + Constant.DevelopPizza[num].Perfection
 								+ "\n피자매력도 : " + Constant.DevelopPizza[num].Charisma
 								+ "\n피자가격 : " + Constant.DevelopPizza[num].SellCost
 								+ "\n피자생산비용 : " + Constant.DevelopPizza[num].ProductionCost
@@ -269,10 +289,22 @@ public class PizzaMenuUI : MonoBehaviour, IAddPizza
 		}
 		temSlotNumber = num;
 	}
-
+	/// <summary>
+	/// 개발한 피자의 이름을 바꿔줌
+	/// </summary>
+	/// <param name="str"></param>
 	public void ChangeDevelopPizzaName(string str)
 	{
 		if (temSlotNumber == -1) { return; }
+		// 개발한 피자들 이름의 메뉴 사용 못하게 방지
+		for (int i = 0; i < Constant.DevelopPizza.Count; i++)
+        {
+			if (Constant.DevelopPizza[i].Name.Equals(str))
+            {
+				// 경고창 떠야됨
+				return;
+            }
+        }
 
 		Constant.DevelopPizza[temSlotNumber] = new Pizza
 			(str,
@@ -281,16 +313,54 @@ public class PizzaMenuUI : MonoBehaviour, IAddPizza
 			Constant.DevelopPizza[temSlotNumber].SellCost,
 			Constant.DevelopPizza[temSlotNumber].Charisma,
 			Constant.DevelopPizza[temSlotNumber].Ingreds,
-			Constant.DevelopPizza[temSlotNumber].TotalDeclineAt);
+			Constant.DevelopPizza[temSlotNumber].TotalDeclineAt,
+			100, GameManager.Instance.time);
 
 		InitAddPizzaPage(nowPage);
 		changePizzaNamePanel.SetActive(false);
 	}
 
+	public void OKAddPizza(bool bo)
+    {
+		okAddPanel.SetActive(bo);
+    }
+
+	/// <summary>
+	/// 개발한 피자를 메뉴에 추가한다.
+	/// </summary>
 	public void ChoiceDevelopPizza()
 	{
 		if (temSlotNumber == -1) { return; }
-		// 나중에 중복체크해서 중복된 피자는 넣을수 없게 해야됨.(이름이 같거나, 재료가 같거나...)
+		// 중복체크해서 중복된이름이나 재료의 피자는 넣을수 없게 함
+		for (int i = 0; i < GameManager.Instance.PizzaMenu.Count; i++)
+        {
+			if (GameManager.Instance.PizzaMenu[i].Name.Equals(Constant.DevelopPizza[temSlotNumber].Name) ||
+				GameManager.Instance.PizzaMenu[i].Ingreds.CompareIngredientList(Constant.DevelopPizza[temSlotNumber].Ingreds))
+            {
+				// 경고창 떠야됨
+				return;
+            }
+        }
+		// 해당 피자와 같은 이름이거나, 같은 재료일 경우, 메뉴판에 최소 일주일이 지나야 추가할 수 있도록 함.
+		foreach ( var key in Constant.menuDateDic.Keys)
+        {
+			// 해당 피자와 같은 이름이거나 같은 재료이지만 메뉴에는 없는 경우임
+			if (key.Name == Constant.DevelopPizza[temSlotNumber].Name ||
+				key.Ingreds.CompareIngredientList(Constant.DevelopPizza[temSlotNumber].Ingreds))
+            {
+				//// 메뉴판에 해당 메뉴가 생긴 시점부터 최소 일주일은 있어야 추가가 가능함.
+				//if (Constant.menuDateDic[key] <= 7)
+				//            {
+				//	// 경고창 떠야됨
+				//	return;
+				//            }
+				// 경고창 떠야됨.
+				return;
+            }
+        }
+
+
+		Constant.menuDateDic.Add(Constant.DevelopPizza[temSlotNumber], 0);
 		GameManager.Instance.PizzaMenu.Add(Constant.DevelopPizza[temSlotNumber]);
 
 		RefreshAllSlot();
@@ -301,4 +371,34 @@ public class PizzaMenuUI : MonoBehaviour, IAddPizza
 
 		changePizzaNamePanel.SetActive(true);
 	}
+	/// <summary>
+	/// 매일 해당 오브젝트가 켜질 때 한번만 발동하는 메소드다.
+	/// </summary>
+	/// <param name="period">키는데 걸린 기간</param>
+	private void OneDayMenuInit(int period)
+    {
+		List<Pizza> p = new List<Pizza>();
+		List<Pizza> k = new List<Pizza>();
+		foreach (var d in Constant.menuDateDic)
+		{
+			k.Add(d.Key);
+		}
+		for (int i = 0; i < k.Count; i++)
+        {
+			Constant.menuDateDic[k[i]] += period;
+			if (GameManager.Instance.PizzaMenu.FindIndex(a => a.Name == k[i].Name) == -1 &&
+				GameManager.Instance.PizzaMenu.FindIndex(a => a.Ingreds.CompareIngredientList(k[i].Ingreds)) == -1)
+            {
+				p.Add(k[i]);
+            }
+        }
+		for (int i = 0; i < p.Count; i++)
+		{
+			// 메뉴판에 없지만 데이터가 저장되어 있는 피자들 중에 일주일이상 지난 것을 지워준다.
+			if (Constant.menuDateDic[p[i]] > 7)
+			{
+				Constant.menuDateDic.Remove(p[i]);
+			}
+		}
+    }
 }

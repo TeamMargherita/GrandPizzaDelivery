@@ -1,9 +1,6 @@
+using ClerkNS;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,59 +9,61 @@ public class EmployeeFire : MonoBehaviour
     [SerializeField] Transform FireWinParent;
     [SerializeField] Transform FireWinBG;
     [SerializeField] Transform EmployeeParent;
+    [SerializeField] Transform WorkDayWinParent;
 
-    private void Start()
+    public static Dictionary<int, List<ClerkC>> WorkingDay = new Dictionary<int, List<ClerkC>>(); // 0~6 Ïõî~Ïùº
+
+    protected void Awake()
     {
-        WinOff();
+        SetEmployee();
+        Debug.Log("ÏûëÎèô");
     }
 
-    void WinOff()
+    private void Update()
     {
-        FireWinBG.gameObject.SetActive(false);
-
-        for (int i = 0; i < FireWinParent.childCount; i++)
-        {
-            FireWinParent.GetChild(i).gameObject.SetActive(false);
-        }
+        UILerp(DscrollAmount);
     }
 
     [SerializeField] bool isApear = false;
 
-    public void ApearCheck()
+    int[] pay = new int[29];
+
+    public void ApearCheck(bool Check)
     {
-        if (FireWinBG.gameObject.activeInHierarchy)
-        {
-            isApear = false;
-        }
-        else
-        {
-            isApear = true;
+        EmploeeWinOff();
 
-            FireWinBG.gameObject.SetActive(true);
-
-            for (int i = 0; i < EmployeeParent.childCount; i++)
-            {
-                FireWinParent.GetChild(i * 2).gameObject.SetActive(true);
-                FireWinParent.GetChild(i * 2).GetComponent<Button>().interactable = true;
-            }
-        }
+        isApear = Check;    
 
         ShowFireWin();
     }
 
-    void ShowFireWin()
+    void EmploeeWinOff()
+    {
+        for (int i = 0; i < FireWinParent.childCount; i++)
+        {
+            FireWinParent.GetChild(i).gameObject.SetActive(false);
+
+            if (i % 2 == 0)
+            {
+                FireWinParent.GetChild(i).GetComponent<Button>().interactable = true;
+            }
+        }
+    }
+
+    public void ShowFireWin()
     {
         string EmployeeStat = null;
 
-        EmployeeStat Employee = null;
-
         if (isApear == true)
         {
-            for (int i = 0; i < EmployeeParent.childCount; i++)
-            {
-                Employee = EmployeeParent.GetChild(i).GetComponent<EmployeeStat>();
+            FireWinBG.gameObject.SetActive(true);
 
-                EmployeeStat = "Ω∫≈› : " + Employee.Handy.ToString() + "\n" + "±ﬁø© : " + Employee.Pay.ToString();
+            for (int i = 0; i < Constant.ClerkList.Count; i++)
+            {
+                FireWinParent.GetChild(i * 2).gameObject.SetActive(true);
+
+                EmployeeStat = Constant.ClerkList[i].Name + "\n" + "ÏÜêÏû¨Ï£º : " + Constant.ClerkList[i].Handicraft.ToString() + "\n" + "ÏùºÍ∏â : " + 
+                    Constant.ClerkList[i].Pay.ToString();
 
                 FireWinParent.GetChild(i * 2).GetChild(0).
                   GetComponent<Text>().text = EmployeeStat;
@@ -72,47 +71,81 @@ public class EmployeeFire : MonoBehaviour
         }
         else
         {
-            FireWinBG.gameObject.SetActive(false);
-
-            for (int i = 0; i < FireWinParent.childCount-1; i+=2)
+            for (int i = 0; i < FireWinParent.childCount; i++)
             {
                 FireWinParent.GetChild(i).gameObject.SetActive(false);
-                FireWinParent.GetChild(i + 1).gameObject.SetActive(false);
-
-                FireWinParent.GetChild(i + 1).GetChild(1).
-                   GetComponent<Button>().interactable = true;
-
-                FireWinParent.GetChild(i + 1).GetChild(1).GetChild(0).
-                    GetComponent<Text>().text = "«ÿ∞Ì«œ±‚";
             }
         }
+
+        FireWinBG.GetComponent<ScrollRect>().verticalNormalizedPosition = 1;
     }
 
     public void ShowDetail(int value)
     {
+
         FireWinParent.GetChild(value + 1).gameObject.SetActive(true);
 
         FireWinParent.GetChild(value).GetComponent<Button>().interactable = false; 
 
-        FindEmployeeData(1);
+        FindEmployeeData(value);
 
-        pay[value] = 0;
+        if (value != 0)
+        {
+            pay[value / 2] = 0;
+        }
+        else
+        {
+            pay[value] = 0;
+        }
     }
+
+    [SerializeField] string[] DayText;
 
     void FindEmployeeData(int value)
     {
         string EmployeeStat = null;
 
-        for (int i = 0; i < EmployeeParent.childCount; i++)
-        {
-            for (int j = 0; j < 6; j++)
-            {
-                EmployeeStat += Stat(i, j) + "\n";
-            }
+        EmployeeStat += Constant.ClerkList[value / 2].Name + "\n";
 
-            FireWinParent.GetChild(i * 2 + value).GetChild(0).
-                   GetComponent<Text>().text = EmployeeStat;
+        for (int j = 0; j < 6; j++)
+        {
+            if (j == 0)
+            {
+                EmployeeStat += Stat(value / 2, j);
+
+                EmployeeStat += " / ÏÑ†Ìò∏ÏöîÏùº : ";
+
+                for (int k = 0; k < (int)Constant.ClerkList[value / 2].PreferredDateCount; k++)
+                {
+                    if (k != (int)Constant.ClerkList[value / 2].PreferredDateCount - 1)
+                    {
+                        EmployeeStat += DayText[(int)Constant.ClerkList[value / 2].PreferredDate[k]] + ", ";
+                    }
+                    else
+                    {
+                        EmployeeStat += DayText[(int)Constant.ClerkList[value / 2].PreferredDate[k]];
+                    }
+                }
+
+                if((int)Constant.ClerkList[value / 2].PreferredDateCount == 0)
+                {
+                    EmployeeStat += "ÏÉÅÏ£ºÏù∏Ïõê";
+                }
+
+                EmployeeStat += "\n";
+            }
+            else
+            {
+                if(j % 2 == 0)
+                EmployeeStat += Stat(value / 2, j) + "\n";
+                else
+                {
+                    EmployeeStat += Stat(value / 2, j) + " / ";
+                }
+            }
         }
+
+        FireWinParent.GetChild(value + 1).GetChild(0).GetComponent<Text>().text = EmployeeStat;
     }
 
     string Stat(int Evalue, int Svalue)
@@ -122,79 +155,82 @@ public class EmployeeFire : MonoBehaviour
         switch (Svalue)
         {
             case 0:
-                result = "º’¿Á¡÷ : " + EmployeeParent.GetChild(Evalue).
-                    GetComponent<EmployeeStat>().Handy.ToString();
+                result = "ÏÜêÏû¨Ï£º : " + Constant.ClerkList[Evalue].Handicraft.ToString();
                 break;
             case 1:
-                switch (EmployeeParent.GetChild(Evalue).GetComponent<EmployeeStat>().Agility)
+                result = "ÏàúÎ∞úÎ†• : ";
+
+                switch (Constant.ClerkList[Evalue].Agility)
                 {
                     case ClerkNS.Tier.ONE:
-                        result = "º¯πﬂ∑¬ : " + EmployeeParent.GetChild(Evalue).
-                  GetComponent<EmployeeStat>().AgilityStat[0].ToString();
+                        result += EmployeeParent.GetComponent<EmployeeStat>().AgilityStat[0].ToString();
                         break;
                     case ClerkNS.Tier.TWO:
-                        result = "º¯πﬂ∑¬ : " + EmployeeParent.GetChild(Evalue).
-                  GetComponent<EmployeeStat>().AgilityStat[1].ToString();
+                        result += EmployeeParent.GetComponent<EmployeeStat>().AgilityStat[1].ToString();
                         break;
                     case ClerkNS.Tier.THREE:
-                        result = "º¯πﬂ∑¬ : " + EmployeeParent.GetChild(Evalue).
-                  GetComponent<EmployeeStat>().AgilityStat[2].ToString();
+                        result += EmployeeParent.GetComponent<EmployeeStat>().AgilityStat[2].ToString();
                         break;
                     case ClerkNS.Tier.FOUR:
-                        result = "º¯πﬂ∑¬ : " + EmployeeParent.GetChild(Evalue).
-                  GetComponent<EmployeeStat>().AgilityStat[3].ToString();
+                        result += EmployeeParent.GetComponent<EmployeeStat>().AgilityStat[3].ToString();
                         break;
                 }
                 break;
             case 2:
-                switch (EmployeeParent.GetChild(Evalue).GetComponent<EmployeeStat>().Career)
+                result = "Í≤ΩÎ†• : ";
+
+                switch (Constant.ClerkList[Evalue].Career)
                 {
                     case ClerkNS.Tier.ONE:
-                        result = "∞Ê∑¬ : " + EmployeeParent.GetChild(Evalue).
-                  GetComponent<EmployeeStat>().CareerStat[0].ToString();
+                        result += EmployeeParent.GetComponent<EmployeeStat>().CareerStat[0].ToString();
                         break;
                     case ClerkNS.Tier.TWO:
-                        result = "∞Ê∑¬ : " + EmployeeParent.GetChild(Evalue).
-                  GetComponent<EmployeeStat>().CareerStat[1].ToString();
+                        result += EmployeeParent.GetComponent<EmployeeStat>().CareerStat[1].ToString();
                         break;
                     case ClerkNS.Tier.THREE:
-                        result = "∞Ê∑¬ : " + EmployeeParent.GetChild(Evalue).
-                  GetComponent<EmployeeStat>().CareerStat[2].ToString();
+                        result += EmployeeParent.GetComponent<EmployeeStat>().CareerStat[2].ToString();
                         break;
                     case ClerkNS.Tier.FOUR:
-                        result = "∞Ê∑¬ : " + EmployeeParent.GetChild(Evalue).
-                 GetComponent<EmployeeStat>().CareerStat[3].ToString();
+                        result += EmployeeParent.GetComponent<EmployeeStat>().CareerStat[3].ToString();
                         break;
                 }
                 break;
             case 3:
-                switch (EmployeeParent.GetChild(Evalue).GetComponent<EmployeeStat>().Creativity)
+                result = "Ï∞ΩÏùòÎ†• : ";
+
+                switch (Constant.ClerkList[Evalue].Creativity)
                 {
                     case ClerkNS.Tier.ONE:
-                        result = "√¢¿«∑¬ : " + EmployeeParent.GetChild(Evalue).
-                  GetComponent<EmployeeStat>().CreativityStat[0].ToString();
+                        result += EmployeeParent.GetComponent<EmployeeStat>().CreativityStat[0].ToString();
                         break;
                     case ClerkNS.Tier.TWO:
-                        result = "√¢¿«∑¬ : " + EmployeeParent.GetChild(Evalue).
-                  GetComponent<EmployeeStat>().CreativityStat[1].ToString();
+                        result += EmployeeParent.GetComponent<EmployeeStat>().CreativityStat[1].ToString();
                         break;
                     case ClerkNS.Tier.THREE:
-                        result = "√¢¿«∑¬ : " + EmployeeParent.GetChild(Evalue).
-                  GetComponent<EmployeeStat>().CreativityStat[2].ToString();
+                        result += EmployeeParent.GetComponent<EmployeeStat>().CreativityStat[2].ToString();
                         break;
                     case ClerkNS.Tier.FOUR:
-                        result = "√¢¿«∑¬ : " + EmployeeParent.GetChild(Evalue).
-                 GetComponent<EmployeeStat>().CreativityStat[3].ToString();
+                        result += EmployeeParent.GetComponent<EmployeeStat>().CreativityStat[3].ToString();
                         break;
                 }
                 break;
             case 4:
-                result = "Ω∫∆Æ∑πΩ∫ : " + EmployeeParent.GetChild(Evalue).
-                   GetComponent<EmployeeStat>().Stress.ToString();
+                result = "Ïä§Ìä∏Î†àÏä§ : " + Constant.ClerkList[Evalue].Stress.ToString();
                 break;
             case 5:
-                result = "¡÷±ﬁ :     " + EmployeeParent.GetChild(Evalue).
-                  GetComponent<EmployeeStat>().Pay.ToString();
+                if (Constant.ClerkList[Evalue].Pay > Constant.ClerkList[Evalue].MaxPayScale)
+                {
+                    result += "<color=green>ÏùºÍ∏â :     </color>" + $"<color=green>{(Constant.ClerkList[Evalue].Pay).ToString()}</color>" + "\n";
+
+                }
+                else if (Constant.ClerkList[Evalue].Pay < Constant.ClerkList[Evalue].MinPayScale)
+                {
+                    result += "<color=red>ÏùºÍ∏â :     </color>" + $"<color=red>{(Constant.ClerkList[Evalue].Pay).ToString()}</color>" + "\n";
+                }
+                else
+                {
+                    result += "<color=black>ÏùºÍ∏â :     </color>" + $"<color=black>{(Constant.ClerkList[Evalue].Pay).ToString()}</color>" + "\n";
+                }
                 break;
         }
 
@@ -203,94 +239,330 @@ public class EmployeeFire : MonoBehaviour
 
     public void FireButtonOn(int value)
     {
-        if (EmployeeParent.childCount > 1)
+        if (Constant.ClerkList.Count > 1 && value != 0)
         {
-            EmployeeParent.GetComponent<PizzaQuality>().Employees.Remove
-                (EmployeeParent.GetChild(value).gameObject);
+            string name = Constant.ClerkList[value].Name + "Í∞Ä Ìï¥Í≥†ÎêòÏóàÏäµÎãàÎã§.";
 
-            Destroy(EmployeeParent.GetChild(value).gameObject);
+            NoticeMessage(name);
 
-            FireWinParent.GetChild(value).GetChild(5).
-                GetComponent<Button>().interactable = false;
-
-            FireWinParent.GetChild(value).GetChild(5).GetChild(0).
-                GetComponent<Text>().text = "«ÿ∞Ìøœ∑·";
+            for (int i = 0; i < 7; i++)
+            {
+                if (WorkingDay[i].Contains(Constant.ClerkList[value]))
+                {
+                    WorkingDay[i].Remove(Constant.ClerkList[value]);
+                }
+            }
 
             Constant.ClerkList.RemoveAt(value);
+
+            EmploeeWinOff();
+
+            ShowFireWin();
+        }
+        else if(value == 0 && Constant.ClerkList.Count > 1)
+        {
+            NoticeMessage("ÏÉÅÏ£ºÏù∏ÏõêÏùÄ Ìï¥Í≥†Ìï† Ïàò ÏóÜÏäµÎãàÎã§.");
         }
         else
         {
-            NoticeMessage("¡˜ø¯¿∫ √÷º“ «—∏Ì ¿ÃªÛ¿Ã « ø‰«’¥œ¥Ÿ.");
+            NoticeMessage("Í∞ÄÍ≤åÏóêÎäî 1Î™Ö Ïù¥ÏÉÅÏùò ÏßÅÏõêÏù¥ ÌïÑÏöîÌï©ÎãàÎã§.");
         }
+
+        FireWinBG.GetComponent<ScrollRect>().verticalNormalizedPosition = 1;
     }
 
-    int[] pay = new int[5];
-
-    public void PayRateButton(int value)// √¢¿ª ø≠∂ß pay∞™ ¿˙¿Â »ƒ »Æ¿Œ πˆ∆∞ ¥©∏£∏È ∞Ì¡§ ¥›¿∏∏È √ ±‚»≠
+    public void PayRateButton(int value)// ÏùºÍ∏â Ï°∞Ï†à.
     {
         string EmployeeStat = null;
 
+        int Value = 0;
+
         if (value > 0)
         {
-            pay[value - 1]++;
+            Value = value - 1;
+
+            EmployeeStat = Constant.ClerkList[Value].Name + "\n";
+
+            pay[Value] += 100;
 
             for (int j = 0; j < 5; j++)
             {
-                EmployeeStat += Stat(value - 1, j) + "\n";
+                if (j == 0)
+                {
+                    EmployeeStat += Stat(Value, j);
+
+                    EmployeeStat += " / ÏÑ†Ìò∏ÏöîÏùº : ";
+
+                    for (int k = 0; k < (int)Constant.ClerkList[Value].PreferredDateCount; k++)
+                    {
+                        if (k != (int)Constant.ClerkList[Value].PreferredDateCount - 1)
+                        {
+                            EmployeeStat += DayText[(int)Constant.ClerkList[Value].PreferredDate[k]] + ", ";
+                        }
+                        else
+                        {
+                            EmployeeStat += DayText[(int)Constant.ClerkList[Value].PreferredDate[k]];
+                        }
+                    }
+
+                    if ((int)Constant.ClerkList[Value].PreferredDateCount == 0)
+                    {
+                        EmployeeStat += "ÏÉÅÏ£ºÏù∏Ïõê";
+                    }
+
+                    EmployeeStat += "\n";
+                }
+
+                if (j != 0)
+                {
+                    if (j % 2 == 0)
+                        EmployeeStat += Stat(Value, j) + "\n";
+                    else
+                        EmployeeStat += Stat(Value, j) + " / ";
+                }
             }
 
-            EmployeeStat += "¡÷±ﬁ :     " + (EmployeeParent.GetChild(value - 1).GetComponent<EmployeeStat>().Pay + pay[value - 1]).ToString() + "\n";
-
-            FireWinParent.GetChild((value - 1) * 2 + 1).GetChild(0).
+            FireWinParent.GetChild((Value) * 2 + 1).GetChild(0).
                    GetComponent<Text>().text = EmployeeStat;
         }
-        else if(value < 0)
+        else if (value < 0)
         {
-            pay[(value + 1) * -1]--;
+            Value = (value * -1) - 1;
 
-            for (int j = 0; j < 5; j++)
+            if (Constant.ClerkList[Value].Pay + pay[Value] >= 100)
             {
-                EmployeeStat += Stat((value + 1) * -1, j) + "\n";
+                EmployeeStat = Constant.ClerkList[Value].Name + "\n";
+
+                pay[Value] -= 100;
+
+                for (int j = 0; j < 5; j++)
+                {
+                    if (j == 0)
+                    {
+                        EmployeeStat += Stat(Value / 2, j);
+
+                        EmployeeStat += " / ÏÑ†Ìò∏ÏöîÏùº : ";
+
+                        for (int k = 0; k < (int)Constant.ClerkList[Value].PreferredDateCount; k++)
+                        {
+                            if (k != (int)Constant.ClerkList[Value].PreferredDateCount - 1)
+                            {
+                                EmployeeStat += DayText[(int)Constant.ClerkList[Value].PreferredDate[k]] + ", ";
+                            }
+                            else
+                            {
+                                EmployeeStat += DayText[(int)Constant.ClerkList[Value].PreferredDate[k]];
+                            }
+                        }
+
+                        if ((int)Constant.ClerkList[Value].PreferredDateCount == 0)
+                        {
+                            EmployeeStat += "ÏÉÅÏ£ºÏù∏Ïõê";
+                        }
+
+                        EmployeeStat += "\n";
+                    }
+
+                    if (j != 0)
+                    {
+                        if (j % 2 == 0)
+                            EmployeeStat += Stat(Value, j) + "\n";
+                        else
+                            EmployeeStat += Stat(Value, j) + " / ";
+                    }
+                }
             }
-
-            EmployeeStat += "¡÷±ﬁ :     " + (EmployeeParent.GetChild((value + 1) * -1).GetComponent<EmployeeStat>().Pay + pay[(value + 1) * -1]).ToString() + "\n";
-
-            FireWinParent.GetChild(((value + 1) * -1) * 2 + 1).GetChild(0).
-                   GetComponent<Text>().text = EmployeeStat;
         }
+
+        if (Constant.ClerkList[Value].Pay + pay[Value] > Constant.ClerkList[Value].MaxPayScale)
+        {
+            EmployeeStat += "<color=green>ÏùºÍ∏â :     </color>" + $"<color=green>{(Constant.ClerkList[Value].Pay + pay[Value]).ToString()}</color>" + "\n";
+        }
+        else if (Constant.ClerkList[Value].Pay + pay[Value] < Constant.ClerkList[Value].MinPayScale)
+        {
+            EmployeeStat += "<color=red>ÏùºÍ∏â :     </color>" + $"<color=red>{(Constant.ClerkList[Value].Pay + pay[Value]).ToString()}</color>" + "\n";
+        }
+        else
+        {
+            EmployeeStat += "<color=black>ÏùºÍ∏â :     </color>" + $"<color=black>{(Constant.ClerkList[Value].Pay + pay[Value]).ToString()}</color>" + "\n";
+        }
+
+        FireWinParent.GetChild((Value) * 2 + 1).GetChild(0).
+                  GetComponent<Text>().text = EmployeeStat;
     }
 
     public void FireWinHeightCon(bool value)
     {
         RectTransform rect = FireWinParent.GetComponent<RectTransform>();
 
-        if (value)
+        if (value == true)
         {
-            rect.sizeDelta = new Vector3(rect.sizeDelta.x, rect.sizeDelta.y + 150);
+            //rect.sizeDelta = new Vector3(rect.sizeDelta.x, rect.sizeDelta.y + 250);
+            rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, rect.sizeDelta.y + 250);
         }
         else
         {
-            rect.sizeDelta = new Vector3(rect.sizeDelta.x, rect.sizeDelta.y - 150);
+            //rect.sizeDelta = new Vector3(rect.sizeDelta.x, rect.sizeDelta.y - 250);
+            rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, rect.sizeDelta.y - 250);
+
         }
+    }
+
+    public void FireWinSizeCon()
+    {
+        RectTransform rect = FireWinParent.GetComponent<RectTransform>();
+
+        rect.sizeDelta = new Vector3(rect.sizeDelta.x, rect.sizeDelta.y + 160);
     }
 
     public void SavePayRate(int value)
     {
-        EmployeeParent.GetChild(value).GetComponent<EmployeeStat>().Pay += pay[value];
-
-        Constant.ClerkList[value].Pay = EmployeeParent.GetChild(value).GetComponent<EmployeeStat>().Pay;
+        Constant.ClerkList[value].Pay += pay[value];
 
         pay[value] = 0;
 
         ShowFireWin();
     }
 
-    [SerializeField] GameObject NoticeWin;
+    [SerializeField] protected GameObject NoticeWin;
 
     void NoticeMessage(string Message)
     {
         NoticeWin.SetActive(true);
 
         NoticeWin.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = Message;
+    }
+
+    Vector3 scrollContentPos;
+    Vector3 newPos;
+
+    bool isLerp = false;
+
+    public void ScollButtonOn(float scrollAmount)
+    {
+        isLerp = true;
+
+        DscrollAmount = scrollAmount;
+    }
+
+    float DscrollAmount = 0;
+
+    float LerpTime = 1f;
+    float DLerpTime = 1f;
+
+    void UILerp(float scrollAmount)
+    {
+        if (isLerp)
+        {
+            scrollContentPos = FireWinBG.GetComponent<ScrollRect>().content.position;
+
+            newPos = scrollContentPos + new Vector3(0f, scrollAmount, 0f);
+
+            FireWinBG.GetComponent<ScrollRect>().content.position = Vector3.Lerp(scrollContentPos, newPos, LerpTime * Time.deltaTime);
+
+            DLerpTime -= 1f * Time.deltaTime;
+
+            if (DLerpTime <= 0f)
+            {
+                DLerpTime = LerpTime;
+
+                isLerp = false;
+            }
+        }
+    }
+
+    public void ShowWorkDay(int value)
+    {
+        WorkDayWinParent.gameObject.SetActive(true);
+
+        employeeValue = value;
+
+        SetEmployeeDay(value);
+    }
+
+    void SetEmployee()
+    {
+        for (int i = 0; i < 7; i++)
+        {
+            if (WorkingDay.ContainsKey(i) == false)
+            {
+                WorkingDay.Add(i, new List<ClerkC>());
+
+                WorkingDay[i].Add(Constant.ClerkList[0]);
+            }
+        }
+    }
+
+    void SetEmployeeDay(int value)
+    {
+        Transform imageParent = WorkDayWinParent.GetChild(0).GetChild(0);
+
+        string NameText = null;
+
+        WorkDayWinParent.GetChild(0).GetChild(2).GetComponent<Text>().text = "-" + Constant.ClerkList[employeeValue].Name + "-";
+
+        for (int i = 0; i < 7; i++)
+        {
+            for (int j = 0; j < imageParent.GetChild(i).GetChild(1).childCount; j++)
+            {
+                imageParent.GetChild(i).GetChild(1).GetChild(j).GetComponent<Image>().color = Color.gray;
+            }
+
+            for (int j = 0; j < WorkingDay[i].Count; j++)
+            {
+                imageParent.GetChild(i).GetChild(1).GetChild(j).GetComponent<Image>().color = Color.green;
+            }
+
+            for (int j = 0; j < WorkingDay[i].Count; j++)
+            {
+                NameText += WorkingDay[i][j].Name + "\n";
+            }
+
+            imageParent.GetChild(i).GetChild(2).GetChild(0).GetComponent<Text>().text = NameText;
+
+            NameText = "";
+
+            if (WorkingDay[i].Contains(Constant.ClerkList[employeeValue]))
+            {
+                WorkDayWinParent.GetChild(0).GetChild(0).GetChild(i).GetComponent<Image>().color = Color.red;
+            }
+            else
+            {
+                WorkDayWinParent.GetChild(0).GetChild(0).GetChild(i).GetComponent<Image>().color = Color.white;
+            }
+
+            Debug.Log(employeeValue);
+        }
+    } // ÏùºÌïòÎäî ÎÇ†Ïßú Î≥¥Ïó¨Ï£ºÎäî
+
+    int employeeValue = 0;
+
+    public void SetWorkingDay(int value)
+    {
+        if (employeeValue != 0)
+        {
+            if (WorkingDay[value].Contains(Constant.ClerkList[employeeValue]))
+            {
+                if (WorkingDay[value].Count < 5)
+                {
+                    WorkingDay[value].Remove(Constant.ClerkList[employeeValue]);
+                }
+                else
+                {
+                    NoticeMessage("Ìïú ÏöîÏùºÏóêÎäî 5Î™Ö Ïù¥ÏÉÅÏùò ÏÇ¨ÎûåÎì§Ïù¥ Í∑ºÎ¨¥Ìï† Ïàò ÏóÜÏäµÎãàÎã§.");
+                }
+
+            }
+            else
+            {
+                WorkingDay[value].Add(Constant.ClerkList[employeeValue]);
+            }
+
+            SetEmployeeDay(employeeValue);
+        }
+        else
+        {
+            NoticeMessage("ÌîºÏûêÍ∞ÄÍ≤åÏóêÎäî ÏÉÅÏ£ºÏù∏ÏõêÏù¥ Î∞òÎìúÏãú ÌïÑÏöîÌï©ÎãàÎã§!");
+        }
     }
 }

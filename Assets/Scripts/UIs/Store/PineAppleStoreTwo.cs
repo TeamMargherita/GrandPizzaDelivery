@@ -7,9 +7,8 @@ using ConversationNS;
 public class PineAppleStoreTwo : Conversation
 {
 	public static bool isPineapple = true;
-
-	private static bool isContract = false;
-	private static bool isMeet = false;
+	public static bool isContract = false;
+	public static bool isMeet = false;
 	public PineAppleStoreTwo()
 	{
 		NpcTextStrArr = new string[36]
@@ -51,6 +50,13 @@ public class PineAppleStoreTwo : Conversation
 			"계약금 받았습니다! 계약 기념으로 무료로 '물건' 하나를 드릴게요 \n단, 다음부터는 55만원을 내셔야 살 수 있다는 점 기억해주세요.",	// 34
 			"(간다.)알겠습니다. 다음에 뵙겠습니다."	// 35
 		};
+
+		//if (Constant.NowDate == 1 && GameManager.Instance.time >= 32400 && GameManager.Instance.time <= 32500)
+  //      {
+		//	isPineapple = true;
+		//	isContract = false;
+		//	isMeet = false;
+		//}
 
 		TextList = new List<TextNodeC>();
 		InitTextList();
@@ -124,7 +130,7 @@ public class PineAppleStoreTwo : Conversation
 		else if (temInt == 7)
 		{
 			isPineapple = false;
-			Constant.PineappleCount++;
+			Constant.PineAppleCount++;
 			GameManager.Instance.Money -= 550000;
 			index = Findidx(7, new int[1] { 10 });
 		}
@@ -159,7 +165,7 @@ public class PineAppleStoreTwo : Conversation
 		else if (temInt == 35)
 		{
 			isPineapple = false;
-			Constant.PineappleCount++;
+			Constant.PineAppleCount++;
 			SettingConversation(TextList.FindIndex(a => a.NowTextNum == 35));
 			index = -100;
 		}

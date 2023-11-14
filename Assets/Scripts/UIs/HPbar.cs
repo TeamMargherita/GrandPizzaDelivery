@@ -19,7 +19,7 @@ public class HPbar : MonoBehaviour
 
     void HPUpdate()
     {
-        HP.fillAmount = (float)playermove.HP / playermove.MaxHP;
-        HPText.text = playermove.HP + " / "+ playermove.MaxHP;
+        HP.fillAmount = (float)PlayerMove.HP / PlayerMove.MaxHP;
+        HPText.text = PlayerMove.HP + " / "+ PlayerMove.MaxHP;
     }
 }

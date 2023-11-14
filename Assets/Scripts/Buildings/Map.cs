@@ -9,13 +9,16 @@ using BuildingNS.HouseNS;
 //맵에 존재해야할 오브젝트들을 배치하고, 건물마다 주소를 붙여줌으로써 맵을 구현합니다. 
 public class Map : MonoBehaviour, IMap, IStop
 {
+    [SerializeField] private GameObject spawnChaserPoliceCar;
     [SerializeField] private GameObject uiControlObj;
     [SerializeField] private GameObject policeCar;
     [SerializeField] private GameObject banana;
     [SerializeField] private GameObject effectControl;
+    [SerializeField] private GameObject streetLamps;
     [SerializeField] private PlayerMove playerMove;
     [SerializeField] private Sprite[] houseMarkArr;
 
+    //public static int nowDate = 0;
     // addressList를 통해 빌딩의 주소를 초기화하거나 받아올 수 있습니다.
     private List<IAddress> addressList = new List<IAddress>();
     // 각 건물에 경찰차를 배정하기 위한 리스트입니다.
@@ -56,8 +59,20 @@ public class Map : MonoBehaviour, IMap, IStop
         houseAddressList[22].IHouse.SetHouseType(houseMarkArr[3], HouseType.INGREDIENTSTORE);
         houseAddressList[78].IHouse.SetHouseType(houseMarkArr[2], HouseType.PINEAPPLESTORETWO);
         houseAddressList[43].IHouse.SetHouseType(houseMarkArr[4], HouseType.GUNSTORE);
+        houseAddressList[130].IHouse.SetHouseType(houseMarkArr[5], HouseType.HOSPITAL);
+        houseAddressList[144].IHouse.SetHouseType(houseMarkArr[3], HouseType.INGREDIENTSTORETWO);
+        houseAddressList[119].IHouse.SetHouseType(houseMarkArr[6], HouseType.LUCKYSTORE);
+        houseAddressList[165].IHouse.SetHouseType(houseMarkArr[7], HouseType.MONEYSTORE);
+        houseAddressList[190].IHouse.SetHouseType(houseMarkArr[7], HouseType.MONEYSTORETWO);
         // 경찰차를 생성한다.
-        MakeAPoliceCar(45);
+        if (!GameManager.Instance.isDarkDelivery)
+        {
+            MakeAPoliceCar(19);
+        }
+        else
+		{
+            MakeAPoliceCar(45);
+		}
     }
     private void test()
     {
@@ -104,7 +119,8 @@ public class Map : MonoBehaviour, IMap, IStop
                 if (policeCar.GetComponent<Police>() != null)
 				{
                     policeCar.GetComponent<Police>().SetSmokeEffectTrans(effectControl.GetComponent<ISetTransform>());
-				}
+                    policeCar.GetComponent<Police>().SpawnCar = spawnChaserPoliceCar.GetComponent<ISpawnCar>();
+                }
                 // 경찰차가 배정되었으므로 cnt를 하나 내리고, 경찰차가 배정되었음을 건물(Building)에 알립니다.
                 buildingList[ran].SetIsPoliceCar(true);
                 cnt--;
@@ -185,12 +201,24 @@ public class Map : MonoBehaviour, IMap, IStop
 
             if (!houseAddressList[r].IHouse.GetIsEnable() && houseAddressList[r].IHouse.GetHouseType() == HouseType.HOUSE)
             {
+                temInd = r;
                 Debug.Log(houseAddressList[r].IHouse.GetLocation());
                 return houseAddressList[r];
             }
         }
-
+        
     }
+    private int temInd = -1;
+    public int GetSpecAddress()
+    {
+        return temInd;
+    }
+    public AddressS GetSpecAddress(int num)
+	{
+        return houseAddressList[num];
+	}
+
+
     /// <summary>
     /// 맵에 경찰차들과 플레이어를 정지시킨다.
     /// </summary>
@@ -235,5 +263,16 @@ public class Map : MonoBehaviour, IMap, IStop
     public void RemovePoliceList(IPoliceCar iPoliceCar)
     {
         policeList.Remove(iPoliceCar);
+    }
+    /// <summary>
+    /// 가로등을 킴
+    /// </summary>
+    public void OnStreetLamp()
+    {
+        for (int i = 0; i < streetLamps.transform.childCount; i++)
+        {
+            if (streetLamps.transform.GetChild(i).GetComponent<StreetLamp>() != null)
+            streetLamps.transform.GetChild(i).GetComponent<StreetLamp>().ChangeLight2D(true);
+        }
     }
 }

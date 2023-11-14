@@ -15,48 +15,84 @@ public class PlayerMove : PlayerStat
     private MakingPizza MakingPizzaScript;
     [SerializeField]
     private InventoryManager InventoryManagerScript;
+    [SerializeField]
+    private GameObject PlayerSmoke;
+    [SerializeField]
+    private GameObject BloodEffect;
+    [SerializeField]
+    private GameObject WallHitEffect;
+    [SerializeField]
+    private GameObject FireEffect;
+    [SerializeField]
+    private GameObject Hand;
+    [SerializeField]
+    public GameObject Gun;
+    private AudioSource FireAudio;
+    [SerializeField]
+    private AudioClip FireAudioClip;
+    [SerializeField]
+    private AudioClip ReloadAudioClip;
+    [SerializeField]
+    private AudioSource CrushSound;
+    [SerializeField]
+    private GameObject ammoEffect;
 
-    GunShooting gunMethod;
+    PlayerGunShooting gunMethod;
     private void Awake()
     {
-        gunMethod = new PlayerGunShooting(transform);
+        gunMethod = new PlayerGunShooting(transform, "Player");
+        gunMethod.BloodEffect = BloodEffect;
+        gunMethod.WallHitEffect = WallHitEffect;
+        gunMethod.Hand = Hand;
+        FireAudio = GetComponent<AudioSource>();
+
+        if (Constant.IsHospital) 
+        {
+            Constant.IsHospital = false;
+            this.transform.position = new Vector3(6, 23);
+        }
     }
 
     void PlayerFire()
     {
         if(CurrentMagagine > 0)
         {
-            if(Constant.nowGun[0] != -1)
+            if(Constant.NowGun[0] != -1)
             {
-                if (gunMethod.Fire("Player", 1 - Constant.GunInfo[Constant.nowGun[0]].Speed, Constant.GunInfo[Constant.nowGun[0]].Damage))
+                if (gunMethod.Fire(1 - Constant.GunInfo[Constant.NowGun[0]].Speed, Constant.GunInfo[Constant.NowGun[0]].Damage))
                 {
+                    Instantiate(ammoEffect, Gun.transform.position + (Gun.transform.right * -0.7f), Hand.transform.rotation);
                     CurrentMagagine -= 1;
+                    FireEffect.GetComponent<Animator>().SetTrigger("NewStart");
+                    FireAudio.Play();
                 }
             }
         }
         else
         {
-            if (Constant.nowGun[0] != -1)
+            Hand.SetActive(false);
+            if (Constant.NowGun[0] != -1)
             {
                 reloadTime += Time.deltaTime;
-                if (Constant.GunInfo[Constant.nowGun[0]].ReloadSpeed <= reloadTime)
+                if (Constant.GunInfo[Constant.NowGun[0]].ReloadSpeed <= reloadTime)
                 {
                     reloadTime = 0;
-                    CurrentMagagine = Constant.GunInfo[Constant.nowGun[0]].Magazine;
+                    CurrentMagagine = Constant.GunInfo[Constant.NowGun[0]].Magazine;
+                    gunMethod.time = 100;
+                    FireAudio.PlayOneShot(ReloadAudioClip);
                 }
             }
         }
     }
     void Update()
     {
-        PlayerFire();
+        if(!UIControl.isIn)
+            PlayerFire();
         InventoryManagerScript.UIMagagineTextUpdate(CurrentMagagine);
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            if(MakingPizzaScript.CompletePizzaList.Count > 0)
-                InventoryManagerScript.InventoryAddItem(MakingPizzaScript.GetInvenPizzaList(0));
-            InventoryManagerScript.inventoryTextUpdate("PizzaInventory");
-        }
+        //if (Input.GetKeyDown(KeyCode.X))
+        //{
+
+        //}
         if (!Stop && !bananaTrigger)
         {
             time += Time.deltaTime;
@@ -66,6 +102,7 @@ public class PlayerMove : PlayerStat
                 {
                     Speed *= Braking;
                 }
+                CreateSmoke();
                 Speed += acceleration * Time.deltaTime;
             }
             else if (Input.GetKey(KeyCode.S))
@@ -97,18 +134,18 @@ public class PlayerMove : PlayerStat
 
             if (Input.GetKey(KeyCode.A))
             {
-                this.transform.Rotate(angle * angleRatio * Time.deltaTime);
+                transform.Rotate(angle * angleRatio * Time.deltaTime);
             }
             if (Input.GetKey(KeyCode.D))
             {
-                this.transform.Rotate(-angle * angleRatio * Time.deltaTime);
+                transform.Rotate(-angle * angleRatio * Time.deltaTime);
             }
-            this.GetComponent<Rigidbody2D>().velocity = transform.rotation * new Vector2(0, Speed);
+            GetComponent<Rigidbody2D>().velocity = transform.rotation * new Vector2(0, Speed);
         }
         else if(Stop && !bananaTrigger)
         {
             Speed = 0;
-            this.GetComponent<Rigidbody2D>().velocity = transform.rotation * new Vector2(0, Speed);
+            GetComponent<Rigidbody2D>().velocity = transform.rotation * new Vector2(0, Speed);
         }else if(Stop && bananaTrigger)
         {
             StopCoroutine(bananaCoroutine);
@@ -121,13 +158,13 @@ public class PlayerMove : PlayerStat
         bananaTrigger = true;
         float count = 0;
         if(Speed >= 0)
-            this.GetComponent<Rigidbody2D>().velocity = t.rotation * new Vector2(0, 10);
+            GetComponent<Rigidbody2D>().velocity = t.rotation * new Vector2(0, 10);
         else
-            this.GetComponent<Rigidbody2D>().velocity = t.rotation * new Vector2(0, -10);
+            GetComponent<Rigidbody2D>().velocity = t.rotation * new Vector2(0, -10);
         while (true)
         {
             count += Time.deltaTime;
-            this.transform.Rotate(angle * 10 * Time.deltaTime);
+            transform.Rotate(angle * 10 * Time.deltaTime);
             if (count > time)
             {
                 bananaTrigger = false;
@@ -136,26 +173,54 @@ public class PlayerMove : PlayerStat
             yield return null;
         }
     }
-
-    IEnumerator HPBarUpdate()
+    float smokeTime;
+    void CreateSmoke()
     {
-
-        yield return null;
+        if (Input.GetKeyUp(KeyCode.W))
+        {
+            smokeTime = 1;
+        }
+        smokeTime += Time.deltaTime;
+        if(smokeTime > 0.2f)
+        {
+            
+            Instantiate(PlayerSmoke, transform.position + (transform.up * -0.5f), transform.rotation);
+            smokeTime = 0;
+        }
     }
-
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.transform.CompareTag("Banana"))
         {
             if (bananaCoroutine != null)
                 StopCoroutine(bananaCoroutine);
-            bananaCoroutine = banana(2, this.transform);
+            bananaCoroutine = banana(2, transform);
             StartCoroutine(bananaCoroutine);
             Destroy(other.gameObject);
         }
     }
     Vector2 Power;
     float TestPower;
+    int currentCollisionType = -1;//Police = 0, ChaserPoliceCar = 1, House = 2;
+    int preCollisionType = -1;
+    Transform preTransform;
+
+    /*IEnumerator VibCoroutine;
+
+    IEnumerator VibCamera(float time)
+    {
+        float count = 0;
+        while (true)
+        {
+            count += Time.deltaTime;
+            Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+            if (count > time)
+            {
+                break;
+            }
+            yield return null;
+        }
+    }*/
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.transform.CompareTag("Police"))
@@ -163,11 +228,43 @@ public class PlayerMove : PlayerStat
             Power = GetComponent<Rigidbody2D>().velocity - (Vector2)(collision.transform.right * collision.transform.GetComponent<PoliceCar>().Speed);
             TestPower = Power.magnitude;
             HP -= (int)(TestPower * 1.5);
-        }else if (collision.transform.CompareTag("ChaserPoliceCar"))
+            currentCollisionType = 0;
+            //StartCoroutine(VibCamera(0.5f));
+        }
+        else if (collision.transform.CompareTag("ChaserPoliceCar"))
         {
             Power = GetComponent<Rigidbody2D>().velocity - (Vector2)(collision.transform.right * collision.transform.GetComponent<ChasePoliceCar>().Speed);
             TestPower = Power.magnitude;
             HP -= (int)(TestPower * 1.5);
+            currentCollisionType = 1;
+            //StartCoroutine(VibCamera(0.5f));
         }
+        else if (collision.transform.CompareTag("House"))
+        {
+            currentCollisionType = 2;
+            //StartCoroutine(VibCamera(0.5f));
+        }
+        if(currentCollisionType != preCollisionType || !CrushSound.isPlaying)
+        {
+            preCollisionType = currentCollisionType;
+            preTransform = collision.transform;
+            CrushSound.Play();
+        }
+    }
+
+    public void AddPizzaInven(int index)
+    {
+        if (MakingPizza.CompletePizzaList.Count > 0)
+        {
+            foreach (var i in GameManager.Instance.PizzaInventoryData)
+            {
+                if (i == null)
+                {
+                    InventoryManagerScript.InventoryAddItem(MakingPizzaScript.GetInvenPizzaList(index));
+                    break;
+                }
+            }
+        }
+        InventoryManagerScript.inventoryTextUpdate("PizzaInventory");
     }
 }

@@ -7,7 +7,9 @@ using ConversationNS;
 public class DiceStore : Conversation , ICloseStore
 {
 	public static bool IsOneDayDiceStore = false;
-	
+
+	public static int NowDate = 1;
+
 	private int diceLuck = -1;
 	private int itemSumCost = -1;
 	private bool isDiscount = true;
@@ -57,6 +59,17 @@ public class DiceStore : Conversation , ICloseStore
 			"(구매를 취소한다.)",	// 37
 			"(주사위 합 8 이상)한번 해보겠습니다."	// 38
 		};
+
+		//if (Constant.NowDate == 1 && GameManager.Instance.time >= 32400 && GameManager.Instance.time <= 32500)
+  //      {
+		//	IsOneDayDiceStore = false;
+		//}
+
+		if (Constant.NowDate == 1 || NowDate != Constant.NowDate)
+        {
+			NowDate = Constant.NowDate;
+			IsOneDayDiceStore = false;
+        }
 
 		TextList = new List<TextNodeC>();
 		InitTextList();

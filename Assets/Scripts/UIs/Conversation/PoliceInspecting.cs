@@ -21,7 +21,7 @@ public class PoliceInspecting : Conversation
             "한번 살펴보세요. 불법 음식같은 건 없어요.", // 8
             "(설득 주사위 합 7 이상) 설마 이상한 거라도 있을까봐요? 이봐요, 이 도시에 피자집은 한 곳 뿐이고, \n저희는 언제든지 주문 내역을 공개할 의사가 있어요. 그러니 불시에 이런 짓은 하지 말아주세요.",   // 9
             "(20000원을 준다.)흠...그만 가봐도 되겠습니까?",   // 10
-            "이런 파인애플 피자잖아 ! 이런 불법음식을 소지하고 있다니...이건 압수야. \n벌금은 그쪽 가게에 통지할테니 다음부턴 이런 짓 하지마 !",  // 11
+            "이런 파인애플 피자잖아 ! 이런 불법음식을 소지하고 있다니...이건 압수야! 다음부턴 이런짓 하지마!",  // 11
             "좋아. 가봐도 좋다.",  // 12
             "확실히 그 말이 맞군. 가봐도 좋다.", // 13
             "혀가 너무 길어. 잔말말고 그 짐이나 열어봐라.",   // 14
@@ -50,18 +50,37 @@ public class PoliceInspecting : Conversation
         temInt = tem[0].NowTextNum;
         if (tem[0].NowTextNum == 8)
         {
-            // 불법음식이 있는 경우
-
-            // 불법음식이 없는 경우
-            index = Findidx(8, new int[1] { 12 });
-		}
+            bool isIllegal = false;
+            for (int i = 0; i < GameManager.Instance.PizzaInventoryData.Length; i++)
+            {
+                if (GameManager.Instance.PizzaInventoryData[i].Value.Ingreds.FindIndex(a => a.Equals(PizzaNS.Ingredient.PINEAPPLE)) != -1)
+                {
+                    isIllegal = true;
+                    break;
+                }
+            }
+            if (isIllegal)
+            {
+                for (int i = 0; i < GameManager.Instance.PizzaInventoryData.Length; i++)
+                {
+                    GameManager.Instance.PizzaInventoryData[i] = null;
+                }
+                // 불법음식이 있는 경우
+                index = Findidx(8, new int[1] { 11 });
+            }
+            else
+            {
+                // 불법음식이 없는 경우
+                index = Findidx(8, new int[1] { 12 });
+            }
+        }
         else if (tem[0].NowTextNum == 9)
-		{
+        {
             DiceRoll(7);
             index = -100;
-		}
+        }
         else if (tem[0].NowTextNum == 10)
-		{
+        {
             // 처음으로 20000원을 준다.
             GameManager.Instance.Money -= 20000;
 
@@ -74,9 +93,9 @@ public class PoliceInspecting : Conversation
             {
                 index = Findidx(10, new int[1] { 16 });
             }
-		}
+        }
         else if (tem[0].NowTextNum == 17)
-		{
+        {
             // 첫번째 이후로 20000원을 준다.
             // 랜덤한 확률로 20000원에 만족한다.
             GameManager.Instance.Money -= 20000;
@@ -267,7 +286,7 @@ public class PoliceInspecting : Conversation
         nowTextNum = 19; nextTextNum = new int[1] { -1 }; nextTextIsAble = new bool[2] { true, true };
         methodSArr = new MethodS[2]
         {
-            new MethodS(MethodEnum.SPAWNPOLICE, new int[1] { 4 } ),
+            new MethodS(MethodEnum.SPAWNPOLICE, new int[1] { 6 } ),
             new MethodS(MethodEnum.ENDPANEL, new int[1] { -1 } )
         };
         AddTextList();

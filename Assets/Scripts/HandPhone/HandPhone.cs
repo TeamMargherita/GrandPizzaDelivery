@@ -10,6 +10,23 @@ public class HandPhone : MonoBehaviour
     DeliveryScreen DSscript;
 
     public bool StartDarkApp;
+
+    [SerializeField] private GameObject notice;
+    void Notice()
+    {
+        if (SendDeliveryRequest.RequestList.Count > 0)
+        {
+            if (!DeliveryScreen.activeSelf)
+                notice.SetActive(true);
+            else
+                notice.SetActive(false);
+        }
+        else
+        {
+            notice.SetActive(false);
+        }
+    }
+
     private void Start()
     {
         StartDarkApp = false;
@@ -40,5 +57,9 @@ public class HandPhone : MonoBehaviour
             DeliveryAppButton.SetActive(true);
             DeliveryScreen.SetActive(false);
         }
+    }
+    private void Update()
+    {
+        Notice();
     }
 }

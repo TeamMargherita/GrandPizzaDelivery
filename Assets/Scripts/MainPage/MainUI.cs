@@ -2,8 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// 한석호 작성
 public class MainUI : MonoBehaviour
 {
+    [SerializeField] private GameObject soundObject;
+    [SerializeField] private GameObject optionObject;
+    [SerializeField] private GameObject leftLisence;
+    [SerializeField] private GameObject rightLisence;
+
+
     private bool isFade = false;
     // Start is called before the first frame update
     void Start()
@@ -32,5 +39,37 @@ public class MainUI : MonoBehaviour
     private void LoadS()
     {
         LoadScene.Instance.ActiveTrueFade("Prologue");
+    }
+
+    public void Quit()
+	{
+        Application.Quit();
+	}
+
+    public void Sound()
+	{
+        soundObject.SetActive(true);
+	}
+
+    public void Close()
+	{
+        optionObject.SetActive(false);
+	}
+
+    public void Open()
+	{
+        optionObject.SetActive(true);
+	}
+
+    public void LicenseOpen()
+    {
+        leftLisence.SetActive(true); 
+        rightLisence.SetActive(true);
+    }
+
+    public void LicenseClose()
+    {
+        leftLisence.SetActive(false);
+        rightLisence.SetActive(false);
     }
 }

@@ -6,9 +6,9 @@ using ConversationNS;
 // 한석호 작성
 public class IngredientStore : Conversation
 {
-	private static int Contract = 0;
-	private static bool Hint = false;
-	private static bool OneChance = true;
+	public static int Contract = 0;
+	public static bool Hint = false;
+	public static bool OneChance = true;
 	public IngredientStore()
 	{
 		NpcTextStrArr = new string[41]
@@ -55,6 +55,13 @@ public class IngredientStore : Conversation
 			"무슨 할말?",	// 39
 			"돈이 부족해 보이는걸?"	// 40
 		};
+
+		//if (Constant.NowDate == 1 && GameManager.Instance.time >= 32400 && GameManager.Instance.time <= 32500)
+  //      {
+		//	Contract = 0;
+		//	Hint = false;
+		//	OneChance = true;
+		//}
 
 		TextList = new List<TextNodeC>();
 		InitTextList();

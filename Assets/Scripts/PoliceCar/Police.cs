@@ -8,13 +8,14 @@ using PoliceNS.PoliceStateNS;
 public abstract class Police : MonoBehaviour
 {
     [Range(0f, 1000f)] public float PoliceHp;    // 경찰차 체력
+    public ISpawnCar SpawnCar { get; set; }    // 추격차를 소환하기 위한 인터페이스
 
     protected ISetTransform smokeEffectTrans;
     protected IStop iStop;
 
     //protected SuperPoliceState spState;
     protected PoliceState policeState;    //  경찰차의 상태
-
+    protected PoliceType policeType;    // 경찰차 타입
     protected Coroutine smokeEffectCoroutine;   // 피해 입을 시 생기는 연기 코루틴
     protected Coroutine damagedCoroutine;   // 피해 입을시 차량 색상이 바뀌는 이펙트 코루틴
     protected SpriteRenderer spr;
@@ -127,7 +128,12 @@ public abstract class Police : MonoBehaviour
     protected void DestroyCar()
     {
         StopCoroutine(smokeEffectCoroutine);
+        if (policeType == PoliceType.NORMAL)
+        {
+            SpawnCar.SpawnCar(1);
+        }
         DestroyPolice();
+        DataManager.killCount++;
         Destroy(this.gameObject);
     }
     protected virtual void DestroyPolice() { }

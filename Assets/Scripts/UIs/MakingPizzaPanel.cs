@@ -2,14 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 // 한석호 작성
-public class MakingPizzaPanel : MonoBehaviour
+public class MakingPizzaPanel : MonoBehaviour, IPointerClickHandler
 {
+	[SerializeField] private PlayerMove playerMove;
 	[SerializeField] private RectTransform mainPanelRect;
 	[SerializeField] private Text backText;
 	[SerializeField] private Text mainText;
 
+	public MakingPizza MakingPizza { get; set; }
+	public int PizzaIndex { get; set; }
+	public bool isComplete { get; set; }
 	private Pizza temPizza = new Pizza();	// 임시로 저장할 피자
 
 	/// <summary>
@@ -24,6 +29,11 @@ public class MakingPizzaPanel : MonoBehaviour
 		mainText.text = temPizza.Name;
 		Debug.Log("작동 1");
 	}
+
+	public Pizza GetPizza()
+    {
+		return temPizza;
+    }
 	/// <summary>
 	/// 피자를 비교합니다. 값이 같다면 true, 틀리다면 false를 반환합니다.
 	/// </summary>
@@ -33,7 +43,7 @@ public class MakingPizzaPanel : MonoBehaviour
 	{
 		if (temPizza.Ingreds == null) { return false; }
 		// 구조체 안에 리스트 들어있어서 equals가 안먹혀서 일일히 비교해야됨 아오.
-		if (temPizza.Name.Equals(pizza.Name) && temPizza.Perfection == pizza.Perfection && temPizza.Charisma == pizza.Charisma
+		if (temPizza.Name.Equals(pizza.Name) && temPizza.Charisma == pizza.Charisma
 			&& temPizza.ProductionCost == pizza.ProductionCost && temPizza.SellCost == pizza.SellCost &&
 			temPizza.TotalDeclineAt == pizza.TotalDeclineAt && temPizza.Ingreds.Count == pizza.Ingreds.Count)
 		{
@@ -70,4 +80,9 @@ public class MakingPizzaPanel : MonoBehaviour
 		//Debug.Log(mainPanelRect.rect.width);
 		return mainPanelRect.rect.width;
 	}
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+		playerMove.AddPizzaInven(PizzaIndex);
+    }
 }

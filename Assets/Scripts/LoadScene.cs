@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using DayNS;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,6 +9,8 @@ public class LoadScene : MonoBehaviour
 * instance라는 변수를 static으로 선언을 하여 다른 오브젝트 안의 스크립트에서도 instance를 불러올 수 있게 합니다 
 */
     public static LoadScene Instance = null;
+
+    private bool oneTimeMethod = false;
 
     private void Awake()
     {
@@ -31,32 +32,51 @@ public class LoadScene : MonoBehaviour
     /// </summary>
     /// <param name="str">불러올 씬의 이름입니다.</param>
     public void ActiveTrueFade(string str)
-	{
+    {
         Fade.Instance.gameObject.SetActive(true);
         Fade.Instance.SetLoadSceneName(str);
-	}
+    }
+    public void LoadNextDay(bool isDead)
+    {
+        if (oneTimeMethod) { return; }
+        oneTimeMethod = true;
+        if (Constant.NowDay != DayEnum.SUNDAY)
+        {
+            Constant.NowDay++;
+        }
+        else
+        {
+            Constant.NowDay = DayEnum.MONDAY;
+        }
+        Constant.NowDate++;
+        if (isDead) { Constant.IsDead = true; }
+
+        ActiveTrueFade("CalculateScene");
+    }
     public void LoadS(string str)
-	{
-		SceneManager.LoadScene(str);
-	}
-	public void LoadRhythm()
-	{
-		if (Constant.ChoiceIngredientList.Count > 0)
-		{
+    {
+        oneTimeMethod = false;
+        SceneManager.LoadScene(str);
+    }
+    public void LoadRhythm()
+    {
+        if (Constant.ChoiceIngredientList.Count > 0)
+        {
             ActiveTrueFade("SelectScene");
-		}
-	}
+        }
+    }
     public void LoadPrologueToInGameScene()
     {
         Constant.isStartGame = true;
+        DataManager.LoadData();
         ActiveTrueFade("InGameScene");
     }
 
     public void LoadPizzaMenu()
-	{
+    {
         Constant.IsMakePizza = true;
-        Constant.DevelopPizza.Add(new Pizza("Pizza" + System.DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss"), Random.Range(20,80) + 20, Constant.ProductionCost
-            ,Random.Range(5000,30000) + 10000,Constant.PizzaAttractiveness, Constant.ingreds, Constant.TotalDeclineAt));
+        Constant.DevelopPizza.Add(new Pizza("새 피자" + System.DateTime.Now.ToString("MM-dd-HH-mm-ss"), Constant.Perfection, Constant.ProductionCost
+            , Random.Range(2000 * Constant.ingreds.Count, 4000 * Constant.ingreds.Count + 1) + 10000, Constant.PizzaAttractiveness, Constant.ingreds, Constant.TotalDeclineAt, 100, 0));
         ActiveTrueFade("InGameScene");
-	}
+    }
 }

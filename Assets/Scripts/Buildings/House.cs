@@ -15,7 +15,9 @@ public class House : MonoBehaviour, IAddress, IHouse, IActiveHouse
     [SerializeField] private GameObject goalObj;
     [SerializeField] private GameObject activeObj;
 
-    static private Color activeColor = new Color(248/255f, 70/255f, 6/255f);   // 활성화 색(배달해야 하는 곳임을 알림)
+    public static Color activeColor = new Color(248/255f, 70/255f, 6/255f);   // 활성화 색(배달해야 하는 곳임을 알림)
+    public static Dictionary<int, Dictionary<int, CustomerS>> CustomerSDic = new Dictionary<int, Dictionary<int, CustomerS>>();
+    public static Dictionary<int, Dictionary<int, int>> nowDate = new Dictionary<int, Dictionary<int, int>>();
 
     private SpriteRenderer spriteRenderer;
     private Transform goalTrans;
@@ -24,22 +26,24 @@ public class House : MonoBehaviour, IAddress, IHouse, IActiveHouse
     private IDeliveryPanelControl iDeliveryPanelControl;
     private IHouseActiveUIControl iHouseActiveUIControl;
 
+    private List<Ingredient> temIng;
     private HouseType houseType;
 
     private Color houseColor;
 
-    private CustomerS customerS;
+    private CustomerS customerS;    // 손님
     private AddressS houseAddress;  // 집주소
 
     private float spendingTime; // 배달에 소요한 시간
     private int houseNumber;    // 건물 내에서 집 번호
+    private int tip;    // 팁
     private bool isEnable = false;  // 해당 집에 주문을 해야되는지 여부
     private bool inHouse = false;
     
 	private void Awake()
 	{
         spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
-        houseColor = Color.HSVToRGB(Random.Range(0, 361f) / 360f, 12 / 100f, 100 / 100f);
+        houseColor = Color.HSVToRGB(Random.Range(0, 361f) / 360f, 40 / 100f, 100 / 100f);
         spriteRenderer.color = houseColor;
         goalTrans = goalObj.transform;
         Vector3 vec = Vector3.zero;
@@ -50,23 +54,55 @@ public class House : MonoBehaviour, IAddress, IHouse, IActiveHouse
         goalObj.transform.position += vec;
         activeObj.transform.position += vec;
 
+        if (Constant.NowDate == 1 && GameManager.Instance.time >= 32400 && GameManager.Instance.time <= 32500)
+        {
+            activeColor = new Color(248 / 255f, 70 / 255f, 6 / 255f);
+        }
+
+        //customerS = new CustomerS(Random.Range(1, 101), Random.Range(60, 240), Random.Range(200, 2000));
         activeObj.GetComponent<HouseActiveCheck>().SetIActiveHouse(this);
         houseType = HouseType.HOUSE;
-        SetCustomer();
 	}
     /// <summary>
     /// 고객 생성
     /// </summary>
     private void SetCustomer()
     {
-        List<Ingredient> ing = new List<Ingredient>();
+        temIng = new List<Ingredient>();
         int r = 0;
-        while (ing.Count < 2)
+        while (temIng.Count < 5)
         {
             r = Random.Range(0, System.Enum.GetValues(typeof(Ingredient)).Length);
-            if (ing.FindIndex(a => a.Equals((Ingredient)r)) == -1 && r != 0)
+            if (temIng.FindIndex(a => a.Equals((Ingredient)r)) == -1 && r != 0)
             {
-                ing.Add((Ingredient)r);
+                temIng.Add((Ingredient)r);
+            }
+        }
+
+        int pizzaCutline = Random.Range(0, 101);
+        float pizzaSpeed = Random.Range(30f, 120f);
+        int pizzaCarismaCutline = Random.Range(200, 2000);
+        int moneyPower = (int)(Random.Range(1, 10f) * Mathf.Pow(10, Constant.PizzaStoreStar));
+
+        if (nowDate[houseAddress.BuildingAddress][houseAddress.HouseAddress] != Constant.NowDate)
+        {
+            nowDate[houseAddress.BuildingAddress][houseAddress.HouseAddress] = Constant.NowDate;
+            customerS = new CustomerS(pizzaCutline, pizzaSpeed, pizzaCarismaCutline, temIng, moneyPower);
+            if (!CustomerSDic.ContainsKey(houseAddress.BuildingAddress))
+            {
+                CustomerSDic.Add(houseAddress.BuildingAddress, new Dictionary<int, CustomerS>() { { houseAddress.HouseAddress, customerS } });
+
+            }
+            else
+            {
+                if (!CustomerSDic[houseAddress.BuildingAddress].ContainsKey(houseAddress.HouseAddress))
+                {
+                    CustomerSDic[houseAddress.BuildingAddress].Add(houseAddress.HouseAddress, customerS);
+                }
+                else
+				{
+                    CustomerSDic[houseAddress.BuildingAddress][houseAddress.HouseAddress] = customerS;
+				}
             }
         }
     }
@@ -82,6 +118,21 @@ public class House : MonoBehaviour, IAddress, IHouse, IActiveHouse
         goalObj.GetComponent<GoalCheckCollider>().addr = houseAddress;
 
         addressSList.Add(houseAddress);
+        if (!nowDate.ContainsKey(houseAddress.BuildingAddress))
+        {
+           nowDate.Add(houseAddress.BuildingAddress, new Dictionary<int, int>() { { houseAddress.HouseAddress, 0 } });
+
+        }
+        else
+        {
+            if (!nowDate[houseAddress.BuildingAddress].ContainsKey(houseAddress.HouseAddress))
+            {
+                nowDate[houseAddress.BuildingAddress].Add(houseAddress.HouseAddress, 0);
+            }
+        }
+
+        SetCustomer();
+
     }
     public void SetIMap(IMap iMap)
 	{
@@ -106,14 +157,67 @@ public class House : MonoBehaviour, IAddress, IHouse, IActiveHouse
     /// 피자 배달을 끝마쳤을 때
     /// 배달이 끝난 후 걸린 시간, 평점 등을 구조체 형식으로 묶어서 전달한다.
     /// </summary> 
-    public void DisableHouse()
+    public void DisableHouse(Pizza pizza)
 	{
+        // 전달받은 피자를 손님의 취향과 비교해서 팁을 얼마나 줄지 정하고, 평점을 얼마나 줄지 정한다.
+        AddTip(pizza);
         spriteRenderer.color = houseColor;
         isEnable = false;
         goalObj.SetActive(false);
         spendingTime = iMap.RemoveAddress(houseAddress);
 	}
 
+    private void AddTip(Pizza pizza)
+    {
+        tip = 0;
+        int percent = 0;
+        if (CustomerSDic[houseAddress.BuildingAddress][houseAddress.HouseAddress].PizzaCutLine > pizza.Perfection)
+        {
+            percent += 15;
+        }
+        if (CustomerSDic[houseAddress.BuildingAddress][houseAddress.HouseAddress].PizzaDeliverySpeed > spendingTime)
+        {
+            percent += 15;
+        }
+        if (CustomerSDic[houseAddress.BuildingAddress][houseAddress.HouseAddress].PizzaCarismaCutLine > pizza.Charisma)
+        {
+            percent += 20;
+        }
+        for (int i = 0; i < CustomerSDic[houseAddress.BuildingAddress][houseAddress.HouseAddress].IngList.Count; i++)
+        {
+            if (pizza.Ingreds.FindIndex(a => a.Equals(CustomerSDic[houseAddress.BuildingAddress][houseAddress.HouseAddress].IngList[i])) != -1)
+            {
+                percent += 10;
+            }
+        }
+
+        percent = (int)(percent * (pizza.Freshness * 0.01f));
+
+        tip = (int)(CustomerSDic[houseAddress.BuildingAddress][houseAddress.HouseAddress].MoneyPower * (percent * 0.01f));
+        Debug.Log(tip);
+        Invoke("PlusMoney", 1.5f);
+        if (tip < 40)
+        {
+            Constant.PizzaStoreStar += -0.001f * tip;
+        }
+        else
+        {
+            Constant.PizzaStoreStar += 0.001f * (tip - 40);
+        }
+    }
+    private void PlusMoney()
+    {
+        Debug.Log("abc");
+        GameManager.Instance.Money += tip;
+    }
+
+    public void EndDeliveryDisableHouse()
+    {
+        spriteRenderer.color = houseColor;
+        isEnable = false;
+        goalObj.SetActive(false);
+        spendingTime = iMap.RemoveAddress(houseAddress);
+    }
     public bool GetIsEnable()
 	{
         return isEnable;

@@ -11,6 +11,7 @@ public class InventoryManager : MonoBehaviour
     public GameObject CurrentInventory;
     public bool InventoryActive;
 
+    [SerializeField] private MakingPizza MakingPizzaS;
     public GameObject[] PizzaInventorySlot;
     [SerializeField] private GameObject[] MainInventorySlot;
     [SerializeField] private GameObject[] GunInventorySlot;
@@ -41,7 +42,8 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private Text GunText;
     private void Awake()
     {
-        if(GameManager.Instance.InventorySlotList.Count == 0)
+        UIGunImage.GetComponent<Image>().color = Color.clear;
+        if (GameManager.Instance.InventorySlotList.Count == 0)
         {
             for (int i = 0; i < PizzaInventorySlot.Length; i++)
             {
@@ -49,12 +51,13 @@ public class InventoryManager : MonoBehaviour
             }
         }
     }
+    
     /// <summary>
-    /// ¿Œ∫•≈‰∏Æø° ¡÷ªÁ¿ß ¿ÃπÃ¡ˆ ∫“∑Øø¿±‚
+    /// ÔøΩŒ∫ÔøΩÔøΩ‰∏ÆÔøΩÔøΩ ÔøΩ÷ªÔøΩÔøΩÔøΩ ÔøΩÃπÔøΩÔøΩÔøΩ ÔøΩ“∑ÔøΩÔøΩÔøΩÔøΩÔøΩ
     /// </summary>
-    /// <param name="path">¿ÃπÃ¡ˆ ∞Ê∑Œ</param>
-    /// <param name="index">ΩΩ∑‘ ¡÷º“</param>
-    /// <param name="count">«√∑π¿ÃæÓ∞° ∞°¡ˆ∞Ì ¿÷¥¬ æ∆¿Ã≈€ ∞πºˆ</param>
+    /// <param name="path">ÔøΩÃπÔøΩÔøΩÔøΩ ÔøΩÔøΩÔøΩ</param>
+    /// <param name="index">ÔøΩÔøΩÔøΩÔøΩ ÔøΩ÷ºÔøΩ</param>
+    /// <param name="count">ÔøΩ√∑ÔøΩÔøΩÃæÓ∞° ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩ ÔøΩ÷¥ÔøΩ ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩ ÔøΩÔøΩÔøΩÔøΩ</param>
     private void SystemIOFileLoad(string path, int index, int count, ItemType type)
     {
         if(type == ItemType.DICE)
@@ -66,10 +69,7 @@ public class InventoryManager : MonoBehaviour
         }else if(type == ItemType.GUN)
         {
             GunInventorySlot[index].transform.GetChild(0).GetComponent<Image>().enabled = true;
-
             GunInventorySlot[index].transform.GetChild(0).GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(path)[0];
-            //GunInventorySlot[index].transform.GetChild(0).GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 240);
-           // GunInventorySlot[index].transform.GetChild(0).GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 120);
             GunInventorySlot[index].transform.GetChild(0).GetComponent<Image>().color = Color.white;
             GunInventorySlot[index].transform.GetChild(1).GetComponent<Text>().text = "x " + count;
         }
@@ -92,10 +92,14 @@ public class InventoryManager : MonoBehaviour
     }
     
     /// <summary>
-    /// ¿Œ∫•≈‰∏Æ √÷Ω≈»≠
+    /// ÔøΩŒ∫ÔøΩÔøΩ‰∏Æ ÔøΩ÷ΩÔøΩ»≠
     /// </summary>
     private void DiceInventoryUpdate()
     {
+        foreach(var i in DiceEquipmentSlot)
+        {
+            i.GetComponent<EquipmentSlot>().BaseSlotColorClear();
+        }
         Dice = Constant.FindAllItemS(Constant.PlayerItemDIc, ItemType.DICE);
         int index = DicePage * 5;
         int startcount = (DicePage - 1) * 5;
@@ -123,6 +127,7 @@ public class InventoryManager : MonoBehaviour
 
     private void GunInventoryUpdate()
     {
+        GunEquipmentSlot.GetComponent<EquipmentSlot>().BaseSlotColorClear();
         Gun = Constant.FindAllItemS(Constant.PlayerItemDIc, ItemType.GUN);
         int index = GunPage * 5;
         int startcount = (GunPage - 1) * 5;
@@ -163,39 +168,46 @@ public class InventoryManager : MonoBehaviour
 
     void inventoryOpenClose()
     {
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (!UIControl.isIn)
         {
-            if (InventoryActive)
+            if (Input.GetKeyDown(KeyCode.Tab))
             {
-                if (CurrentInventory != null)
-                    CurrentInventory.SetActive(false);
-                Inventory.SetActive(false);
-                InventoryActive = false;
+                if (InventoryActive)
+                {
+                    if (CurrentInventory != null)
+                        CurrentInventory.SetActive(false);
+                    Inventory.SetActive(false);
+                    InventoryActive = false;
+                }
+                else
+                {
+                    GunInventoryUpdate();
+                    DiceInventoryUpdate();
+                    foreach (var i in MainInventorySlot)
+                    {
+                        i.GetComponent<Image>().color = Color.white;
+                    }
+                    foreach (var i in PizzaInventorySlot)
+                    {
+                        i.GetComponent<Image>().color = Color.white;
+                    }
+                    foreach (var i in GunInventorySlot)
+                    {
+                        i.GetComponent<Image>().color = Color.white;
+                    }
+                    foreach (var i in DiceInventorySlot)
+                    {
+                        i.GetComponent<Image>().color = Color.white;
+                    }
+                    Inventory.SetActive(true);
+                    InventoryActive = true;
+                }
             }
-            else
-            {
-                GunInventoryUpdate();
-                DiceInventoryUpdate();
-                foreach (var i in MainInventorySlot)
-                {
-                    i.GetComponent<Image>().color = Color.white;
-                }
-                foreach(var i in PizzaInventorySlot)
-                {
-                    i.GetComponent<Image>().color = Color.white;
-                }
-                foreach (var i in GunInventorySlot)
-                {
-                    i.GetComponent<Image>().color = Color.white;
-                }
-                foreach (var i in DiceInventorySlot)
-                {
-                    i.GetComponent<Image>().color = Color.white;
-                }
-                Inventory.SetActive(true);
-                InventoryActive = true;
-            }
-            Debug.Log("Tab πÆ¿⁄∞° ¿‘∑¬µ«æ˙Ω¿¥œ¥Ÿ.");
+        }
+        else if(UIControl.isIn && InventoryActive)
+        {
+            Inventory.SetActive(false);
+            InventoryActive = false;
         }
     }
 
@@ -207,10 +219,28 @@ public class InventoryManager : MonoBehaviour
             {
                 if (GameManager.Instance.PizzaInventoryData[i] != null)
                 {
-                    PizzaInventorySlot[i].transform.GetChild(0).GetComponent<Text>().text = GameManager.Instance.PizzaInventoryData[i]?.Name;
-                    Debug.Log("≈ÿΩ∫∆Æ ºˆ¡§«œ¥¬ ΩΩ∑‘" + i);
+                    PizzaInventorySlot[i].transform.GetChild(1).gameObject.SetActive(true);
+                    if (GameManager.Instance.PizzaInventoryData[i]?.FreshnessUpdate(GameManager.Instance.time) == 100)
+                    {
+                        PizzaInventorySlot[i].transform.GetChild(1).GetComponent<Image>().color = Color.white;
+                        PizzaInventorySlot[i].transform.GetChild(0).GetComponent<Text>().text = "Îî∞ÎúªÌïú " + GameManager.Instance.PizzaInventoryData[i]?.Name;
+                    }
+                    else if(GameManager.Instance.PizzaInventoryData[i]?.FreshnessUpdate(GameManager.Instance.time) == 50)
+                    {
+                        PizzaInventorySlot[i].transform.GetChild(1).GetComponent<Image>().color = Color.cyan;
+                        PizzaInventorySlot[i].transform.GetChild(0).GetComponent<Text>().text = "ÎØ∏ÏßÄÍ∑ºÌïú " + GameManager.Instance.PizzaInventoryData[i]?.Name;
+                    }
+                    else if (GameManager.Instance.PizzaInventoryData[i]?.FreshnessUpdate(GameManager.Instance.time) == 0)
+                    {
+                        PizzaInventorySlot[i].transform.GetChild(1).GetComponent<Image>().color = Color.blue;
+                        PizzaInventorySlot[i].transform.GetChild(0).GetComponent<Text>().text = "Ï∞®Í∞ÄÏö¥ " + GameManager.Instance.PizzaInventoryData[i]?.Name;
+                    }
                 }
-                    
+                else
+                {
+                    PizzaInventorySlot[i].transform.GetChild(1).gameObject.SetActive(false);
+                    PizzaInventorySlot[i].transform.GetChild(0).GetComponent<Text>().text = "";
+                }
             }
         }
     }
@@ -229,11 +259,12 @@ public class InventoryManager : MonoBehaviour
                 i.GetComponent<Image>().color = Color.clear;
            index++;
         }
-        if (Constant.nowGun[0] != -1)
+        if (Constant.NowGun[0] != -1)
         {
-            GunEquipmentSlot.GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(Constant.GunInfo[Constant.nowGun[0]].Path)[0];
+            GunEquipmentSlot.GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(Constant.GunInfo[Constant.NowGun[0]].Path)[0];
             GunEquipmentSlot.GetComponent<Image>().color = Color.white;
             Player.CurrentMagagine = 0;
+            Player.Gun.GetComponent<SpriteRenderer>().sprite = Resources.LoadAll<Sprite>(Constant.GunInfo[Constant.NowGun[0]].Path)[0];
         }
         else
             GunEquipmentSlot.GetComponent<Image>().color = Color.clear;
@@ -245,16 +276,18 @@ public class InventoryManager : MonoBehaviour
         {
             PizzaInventorySlot[index].transform.GetChild(0).GetComponent<Text>().text = "";
             GameManager.Instance.PizzaInventoryData[index] = null;
+            PlayerStat.HP += 50;
+            PizzaInventorySlot[index].transform.GetChild(1).gameObject.SetActive(false);
         }
         inventoryTextUpdate(CurrentInventory.name);
     }
     private void UIGunImageUpdate()
     {
-        if(Constant.nowGun[0] == -1)
+        if(Constant.NowGun[0] == -1)
             UIGunImage.GetComponent<Image>().color = Color.clear;
         else
         {
-            UIGunImage.GetComponent<Image>().sprite = GunEquipmentSlot.GetComponent<Image>().sprite;
+            UIGunImage.GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(Constant.GunInfo[Constant.NowGun[0]].Path)[0];
             UIGunImage.GetComponent<Image>().color = Color.white;
         }
     }
@@ -262,7 +295,7 @@ public class InventoryManager : MonoBehaviour
     
     public void UIMagagineTextUpdate(short currentMagagine)
     {
-        if (Constant.nowGun[0] == -1)
+        if (Constant.NowGun[0] == -1)
             MagagineText.text = "";
         else
         {
@@ -271,17 +304,16 @@ public class InventoryManager : MonoBehaviour
     }
     public void OnClickDelivery()
     {
-        Debug.Log("ø¬≈¨∏ØµÙ∏Æπˆ∏Æ");
-        if(/*GameManager.Instance.PizzaInventory[SlotNum - 1] != null && */GoalAddressS != null)
+        if(GoalAddressS != null)
         {
             int SDRIndex = 0;
             int SlotNum = 0;
-            foreach(var i in SDR.RequestList)
+            foreach(var i in SendDeliveryRequest.RequestList)
             {
-                //¡÷πÆ∏ÆΩ∫∆Æ¿« ¡˝¡÷º“ == «√∑π¿ÃæÓ ¿ßƒ° ¡˝¡÷º“
+                //ÔøΩ÷πÔøΩÔøΩÔøΩÔøΩÔøΩ∆ÆÔøΩÔøΩ ÔøΩÔøΩÔøΩ÷ºÔøΩ == ÔøΩ√∑ÔøΩÔøΩÃæÔøΩ ÔøΩÔøΩƒ° ÔøΩÔøΩÔøΩ÷ºÔøΩ
                 if(i.AddressS.HouseAddress == GoalAddressS.addr.HouseAddress)
                 {
-                    //¿Œ∫•≈‰∏Æø°º≠ ««¿⁄∏¶ √£¿Ω
+                    //ÔøΩŒ∫ÔøΩÔøΩ‰∏ÆÔøΩÔøΩÔøΩÔøΩ ÔøΩÔøΩÔøΩ⁄∏ÔøΩ √£ÔøΩÔøΩ
                     foreach(var pizza in GameManager.Instance.PizzaInventoryData)
                     {
                         if (i.Pizza.Name.Equals(pizza?.Name))
@@ -290,10 +322,10 @@ public class InventoryManager : MonoBehaviour
                             PizzaInventorySlot[SlotNum].transform.GetChild(0).GetComponent<Text>().text = "";
                             GameManager.Instance.PizzaInventoryData[SlotNum] = null;
                             Minimap.DeleteDestination(GoalAddressS.iHouse.GetLocation());
-                            GoalAddressS.iHouse.DisableHouse();
+                            GoalAddressS.iHouse.DisableHouse(pizza.Value);
                             DeliveryScreen.OnClickCancle(SDRIndex);
                             GoalAddressS = null;
-                            DeliveryJudgmentPanel.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "πË¥ﬁ¿Ã øœ∑· µ«æ˙Ω¿¥œ¥Ÿ.";
+                            DeliveryJudgmentPanel.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "Î∞∞Îã¨Ïù¥ ÏôÑÎ£å ÎêòÏóàÏäµÎãàÎã§..";
                             DeliveryJudgmentPanel.SetActive(true);
                             return;
                         }
@@ -302,7 +334,7 @@ public class InventoryManager : MonoBehaviour
                 }
                 SDRIndex++;
             }
-            DeliveryJudgmentPanel.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "∞°πÊø° ¡÷πÆπﬁ¿∫ ««¿⁄∞° æ¯Ω¿¥œ¥Ÿ.";
+            DeliveryJudgmentPanel.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "Í∞ÄÎ∞©Ïóê Ï£ºÎ¨∏Î∞õÏùÄ ÌîºÏûêÍ∞Ä ÏóÜÏäµÎãàÎã§.";
             DeliveryJudgmentPanel.SetActive(true);
         }
         inventoryTextUpdate("PizzaInventory");
@@ -311,6 +343,10 @@ public class InventoryManager : MonoBehaviour
     public void OnclickDicePageButton(int i)
     {
         DicePage += i;
+        if (DicePage < 1)
+            DicePage = 1;
+        else if (DicePage > 5)
+            DicePage = 5;
         DiceText.text = "" + DicePage;
         DiceInventoryUpdate();
     }
@@ -318,6 +354,10 @@ public class InventoryManager : MonoBehaviour
     public void OnclickGunPageButton(int i)
     {
         GunPage += i;
+        if (GunPage < 1)
+            GunPage = 1;
+        else if (GunPage > 5)
+            GunPage = 5;
         GunText.text = "" + GunPage;
         GunInventoryUpdate();
     }
@@ -328,9 +368,25 @@ public class InventoryManager : MonoBehaviour
         InventoryActive = false;
     }
 
+    private void UpdateInventoryText()
+    {
+        if (PizzaInventorySlot[0].transform.parent.gameObject.activeSelf)
+        {
+            for (int i = 0; i < PizzaInventorySlot.Length; i++)
+            {
+                if (GameManager.Instance.PizzaInventoryData[i] == null)
+                {
+                    PizzaInventorySlot[i].transform.GetChild(0).GetComponent<Text>().text = "";
+                }
+            }
+        }
+    }
+
     void Update()
     {
         inventoryOpenClose();
         UIGunImageUpdate();
+        inventoryTextUpdate("PizzaInventory");
+        //UpdateInventoryText();
     }
 }

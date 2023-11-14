@@ -8,10 +8,15 @@ public class GameManager : MonoBehaviour
 {
     private static GameManager _instance;
     public Pizza?[] PizzaInventoryData = new Pizza?[5];
-    public List<Pizza> PizzaMenu = new List<Pizza>() { new Pizza("CheesePizza", 60, 5000, 10000, 800, new List<Ingredient>() { Ingredient.CHEESE }, 250) };
+    public List<Pizza> PizzaMenu = new List<Pizza>() { new Pizza("CheesePizza", 60, 5000, 10000, 800, new List<Ingredient>() { Ingredient.CHEESE }, 250, 100, 0) };
+    public List<Pizza> PineapplePizzaMenu = new List<Pizza>();
     public List<Slot> InventorySlotList = new List<Slot>();
 
     public bool isDarkDelivery = false;
+
+    public TestMoneyText MoneyText;
+    private CameraMove cameraMove;
+
     public static GameManager Instance
     {
         get
@@ -28,13 +33,8 @@ public class GameManager : MonoBehaviour
     }
     private void Awake()
     {
-        
-        //for (int i = 0; i < 5; i++)
-        //{
-        //    List<Ingredient> ing = new List<Ingredient>();
-        //    ing.Add(Ingredient.CHEESE);
-        //    GameManager.Instance.PizzaMenu.Add(new Pizza("CheesePizza5", 60, 5000, 10000, Random.Range(0, 500) + 500, ing, Random.Range(0, 100) + 200));
-        //}
+        PineapplePizzaMenu.Add(Constant.PineapplePizza);
+
         if (_instance == null)
         {
             _instance = this;
@@ -42,22 +42,23 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
         DontDestroyOnLoad(gameObject);
-        
     }
 
-    public float time;
-    private float timeSpeed = 60; //ÇÏ·ç±âÁØ½Ã°£
 
-    private int money = 1000000000;
+    public float time;
+    private float timeSpeed = 120; //ï¿½Ï·ï¿½ï¿½ï¿½Ø½Ã°ï¿½
+
+    private int money = 0;
     public int Money
     {
         get {
             return money;
         }
         set {
-            //³ªÁß¿¡ ÀÏÁ¤±Ý¾×µµ´ÞÇÏ¸é ¾Øµù È­¸é°¡´Â ÇÔ¼ö Â¥±â
+            //ï¿½ï¿½ï¿½ß¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ý¾×µï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½Øµï¿½ È­ï¿½é°¡ï¿½ï¿½ ï¿½Ô¼ï¿½ Â¥ï¿½ï¿½
+            if(MoneyText != null )
+                MoneyText.CreateMoneyEffect(value - money);
             money = value;
         }
     }
@@ -66,24 +67,69 @@ public class GameManager : MonoBehaviour
 
     public void PlayerDead()
     {
-        LoadScene.Instance.ActiveTrueFade("InGameScene");
+        StartCoroutine(DeadWait());
+    }
+    IEnumerator DeadWait()
+    {
+        cameraMove = GameObject.Find("Main Camera").GetComponent<CameraMove>();
+        cameraMove.playerDead = true;
+        Time.timeScale = 0.1f;
+        Time.fixedDeltaTime = Time.timeScale * 0.02f;
+        yield return new WaitForSecondsRealtime(3f);
+        SendDeliveryRequest.RequestList.Clear();
+        Time.timeScale = 1;
+        Time.fixedDeltaTime = Time.timeScale * 0.02f;
+        LoadScene.Instance.LoadNextDay(true);
+        HospitalRespawn();
+        isDarkDelivery = false;
+        time = 32400;
+    }
+    public void NextDay()
+    {
+        SendDeliveryRequest.RequestList.Clear();
+        LoadScene.Instance.LoadNextDay(false);
         isDarkDelivery = false;
         time = 32400;
     }
 
+    public void HospitalRespawn()
+    {
+        //ï¿½ï¿½È£ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½
+        Constant.IsHospital = true;
+    }
     private void TimeSkip()
     {
-        if(Input.GetKeyDown(KeyCode.Backspace))
+        if(Input.GetKeyDown(KeyCode.F3))
             time = 82800;
     }
     private void Update()
     {
-        TimeSkip();
+        //TimeSkip();
         if (!Constant.StopTime)
         {
-            time += Time.deltaTime * timeSpeed; //°ÔÀÓ±âÁØ1ºÐ = Çö½Ç½Ã°£2ÃÊ
+            time += Time.deltaTime * timeSpeed; //ï¿½ï¿½ï¿½Ó±ï¿½ï¿½ï¿½1ï¿½ï¿½ = ï¿½ï¿½ï¿½Ç½Ã°ï¿½1ï¿½ï¿½
         }
-        //°ÔÀÓ1ÃÊ * timeSpeed = Çö½Ç½Ã°£1ÃÊ
+        /*if (Input.GetKeyDown(KeyCode.F1))
+        {
+            time = 14400;
+        }
+        if (Input.GetKeyDown(KeyCode.F2))
+		{
+            time = 32400;
+		}*/
+        /*if (Input.GetKeyDown(KeyCode.CapsLock))
+        {
+            if(Time.timeScale == 1)
+            {
+                Time.timeScale = 0.1f;
+                Time.fixedDeltaTime = Time.timeScale * 0.02f;
+            }else if (Time.timeScale == 0.1f)
+            {
+                Time.timeScale = 1;
+                Time.fixedDeltaTime = Time.timeScale * 0.02f;
+            }
+        }*/
+        //ï¿½ï¿½ï¿½ï¿½1ï¿½ï¿½ * timeSpeed = ï¿½ï¿½ï¿½Ç½Ã°ï¿½1ï¿½ï¿½
         //TimeText.GetComponent<Text>().text = (int)time/3600 + " : " + (int)(time / 60 % 60);
     }
 }

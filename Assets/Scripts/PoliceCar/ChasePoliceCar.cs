@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using PoliceNS.PoliceStateNS;
-
+using Gun;
 // 한석호 작성
 public class ChasePoliceCar : Police, ISetTransform, IUpdateCheckList
 {
@@ -12,6 +12,8 @@ public class ChasePoliceCar : Police, ISetTransform, IUpdateCheckList
     public float Speed;
 
     [SerializeField] private GameObject[] colArr;
+    [SerializeField] private Animator ani;
+    [SerializeField] private AudioSource PoliceAudio;
 
     private const int RIGHTUP = 0; // 앞
     private const int RIGHTDOWN = 1;    // 앞
@@ -36,12 +38,13 @@ public class ChasePoliceCar : Police, ISetTransform, IUpdateCheckList
     private IGetBool iGetBool;
     private ICheckCol[] iCheckColArr;
     private PoliceState temState;
+    private PoliceGunShooting GunMethod;
 
     private Vector3 outVec = new Vector3(100, 30, 0);
     private Vector3 ranTarget = Vector3.one;
-    private Color redEmi = new Color(139f/255f, 57f/255f, 58f/255f);
-    private Color yellowEmi = new Color(139f/255f, 111f/255f, 57f/255f);
-    private Color greenEmi = new Color(84f/255f, 139f/255f, 57f/255f);
+    private Color redEmi = new Color(255f/255f, 35/255f, 51f/255f, 79f/255f);
+    private Color yellowEmi = new Color(255f/255f, 214f/255f, 35f/255f, 79f/255f);
+    private Color greenEmi = new Color(35f/255f, 255f/255f, 78f/255f, 79f/255f);
 
     private MeshRenderer mesh;
 
@@ -50,9 +53,11 @@ public class ChasePoliceCar : Police, ISetTransform, IUpdateCheckList
     private float oldAngle = -999f; // 이전 프레임에서 추격경찰차와 플레이어의 각도 차이
     private float autoAndStopTime = 0;   // 자동주행과 정지상태인 시간
     private bool isRigid = false;   // 리지드바디 제어 변수
+
     protected override void Awake()
     {
         base.Awake();
+        policeType = PoliceType.CHASER;
         PoliceHp = 500;
         policeState = PoliceState.SPUERCHASE;
         temState = PoliceState.NONE;
@@ -68,7 +73,10 @@ public class ChasePoliceCar : Police, ISetTransform, IUpdateCheckList
             iCheckColArr[i] = colArr[i].GetComponent<ICheckCol>();
             iCheckColArr[i].InitNumber(i, this);
 		}
-	}
+        GunMethod = new PoliceGunShooting(transform, "Police");
+        GunMethod.ani = ani;
+        GunMethod.ShootAudio = GetComponent<AudioSource>();
+    }
     /// <summary>
     /// 무조건적으로 플레이어를 따라오는 상태이다.
     /// </summary>
@@ -385,7 +393,8 @@ public class ChasePoliceCar : Police, ISetTransform, IUpdateCheckList
     public void SetTransform(Transform trans)
 	{
         playerTrans = trans;
-	}
+        GunMethod.PlayerTransfrom = playerTrans;
+    }
     /// <summary>
     /// 상태를 갱신하고 시간을 초기화시킴.
     /// </summary>
@@ -432,15 +441,15 @@ public class ChasePoliceCar : Police, ISetTransform, IUpdateCheckList
 
             if (temState == PoliceState.SPUERCHASE)
 			{
-                mesh.material.SetColor("_EmissionColor", redEmi);
+                mesh.material.SetColor(Shader.PropertyToID("_Color"), redEmi);
 			}
             else if (temState == PoliceState.AUTOMOVE)
             {
-                mesh.material.SetColor("_EmissionColor", yellowEmi);
+                mesh.material.SetColor(Shader.PropertyToID("_Color"), yellowEmi);
             }
             else if (temState == PoliceState.OUTMAP || temState == PoliceState.DESTROY)
             {
-                mesh.material.SetColor("_EmissionColor", greenEmi);
+                mesh.material.SetColor(Shader.PropertyToID("_Color"), greenEmi);
             }
         }
         else
@@ -473,12 +482,31 @@ public class ChasePoliceCar : Police, ISetTransform, IUpdateCheckList
 
     private void FixedUpdate()
 	{
+        
         // 특정상황에서 모든 추격 경찰차 정지
         if (ControlMove()) { return; }
         if (policeState == PoliceState.DESTROY ||  policeState == PoliceState.NONE) { return; }
 
         time += Time.deltaTime;
         ChangeFOVColor(policeState);
+        if (!UIControl.isIn)
+        {
+            if (iGetBool.GetBool() && !PoliceAudio.isPlaying)
+            {
+                PoliceAudio.Play();
+            }
+            else if (!iGetBool.GetBool() && PoliceAudio.isPlaying)
+            {
+                PoliceAudio.Stop();
+            }
+        }
+        else
+        {
+            PoliceAudio.Stop();
+        }
+        // 플레이어를 발견한다면 슈팅 자세
+        GunMethod.ShootingStance = iGetBool.GetBool();
+        GunMethod.Fire(1f, 10);
 
         switch (policeState)
         {

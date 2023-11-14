@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+// 한석호 작성
 public class PrologueUI : MonoBehaviour
 {
     [SerializeField] private Sprite[] prologueSpr;
     [SerializeField] private Image img;
     [SerializeField] private Text text;
     [SerializeField] private GameObject nextButton;
+    [SerializeField] private GameObject soundObject;
+    [SerializeField] private GameObject optionObject;
 
     private string[] textList = new string[13]
     {
@@ -33,7 +36,7 @@ public class PrologueUI : MonoBehaviour
         img.sprite = prologueSpr[0];
         text.text = textList[0];
         index = 0;
-        Invoke("ActiveNextButton", 1.5f);
+        Invoke("ActiveNextButton", 0.5f);
     }
 
     private void ActiveNextButton()
@@ -49,11 +52,38 @@ public class PrologueUI : MonoBehaviour
             img.sprite = prologueSpr[index];
             text.text = textList[index];
             nextButton.SetActive(false);
-            Invoke("ActiveNextButton", 1.5f);
+            Invoke("ActiveNextButton", 0.5f);
         }
         else
         {
             LoadScene.Instance.LoadPrologueToInGameScene();
         }
+    }
+
+    public void Quit()
+    {
+        Application.Quit();
+    }
+
+    public void Sound()
+    {
+        soundObject.SetActive(true);
+    }
+
+    public void Close()
+    {
+        optionObject.SetActive(false);
+    }
+	public void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.Escape))
+		{
+            optionObject.SetActive(true);
+		}
+	}
+
+    public void Skip()
+    {
+        LoadScene.Instance.LoadPrologueToInGameScene();
     }
 }

@@ -92,10 +92,18 @@ public class Conversation
 			case MethodEnum.SETISCONDITION:
 				SetISCondition();
 				break;
+			case MethodEnum.INITPLAYERTEXT:
+				InitPlayerSelectText();
+				break;
         }
     }
+	protected virtual void InitPlayerSelectText()
+	{
+
+	}
 	public void SetSizeScrollContents(bool isVert, int size)
 	{
+		ScrollContents.position = Vector3.zero;
 		if (isVert)
 		{
 			ScrollContents.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, size);
@@ -108,7 +116,6 @@ public class Conversation
 	public void ChangeNPCImage(int index)
     {
 		NpcFace.sprite = NpcSprArr[index];
-		Debug.Log(NpcFace.sprite.name);
 	}
 	public void ChangePlayerImage(int index)
     {
@@ -120,6 +127,7 @@ public class Conversation
 	/// <param name="arr"></param>
 	public void SetNpcText(int[] arr, int num = -1)
 	{
+		Debug.Log("가격 " + num);
 		if (arr[0] == -1 && arr.Length == 1)
 		{
 			InitStartText();
@@ -302,14 +310,15 @@ public class Conversation
 	/// <param name="ind"></param>
 	public void NextText(int ind)
 	{
+		Debug.Log($"Constant.Dept {Constant.Dept}");
 		List<TextNodeC> tem = TextList.FindAll(a => a.NowTextNum == ind);
 		
 		int index2 = -1;
 		if (tem.Count > 1) 
 		{
+			if (isCondition) { isCondition = false; }
 			index2 = Bifurcation(tem);
 			//Debug.Log($"{index2} 전개 0.4");
-			if (isCondition) { isCondition = false; }
 		}
 		else if (isCondition)
 		{

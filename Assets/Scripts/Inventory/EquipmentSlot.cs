@@ -62,8 +62,8 @@ public class EquipmentSlot : MonoBehaviour , IDropHandler, IPointerEnterHandler,
         }
         else if(name == "GunSlot1")
         {
-            Constant.nowGun[0] = ((ItemS)inventoryManager.CurrentDragItem).ItemNumber;
-            if(Constant.nowGun[0] != -1)
+            Constant.NowGun[0] = ((ItemS)inventoryManager.CurrentDragItem).ItemNumber;
+            if(Constant.NowGun[0] != -1)
             {
                 inventoryManager.EquipmentSlotUpdate();
                 GetComponent<Image>().color = Color.white;
@@ -82,24 +82,24 @@ public class EquipmentSlot : MonoBehaviour , IDropHandler, IPointerEnterHandler,
         MyBaseEquipmentSlot.GetComponent<Image>().color = new Color(111 / 255f, 111 / 255f, 111 / 255f);
     }
 
-
-
-    /*public void OnPointerEnter(PointerEventData eventData)
-    {
-        Debug.Log(MyBaseEquipmentSlot.name);
-        
-    }*/
-
-    /*public void OnPointerExit(PointerEventData eventData)
+    public void BaseSlotColorClear()
     {
         MyBaseEquipmentSlot.GetComponent<Image>().color = new Color(111 / 255f, 111 / 255f, 111 / 255f);
-    }*/
-
+    }
     private void Awake()
     {
         if (name == "DiceSlot1")
             GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(Constant.DiceInfo[Constant.nowDice[0]].Path)[0];
         else if(name == "DiceSlot2")
             GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(Constant.DiceInfo[Constant.nowDice[1]].Path)[0];
+        else if(name == "GunSlot1")
+        {
+            if (Constant.NowGun[0] != -1)
+            {
+                inventoryManager.EquipmentSlotUpdate();
+                GetComponent<Image>().color = Color.white;
+            }
+        }
+            
     }
 }

@@ -11,7 +11,6 @@ public class PoliceCar : Police, IPoliceCar, IMovingPoliceCarControl, IInspectin
     [SerializeField] private GameObject checkColObj;    // 이동 시 충돌을 방지하기 위한 콜라이더
     [SerializeField] private GameObject stopCheckColObj;    // 정지 시, 불심검문을 위한 콜라이더
     public static bool IsInspecting { get; private set; }   // 플레이어가 불심검문 중인지 확인하는 정적 변수
-
     private static List<int> policeCarCodeList = new List<int>();  // 경찰차 고유번호 리스트
 
     // 경로를 차례대로 들고 있다.
@@ -40,7 +39,7 @@ public class PoliceCar : Police, IPoliceCar, IMovingPoliceCarControl, IInspectin
     {
         base.Awake();
         PoliceHp = 100; // 경찰차 초기 체력 설정
-
+        policeType = PoliceType.NORMAL;
         trans = this.transform; // transform 캐싱
         if (checkColObj != null)
         {
@@ -110,8 +109,16 @@ public class PoliceCar : Police, IPoliceCar, IMovingPoliceCarControl, IInspectin
     {
         if (bo)
         {
-            // 경찰차의 상태를 랜덤으로 정해준다.
-            policeState = (PoliceState)Random.Range(1, 3);
+            // 밤일 때만
+            if (GameManager.Instance.isDarkDelivery)
+            {
+                // 경찰차의 상태를 랜덤으로 정해준다.
+                policeState = (PoliceState)Random.Range(1, 3);
+            }
+            else
+            {
+                policeState = PoliceState.MOVING;
+            }
         }
         // 경찰차에 상태에 따라 켜줘야할 콜라이더가 다르다.
         if (policeState == PoliceState.MOVING)  // 경찰차가 이동 상태일 때
@@ -176,14 +183,23 @@ public class PoliceCar : Police, IPoliceCar, IMovingPoliceCarControl, IInspectin
                 break;
         }
     }
+    private float nn = 0f;
     /// <summary>
     /// 자동차가 회전 후 회전한 방향으로 일정거리 직진하게끔 해줍니다.
     /// </summary>
     private void TurnStraight(float value)
     {
-        int n = -1;
-        if (value > 0) { n = 1; }
-        trans.position += transform.right * ((Mathf.PI * Speed) / (2 * value * n));
+        
+        if (nn + Speed < Mathf.Abs(value))
+        {
+            trans.position += transform.right * ((Mathf.PI * Speed * Time.timeScale) / (2 * Mathf.Abs(value)));
+            nn += Speed;
+        }
+        else
+        {
+            trans.position += transform.right * ((Mathf.PI * (Mathf.Abs(value) - nn) * Time.timeScale) / (2 * Mathf.Abs(value)));
+            nn = 0f;
+        }
     }
     /// <summary>
     /// 바라보는 방향으로 직진합니다.
@@ -230,8 +246,8 @@ public class PoliceCar : Police, IPoliceCar, IMovingPoliceCarControl, IInspectin
         // 총 4가지의 상황이 생기며, 그에 따라 다르게 회전을 시켜줄 필요가 있다.
         if (rotate * (isRight ? 1 : -1) > 0)
         {
-            this.rotate += (-1) * Speed;
-            trans.Rotate(new Vector3(0, 0, Speed));
+            this.rotate += (-1) * Speed * Time.timeScale;
+            trans.Rotate(new Vector3(0, 0, Speed * Time.timeScale));
             if (this.rotate < 0)
             {
                 this.rotate = 0f;
@@ -239,8 +255,8 @@ public class PoliceCar : Police, IPoliceCar, IMovingPoliceCarControl, IInspectin
         }
         else if (rotate * (isRight ? 1 : -1) < 0)
         {
-            this.rotate += Speed;
-            trans.Rotate(new Vector3(0, 0, (-1) * Speed));
+            this.rotate += Speed * Time.timeScale;
+            trans.Rotate(new Vector3(0, 0, (-1) * Speed * Time.timeScale));
             if (this.rotate > 0)
             {
                 this.rotate = 0f;
@@ -255,6 +271,8 @@ public class PoliceCar : Police, IPoliceCar, IMovingPoliceCarControl, IInspectin
             // 다음 명령을 부를 수 있도록 nextBehaviour값을 true로 바꿉니다.
             nextBehaviour = true;
         }
+
+
     }
     /// <summary>
     /// 일정 시간마다 바나나를 던지게 하는 코루틴

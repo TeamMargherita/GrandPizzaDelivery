@@ -14,20 +14,43 @@ public struct Pizza
     public int Charisma;//매력도
     public List<Ingredient> Ingreds;
     public int TotalDeclineAt;
+    public int Freshness;
+    public float ProductTime;
 
-    public Pizza(string name, int perfection, int productionCost, int sellCost, int charisma, List<Ingredient> Ingreds, int TotalDeclineAt)
+    public Pizza(string name, int perfection, int productionCost, int sellCost, int charisma, List<Ingredient> Ingreds, int TotalDeclineAt, int freshness, float productTime)
     {
         Name = name;
         Perfection = perfection;
         ProductionCost = productionCost;
         SellCost = sellCost;
         Charisma = charisma;
+        Freshness = freshness;
+        ProductTime = productTime;
         this.Ingreds = new List<Ingredient>();
         for (int i = 0; i < Ingreds.Count; i++)
         {
             this.Ingreds.Add(Ingreds[i]);
         }
         this.TotalDeclineAt = TotalDeclineAt;
+    }
+
+    public int FreshnessUpdate(float time)
+    {
+        if(time - ProductTime >= 600 && time - ProductTime < 1200)
+        {
+            Freshness = 50;
+        }else if(time - ProductTime >= 1200)
+        {
+            Freshness = 0;
+        }
+        return Freshness;
+    }
+
+    public string GetExplain()
+    {
+        string text;
+        text = "이름 : " + Name + "\n완성도 : " + Perfection + "\n생산비용 : " + ProductionCost + "\n판매가 : " + SellCost + "\n매력도 : " + Charisma;
+        return text;
     }
     public string GetName()
     {
@@ -104,12 +127,12 @@ namespace Gun
         /// 레이캐스트 발사
         /// </summary>
         /// <param name="exception">예외처리할 레이어 이름</param>
-        bool ShootRaycast(string exception, float fireRate, short damage);
+        bool ShootRaycast(float fireRate, short damage);
         /// <summary>
         /// 실사격 함수
         /// </summary>
         /// <param name="exeption">예외처리할 레이어 이름</param>
-        bool Fire(string exeption, float fireRate, short damage);
+        bool Fire(float fireRate, short damage);
     }
 }
 

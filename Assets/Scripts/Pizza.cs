@@ -36,10 +36,10 @@ public struct Pizza
 
     public int FreshnessUpdate(float time)
     {
-        if(time - ProductTime >= 600 && time - ProductTime < 1200)
+        if(time - ProductTime >= 1800 && time - ProductTime < 3600)
         {
             Freshness = 50;
-        }else if(time - ProductTime >= 1200)
+        }else if(time - ProductTime >= 3600)
         {
             Freshness = 0;
         }

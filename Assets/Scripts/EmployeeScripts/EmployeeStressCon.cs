@@ -15,7 +15,7 @@ public class EmployeeStressCon : EmployeeFire
     private void Awake()
     {
         base.Awake();
-        Debug.Log("작동2");
+        //Debug.Log("작동2");
     }
 
     private void Update()

@@ -53,10 +53,17 @@ public class PoliceInspecting : Conversation
             bool isIllegal = false;
             for (int i = 0; i < GameManager.Instance.PizzaInventoryData.Length; i++)
             {
-                if (GameManager.Instance.PizzaInventoryData[i].Value.Ingreds.FindIndex(a => a.Equals(PizzaNS.Ingredient.PINEAPPLE)) != -1)
+                if (!GameManager.Instance.PizzaInventoryData[i].Equals(null))
                 {
-                    isIllegal = true;
-                    break;
+                    if (GameManager.Instance.PizzaInventoryData[i].Value.Ingreds.FindIndex(a => a.Equals(PizzaNS.Ingredient.PINEAPPLE)) != -1)
+                    {
+                        isIllegal = true;
+                        break;
+                    }
+                }
+                else
+                {
+                    isIllegal = false;
                 }
             }
             if (isIllegal)

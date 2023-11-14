@@ -16,7 +16,7 @@ public class EmployeeFire : MonoBehaviour
     protected void Awake()
     {
         SetEmployee();
-        Debug.Log("작동");
+        //Debug.Log("작동");
     }
 
     private void Update()
@@ -277,8 +277,12 @@ public class EmployeeFire : MonoBehaviour
 
         int Value = 0;
 
+        bool isPay = false;
+
         if (value > 0)
         {
+            isPay = true;
+
             Value = value - 1;
 
             EmployeeStat = Constant.ClerkList[Value].Name + "\n";
@@ -331,6 +335,8 @@ public class EmployeeFire : MonoBehaviour
 
             if (Constant.ClerkList[Value].Pay + pay[Value] >= 100)
             {
+                isPay = true;
+
                 EmployeeStat = Constant.ClerkList[Value].Name + "\n";
 
                 pay[Value] -= 100;
@@ -339,7 +345,7 @@ public class EmployeeFire : MonoBehaviour
                 {
                     if (j == 0)
                     {
-                        EmployeeStat += Stat(Value / 2, j);
+                        EmployeeStat += Stat(Value, j);
 
                         EmployeeStat += " / 선호요일 : ";
 
@@ -374,21 +380,24 @@ public class EmployeeFire : MonoBehaviour
             }
         }
 
-        if (Constant.ClerkList[Value].Pay + pay[Value] > Constant.ClerkList[Value].MaxPayScale)
+        if (isPay)
         {
-            EmployeeStat += "<color=green>일급 :     </color>" + $"<color=green>{(Constant.ClerkList[Value].Pay + pay[Value]).ToString()}</color>" + "\n";
-        }
-        else if (Constant.ClerkList[Value].Pay + pay[Value] < Constant.ClerkList[Value].MinPayScale)
-        {
-            EmployeeStat += "<color=red>일급 :     </color>" + $"<color=red>{(Constant.ClerkList[Value].Pay + pay[Value]).ToString()}</color>" + "\n";
-        }
-        else
-        {
-            EmployeeStat += "<color=black>일급 :     </color>" + $"<color=black>{(Constant.ClerkList[Value].Pay + pay[Value]).ToString()}</color>" + "\n";
-        }
+            if (Constant.ClerkList[Value].Pay + pay[Value] > Constant.ClerkList[Value].MaxPayScale)
+            {
+                EmployeeStat += "<color=green>일급 :     </color>" + $"<color=green>{(Constant.ClerkList[Value].Pay + pay[Value]).ToString()}</color>" + "\n";
+            }
+            else if (Constant.ClerkList[Value].Pay + pay[Value] < Constant.ClerkList[Value].MinPayScale)
+            {
+                EmployeeStat += "<color=red>일급 :     </color>" + $"<color=red>{(Constant.ClerkList[Value].Pay + pay[Value]).ToString()}</color>" + "\n";
+            }
+            else
+            {
+                EmployeeStat += "<color=black>일급 :     </color>" + $"<color=black>{(Constant.ClerkList[Value].Pay + pay[Value]).ToString()}</color>" + "\n";
+            }
 
-        FireWinParent.GetChild((Value) * 2 + 1).GetChild(0).
-                  GetComponent<Text>().text = EmployeeStat;
+            FireWinParent.GetChild((Value) * 2 + 1).GetChild(0).
+                      GetComponent<Text>().text = EmployeeStat;
+        }
     }
 
     public void FireWinHeightCon(bool value)

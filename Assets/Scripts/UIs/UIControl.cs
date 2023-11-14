@@ -438,10 +438,11 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
         if (houseType != HouseType.NONE && houseType != HouseType.HOUSE
             && Input.GetKeyDown(KeyCode.Z) && !isIn)
         {
-            isIn = true;    // 들어갔음을 표시
             switch (houseType)
             {
                 case HouseType.PIZZASTORE:
+                    isIn = true;    // 들어갔음을 표시
+
                     //houseType = HouseType.NONE;
                     //맵에 오브젝트를 정지시킨다.
                     iStop.StopMap(true);
@@ -451,6 +452,8 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
                 case HouseType.DICESTORE:
                     if (GameManager.Instance.time >= 32400 && GameManager.Instance.time < 82800)
                     {
+                        isIn = true;    // 들어갔음을 표시
+
                         // 맵에 오브젝트를 정지시킨다.
                         iStop.StopMap(true);
                         // 대화창을 연다.
@@ -460,6 +463,8 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
                 case HouseType.PINEAPPLESTORE:
                     if (GameManager.Instance.time >= 32400 && GameManager.Instance.time < 82800)
                     {
+                        isIn = true;    // 들어갔음을 표시
+
                         // 맵에 오브젝트를 정지시킨다.
                         iStop.StopMap(true);
                         // 대화창을 연다.
@@ -469,6 +474,8 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
                 case HouseType.INGREDIENTSTORE:
                     if (GameManager.Instance.time >= 32400 && GameManager.Instance.time < 82800)
                     {
+                        isIn = true;    // 들어갔음을 표시
+
                         // 맵에 오브젝트를 정지시킨다.
                         iStop.StopMap(true);
                         // 대화창을 연다.
@@ -478,6 +485,8 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
                 case HouseType.PINEAPPLESTORETWO:
                     if (GameManager.Instance.time >= 32400 && GameManager.Instance.time < 82800)
                     {
+                        isIn = true;    // 들어갔음을 표시
+
                         // 맵에 오브젝트를 정지시킨다.
                         iStop.StopMap(true);
                         // 대화창을 연다.
@@ -487,6 +496,8 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
                 case HouseType.GUNSTORE:
                     if (GameManager.Instance.time >= 32400 && GameManager.Instance.time < 82800)
                     {
+                        isIn = true;    // 들어갔음을 표시
+
                         // 맵에 오브젝트를 정지시킨다.
                         iStop.StopMap(true);
                         // 대화창을 연다.
@@ -496,6 +507,8 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
                 case HouseType.HOSPITAL:
                     if (GameManager.Instance.time >= 32400 && GameManager.Instance.time <= 64800)
                     {
+                        isIn = true;    // 들어갔음을 표시
+
                         iStop.StopMap(true);
                         ControlConversationUI(true, null, 7);
                     }
@@ -503,6 +516,8 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
                 case HouseType.INGREDIENTSTORETWO:
                     if (GameManager.Instance.time >= 32400 && GameManager.Instance.time < 82800)
                     {
+                        isIn = true;    // 들어갔음을 표시
+
                         iStop.StopMap(true);
                         ControlConversationUI(true, null, 8);
                     }
@@ -510,6 +525,8 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
                 case HouseType.LUCKYSTORE:
                     if (GameManager.Instance.time >= 32400 && GameManager.Instance.time < 82800)
                     {
+                        isIn = true;    // 들어갔음을 표시
+
                         iStop.StopMap(true);
                         ControlConversationUI(true, null, 9);
                     }
@@ -517,6 +534,8 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
                 case HouseType.MONEYSTORE:
                     if (GameManager.Instance.time >= 32400 && GameManager.Instance.time < 82800)
                     {
+                        isIn = true;    // 들어갔음을 표시
+
                         iStop.StopMap(true);
                         ControlConversationUI(true, null, 10);
                     }
@@ -524,6 +543,8 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
                 case HouseType.MONEYSTORETWO:
                     if (GameManager.Instance.time >= 32400 && GameManager.Instance.time < 82800)
                     {
+                        isIn = true;    // 들어갔음을 표시
+
                         iStop.StopMap(true);
                         ControlConversationUI(true, null, 11);
                     }

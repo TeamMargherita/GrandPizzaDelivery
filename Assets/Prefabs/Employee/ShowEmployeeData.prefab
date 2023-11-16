@@ -439,8 +439,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -190, y: 220}
-  m_SizeDelta: {x: 100, y: 140}
+  m_AnchoredPosition: {x: 41.572693, y: 267.0995}
+  m_SizeDelta: {x: 600, y: 220}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4253424143390321794
 CanvasRenderer:
@@ -560,8 +560,8 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: "\uD504\uB808\uC774\uC57C\n\uC190\uC7AC\uC8FC : 47 /  \uC21C\uBC1C\uB825
     : \uC870\uAE08 \uBE60\uB984        \n\uCC3D\uC758\uB825 : \uCC9C\uC7AC  / \uC120\uD638\uC694\uC77C
-    : \uC5C6\uC74C\n\uC2A4\uD2B8\uB808\uC2A4 : 0                   \uACBD\uB825 :
-    \uC2E0\uC785\n\uC77C\uAE09 :     20000"
+    : \uC5C6\uC74C\n\uC2A4\uD2B8\uB808\uC2A4 : 0 / \uACBD\uB825 : \uC2E0\uC785\n\uC77C\uAE09
+    :     20000"
 --- !u!1 &4253424143784661043
 GameObject:
   m_ObjectHideFlags: 0

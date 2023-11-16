@@ -549,19 +549,18 @@ public class EmployeeFire : MonoBehaviour
         {
             if (WorkingDay[value].Contains(Constant.ClerkList[employeeValue]))
             {
+                WorkingDay[value].Remove(Constant.ClerkList[employeeValue]);
+            }
+            else
+            {
                 if (WorkingDay[value].Count < 5)
                 {
-                    WorkingDay[value].Remove(Constant.ClerkList[employeeValue]);
+                    WorkingDay[value].Add(Constant.ClerkList[employeeValue]);
                 }
                 else
                 {
                     NoticeMessage("한 요일에는 5명 이상의 사람들이 근무할 수 없습니다.");
                 }
-
-            }
-            else
-            {
-                WorkingDay[value].Add(Constant.ClerkList[employeeValue]);
             }
 
             SetEmployeeDay(employeeValue);

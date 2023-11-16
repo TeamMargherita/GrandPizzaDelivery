@@ -134,7 +134,7 @@ public static class Constant
 		PineAppleCount = 0;
 		PineapplePizza = new Pizza("PineapplePizza", 100, 0, 2000000, 99999, new List<Ingredient>() { Ingredient.TOMATO, Ingredient.CHEESE, Ingredient.PINEAPPLE }, 0, 100, 0);
 		OneTime = new WaitForSeconds(0.02f);
-		ClerkList = new List<ClerkC>() { new ClerkC(47, Tier.THREE, Tier.ONE, Tier.FOUR, 0, 20000, "프레이야", null, 0) };
+		ClerkList = new List<ClerkC>() { new ClerkC(47, Tier.THREE, Tier.ONE, Tier.FOUR, 0, 10000, "프레이야", null, 0) };
 		DiceItem = new ItemS[10]
 	{
 		new ItemS(ItemType.DICE, 2, "고무 주사위", "고무로 만든 주사위다. \n 주사위 각 면은 0,1,2,3,4,5 을 상징한다.", 0),

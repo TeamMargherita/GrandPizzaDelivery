@@ -406,11 +406,11 @@ public class EmployeeFire : MonoBehaviour
 
         if (value == true)
         {
-            rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, rect.sizeDelta.y + 250);
+            rect.sizeDelta = new Vector3(rect.sizeDelta.x, rect.sizeDelta.y + 248);
         }
         else
         {
-            rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, rect.sizeDelta.y - 250);
+            rect.sizeDelta = new Vector3(rect.sizeDelta.x, rect.sizeDelta.y - 248);
         }
     }
 

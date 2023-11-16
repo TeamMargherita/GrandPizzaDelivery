@@ -406,14 +406,11 @@ public class EmployeeFire : MonoBehaviour
 
         if (value == true)
         {
-            //rect.sizeDelta = new Vector3(rect.sizeDelta.x, rect.sizeDelta.y + 250);
-            rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, rect.sizeDelta.y + 250);
+            rect.sizeDelta = new Vector3(rect.sizeDelta.x, rect.sizeDelta.y + 248);
         }
         else
         {
-            //rect.sizeDelta = new Vector3(rect.sizeDelta.x, rect.sizeDelta.y - 250);
-            rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, rect.sizeDelta.y - 250);
-
+            rect.sizeDelta = new Vector3(rect.sizeDelta.x, rect.sizeDelta.y - 248);
         }
     }
 
@@ -421,7 +418,7 @@ public class EmployeeFire : MonoBehaviour
     {
         RectTransform rect = FireWinParent.GetComponent<RectTransform>();
 
-        rect.sizeDelta = new Vector3(rect.sizeDelta.x, rect.sizeDelta.y + 160);
+        rect.sizeDelta = new Vector3(rect.sizeDelta.x, rect.sizeDelta.y + 170);
     }
 
     public void SavePayRate(int value)
@@ -552,19 +549,18 @@ public class EmployeeFire : MonoBehaviour
         {
             if (WorkingDay[value].Contains(Constant.ClerkList[employeeValue]))
             {
+                WorkingDay[value].Remove(Constant.ClerkList[employeeValue]);
+            }
+            else
+            {
                 if (WorkingDay[value].Count < 5)
                 {
-                    WorkingDay[value].Remove(Constant.ClerkList[employeeValue]);
+                    WorkingDay[value].Add(Constant.ClerkList[employeeValue]);
                 }
                 else
                 {
                     NoticeMessage("한 요일에는 5명 이상의 사람들이 근무할 수 없습니다.");
                 }
-
-            }
-            else
-            {
-                WorkingDay[value].Add(Constant.ClerkList[employeeValue]);
             }
 
             SetEmployeeDay(employeeValue);

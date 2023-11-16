@@ -406,14 +406,11 @@ public class EmployeeFire : MonoBehaviour
 
         if (value == true)
         {
-            //rect.sizeDelta = new Vector3(rect.sizeDelta.x, rect.sizeDelta.y + 250);
             rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, rect.sizeDelta.y + 250);
         }
         else
         {
-            //rect.sizeDelta = new Vector3(rect.sizeDelta.x, rect.sizeDelta.y - 250);
             rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, rect.sizeDelta.y - 250);
-
         }
     }
 
@@ -421,7 +418,7 @@ public class EmployeeFire : MonoBehaviour
     {
         RectTransform rect = FireWinParent.GetComponent<RectTransform>();
 
-        rect.sizeDelta = new Vector3(rect.sizeDelta.x, rect.sizeDelta.y + 160);
+        rect.sizeDelta = new Vector3(rect.sizeDelta.x, rect.sizeDelta.y + 170);
     }
 
     public void SavePayRate(int value)

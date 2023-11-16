@@ -1,12 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerStat : MonoBehaviour
 {
     [SerializeField]
-    private static int hp = 200;
-    public const int MaxHP = 200;
+    private static int hp = 800;
+    public const int MaxHP = 800;
     public float Braking = 0.99f;
     private float speed;
     public float MaxSpeed;
@@ -16,7 +14,8 @@ public class PlayerStat : MonoBehaviour
     public static int HP
     {
         get { return hp; }
-        set {
+        set
+        {
             if (PlayerIsGod)
                 value = MaxHP;
             if (value <= 0)

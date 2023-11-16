@@ -65,6 +65,8 @@ public class EmployeeRecruit : MonoBehaviour
 
         int Day = 0;
 
+        int IsOverLapping = 0;
+
         if (isMorning == true)
         {
             preferedDateCount.Clear();
@@ -76,6 +78,23 @@ public class EmployeeRecruit : MonoBehaviour
                 preferedDay[i].Clear();
 
                 Name[i] = RecruitWin.transform.GetChild(i).GetComponent<EmployeeStat>().RanName[Random.Range(0, 40)];
+
+                while (IsOverLapping < Constant.ClerkList.Count)
+                {
+                    for (int j = 0; j < Constant.ClerkList.Count; j++)
+                    {
+                        if (Constant.ClerkList[j].Name == Name[i])
+                        {
+                            Name[i] = RecruitWin.transform.GetChild(i).GetComponent<EmployeeStat>().RanName[Random.Range(0, 40)];
+                        }
+                        else
+                        {
+                            IsOverLapping++;
+                        }
+                    }
+                }
+
+                IsOverLapping = 0;
 
                 for (int j = 0; j < Stat.Length; j++)
                 {

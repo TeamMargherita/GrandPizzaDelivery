@@ -1,9 +1,8 @@
+using Inventory;
+using PizzaNS;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using Inventory;
-using PizzaNS;
 public class GameManager : MonoBehaviour
 {
     private static GameManager _instance;
@@ -38,7 +37,8 @@ public class GameManager : MonoBehaviour
         if (_instance == null)
         {
             _instance = this;
-        }else if(_instance != this)
+        }
+        else if (_instance != this)
         {
             Destroy(gameObject);
         }
@@ -47,23 +47,25 @@ public class GameManager : MonoBehaviour
 
 
     public float time;
-    private float timeSpeed = 120; //�Ϸ���ؽð�
+    private float timeSpeed = 90; //�Ϸ���ؽð�
 
-    private int money = 0;
+    private int money = 500000;
     public int Money
     {
-        get {
+        get
+        {
             return money;
         }
-        set {
+        set
+        {
             //���߿� �����ݾ׵����ϸ� �ص� ȭ�鰡�� �Լ� ¥��
-            if(MoneyText != null )
+            if (MoneyText != null)
                 MoneyText.CreateMoneyEffect(value - money);
             money = value;
         }
     }
 
-    
+
 
     public void PlayerDead()
     {
@@ -99,7 +101,7 @@ public class GameManager : MonoBehaviour
     }
     private void TimeSkip()
     {
-        if(Input.GetKeyDown(KeyCode.F3))
+        if (Input.GetKeyDown(KeyCode.F3))
             time = 82800;
     }
     private void Update()

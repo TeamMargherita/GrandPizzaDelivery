@@ -61,7 +61,7 @@ public class TabChanger : MonoBehaviour
         if (isNext)
             return;
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.F10))
         {
             NextStep();
             MenuOnOff.Invoke();
@@ -72,7 +72,7 @@ public class TabChanger : MonoBehaviour
         if (isNext)
             return;
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.F10))
         {
             NextStep();
             MenuOnOff.Invoke();

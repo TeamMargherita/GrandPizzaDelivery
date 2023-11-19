@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 // 한석호 작성
 
@@ -21,23 +19,24 @@ public class PlayerTexts : MonoBehaviour, IPointerClickHandler, IPointerEnterHan
         panelImg.color = twoC;
     }
     public void SetIInspectingUIText(IInspectingUIText iInspectingUIText)
-	{
+    {
         this.iInspectingUIText = iInspectingUIText;
-	}
+    }
 
     public void OnPointerClick(PointerEventData eventData)
     {
         Debug.Log(TextNum);
+        panelImg.color = twoC;
         iInspectingUIText.ChoiceText(TextNum);
     }
 
-	public void OnPointerEnter(PointerEventData eventData)
-	{
+    public void OnPointerEnter(PointerEventData eventData)
+    {
         panelImg.color = oneC;
-	}
+    }
 
-	public void OnPointerExit(PointerEventData eventData)
-	{
+    public void OnPointerExit(PointerEventData eventData)
+    {
         panelImg.color = twoC;
-	}
+    }
 }

@@ -1,19 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
 using StoreNS;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class EquipmentSlot : MonoBehaviour , IDropHandler, IPointerEnterHandler, IPointerExitHandler
+public class EquipmentSlot : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private InventoryManager inventoryManager;
     [SerializeField] private GameObject MyBaseEquipmentSlot;
     public void OnDrop(PointerEventData eventData)
     {
-        if(name == "DiceSlot1")
+        if (name == "DiceSlot1")
         {
-            if(Constant.PlayerItemDIc[(ItemS)inventoryManager.CurrentDragItem] > 1)
+            if (Constant.PlayerItemDIc[(ItemS)inventoryManager.CurrentDragItem] > 1)
             {
                 Constant.nowDice[0] = ((ItemS)inventoryManager.CurrentDragItem).ItemNumber;
                 inventoryManager.EquipmentSlotUpdate();
@@ -34,9 +32,9 @@ public class EquipmentSlot : MonoBehaviour , IDropHandler, IPointerEnterHandler,
                     inventoryManager.EquipmentSlotUpdate();
                 }
             }
-            
+
         }
-        else if(name == "DiceSlot2")
+        else if (name == "DiceSlot2")
         {
             if (Constant.PlayerItemDIc[(ItemS)inventoryManager.CurrentDragItem] > 1)
             {
@@ -60,15 +58,15 @@ public class EquipmentSlot : MonoBehaviour , IDropHandler, IPointerEnterHandler,
                 }
             }
         }
-        else if(name == "GunSlot1")
+        else if (name == "GunSlot1")
         {
             Constant.NowGun[0] = ((ItemS)inventoryManager.CurrentDragItem).ItemNumber;
-            if(Constant.NowGun[0] != -1)
+            if (Constant.NowGun[0] != -1)
             {
                 inventoryManager.EquipmentSlotUpdate();
                 GetComponent<Image>().color = Color.white;
             }
-                
+
         }
     }
 
@@ -90,9 +88,9 @@ public class EquipmentSlot : MonoBehaviour , IDropHandler, IPointerEnterHandler,
     {
         if (name == "DiceSlot1")
             GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(Constant.DiceInfo[Constant.nowDice[0]].Path)[0];
-        else if(name == "DiceSlot2")
+        else if (name == "DiceSlot2")
             GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(Constant.DiceInfo[Constant.nowDice[1]].Path)[0];
-        else if(name == "GunSlot1")
+        else if (name == "GunSlot1")
         {
             if (Constant.NowGun[0] != -1)
             {
@@ -100,6 +98,7 @@ public class EquipmentSlot : MonoBehaviour , IDropHandler, IPointerEnterHandler,
                 GetComponent<Image>().color = Color.white;
             }
         }
-            
+
+        this.gameObject.transform.parent.gameObject.SetActive(false);
     }
 }

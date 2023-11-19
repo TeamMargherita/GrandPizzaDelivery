@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 // 茄籍龋 累己
@@ -8,28 +6,28 @@ public class WeekUI : MonoBehaviour
     [SerializeField] private UnityEngine.UI.Text text;
     public void Awake()
     {
-        switch(Constant.NowDay)
+        switch (Constant.NowDay)
         {
             case DayNS.DayEnum.MONDAY:
-                text.text = "岿夸老";
+                text.text = $"{Constant.NowDate}老,岿夸老";
                 break;
             case DayNS.DayEnum.TUESDAY:
-                text.text = "拳夸老";
+                text.text = $"{Constant.NowDate}老,拳夸老";
                 break;
             case DayNS.DayEnum.WENDESDAY:
-                text.text = "荐夸老";
+                text.text = $"{Constant.NowDate}老,荐夸老";
                 break;
             case DayNS.DayEnum.THURSDAY:
-                text.text = "格夸老";
+                text.text = $"{Constant.NowDate}老,格夸老";
                 break;
             case DayNS.DayEnum.FRIDAY:
-                text.text = "陛夸老";
+                text.text = $"{Constant.NowDate}老,陛夸老";
                 break;
             case DayNS.DayEnum.SATURDAY:
-                text.text = "配夸老";
+                text.text = $"{Constant.NowDate}老,配夸老";
                 break;
             case DayNS.DayEnum.SUNDAY:
-                text.text = "老夸老";
+                text.text = $"{Constant.NowDate}老,老夸老";
                 break;
         }
     }

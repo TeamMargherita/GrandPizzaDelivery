@@ -10,7 +10,7 @@ public class RhythmSetMenu : MonoBehaviour
     void Update()
     {
         BgSound.volume = RhythmManager.Instance.MusicSound;
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.F10))
         {
             Menu.SetActive(!Menu.activeSelf);
         }

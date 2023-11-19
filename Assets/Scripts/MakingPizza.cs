@@ -115,16 +115,16 @@ public class MakingPizza : MonoBehaviour, IResetPizzaMaking
 
             Constant.PizzaIngMoney += pizzaRequestList[0].Pizza.ProductionCost;
             // 피자 만드는데 걸리는 시간을 계산한다.
-            makeTime = 25;
+            makeTime = 15;
             int han = 0;
             for (int i = 0; i < EmployeeStressCon.WorkingDay[(int)Constant.NowDay].Count; i++)
             {
                 //makeTime -= (60 + (int)Constant.ClerkList[i].Agility);
-                makeTime -= (4 + (int)EmployeeStressCon.WorkingDay[(int)Constant.NowDay][i].Agility);
+                makeTime -= (3 + (int)EmployeeStressCon.WorkingDay[(int)Constant.NowDay][i].Agility);
                 han += Random.Range((int)EmployeeStressCon.WorkingDay[(int)Constant.NowDay][i].Min, (int)EmployeeStressCon.WorkingDay[(int)Constant.NowDay][i].Max);
                 //Debug.Log(makeTime);
             }
-            makeTime = makeTime < 5 ? 5 : makeTime;
+            makeTime = makeTime < 3 ? 3 : makeTime;
             han /= EmployeeStressCon.WorkingDay[(int)Constant.NowDay].Count;
             // 돈이 빠져나간다.
 

@@ -1,15 +1,14 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Console : MonoBehaviour
 {
-	public InputField mainInputField;
+    public InputField mainInputField;
     public GameObject ExplainPanel;
 
-    private string[] Key = new string[] {"Player.", "Time."};
-    private List<string> player = new List<string>() {"AddMoney", "Dead", "God" };
+    private string[] Key = new string[] { "Player.", "Time." };
+    private List<string> player = new List<string>() { "AddMoney", "Dead", "God" };
     private List<string> time = new List<string>() { "Stop", "Play", "NextDay", "DarkDay" };
     private Dictionary<string, List<string>> ConsolDB = new Dictionary<string, List<string>>();
 
@@ -31,7 +30,8 @@ public class Console : MonoBehaviour
                 mainInputField.text = "";
             }
         };
-        dl += () => {
+        dl += () =>
+        {
             if (mainInputField.text == "Player.Dead")
             {
                 PlayerStat.HP -= PlayerStat.MaxHP;
@@ -46,7 +46,7 @@ public class Console : MonoBehaviour
                 mainInputField.text = "";
             }
         };
-        dl += () => 
+        dl += () =>
         {
             if (mainInputField.text == "Time.Stop")
             {
@@ -54,7 +54,7 @@ public class Console : MonoBehaviour
                 mainInputField.text = "";
             }
         };
-        dl += () => 
+        dl += () =>
         {
             if (mainInputField.text == "Time.Play")
             {
@@ -86,7 +86,7 @@ public class Console : MonoBehaviour
 
     void ConsoleHistoryTextUpdate()
     {
-        for(int i = ConsoleHistoryText.Length - 1; i > 0; i--)
+        for (int i = ConsoleHistoryText.Length - 1; i > 0; i--)
         {
             ConsoleHistoryText[i].text = ConsoleHistoryText[i - 1].text;
         }
@@ -101,9 +101,9 @@ public class Console : MonoBehaviour
             {
                 if (ConsolDB.ContainsKey(firstString))
                 {
-                    foreach(var i in ConsolDB[firstString])
+                    foreach (var i in ConsolDB[firstString])
                     {
-                        if(mainInputField.text == firstString + i)
+                        if (mainInputField.text == firstString + i)
                         {
                             ConsoleHistoryTextUpdate();
                             dl();
@@ -112,8 +112,8 @@ public class Console : MonoBehaviour
                     }
                 }
             }
-		}
-	}
+        }
+    }
     int index = 1;
     string firstString = "";
     public void AutoText()
@@ -121,7 +121,7 @@ public class Console : MonoBehaviour
         if (firstString == mainInputField.text) { index = 1; }
         else if (mainInputField.text == "") { index = 1; }
         string key = "";
-        if(index == 1)
+        if (index == 1)
         {
             foreach (var i in Key)
             {
@@ -146,7 +146,7 @@ public class Console : MonoBehaviour
                 firstString = mainInputField.text;
             }
         }
-        else if(index == 2)
+        else if (index == 2)
         {
             for (int i = 0; i < ConsolDB[firstString].Count; i++)
             {
@@ -180,13 +180,13 @@ public class Console : MonoBehaviour
 
     void ConSolePanelONOFF()
     {
-        if (Input.GetKeyDown(KeyCode.BackQuote) && !setActive)
+        if (Input.GetKeyDown(KeyCode.BackQuote) && Input.GetKey(KeyCode.Alpha1) && !setActive)
         {
             transform.GetChild(0).gameObject.SetActive(true);
             setActive = true;
             mainInputField.Select();
         }
-        else if (Input.GetKeyDown(KeyCode.BackQuote) && setActive)
+        else if (Input.GetKeyDown(KeyCode.BackQuote) && Input.GetKey(KeyCode.Alpha1) && setActive)
         {
             transform.GetChild(0).gameObject.SetActive(false);
             setActive = false;
@@ -200,5 +200,5 @@ public class Console : MonoBehaviour
         ConSolePanelONOFF();
         ExplainPanelONOFF();
         InputConsole();
-	}
+    }
 }

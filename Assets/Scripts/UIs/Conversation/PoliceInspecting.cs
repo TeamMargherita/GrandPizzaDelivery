@@ -1,7 +1,6 @@
-using System.Collections;
+using ConversationNS;
 using System.Collections.Generic;
 using UnityEngine;
-using ConversationNS;
 
 // 한석호 작성
 public class PoliceInspecting : Conversation
@@ -45,7 +44,7 @@ public class PoliceInspecting : Conversation
     /// <param name="tem"></param>
     /// <returns></returns>
 	protected override int Bifurcation(List<TextNodeC> tem)
-	{
+    {
         int index = -1;
         temInt = tem[0].NowTextNum;
         if (tem[0].NowTextNum == 8)
@@ -53,10 +52,17 @@ public class PoliceInspecting : Conversation
             bool isIllegal = false;
             for (int i = 0; i < GameManager.Instance.PizzaInventoryData.Length; i++)
             {
-                if (GameManager.Instance.PizzaInventoryData[i].Value.Ingreds.FindIndex(a => a.Equals(PizzaNS.Ingredient.PINEAPPLE)) != -1)
+                if (!GameManager.Instance.PizzaInventoryData[i].Equals(null))
                 {
-                    isIllegal = true;
-                    break;
+                    if (GameManager.Instance.PizzaInventoryData[i].Value.Ingreds.FindIndex(a => a.Equals(PizzaNS.Ingredient.PINEAPPLE)) != -1)
+                    {
+                        isIllegal = true;
+                        break;
+                    }
+                }
+                else
+                {
+                    isIllegal = false;
                 }
             }
             if (isIllegal)
@@ -109,8 +115,41 @@ public class PoliceInspecting : Conversation
                 index = Findidx(17, new int[1] { 16 });
             }
         }
+        else if (tem[0].NowTextNum == 22)
+        {
+            bool isIllegal = false;
+            for (int i = 0; i < GameManager.Instance.PizzaInventoryData.Length; i++)
+            {
+                if (!GameManager.Instance.PizzaInventoryData[i].Equals(null))
+                {
+                    if (GameManager.Instance.PizzaInventoryData[i].Value.Ingreds.FindIndex(a => a.Equals(PizzaNS.Ingredient.PINEAPPLE)) != -1)
+                    {
+                        isIllegal = true;
+                        break;
+                    }
+                }
+                else
+                {
+                    isIllegal = false;
+                }
+            }
+            if (isIllegal)
+            {
+                for (int i = 0; i < GameManager.Instance.PizzaInventoryData.Length; i++)
+                {
+                    GameManager.Instance.PizzaInventoryData[i] = null;
+                }
+                // 불법음식이 있는 경우
+                index = Findidx(22, new int[1] { 11 });
+            }
+            else
+            {
+                // 불법음식이 없는 경우
+                index = Findidx(22, new int[1] { 12 });
+            }
+        }
         return index;
-	}
+    }
     /// <summary>
     /// 주사위 결과에 따른 대화 분기점
     /// </summary>
@@ -139,7 +178,7 @@ public class PoliceInspecting : Conversation
     /// <param name="num"></param>
     /// <returns></returns>
     protected override bool Condition(int num)
-	{
+    {
         if (num == 10)
         {
             if (GameManager.Instance.Money >= 20000)
@@ -167,7 +206,7 @@ public class PoliceInspecting : Conversation
             }
         }
         return false;
-	}
+    }
     /// <summary>
     /// 텍스트들을 연결해서 그래프로 만듦
     /// </summary>
@@ -184,7 +223,7 @@ public class PoliceInspecting : Conversation
             new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 0 } )
         };
         AddTextList();
-        nowTextNum = 3; nextTextNum = new int[4] { 8, 9, 10, 4}; nextTextIsAble = new bool[4] { true, true, false, true };
+        nowTextNum = 3; nextTextNum = new int[4] { 8, 9, 10, 4 }; nextTextIsAble = new bool[4] { true, true, false, true };
         methodSArr = new MethodS[4]
         {
             new MethodS(MethodEnum.SETRANDNPCTEXT, new int[3] { 5, 6, 7 } ),
@@ -300,6 +339,16 @@ public class PoliceInspecting : Conversation
         methodSArr = new MethodS[4]
         {
             new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { 12 } ),
+            new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 100 } ),
+            new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 1 } ),
+            new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 0 } )
+        };
+        AddTextList();
+
+        nowTextNum = 22; nextTextNum = new int[1] { 23 }; nextTextIsAble = new bool[1] { true };
+        methodSArr = new MethodS[4]
+        {
+            new MethodS(MethodEnum.SETRANDNPCTEXT, new int[1] { 11 } ),
             new MethodS(MethodEnum.SETSIZECONTENTS, new int[2] { 1, 100 } ),
             new MethodS(MethodEnum.CHANGENPCIMAGE, new int[1] { 1 } ),
             new MethodS(MethodEnum.CHANGEPLAYERIMAGE, new int[1] { 0 } )

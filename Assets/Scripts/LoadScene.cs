@@ -33,6 +33,7 @@ public class LoadScene : MonoBehaviour
     /// <param name="str">불러올 씬의 이름입니다.</param>
     public void ActiveTrueFade(string str)
     {
+        UIControl.isIn = false;
         Fade.Instance.gameObject.SetActive(true);
         Fade.Instance.SetLoadSceneName(str);
     }

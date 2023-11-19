@@ -1,10 +1,8 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using Gun;
 public class PlayerMove : PlayerStat
 {
-    private Vector3 angle = new Vector3(0, 0, 300);
+    private Vector3 angle = new Vector3(0, 0, 220);
 
     private float time;
     private float reloadTime;
@@ -46,7 +44,7 @@ public class PlayerMove : PlayerStat
         gunMethod.Hand = Hand;
         FireAudio = GetComponent<AudioSource>();
 
-        if (Constant.IsHospital) 
+        if (Constant.IsHospital)
         {
             Constant.IsHospital = false;
             this.transform.position = new Vector3(6, 23);
@@ -55,9 +53,9 @@ public class PlayerMove : PlayerStat
 
     void PlayerFire()
     {
-        if(CurrentMagagine > 0)
+        if (CurrentMagagine > 0)
         {
-            if(Constant.NowGun[0] != -1)
+            if (Constant.NowGun[0] != -1)
             {
                 if (gunMethod.Fire(1 - Constant.GunInfo[Constant.NowGun[0]].Speed, Constant.GunInfo[Constant.NowGun[0]].Damage))
                 {
@@ -86,7 +84,7 @@ public class PlayerMove : PlayerStat
     }
     void Update()
     {
-        if(!UIControl.isIn)
+        if (!UIControl.isIn)
             PlayerFire();
         InventoryManagerScript.UIMagagineTextUpdate(CurrentMagagine);
         //if (Input.GetKeyDown(KeyCode.X))
@@ -123,13 +121,13 @@ public class PlayerMove : PlayerStat
             }
 
             float angleRatio;
-            if(Speed > 0)
+            if (Speed > 0)
             {
-                angleRatio = Speed / (Speed + (MaxSpeed / 2));
+                angleRatio = Speed / (Speed + (MaxSpeed / 2)) * 2;
             }
             else
             {
-                angleRatio = -(Speed / (Speed + (-MaxSpeed / 2)));
+                angleRatio = -(Speed / (Speed + (-MaxSpeed / 2))) * 2;
             }
 
             if (Input.GetKey(KeyCode.A))
@@ -142,11 +140,12 @@ public class PlayerMove : PlayerStat
             }
             GetComponent<Rigidbody2D>().velocity = transform.rotation * new Vector2(0, Speed);
         }
-        else if(Stop && !bananaTrigger)
+        else if (Stop && !bananaTrigger)
         {
             Speed = 0;
             GetComponent<Rigidbody2D>().velocity = transform.rotation * new Vector2(0, Speed);
-        }else if(Stop && bananaTrigger)
+        }
+        else if (Stop && bananaTrigger)
         {
             StopCoroutine(bananaCoroutine);
             bananaTrigger = false;
@@ -157,7 +156,7 @@ public class PlayerMove : PlayerStat
     {
         bananaTrigger = true;
         float count = 0;
-        if(Speed >= 0)
+        if (Speed >= 0)
             GetComponent<Rigidbody2D>().velocity = t.rotation * new Vector2(0, 10);
         else
             GetComponent<Rigidbody2D>().velocity = t.rotation * new Vector2(0, -10);
@@ -181,9 +180,9 @@ public class PlayerMove : PlayerStat
             smokeTime = 1;
         }
         smokeTime += Time.deltaTime;
-        if(smokeTime > 0.2f)
+        if (smokeTime > 0.2f)
         {
-            
+
             Instantiate(PlayerSmoke, transform.position + (transform.up * -0.5f), transform.rotation);
             smokeTime = 0;
         }
@@ -244,7 +243,7 @@ public class PlayerMove : PlayerStat
             currentCollisionType = 2;
             //StartCoroutine(VibCamera(0.5f));
         }
-        if(currentCollisionType != preCollisionType || !CrushSound.isPlaying)
+        if (currentCollisionType != preCollisionType || !CrushSound.isPlaying)
         {
             preCollisionType = currentCollisionType;
             preTransform = collision.transform;

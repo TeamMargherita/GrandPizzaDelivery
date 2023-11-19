@@ -25,8 +25,8 @@ public class RhythmMenu : MonoBehaviour
         if (SceneManager.GetActiveScene().name == "SelectScene" && RhythmManager.Instance.IsSelectGuide)
             return;
 
-        // Esc 키로 활성화/비활성화
-        if (Input.GetKeyDown(KeyCode.Escape))
+        // F10 키로 활성화/비활성화
+        if (Input.GetKeyDown(KeyCode.F10))
         {
             if (bgSound != null && bgSound.IsReWind)
                 return;

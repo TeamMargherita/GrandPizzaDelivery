@@ -48211,6 +48211,7 @@ GameObject:
   - component: {fileID: 485969193}
   - component: {fileID: 485969195}
   - component: {fileID: 485969194}
+  - component: {fileID: 485969196}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -48236,7 +48237,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 320, y: 0}
-  m_SizeDelta: {x: 80.4936, y: 94}
+  m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &485969194
 MonoBehaviour:
@@ -48278,7 +48279,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 609959519}
+  m_TargetGraphic: {fileID: 485969196}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -48302,6 +48303,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 485969192}
   m_CullTransparentMesh: 1
+--- !u!114 &485969196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 485969192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &486727002
 GameObject:
   m_ObjectHideFlags: 0
@@ -69108,6 +69139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd377d425bf12974e851911ace2bb0bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  panelImg: {fileID: 0}
 --- !u!1 &928785375
 GameObject:
   m_ObjectHideFlags: 0
@@ -72123,6 +72155,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd377d425bf12974e851911ace2bb0bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  panelImg: {fileID: 0}
 --- !u!1001 &967483577
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -74578,6 +74611,7 @@ GameObject:
   - component: {fileID: 1015970003}
   - component: {fileID: 1015970005}
   - component: {fileID: 1015970004}
+  - component: {fileID: 1015970006}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -74603,7 +74637,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 362, y: -47}
-  m_SizeDelta: {x: 80.4936, y: 94}
+  m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1015970004
 MonoBehaviour:
@@ -74645,7 +74679,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 1715543198}
+  m_TargetGraphic: {fileID: 1015970006}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -74669,6 +74703,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1015970002}
   m_CullTransparentMesh: 1
+--- !u!114 &1015970006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1015970002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &1016963899
 GameObject:
   m_ObjectHideFlags: 0
@@ -76975,6 +77039,7 @@ MonoBehaviour:
   questionPanel: {fileID: 475061088}
   addPizzaPanel: {fileID: 884853045}
   changePizzaNamePanel: {fileID: 248992866}
+  okAddPanel: {fileID: 0}
   addPizzaExplainText: {fileID: 974987346}
 --- !u!1 &1052103279
 GameObject:
@@ -82746,6 +82811,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd377d425bf12974e851911ace2bb0bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  panelImg: {fileID: 0}
 --- !u!1 &1172361714
 GameObject:
   m_ObjectHideFlags: 0
@@ -83564,7 +83630,6 @@ RectTransform:
   - {fileID: 79872495}
   - {fileID: 1726856274}
   - {fileID: 1049869059}
-  - {fileID: 1457395498}
   - {fileID: 1375928308}
   - {fileID: 1441752818}
   - {fileID: 1447510529}
@@ -87608,6 +87673,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd377d425bf12974e851911ace2bb0bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  panelImg: {fileID: 0}
 --- !u!1001 &1323808159
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -89303,7 +89369,7 @@ RectTransform:
   - {fileID: 1269131693}
   - {fileID: 464586689}
   m_Father: {fileID: 1188847974}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -92556,7 +92622,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1441752818
 RectTransform:
   m_ObjectHideFlags: 0
@@ -92569,8 +92635,9 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2129773888}
+  - {fileID: 1457395498}
   m_Father: {fileID: 1188847974}
-  m_RootOrder: 13
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -92781,7 +92848,7 @@ RectTransform:
   - {fileID: 340526914}
   - {fileID: 797667089}
   m_Father: {fileID: 1188847974}
-  m_RootOrder: 14
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -93582,8 +93649,8 @@ RectTransform:
   - {fileID: 1850554136}
   - {fileID: 277024252}
   - {fileID: 1514415247}
-  m_Father: {fileID: 1188847974}
-  m_RootOrder: 11
+  m_Father: {fileID: 1441752818}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -109523,6 +109590,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd377d425bf12974e851911ace2bb0bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  panelImg: {fileID: 0}
 --- !u!114 &1826222453
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -109816,6 +109884,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd377d425bf12974e851911ace2bb0bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  panelImg: {fileID: 0}
 --- !u!1001 &1835943747
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -114580,6 +114649,7 @@ MonoBehaviour:
   player: {fileID: 1586257776}
   makingPizzaObj: {fileID: 1187700878}
   debtListPanel: {fileID: 1375928307}
+  keyExplainPanel2: {fileID: 0}
   light2D: {fileID: 303622077}
   addPizzaImg: {fileID: 1563996481}
   alarmMessageText: {fileID: 1788539172}
@@ -115964,6 +116034,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd377d425bf12974e851911ace2bb0bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  panelImg: {fileID: 0}
 --- !u!1001 &1961113459
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -123696,7 +123767,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2129773888
 RectTransform:
   m_ObjectHideFlags: 0

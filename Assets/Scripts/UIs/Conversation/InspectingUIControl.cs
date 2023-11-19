@@ -1,8 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using ConversationNS;
 // 한석호 작성
 
 public class InspectingUIControl : MonoBehaviour, IInspectingUIText, ICoroutineDice
@@ -78,10 +76,10 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText, ICoroutineD
         }
 
         for (int i = 0; i < diceObjArr.Length; i++)
-		{
+        {
             diceImgArr[i] = diceObjArr[i].GetComponent<Image>();
             diceRectArr[i] = diceObjArr[i].GetComponent<RectTransform>();
-		}
+        }
 
         iInspectingPanelControl = uiControl.GetComponent<IConversationPanelControl>();
         iSpawnCar = spawnChaser.GetComponent<ISpawnCar>();
@@ -91,7 +89,7 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText, ICoroutineD
     /// 각종 이미지, 텍스트 초기화
     /// </summary>
     private void InitOnEnable()
-	{
+    {
         this.gameObject.SetActive(true);
         firstDiceSprArr = Resources.LoadAll<Sprite>(Constant.DiceInfo[Constant.nowDice[0]].Path);
         secondDiceSprArr = Resources.LoadAll<Sprite>(Constant.DiceInfo[Constant.nowDice[1]].Path);
@@ -110,7 +108,7 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText, ICoroutineD
         InitOnEnable();
 
         switch (num)
-		{
+        {
             case 1:
                 npcSprArr = Resources.LoadAll<Sprite>("UI/Police_400_500");
                 InitConversation(policeInspecting);
@@ -157,7 +155,7 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText, ICoroutineD
                 npcSprArr = Resources.LoadAll<Sprite>("UI?MoneyStoreTwo_400_500");
                 InitConversation(moneyStoreTwo);
                 break;
-		}
+        }
     }
     /// <summary>
     /// 대화 내용선택하기 위한 대화 클래스 멤버변수들 초기화
@@ -185,9 +183,9 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText, ICoroutineD
     /// 가게 정보 초기화(가게 내에서 대화할 때만)
     /// </summary>
     private void SetIInitStore()
-	{
+    {
         temCon.InitStore = iInitStore;
-	}
+    }
     /// <summary>
     /// 초상화 초기화
     /// </summary>
@@ -213,12 +211,13 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText, ICoroutineD
     /// 플레이어 선택지창 지워줌
     /// </summary>
     private void InitPlayerText()
-	{
+    {
         for (int i = 0; i < playerTextArr.Length; i++)
-		{
+        {
+            playerTextArr[i].gameObject.transform.parent.gameObject.SetActive(false);
             playerTextArr[i].gameObject.SetActive(false);
-		}
-	}
+        }
+    }
     /// <summary>
     /// 경찰차 대화창 지워줌
     /// </summary>
@@ -231,13 +230,13 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText, ICoroutineD
     /// </summary>
     /// <param name="num"></param>
     public void ChoiceText(int num)
-	{
+    {
         if (isDiceRoll) { return; }
         InitPlayerText();
         InitDice();
         Debug.Log($"{num} 전개 0");
         temCon.NextText(num);
-	}
+    }
     public void StartDice(int num)
     {
         diceCoroutine = StartCoroutine(DiceRoll(num));
@@ -329,50 +328,50 @@ public class InspectingUIControl : MonoBehaviour, IInspectingUIText, ICoroutineD
                 }
             }
             else
-			{
+            {
                 if (num > -10000)
-				{
+                {
                     if (rand < num * -1)
-					{
+                    {
                         diceSuccessText.text = $"성공 ! (주사위 보너스 {Constant.DiceBonus})";
                         temCon.DiceResult(true);
                     }
                     else
-					{
+                    {
                         diceSuccessText.text = $"실패... (주사위 보너스 {Constant.DiceBonus})";
                         temCon.DiceResult(false);
                     }
-				}
+                }
                 else
-				{
+                {
                     if ((num * -1) / 10000 == 1)
-					{
+                    {
                         if (rand % 2 == 1 && rand <= (num * -1) - 10000)
-						{
+                        {
                             diceSuccessText.text = $"성공 ! (주사위 보너스 {Constant.DiceBonus})";
                             temCon.DiceResult(true);
                         }
                         else
-						{
+                        {
                             diceSuccessText.text = $"실패... (주사위 보너스 {Constant.DiceBonus})";
                             temCon.DiceResult(false);
                         }
                     }
                     else if ((num * -1) / 20000 == 2)
-					{
+                    {
                         if (rand % 2 == 0 && rand <= (num * -1) - 20000)
-						{
+                        {
                             diceSuccessText.text = $"성공 ! (주사위 보너스 {Constant.DiceBonus})";
                             temCon.DiceResult(true);
                         }
                         else
-						{
+                        {
                             diceSuccessText.text = $"실패... (주사위 보너스 {Constant.DiceBonus})";
                             temCon.DiceResult(false);
                         }
                     }
-				}
-			}
+                }
+            }
             isDiceRoll = false;
 
             break;

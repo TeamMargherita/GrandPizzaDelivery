@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DestinationArrow : MonoBehaviour
@@ -22,59 +20,66 @@ public class DestinationArrow : MonoBehaviour
     public bool IsTargetVisible(Camera _camera, Transform _transform)
     {
         var planes = GeometryUtility.CalculateFrustumPlanes(_camera);
-        var point = _transform.position;  
-        foreach(var plane in planes)
+        var point = _transform.position;
+        foreach (var plane in planes)
         {
             if (plane.GetDistanceToPoint(point) < 0)
             {
                 return false;
             }
-                
+
         }
         return true;
     }
-    
+
     void Update()
     {
-        for(int i = 0;i < 5; i++)
+        for (int i = 0; i < 5; i++)
         {
-            if(minimap.Destination.Count > i)
+            if (!UIControl.isIn)
             {
-                if (!IsTargetVisible(Camera.main, minimap.Destination[i]))
+                if (minimap.Destination.Count > i)
                 {
-                    Vector2 change = (minimap.Destination[i].position - player.transform.position) * 100;
-                    if (change.x < -940)
+                    if (!IsTargetVisible(Camera.main, minimap.Destination[i]))
                     {
-                        change.x = -940;
-                    }
-                    if (change.x > 940)
-                    {
-                        change.x = 940;
-                    }
-                    if (change.y < -520)
-                    {
-                        change.y = -520;
-                    }
-                    if (change.y > 520)
-                    {
-                        change.y = 520;
-                    }
-                    if (change.x > -940 && change.x < 940 && change.y > -520 && change.y < 520)
-                    {
-                        Arrow[i].gameObject.SetActive(false);
+                        Vector2 change = (minimap.Destination[i].position - player.transform.position) * 100;
+                        if (change.x < -900)
+                        {
+                            change.x = -900;
+                        }
+                        if (change.x > 900)
+                        {
+                            change.x = 900;
+                        }
+                        if (change.y < -480)
+                        {
+                            change.y = -480;
+                        }
+                        if (change.y > 480)
+                        {
+                            change.y = 480;
+                        }
+                        if (change.x > -900 && change.x < 900 && change.y > -480 && change.y < 480)
+                        {
+                            Arrow[i].gameObject.SetActive(false);
+                        }
+                        else
+                        {
+                            Arrow[i].gameObject.SetActive(true);
+                            Arrow[i].right = change;
+                        }
+                        Arrow[i].anchoredPosition = change;
                     }
                     else
-                    {
-                        Arrow[i].gameObject.SetActive(true);
-                        Arrow[i].right = change;
-                    }
-                    Arrow[i].anchoredPosition = change;
+                        Arrow[i].gameObject.SetActive(false);
                 }
                 else
                     Arrow[i].gameObject.SetActive(false);
-            } 
+            }
             else
+            {
                 Arrow[i].gameObject.SetActive(false);
+            }
         }
     }
 }

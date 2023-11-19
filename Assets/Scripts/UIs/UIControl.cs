@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using BuildingNS.HouseNS;
+using UnityEngine;
 using UnityEngine.Experimental.Rendering.Universal;
 // 한석호 작성
 
@@ -25,6 +23,7 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
     [SerializeField] private GameObject makingPizzaObj;
     [SerializeField] private GameObject debtListPanel;
     [SerializeField] private GameObject keyExplainPanel2;
+    [SerializeField] private GameObject handPhone;
     [SerializeField] private Light2D light2D;
     [SerializeField] private UnityEngine.UI.Image addPizzaImg;
     [SerializeField] private UnityEngine.UI.Text alarmMessageText;
@@ -37,7 +36,7 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
     private IResetPizzaMaking iResetPizzaMaking;
 
     private HouseType houseType;
-    
+
     private RectTransform inspectTrans; // 대화창 RectTransform
     private RectTransform pizzaStoreTrans;  // 피자 가게 RectTransform
     private RectTransform pizzaMakeTrans;   // 피자 만들기 RectTransform
@@ -64,6 +63,7 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
     public static bool isIn = false;  // 대화창, 가게 안으로 들어갔는지 여부
     private bool menuSetActive = false;
     private bool isPanel3On = false;
+    private bool isHandPhone = true;
     public GameObject PizzaInventory;
     public InventoryManager InventoryManager;
     public SendDeliveryRequest SDR;
@@ -71,12 +71,13 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
     {
         Caching();
 
+        isIn = false;
         houseType = HouseType.NONE;
 
         keyExplainText = keyExplainPanel.transform.GetChild(0).GetComponent<UnityEngine.UI.Text>();
 
         if (Constant.IsMakePizza)
-		{
+        {
             Constant.IsMakePizza = false;
             DirectADdPizzaMenu();
             player.transform.position = new Vector3(9f, 3.8f);
@@ -100,7 +101,7 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
         //PizzaInventory = GameObject.FindWithTag("PizzaInventory");
     }
     private void Caching()
-	{
+    {
         inspectTrans = inspectingMaskPanel.GetComponent<RectTransform>();
         pizzaStoreTrans = pizzaStoreMaskPanel.GetComponent<RectTransform>();
         pizzaMakeTrans = pizzaMakePanel.GetComponent<RectTransform>();
@@ -109,18 +110,18 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
         alarmMessageTrans = alarmMessagePanel.GetComponent<RectTransform>();
         alarmMessageText = alarmMessagePanel.transform.GetChild(0).GetComponent<UnityEngine.UI.Text>();
         iResetPizzaMaking = makingPizzaObj.GetComponent<IResetPizzaMaking>();
-	}
+    }
     /// <summary>
     /// 알람메세지 등장을 제어하는 메소드
     /// </summary>
     /// <param name="isOn"></param>
     /// <param name="text">알람을 표시할 텍스트 내용</param>
     public void ControlAlarmMessageUI(bool isOn, string text)
-	{
+    {
         // 나중에 가서 알람들이 쌓일 수가 있으니 리스트에 넣어서 관리해야됨.
         alarmMessageText.text = text;
         isAlarmMessage = isOn;
-	}
+    }
     /// <summary>
     /// 곧바로 피자 가게까지 열어주는 메소드
     /// </summary>
@@ -136,7 +137,7 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
     /// 곧바로 피자 메뉴까지 열어주는 메소드
     /// </summary>
     private void DirectADdPizzaMenu()
-	{
+    {
         pizzaStorePanel.SetActive(true);
         isPizzaStore = true;
         pizzaStoreHeight = 1080;
@@ -158,9 +159,9 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
         if (inspectTrans.rect.height != 0 && inspectTrans.rect.height != 1080) { return; }
 
         if (iEndInspecting != null)
-		{
-            this.iEndInspecting = iEndInspecting; 
-		}
+        {
+            this.iEndInspecting = iEndInspecting;
+        }
 
         if (isOn)
         {
@@ -199,6 +200,22 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
             isPizzaStore = isOn;
         }
     }
+    public void ControlPizzaStoreOff()
+    {
+        if (isPizzaMake) { return; }
+        if (isPizzaMenu) { return; }
+        if (debtListPanel.activeSelf) { return; }
+        if (employeeRecruitPanel.activeSelf) { return; }
+        if (!isPizzaStore) { return; }
+
+        if (pizzaStoreTrans.rect.height != 0 && pizzaStoreTrans.rect.height != 1080) { return; }
+
+
+        ChasePoliceCar.isStop = false;
+        pizzaStorePanel.SetActive(false);
+        isPizzaStore = false;
+    }
+
     /// <summary>
     /// 피자 만들기 창을 제어한다.
     /// </summary>
@@ -226,30 +243,30 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
         if (pizzaMenuTrans.rect.height != 0 && pizzaMenuTrans.rect.height != 1080) { return; }
 
         if (isOn)
-		{
+        {
             pizzaMenuPanel.SetActive(isOn);
             isPizzaMenu = isOn;
-		}
+        }
         else
-		{
+        {
             isPizzaMenu = isOn;
             isPizzaAddButtonBlank = false;
             addPizzaImg.color = Color.white;
-		}
-	}
+        }
+    }
     public void ControlKeyExplainPanel2()
     {
         isPanel3On = !isPanel3On;
         keyExplainPanel2.SetActive(isPanel3On);
     }
     public void ControlDebtListMenu(bool isOn)
-	{
+    {
         debtListPanel.SetActive(isOn);
-	}
-	public void ControlEmployeeRecruit(bool isOn)
-	{
-		employeeRecruitPanel.SetActive(isOn);
-	}
+    }
+    public void ControlEmployeeRecruit(bool isOn)
+    {
+        employeeRecruitPanel.SetActive(isOn);
+    }
     /// <summary>
     /// 배달 패널을 제어한다.
     /// </summary>
@@ -386,7 +403,7 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
                 if (addPizzaImg.color.r >= 1) { isColor = false; }
             }
             else
-			{
+            {
                 addPizzaImg.color -= new Color(5 / 255f, 0, 0, 0);
                 if (addPizzaImg.color.r <= 0) { isColor = true; }
             }
@@ -394,18 +411,18 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
         // 알람 메시지를 띄우기 위함.
         // 알람 메시지를 아래로 내려서 화면상에 보이게 함.
         if (isAlarmMessage && alarmMessageTrans.localPosition != alarmMessageEnd)
-		{
+        {
             alarmMessageTrans.localPosition = Vector3.Lerp(alarmMessageTrans.localPosition, alarmMessageEnd, 0.1f);
 
             if (Mathf.Abs(alarmMessageTrans.localPosition.y - alarmMessageEnd.y) <= 0.1f)
-			{
+            {
                 alarmMessageTrans.localPosition = alarmMessageEnd;
                 isAlarmMessage = false;
-			}
-		}
+            }
+        }
         // 알람 메시지를 위로 올려서 화면상에 안 보이게 함.
         else if (!isAlarmMessage && alarmMessageTrans.localPosition != alarmMessageStart)
-		{
+        {
             alarmMessageTrans.localPosition = Vector3.Lerp(alarmMessageTrans.localPosition, alarmMessageStart, 0.1f);
 
             if (Mathf.Abs(alarmMessageTrans.localPosition.y - alarmMessageStart.y) <= 0.1f)
@@ -418,15 +435,34 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
 
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && !menuSetActive)
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            isHandPhone = !isHandPhone;
+
+            if (isHandPhone)
+            {
+                handPhone.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0f);
+            }
+            else
+            {
+                handPhone.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, -600f);
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.F10) && !menuSetActive)
         {
             Menu.SetActive(true);
             menuSetActive = true;
         }
-        else if(Input.GetKeyDown(KeyCode.Escape) && menuSetActive)
+        else if (Input.GetKeyDown(KeyCode.F10) && menuSetActive)
         {
             Menu.SetActive(false);
             menuSetActive = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            ControlPizzaStoreOff();
         }
 
         if (Input.GetKeyDown(KeyCode.I))
@@ -438,10 +474,10 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
         if (houseType != HouseType.NONE && houseType != HouseType.HOUSE
             && Input.GetKeyDown(KeyCode.Z) && !isIn)
         {
-            isIn = true;    // 들어갔음을 표시
             switch (houseType)
             {
                 case HouseType.PIZZASTORE:
+                    isIn = true;    // 들어갔음을 표시
                     //houseType = HouseType.NONE;
                     //맵에 오브젝트를 정지시킨다.
                     iStop.StopMap(true);
@@ -451,6 +487,7 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
                 case HouseType.DICESTORE:
                     if (GameManager.Instance.time >= 32400 && GameManager.Instance.time < 82800)
                     {
+                        isIn = true;    // 들어갔음을 표시
                         // 맵에 오브젝트를 정지시킨다.
                         iStop.StopMap(true);
                         // 대화창을 연다.
@@ -460,6 +497,8 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
                 case HouseType.PINEAPPLESTORE:
                     if (GameManager.Instance.time >= 32400 && GameManager.Instance.time < 82800)
                     {
+                        isIn = true;    // 들어갔음을 표시
+
                         // 맵에 오브젝트를 정지시킨다.
                         iStop.StopMap(true);
                         // 대화창을 연다.
@@ -469,6 +508,8 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
                 case HouseType.INGREDIENTSTORE:
                     if (GameManager.Instance.time >= 32400 && GameManager.Instance.time < 82800)
                     {
+                        isIn = true;    // 들어갔음을 표시
+
                         // 맵에 오브젝트를 정지시킨다.
                         iStop.StopMap(true);
                         // 대화창을 연다.
@@ -478,6 +519,8 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
                 case HouseType.PINEAPPLESTORETWO:
                     if (GameManager.Instance.time >= 32400 && GameManager.Instance.time < 82800)
                     {
+                        isIn = true;    // 들어갔음을 표시
+
                         // 맵에 오브젝트를 정지시킨다.
                         iStop.StopMap(true);
                         // 대화창을 연다.
@@ -487,6 +530,8 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
                 case HouseType.GUNSTORE:
                     if (GameManager.Instance.time >= 32400 && GameManager.Instance.time < 82800)
                     {
+                        isIn = true;    // 들어갔음을 표시
+
                         // 맵에 오브젝트를 정지시킨다.
                         iStop.StopMap(true);
                         // 대화창을 연다.
@@ -496,6 +541,8 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
                 case HouseType.HOSPITAL:
                     if (GameManager.Instance.time >= 32400 && GameManager.Instance.time <= 64800)
                     {
+                        isIn = true;    // 들어갔음을 표시
+
                         iStop.StopMap(true);
                         ControlConversationUI(true, null, 7);
                     }
@@ -503,6 +550,8 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
                 case HouseType.INGREDIENTSTORETWO:
                     if (GameManager.Instance.time >= 32400 && GameManager.Instance.time < 82800)
                     {
+                        isIn = true;    // 들어갔음을 표시
+
                         iStop.StopMap(true);
                         ControlConversationUI(true, null, 8);
                     }
@@ -510,6 +559,8 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
                 case HouseType.LUCKYSTORE:
                     if (GameManager.Instance.time >= 32400 && GameManager.Instance.time < 82800)
                     {
+                        isIn = true;    // 들어갔음을 표시
+
                         iStop.StopMap(true);
                         ControlConversationUI(true, null, 9);
                     }
@@ -517,6 +568,8 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
                 case HouseType.MONEYSTORE:
                     if (GameManager.Instance.time >= 32400 && GameManager.Instance.time < 82800)
                     {
+                        isIn = true;    // 들어갔음을 표시
+
                         iStop.StopMap(true);
                         ControlConversationUI(true, null, 10);
                     }
@@ -524,6 +577,8 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
                 case HouseType.MONEYSTORETWO:
                     if (GameManager.Instance.time >= 32400 && GameManager.Instance.time < 82800)
                     {
+                        isIn = true;    // 들어갔음을 표시
+
                         iStop.StopMap(true);
                         ControlConversationUI(true, null, 11);
                     }
@@ -531,110 +586,110 @@ public class UIControl : MonoBehaviour, IConversationPanelControl, IDeliveryPane
             }
         }
         else if (houseType != HouseType.NONE && houseType != HouseType.HOUSE && !isIn)
-		{
+        {
             switch (houseType)
             {
                 case HouseType.PIZZASTORE:
-                    keyExplainText.text = "Z : 들어가기 \n<size=20>'Pizzaria' 피자 가게</size>";
+                    keyExplainText.text = "제트(Z) : 들어가기 \n<size=20>'Pizzaria' 피자 가게</size>";
                     break;
                 case HouseType.DICESTORE:
                     if (GameManager.Instance.time >= 32400 && GameManager.Instance.time < 82800)
                     {
-                        keyExplainText.text = "Z : 들어가기 \n<size=20>'운명' 주사위 가게</size>";
+                        keyExplainText.text = "제트(Z) : 들어가기 \n<size=20>'운명' 주사위 가게</size>";
                     }
                     else
                     {
-                        keyExplainText.text = "Z : 들어가기 \n<size=20>'운명' 주사위 가게(문닫음)</size>";
+                        keyExplainText.text = "제트(Z) : 들어가기 \n<size=20>'운명' 주사위 가게(문닫음)</size>";
                     }
                     break;
                 case HouseType.PINEAPPLESTORE:
                     if (GameManager.Instance.time >= 32400 && GameManager.Instance.time < 82800)
                     {
-                        keyExplainText.text = "Z : 들어가기 \n<size=20>'솔방울' 파인애플 가게</size>";
+                        keyExplainText.text = "제트(Z) : 들어가기 \n<size=20>'솔방울' 파인애플 가게</size>";
                     }
                     else
                     {
-                        keyExplainText.text = "Z : 들어가기 \n<size=20>'솔방울' 파인애플(문닫음)</size>";
+                        keyExplainText.text = "제트(Z) : 들어가기 \n<size=20>'솔방울' 파인애플(문닫음)</size>";
                     }
                     break;
                 case HouseType.INGREDIENTSTORE:
                     if (GameManager.Instance.time >= 32400 && GameManager.Instance.time < 82800)
                     {
-                        keyExplainText.text = "Z : 들어가기 \n<size=20>'싱싱' 식재료 가게</size>";
+                        keyExplainText.text = "제트(Z) : 들어가기 \n<size=20>'싱싱' 식재료 가게</size>";
                     }
                     else
                     {
-                        keyExplainText.text = "Z : 들어가기 \n<size=20>'싱싱' 식재료 가게(문닫음)</size>";
+                        keyExplainText.text = "제트(Z) : 들어가기 \n<size=20>'싱싱' 식재료 가게(문닫음)</size>";
                     }
                     break;
                 case HouseType.PINEAPPLESTORETWO:
                     if (GameManager.Instance.time >= 32400 && GameManager.Instance.time < 82800)
                     {
-                        keyExplainText.text = "Z : 들어가기 \n<size=20>'검은 고양이' 파인애플 가게</size>";
+                        keyExplainText.text = "제트(Z) : 들어가기 \n<size=20>'검은 고양이' 파인애플 가게</size>";
                     }
                     else
                     {
-                        keyExplainText.text = "Z : 들어가기 \n<size=20>'검은 고양이' 파인애플 가게(문닫음)</size>";
+                        keyExplainText.text = "제트(Z) : 들어가기 \n<size=20>'검은 고양이' 파인애플 가게(문닫음)</size>";
                     }
                     break;
                 case HouseType.GUNSTORE:
                     if (GameManager.Instance.time >= 32400 && GameManager.Instance.time < 82800)
                     {
-                        keyExplainText.text = "Z : 들어가기 \n<size=20>'원샷' 총기 가게</size>";
+                        keyExplainText.text = "제트(Z) : 들어가기 \n<size=20>'원샷' 총기 가게</size>";
                     }
                     else
                     {
-                        keyExplainText.text = "Z : 들어가기 \n<size=20>'원샷' 총기 가게(문닫음)</size>";
+                        keyExplainText.text = "제트(Z) : 들어가기 \n<size=20>'원샷' 총기 가게(문닫음)</size>";
                     }
                     break;
                 case HouseType.HOSPITAL:
                     if (GameManager.Instance.time >= 32400 && GameManager.Instance.time <= 64800)
                     {
-                        keyExplainText.text = "Z : 들어가기 \n<size=20>'김철수' 병원</size>";
+                        keyExplainText.text = "제트(Z) : 들어가기 \n<size=20>'김철수' 병원</size>";
                     }
                     else
                     {
-                        keyExplainText.text = "Z : 들어가기 \n<size=20>'김철수' 병원(문닫음)</size>";
+                        keyExplainText.text = "제트(Z) : 들어가기 \n<size=20>'김철수' 병원(문닫음)</size>";
                     }
                     break;
                 case HouseType.INGREDIENTSTORETWO:
                     if (GameManager.Instance.time >= 32400 && GameManager.Instance.time < 82800)
                     {
-                        keyExplainText.text = "Z : 들어가기 \n<size=20>'풍미' 식재료 가게</size>";
+                        keyExplainText.text = "제트(Z) : 들어가기 \n<size=20>'풍미' 식재료 가게</size>";
                     }
                     else
                     {
-                        keyExplainText.text = "Z : 들어가기 \n<size=20>'풍미' 식재료 가게(문닫음)</size>";
+                        keyExplainText.text = "제트(Z) : 들어가기 \n<size=20>'풍미' 식재료 가게(문닫음)</size>";
                     }
                     break;
                 case HouseType.LUCKYSTORE:
                     if (GameManager.Instance.time >= 32400 && GameManager.Instance.time < 82800)
                     {
-                        keyExplainText.text = "Z : 들어가기 \n<size=20>'카시오페아' 점 가게</size>";
+                        keyExplainText.text = "제트(Z) : 들어가기 \n<size=20>'카시오페아' 점 가게</size>";
                     }
                     else
                     {
-                        keyExplainText.text = "Z : 들어가기 \n<size=20>'카시오페아' 점 가게(문닫음)</size>";
+                        keyExplainText.text = "제트(Z) : 들어가기 \n<size=20>'카시오페아' 점 가게(문닫음)</size>";
                     }
                     break;
                 case HouseType.MONEYSTORE:
                     if (GameManager.Instance.time >= 32400 && GameManager.Instance.time < 82800)
                     {
-                        keyExplainText.text = "Z : 들어가기 \n<size=20>'미소' 대출업체</size>";
+                        keyExplainText.text = "제트(Z) : 들어가기 \n<size=20>'미소' 대출업체</size>";
                     }
                     else
                     {
-                        keyExplainText.text = "Z : 들어가기 \n<size=20>'미소' 대출업체(문닫음)</size>";
+                        keyExplainText.text = "제트(Z) : 들어가기 \n<size=20>'미소' 대출업체(문닫음)</size>";
                     }
                     break;
                 case HouseType.MONEYSTORETWO:
                     if (GameManager.Instance.time >= 32400 && GameManager.Instance.time < 82800)
                     {
-                        keyExplainText.text = "Z : 들어가기 \n<size=20>'행복' 대출업체</size>";
+                        keyExplainText.text = "제트(Z) : 들어가기 \n<size=20>'행복' 대출업체</size>";
                     }
                     else
                     {
-                        keyExplainText.text = "Z : 들어가기 \n<size=20>'행복' 대출업체(문닫음)</size>";
+                        keyExplainText.text = "제트(Z) : 들어가기 \n<size=20>'행복' 대출업체(문닫음)</size>";
                     }
                     break;
             }

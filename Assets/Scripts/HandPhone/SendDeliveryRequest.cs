@@ -84,8 +84,15 @@ public class SendDeliveryRequest : MonoBehaviour
             {
                 if (!(i.AddressS.IHouse.Equals(null)))
                 {
-                    minimap.DeleteDestination(i.AddressS.IHouse.GetLocation());
-                    i.AddressS.IHouse.EndDeliveryDisableHouse();
+                    for(int j = 0; j < minimap.Destination.Count; j++)
+                    {
+                        if (minimap.Destination[j].index == RequestList.IndexOf(i))
+                        {
+                            minimap.DeleteDestination(j);
+                            i.AddressS.IHouse.EndDeliveryDisableHouse();
+                            break;
+                        }
+                    }
                 }
             }
         }

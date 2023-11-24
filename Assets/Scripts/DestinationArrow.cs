@@ -40,9 +40,9 @@ public class DestinationArrow : MonoBehaviour
             {
                 if (minimap.Destination.Count > i)
                 {
-                    if (!IsTargetVisible(Camera.main, minimap.Destination[i]))
+                    if (!IsTargetVisible(Camera.main, minimap.Destination[i].transform))
                     {
-                        Vector2 change = (minimap.Destination[i].position - player.transform.position) * 100;
+                        Vector2 change = (minimap.Destination[i].transform.position - player.transform.position) * 100;
                         if (change.x < -900)
                         {
                             change.x = -900;

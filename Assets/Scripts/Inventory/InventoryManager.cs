@@ -31,7 +31,7 @@ public class InventoryManager : MonoBehaviour
     public GoalCheckCollider GoalAddressS;
     public SendDeliveryRequest SDR;
     public DeliveryScreen DeliveryScreen;
-    public Minimap Minimap;
+    public Minimap _Minimap;
     [SerializeField]
     GameObject DeliveryJudgmentPanel;
 
@@ -321,7 +321,14 @@ public class InventoryManager : MonoBehaviour
                             GameManager.Instance.Money += (int)pizza?.SellCost;
                             PizzaInventorySlot[SlotNum].transform.GetChild(0).GetComponent<Text>().text = "";
                             GameManager.Instance.PizzaInventoryData[SlotNum] = null;
-                            Minimap.DeleteDestination(GoalAddressS.iHouse.GetLocation());
+                            for(int j=0; j < _Minimap.Destination.Count; j++)
+                            {
+                                if(_Minimap.Destination[j].transform == GoalAddressS.iHouse.GetLocation())
+                                {
+                                    _Minimap.DeleteDestination(j);
+                                    break;
+                                }
+                            }
                             GoalAddressS.iHouse.DisableHouse(pizza.Value);
                             DeliveryScreen.OnClickCancle(SDRIndex);
                             GoalAddressS = null;

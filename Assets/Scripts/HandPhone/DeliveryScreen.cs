@@ -24,7 +24,7 @@ public class DeliveryScreen : MonoBehaviour
             {
                 SendDeliveryRequest.RequestList[i].AddressS = Map.GetSpecAddress(Constant.TemAddress[i]);
                 SendDeliveryRequest.RequestList[i].AddressS.IHouse.EnableHouse();
-                Minimap.CreateDestination(SendDeliveryRequest.RequestList[i]);
+                Minimap.CreateDestination(SendDeliveryRequest.RequestList[i], i);
             }
         }
     }
@@ -86,7 +86,7 @@ public class DeliveryScreen : MonoBehaviour
         SendDeliveryRequest.RequestList[i].AddressS = Map.GetRandAddressS();
         Constant.TemAddress[i] = Map.GetSpecAddress();
         SendDeliveryRequest.RequestList[i].AddressS.IHouse.EnableHouse();
-        Minimap.CreateDestination(SendDeliveryRequest.RequestList[i]);
+        Minimap.CreateDestination(SendDeliveryRequest.RequestList[i], i);
         ma.AddRequestPizza(SendDeliveryRequest.RequestList[i]);
         MyChildRefreshB[i].SetActive(true);
     }
